@@ -1,0 +1,42 @@
+[
+  {
+    "title": "Electronics",
+    "image": "../../src/assets/image/catgeory/electronics.png",
+    "onClick": "electronicsClicked"
+  },
+  {
+    "title": "Furniture",
+    "image": "../../src/assets/image/catgeory/furniture.png",
+    "onClick": "furnitureClicked"
+  },
+  {
+    "title": "Clothing",
+    "image": "../../src/assets/image/catgeory/clothing.png",
+    "onClick": "clothingClicked"
+  },
+  {
+    "title": "Toys",
+    "image": "../../src/assets/image/catgeory/toys.png",
+    "onClick": "toysClicked"
+  },
+  {
+    "title": "Books",
+    "image": "../../src/assets/image/catgeory/clothing.png",
+    "onClick": "booksClicked"
+  },
+  {
+    "title": "Sports",
+    "image": "../../src/assets/image/catgeory/electronics.png",
+    "onClick": "sportsClicked"
+  },
+  {
+    "title": "Beauty",
+    "image": "../../src/assets/image/catgeory/furniture.png",
+    "onClick": "beautyClicked"
+  },
+  {
+    "title": "Home Appliances",
+    "image": "../../src/assets/image/catgeory/toys.png",
+    "onClick": "homeAppliancesClicked"
+  }
+]

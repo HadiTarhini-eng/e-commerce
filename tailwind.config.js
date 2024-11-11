@@ -2,8 +2,8 @@
 module.exports = {
   content: [
     "./index.html",
-    "./src/**/*.{html,js}",
-    "./node_modules/tw-elements/js/**/*.js",
+    "./src/**/*.{html,jsx}",
+    "./node_modules/tw-elements/js/**/*.jsx",
   ],
   theme: {
     extend: {

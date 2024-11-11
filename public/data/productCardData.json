@@ -1,0 +1,80 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "image": "../../src/assets/image/products/product1.png",
+      "title": "Product 1",
+      "newPrice": "$29.99",
+      "oldPrice": "$59.99",
+      "rating": 4,
+      "chipText": "Best Seller",
+      "chipColor": "green",
+      "destination": "/product/1"
+    },
+    {
+      "id": 2,
+      "image": "../../src/assets/image/products/product2.png",
+      "title": "Product 2",
+      "newPrice": "$19.99",
+      "oldPrice": "$39.99",
+      "rating": 5,
+      "chipText": "New",
+      "chipColor": "blue",
+      "destination": "/product/2"
+    },
+    {
+      "id": 3,
+      "image": "../../src/assets/image/products/product3.png",
+      "title": "Product 3",
+      "newPrice": "$39.99",
+      "oldPrice": "$79.99",
+      "rating": 3,
+      "chipText": "Featured",
+      "chipColor": "red",
+      "destination": "/product/3"
+    },
+    {
+      "id": 4,
+      "image": "../../src/assets/image/products/product1.png",
+      "title": "Product 4",
+      "newPrice": "$49.99",
+      "oldPrice": "$99.99",
+      "rating": 4,
+      "chipText": "Top Rated",
+      "chipColor": "yellow",
+      "destination": "/product/4"
+    },
+    {
+      "id": 5,
+      "image": "../../src/assets/image/products/product3.png",
+      "title": "Product 5",
+      "newPrice": "$24.99",
+      "oldPrice": "$49.99",
+      "rating": 5,
+      "chipText": "Limited Edition",
+      "chipColor": "purple",
+      "destination": "/product/5"
+    },
+    {
+      "id": 6,
+      "image": "../../src/assets/image/products/product2.png",
+      "title": "Product 6",
+      "newPrice": "$59.99",
+      "oldPrice": "$119.99",
+      "rating": 5,
+      "chipText": "Exclusive",
+      "chipColor": "orange",
+      "destination": "/product/6"
+    }
+  ],
+  "bestsellers": [
+    {
+      "id": 1,
+      "image": "../../src/assets/image/products/product7.png",
+      "title": "Best Seller 1",
+      "newPrice": "$49.99",
+      "oldPrice": "$99.99",
+      "destination": "/bestseller/1"
+    }
+  ]
+}

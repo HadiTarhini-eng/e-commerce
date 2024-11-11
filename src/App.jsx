@@ -1,22 +1,17 @@
 import React from 'react';
-import Carousel from './Carousel';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'; // Import necessary components from react-router-dom
+import Home from './Pages/Home'; // Import your Home page
 
 const App = () => {
-  const items = [
-    { src: 'https://example.com/img1.jpg', caption: 'Image 1' },
-    { src: 'https://example.com/img2.jpg', caption: 'Image 2' },
-    { src: 'https://example.com/img3.jpg', caption: 'Image 3' },
-  ];
-
-  const handleImageClick = (index, imageSrc) => {
-    console.log(`Image clicked: ${imageSrc}, at index: ${index}`);
-    // You can perform any action when the image is clicked, like opening a modal, etc.
-  };
-
   return (
-    <div className="App">
-      <Carousel items={items} onImageClick={handleImageClick} />
-    </div>
+    <Router>
+      <div className="App">
+        <Routes>
+          <Route path="/" element={<Home />} /> {/* Define the route for the Home page */}
+          {/* You can add more routes here for other pages */}
+        </Routes>
+      </div>
+    </Router>
   );
 };
 

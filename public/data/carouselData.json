@@ -1,0 +1,23 @@
+{
+    "carousels" : [
+        {
+          "id" : 1,
+          "image": "https://tecdn.b-cdn.net/img/Photos/Slides/img%20(15).jpg",
+          "header": "First Slide Label",
+          "paragraph": "Some representative placeholder content for the first slide."
+        },
+        {
+          "id" : 2,
+          "image": "https://tecdn.b-cdn.net/img/Photos/Slides/img%20(22).jpg",
+          "header": "Second Slide Label",
+          "paragraph": "Some representative placeholder content for the second slide."
+        },
+        {
+          "id" : 3,
+          "image": "https://tecdn.b-cdn.net/img/Photos/Slides/img%20(23).jpg",
+          "header": "Third Slide Label",
+          "paragraph": "Some representative placeholder content for the third slide."
+        }
+    ]
+  }
+  

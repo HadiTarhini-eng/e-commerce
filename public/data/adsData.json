@@ -1,0 +1,11 @@
+{
+    "ads": [
+      {
+        "id": 1,
+        "icon": "../../src/assets/image/ads/ad1.png",
+        "discount": 20,
+        "destination": "/promo/1"
+      }
+    ]
+  }
+  

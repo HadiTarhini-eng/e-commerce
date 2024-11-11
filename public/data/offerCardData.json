@@ -1,0 +1,52 @@
+{
+  "offers": [
+    {
+      "id": 1,
+      "image": "../../src/assets/image/offers/offer1.png",
+      "title": "Summer Sale",
+      "newPrice": "$49.99",
+      "oldPrice": "$99.99",
+      "destination": "/offer/1"
+    },
+    {
+      "id": 2,
+      "image": "../../src/assets/image/offers/offer2.png",
+      "title": "Winter Discount",
+      "newPrice": "$39.99",
+      "oldPrice": "$79.99",
+      "destination": "/offer/2"
+    },
+    {
+      "id": 3,
+      "image": "../../src/assets/image/offers/offer3.png",
+      "title": "Black Friday",
+      "newPrice": "$29.99",
+      "oldPrice": "$59.99",
+      "destination": "/offer/3"
+    },
+    {
+      "id": 4,
+      "image": "../../src/assets/image/offers/offer4.png",
+      "title": "Spring Clearance",
+      "newPrice": "$19.99",
+      "oldPrice": "$39.99",
+      "destination": "/offer/4"
+    },
+    {
+      "id": 5,
+      "image": "../../src/assets/image/offers/offer5.png",
+      "title": "Holiday Special",
+      "newPrice": "$89.99",
+      "oldPrice": "$149.99",
+      "destination": "/offer/5"
+    },
+    {
+      "id": 6,
+      "image": "../../src/assets/image/offers/offer6.png",
+      "title": "Back to School",
+      "newPrice": "$14.99",
+      "oldPrice": "$29.99",
+      "destination": "/offer/6"
+    }
+  ]
+}
