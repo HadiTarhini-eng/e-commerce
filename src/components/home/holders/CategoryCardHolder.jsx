@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import CategoryCard from './CategoryCard'; // Import CategoryCard component
+import CategoryCard from '../cards/CategoryCard'; // Import CategoryCard component
 
 const CategoryCardHolder = () => {
   const [categories, setCategories] = useState([]);
@@ -20,15 +20,21 @@ const CategoryCardHolder = () => {
   };
 
   return (
-    <div className="w-full max-w-screen-md mx-auto my-6 p-4 grid grid-cols-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-      {categories.map((category, index) => (
-        <CategoryCard
-          key={index}
-          image={category.image}
-          title={category.title}
-          onClick={() => handleCategoryClick(category)} // Handle the onClick event
-        />
-      ))}
+    <div className="w-full max-w-screen-md mx-auto my-6 p-4">
+      {/* Categories Heading */}
+      <h2 className="text-2xl font-semibold text-rich-pink mb-6">Categories</h2>
+
+      {/* Category Grid */}
+      <div className="grid grid-cols-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        {categories.map((category, index) => (
+          <CategoryCard
+            key={index}
+            image={category.image}
+            title={category.title}
+            onClick={() => handleCategoryClick(category)} // Handle the onClick event
+          />
+        ))}
+      </div>
     </div>
   );
 };

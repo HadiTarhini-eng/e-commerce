@@ -9,7 +9,22 @@
       "rating": 4,
       "chipText": "Best Seller",
       "chipColor": "green",
-      "destination": "/product/1"
+      "destination": "/product/1",
+      "description": "This is Product 1. It is a high-quality product, perfect for everyday use. Great for both home and office environments. Available in multiple sizes.",
+      "reviews": [
+        {
+          "name": "John Doe",
+          "rating": 5,
+          "comment": "Amazing product! Really helps in my daily work routine. Highly recommend it.",
+          "date": "2024-01-15"
+        },
+        {
+          "name": "Jane Smith",
+          "rating": 4,
+          "comment": "Good quality, but a little expensive. Still worth it.",
+          "date": "2024-02-20"
+        }
+      ]
     },
     {
       "id": 2,
@@ -20,7 +35,22 @@
       "rating": 5,
       "chipText": "New",
       "chipColor": "blue",
-      "destination": "/product/2"
+      "destination": "/product/2",
+      "description": "Product 2 is a new arrival designed for comfort and durability. It’s great for both casual and professional settings. Don't miss out on this stylish and affordable option.",
+      "reviews": [
+        {
+          "name": "Alice Brown",
+          "rating": 5,
+          "comment": "Great value for the price! Comfortable and durable. I would buy again.",
+          "date": "2024-01-30"
+        },
+        {
+          "name": "Mark Lee",
+          "rating": 5,
+          "comment": "Fantastic product. Great quality and feels premium.",
+          "date": "2024-02-01"
+        }
+      ]
     },
     {
       "id": 3,
@@ -31,7 +61,22 @@
       "rating": 3,
       "chipText": "Featured",
       "chipColor": "red",
-      "destination": "/product/3"
+      "destination": "/product/3",
+      "description": "Featured Product 3 offers an elegant design with a premium feel. Ideal for those looking to enhance their home decor with a sleek and modern touch.",
+      "reviews": [
+        {
+          "name": "Rachel Green",
+          "rating": 3,
+          "comment": "Nice design but it didn’t quite meet my expectations for the price. The build quality is just okay.",
+          "date": "2024-03-10"
+        },
+        {
+          "name": "Tom Hanks",
+          "rating": 4,
+          "comment": "Good quality, but I expected a bit more. Still a solid purchase for the price.",
+          "date": "2024-03-15"
+        }
+      ]
     },
     {
       "id": 4,
@@ -42,7 +87,22 @@
       "rating": 4,
       "chipText": "Top Rated",
       "chipColor": "yellow",
-      "destination": "/product/4"
+      "destination": "/product/4",
+      "description": "Product 4 is one of our top-rated items! Known for its reliability and top-notch performance. A must-have for anyone looking for quality and efficiency.",
+      "reviews": [
+        {
+          "name": "Jessica Davis",
+          "rating": 5,
+          "comment": "Top-notch performance. Very reliable and sturdy.",
+          "date": "2024-02-25"
+        },
+        {
+          "name": "Chris Evans",
+          "rating": 4,
+          "comment": "Great product, but the color could have been a little better. Still works as expected.",
+          "date": "2024-02-28"
+        }
+      ]
     },
     {
       "id": 5,
@@ -53,7 +113,22 @@
       "rating": 5,
       "chipText": "Limited Edition",
       "chipColor": "purple",
-      "destination": "/product/5"
+      "destination": "/product/5",
+      "description": "This Limited Edition Product 5 comes with unique features and design, making it an exclusive addition to your collection. Don't miss out!",
+      "reviews": [
+        {
+          "name": "Mike Johnson",
+          "rating": 5,
+          "comment": "Love the limited edition! Feels special and worth the price.",
+          "date": "2024-03-01"
+        },
+        {
+          "name": "Emma Stone",
+          "rating": 5,
+          "comment": "Unique and stylish. Perfect for my collection!",
+          "date": "2024-03-05"
+        }
+      ]
     },
     {
       "id": 6,
@@ -64,17 +139,22 @@
       "rating": 5,
       "chipText": "Exclusive",
       "chipColor": "orange",
-      "destination": "/product/6"
-    }
-  ],
-  "bestsellers": [
-    {
-      "id": 1,
-      "image": "../../src/assets/image/products/product7.png",
-      "title": "Best Seller 1",
-      "newPrice": "$49.99",
-      "oldPrice": "$99.99",
-      "destination": "/bestseller/1"
+      "destination": "/product/6",
+      "description": "Exclusive Product 6 is built for those who appreciate the finer things in life. Premium quality and unmatched performance, perfect for any occasion.",
+      "reviews": [
+        {
+          "name": "Sophia Turner",
+          "rating": 5,
+          "comment": "Amazing quality. Worth every penny! Definitely premium.",
+          "date": "2024-03-08"
+        },
+        {
+          "name": "David Clark",
+          "rating": 4,
+          "comment": "The quality is impressive, but I expected it to be slightly more stylish. Still happy with the purchase.",
+          "date": "2024-03-09"
+        }
+      ]
     }
   ]
 }

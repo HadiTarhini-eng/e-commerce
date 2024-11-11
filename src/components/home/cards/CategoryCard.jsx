@@ -31,7 +31,7 @@ const CategoryCard = ({ image, title, onClick }) => {
       <h3
         className={`text-center font-semibold text-base transition-colors duration-300
           ${isActive ? 'text-vibrant-pink' : 'text-gray-700'} 
-          text-ellipsis overflow-hidden whitespace-nowrap`}
+          `}
         style={{
           fontSize: 'clamp(0.875rem, 2.5vw, 1rem)', // Responsive font size
         }}

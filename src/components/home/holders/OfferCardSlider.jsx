@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import OfferCard from './OfferCard'; // Import the OfferCard component
+import OfferCard from '../cards/OfferCard'; // Import the OfferCard component
 
 const OfferCardSlider = () => {
   const [offers, setOffers] = useState([]); // State to store fetched offers
@@ -26,7 +26,7 @@ const OfferCardSlider = () => {
   return (
     <div className="w-full p-4">
       {/* Title */}
-      <h2 className="font-bold text-black text-lg mb-4 font-['Plus_Jakarta_Sans']">
+      <h2 className="font-bold text-rich-pink text-2xl mb-4">
         Offers
       </h2>
 

@@ -24,8 +24,8 @@ const OfferCard = ({ image, title, newPrice, oldPrice, destination }) => {
 
       {/* Prices */}
       <div className="flex items-center justify-center space-x-2">
-        <span className="font-bold text-black">{newPrice}</span>
-        <span className="line-through text-gray-500">{oldPrice}</span>
+        <span className="font-bold text-black text-sm">{newPrice}</span> {/* Smaller text size for new price */}
+        <span className="line-through text-gray-500 text-sm">{oldPrice}</span> {/* Smaller text size for old price */}
       </div>
     </div>
   );

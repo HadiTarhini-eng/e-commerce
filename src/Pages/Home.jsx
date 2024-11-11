@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import Carousel from '../components/Carousel';
+import toast, { Toaster } from 'react-hot-toast'; // Import toast and Toaster
+import Carousel from '../components/home/Carousel';
 import Navbar from '../components/Navbar';
-import CategoryCardHolder from '../components/CategoryCardHolder';
-import OfferCardSlider from '../components/OfferCardSlider';
-import ProductCardHolder from '../components/ProductCardHolder';
-import Ads from '../components/Ads';
-import SearchBar from '../components/SearchBar';
+import CategoryCardHolder from '../components/home/holders/CategoryCardHolder';
+import OfferCardSlider from '../components/home/holders/OfferCardSlider';
+import ProductCardHolder from '../components/home/holders/ProductCardHolder';
+import Ads from '../components/home/Ads';
 import FooterNav from '../components/FooterNav';
 
 const Home = () => {
@@ -23,13 +23,13 @@ const Home = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col items-center w-full">
-      {/* Navbar */}
-      <Navbar />
+    <div className="min-h-screen flex flex-col items-center w-full">
+      {/* Toast Notifications */}
+      <Toaster /> {/* Display the toast globally */}
 
-      {/* Search Bar */}
+      {/* Navbar */}
       <div className="w-full max-w-lg px-4 mt-4">
-        <SearchBar placeholder="Search for products, categories, etc." />
+        <Navbar title={"Home"} />
       </div>
 
       {/* Carousel */}
@@ -37,24 +37,24 @@ const Home = () => {
         <Carousel slides={carouselData} />
       </div>
 
-      {/* Category Cards Holder */}
-      <div className="w-full max-w-screen-lg px-4 mt-8">
-        <CategoryCardHolder />
-      </div>
-
       {/* Offer Cards Slider */}
-      <div className="w-full max-w-screen-lg px-4 mt-8">
+      <div className="w-full max-w-screen-lg px-4">
         <OfferCardSlider />
       </div>
 
-      {/* Ads Section */}
-      <div className="w-full max-w-screen-lg px-4 mt-8">
-        <Ads />
+      {/* Category Cards Holder */}
+      <div className="w-full max-w-screen-lg px-4">
+        <CategoryCardHolder />
       </div>
 
       {/* Product Cards Holder */}
-      <div className="w-full max-w-screen-lg px-4 mt-8">
+      <div className="w-full max-w-screen-lg px-4">
         <ProductCardHolder />
+      </div>
+
+      {/* Ads Section */}
+      <div className="w-full max-w-screen-lg px-4 mt-8 mb-20">
+        <Ads />
       </div>
 
       {/* Footer Navigation */}

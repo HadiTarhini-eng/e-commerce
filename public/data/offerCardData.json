@@ -1,52 +1,160 @@
 {
   "offers": [
     {
-      "id": 1,
+      "id": 8,
       "image": "../../src/assets/image/offers/offer1.png",
       "title": "Summer Sale",
       "newPrice": "$49.99",
       "oldPrice": "$99.99",
-      "destination": "/offer/1"
+      "destination": "/product/8",
+      "description": "Enjoy huge discounts in our Summer Sale! Perfect time to grab your favorite items at amazing prices.",
+      "rating": 5,
+      "chipText": "Limited Edition",
+      "chipColor": "purple",
+      "reviews": [
+        {
+          "name": "Mike Johnson",
+          "rating": 5,
+          "comment": "Love the limited edition! Feels special and worth the price.",
+          "date": "2024-03-01"
+        },
+        {
+          "name": "Emma Stone",
+          "rating": 5,
+          "comment": "Unique and stylish. Perfect for my collection!",
+          "date": "2024-03-05"
+        }
+      ]
     },
     {
-      "id": 2,
+      "id": 9,
       "image": "../../src/assets/image/offers/offer2.png",
       "title": "Winter Discount",
       "newPrice": "$39.99",
       "oldPrice": "$79.99",
-      "destination": "/offer/2"
+      "destination": "/product/9",
+      "description": "Get ready for Winter with our exclusive discounts. Stay warm and stylish without breaking the bank.",
+      "rating": 5,
+      "chipText": "Limited Edition",
+      "chipColor": "purple",
+      "reviews": [
+        {
+          "name": "Mike Johnson",
+          "rating": 5,
+          "comment": "Love the limited edition! Feels special and worth the price.",
+          "date": "2024-03-01"
+        },
+        {
+          "name": "Emma Stone",
+          "rating": 5,
+          "comment": "Unique and stylish. Perfect for my collection!",
+          "date": "2024-03-05"
+        }
+      ]
     },
     {
-      "id": 3,
+      "id": 10,
       "image": "../../src/assets/image/offers/offer3.png",
       "title": "Black Friday",
       "newPrice": "$29.99",
       "oldPrice": "$59.99",
-      "destination": "/offer/3"
+      "destination": "/product/10",
+      "description": "The Black Friday deals you’ve been waiting for! Don't miss out on unbeatable prices across all categories.",
+      "rating": 5,
+      "chipText": "Limited Edition",
+      "chipColor": "purple",
+      "reviews": [
+        {
+          "name": "Mike Johnson",
+          "rating": 5,
+          "comment": "Love the limited edition! Feels special and worth the price.",
+          "date": "2024-03-01"
+        },
+        {
+          "name": "Emma Stone",
+          "rating": 5,
+          "comment": "Unique and stylish. Perfect for my collection!",
+          "date": "2024-03-05"
+        }
+      ]
     },
     {
-      "id": 4,
+      "id": 11,
       "image": "../../src/assets/image/offers/offer4.png",
       "title": "Spring Clearance",
       "newPrice": "$19.99",
       "oldPrice": "$39.99",
-      "destination": "/offer/4"
+      "destination": "/product/11",
+      "description": "Spring Clearance Sale! Grab your essentials at clearance prices before they’re gone.",
+      "rating": 5,
+      "chipText": "Limited Edition",
+      "chipColor": "purple",
+      "reviews": [
+        {
+          "name": "Mike Johnson",
+          "rating": 5,
+          "comment": "Love the limited edition! Feels special and worth the price.",
+          "date": "2024-03-01"
+        },
+        {
+          "name": "Emma Stone",
+          "rating": 5,
+          "comment": "Unique and stylish. Perfect for my collection!",
+          "date": "2024-03-05"
+        }
+      ]
     },
     {
-      "id": 5,
-      "image": "../../src/assets/image/offers/offer5.png",
+      "id": 12,
+      "image": "../../src/assets/image/offers/offer2.png",
       "title": "Holiday Special",
       "newPrice": "$89.99",
       "oldPrice": "$149.99",
-      "destination": "/offer/5"
+      "destination": "/product/12",
+      "description": "Celebrate the holidays with exclusive offers and gifts for everyone. Hurry, limited-time prices!",
+      "rating": 5,
+      "chipText": "Limited Edition",
+      "chipColor": "purple",
+      "reviews": [
+        {
+          "name": "Mike Johnson",
+          "rating": 5,
+          "comment": "Love the limited edition! Feels special and worth the price.",
+          "date": "2024-03-01"
+        },
+        {
+          "name": "Emma Stone",
+          "rating": 5,
+          "comment": "Unique and stylish. Perfect for my collection!",
+          "date": "2024-03-05"
+        }
+      ]
     },
     {
-      "id": 6,
-      "image": "../../src/assets/image/offers/offer6.png",
+      "id": 13,
+      "image": "../../src/assets/image/offers/offer3.png",
       "title": "Back to School",
       "newPrice": "$14.99",
       "oldPrice": "$29.99",
-      "destination": "/offer/6"
+      "destination": "/product/13",
+      "description": "Get ready for school with our amazing Back-to-School offers! Find the best deals on school supplies and essentials.",
+      "rating": 5,
+      "chipText": "Limited Edition",
+      "chipColor": "purple",
+      "reviews": [
+        {
+          "name": "Mike Johnson",
+          "rating": 5,
+          "comment": "Love the limited edition! Feels special and worth the price.",
+          "date": "2024-03-01"
+        },
+        {
+          "name": "Emma Stone",
+          "rating": 5,
+          "comment": "Unique and stylish. Perfect for my collection!",
+          "date": "2024-03-05"
+        }
+      ]
     }
   ]
 }

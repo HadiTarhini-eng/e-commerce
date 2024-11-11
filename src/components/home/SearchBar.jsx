@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 
-const Search = ({ placeholder }) => {
+const SearchBar = ({ placeholder, onSearchChange }) => {
   const [searchTerm, setSearchTerm] = useState('');
 
   const handleChange = (e) => {
     setSearchTerm(e.target.value);
+    onSearchChange(e.target.value); // Pass the search term to parent component
   };
 
   return (
@@ -14,7 +15,7 @@ const Search = ({ placeholder }) => {
         type="text"
         value={searchTerm}
         onChange={handleChange}
-        className="w-full p-3 pl-10 pr-4 border border-gray-300 rounded-md shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+        className="w-full p-3 pl-10 pr-4 border rounded-md focus:outline-none focus:ring-2 focus:ring-pale-peach"
         placeholder={placeholder || 'Search...'}
       />
       {/* Search Icon */}
@@ -38,4 +39,4 @@ const Search = ({ placeholder }) => {
   );
 };
 
-export default Search;
+export default SearchBar;

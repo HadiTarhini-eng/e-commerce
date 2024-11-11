@@ -1,40 +1,48 @@
 [
   {
+    "id": 1,
     "title": "Electronics",
     "image": "../../src/assets/image/catgeory/electronics.png",
     "onClick": "electronicsClicked"
   },
   {
+    "id": 2,
     "title": "Furniture",
     "image": "../../src/assets/image/catgeory/furniture.png",
     "onClick": "furnitureClicked"
   },
   {
+    "id": 3,
     "title": "Clothing",
     "image": "../../src/assets/image/catgeory/clothing.png",
     "onClick": "clothingClicked"
   },
   {
+    "id": 4,
     "title": "Toys",
     "image": "../../src/assets/image/catgeory/toys.png",
     "onClick": "toysClicked"
   },
   {
+    "id": 5,
     "title": "Books",
     "image": "../../src/assets/image/catgeory/clothing.png",
     "onClick": "booksClicked"
   },
   {
+    "id": 6,
     "title": "Sports",
     "image": "../../src/assets/image/catgeory/electronics.png",
     "onClick": "sportsClicked"
   },
   {
+    "id": 7,
     "title": "Beauty",
     "image": "../../src/assets/image/catgeory/furniture.png",
     "onClick": "beautyClicked"
   },
   {
+    "id": 8,
     "title": "Home Appliances",
     "image": "../../src/assets/image/catgeory/toys.png",
     "onClick": "homeAppliancesClicked"

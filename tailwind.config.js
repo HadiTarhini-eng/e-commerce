@@ -7,6 +7,9 @@ module.exports = {
   ],
   theme: {
     extend: {
+      clipPath: {
+        'artistic': 'polygon(0% 12%, 100% 0%, 100% 88%, 0% 100%)', // Custom clip path
+      },
       colors: {
         'light-cream': '#FCF3C4',
         'pale-peach': '#FCDBBE',
