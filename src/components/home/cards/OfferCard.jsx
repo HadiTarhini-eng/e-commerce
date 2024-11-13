@@ -20,12 +20,12 @@ const OfferCard = ({ image, title, newPrice, oldPrice, destination }) => {
       <img src={image} alt={title} className="mx-auto mb-2 rounded-lg" />
 
       {/* Title */}
-      <h3 className={`font-bold ${isClicked ? 'text-blue-600' : 'text-black'}`}>{title}</h3>
+      <h3 className={`font-bold text-dark-charcoal ${isClicked ? 'text-blue-600' : 'text-black'}`}>{title}</h3>
 
       {/* Prices */}
       <div className="flex items-center justify-center space-x-2">
-        <span className="font-bold text-black text-sm">{newPrice}</span> {/* Smaller text size for new price */}
-        <span className="line-through text-gray-500 text-sm">{oldPrice}</span> {/* Smaller text size for old price */}
+        <span className="font-bold text-dark-charcoal text-sm">{newPrice}</span> {/* Smaller text size for new price */}
+        <span className="line-through text-dark-charcoal text-sm">{oldPrice}</span> {/* Smaller text size for old price */}
       </div>
     </div>
   );

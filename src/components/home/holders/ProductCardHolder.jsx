@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import ProductCard from '../cards/ProductCard'; // Assuming ProductCard is in the same directory
 import Search from '../SearchBar'; // Import the Search component
 
-const ProductCardHolder = () => {
+const ProductCardHolder = ({ selectedCategories }) => {
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -28,10 +28,17 @@ const ProductCardHolder = () => {
     fetchProducts();
   }, []);
 
-  // Filter the products based on the search term
-  const filteredProducts = products.filter((product) =>
-    product.title.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  // Filter products by search term and selected categories
+  const filteredProducts = products.filter((product) => {
+    const matchesSearchTerm =
+      product.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      product.category.toLowerCase().includes(searchTerm.toLowerCase()); // Search in both title and category
+
+    const matchesCategory =
+      selectedCategories.length === 0 || selectedCategories.includes(product.category);
+
+    return matchesSearchTerm && matchesCategory;
+  });
 
   // Conditional rendering based on loading and error states
   if (isLoading) {
@@ -42,10 +49,18 @@ const ProductCardHolder = () => {
     return <div>Error: {error}</div>;
   }
 
+    // Generate a label for selected categories
+    const categoryLabel = selectedCategories.length > 0
+    ? `Filtered by: ${selectedCategories.join(', ')}`
+    : 'All Products';
+
   return (
-    <div className="w-full max-w-screen-md mx-auto my-6 p-4">
+    <div className="w-full max-w-2xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden p-6 mt-8">
       {/* Title */}
-      <div className="font-bold text-rich-pink text-2xl mb-4">Products</div>
+      <div className="font-bold text-rich-pink text-2xl mb-4">
+        Products
+        <div className="text-sm text-dark-charcoal mt-1">{categoryLabel}</div>
+      </div>
 
       {/* Search Component */}
       <Search placeholder="Search for products..." onSearchChange={setSearchTerm} />

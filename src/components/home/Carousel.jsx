@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-const Carousel = ({ slides }) => {
+const Carousel = ({ slides, isLoading }) => {
   const [activeIndex, setActiveIndex] = useState(0);
 
   const handlePrev = () => {
@@ -34,12 +34,12 @@ const Carousel = ({ slides }) => {
   const Slide = React.memo(({ slide, index }) => (
     <div
       key={slide.id}
-      className="relative w-full flex-shrink-0" // Make sure each slide takes full width of the container
+      className="relative w-full flex-shrink-0"
       style={{ backfaceVisibility: "hidden" }}
     >
       <img
         src={slide.image}
-        className="block w-full rounded-lg object-cover" // Make image fill the container properly
+        className="block w-full rounded-lg object-cover"
         alt={`Slide ${index + 1}`}
       />
       <div className="absolute inset-x-16 bottom-5 hidden py-5 text-center text-white md:block">
@@ -49,10 +49,21 @@ const Carousel = ({ slides }) => {
     </div>
   ));
 
+  // Skeleton for loading state
+  const Skeleton = () => (
+    <div className="relative w-full flex-shrink-0">
+      <div className="w-full h-[150px] bg-gray-300 animate-pulse rounded-lg"></div>
+      <div className="absolute inset-x-16 bottom-5 py-5 text-center text-white md:block">
+        <div className="w-2/4 h-6 bg-gray-300 animate-pulse mx-auto rounded-md mb-3"></div>
+        <div className="w-3/4 h-4 bg-gray-300 animate-pulse mx-auto rounded-md"></div>
+      </div>
+    </div>
+  );
+
   return (
     <div
       id="carouselExampleIndicators"
-      className="relative w-full overflow-hidden" // Ensure the container is full width and hides overflow
+      className="relative w-full overflow-hidden"
       data-twe-carousel-init
       data-twe-ride="carousel"
     >
@@ -77,12 +88,16 @@ const Carousel = ({ slides }) => {
         <div
           className="flex transition-transform duration-600 ease-in-out"
           style={{
-            transform: `translateX(-${activeIndex * 100}%)`, // Move carousel container based on activeIndex
+            transform: `translateX(-${activeIndex * 100}%)`,
           }}
         >
-          {slides.map((slide, index) => (
-            <Slide key={slide.id || index} slide={slide} index={index} />
-          ))}
+          {isLoading
+            ? Array.from({ length: slides.length }).map((_, index) => (
+                <Skeleton key={index} />
+              ))
+            : slides.map((slide, index) => (
+                <Slide key={slide.id || index} slide={slide} index={index} />
+              ))}
         </div>
       </div>
 

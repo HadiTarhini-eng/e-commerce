@@ -18,6 +18,8 @@ module.exports = {
         'light-rose': '#FA92AC',
         'vibrant-pink': '#FA7AA6',
         'rich-pink': '#F962A0',
+        'dark-charcoal' : '#4A4A4A',
+        'taupe-brown' : '#6D4C41'
       },
       fontFamily: {
         sans: ['Inter', 'sans-serif'],
@@ -43,6 +45,7 @@ module.exports = {
       },
     },
   },
-  plugins: [require("tw-elements/plugin.cjs")],
+  plugins: [
+    require("tw-elements/plugin.cjs")],
   darkMode: "class"
 };

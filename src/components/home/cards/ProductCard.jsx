@@ -7,12 +7,12 @@ const ProductCard = ({
   title,
   newPrice,
   oldPrice,
-  rating,
   chipText,
   chipColor,
   destination
 }) => {
   const [isActive, setIsActive] = useState(false);
+  const [clicked, setClicked] = useState(false);
   const [isFavorited, setIsFavorited] = useState(false);
   const navigate = useNavigate(); 
 
@@ -28,6 +28,10 @@ const ProductCard = ({
   const handleAddToCart = (e) => {
     e.stopPropagation(); // Prevent the click event from propagating
     toast.success(`${title} added to the cart!`); // Show toast notification
+    setClicked(true);
+
+    // Reset animation after a short delay (the duration of the animation)
+    setTimeout(() => setClicked(false), 500); // Animation lasts 500ms
   };
 
   return (
@@ -39,31 +43,48 @@ const ProductCard = ({
     >
       {/* Chip */}
       <div
-        className={`absolute top-2 left-2 px-2 py-1 text-white text-xs rounded-md`}
+        className={`absolute top-2 left-2 px-2 py-1 text-white text-xs rounded-xl`}
         style={{ backgroundColor: chipColor }}
       >
         {chipText}
       </div>
 
       {/* Image */}
-      <img src={image} alt={title} className="w-full h-40 object-cover rounded-md mb-2" />
+      <img src={image} alt={title} className="w-full h-40 object-cover rounded-md" />
 
       {/* Title */}
-      <h3 className="font-bold text-black text-center mb-2 font-['Plus_Jakarta_Sans']">{title}</h3>
+      <h3 className="font-bold text-black text-left text-xl">{title}</h3>
 
       {/* Prices */}
-      <div className="flex justify-center items-center space-x-2 mb-2">
-        <span className="font-bold text-black">{newPrice}</span>
-        <span className="line-through text-gray-500">{oldPrice}</span>
+      <div className="flex justify-left items-left space-x-2 mb-2">
+        <span className="font-bold text-black font-['Roboto']">{newPrice}</span>
+        <span className="line-through text-gray-500 text-sm font-['Roboto']">{oldPrice}</span>
       </div>
 
       {/* Add Button */}
       <div className="absolute bottom-2 right-2">
-        <button 
-          className="bg-blue-500 text-white w-10 h-10 rounded-full flex items-center justify-center"
-          onClick={handleAddToCart} // Trigger toast on click and stop propagation
+        <button
+          className={`relative inline-flex items-center justify-center w-8 h-8 bg-blue-500 text-white rounded-full transition duration-300 ease-out ${clicked ? 'animate-click' : ''}`}
+          onClick={handleAddToCart}
         >
-          +
+          {/* Animation background span */}
+          <span
+            className={`absolute inset-0 flex items-center justify-center w-full h-full transition-all duration-300 rounded-full transform ${clicked ? 'bg-green-500 translate-x-0' : 'display-none'}`}
+          >
+            {/* Checkmark icon that appears when clicked */}
+            {clicked && (
+              <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+              </svg>
+            )}
+          </span>
+          
+          {/* Default content of the button */}
+          <span
+            className={`relative z-10 transition-all duration-300 ease ${clicked ? 'opacity-0' : 'opacity-100'}`}
+          >
+            +
+          </span>
         </button>
       </div>
     </div>

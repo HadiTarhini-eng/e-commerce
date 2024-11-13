@@ -3,6 +3,7 @@ import toast from 'react-hot-toast';
 
 const AddToCart = () => {
   const [quantity, setQuantity] = useState(1);
+  const [clicked, setClicked] = useState(false);
 
   const increaseQuantity = () => {
     setQuantity((prevQuantity) => prevQuantity + 1);
@@ -18,7 +19,14 @@ const AddToCart = () => {
   const handleAddToCart = () => {
     // Display a success toast when the item is added to the cart
     toast.success(`${quantity} item(s) added to the cart!`);
-    // You can add further logic here to update the actual cart (e.g., storing cart data in state or localStorage)
+    
+    // Trigger the button animation
+    setClicked(true);
+  };
+
+  // Reset the clicked state when animation finishes
+  const handleAnimationEnd = () => {
+    setClicked(false);
   };
 
   return (
@@ -42,10 +50,39 @@ const AddToCart = () => {
 
       {/* Add to Cart Button */}
       <button
+        className={`relative inline-flex items-center justify-center w-fit p-3 font-bold h-8 bg-blue-500 text-white rounded-md transition duration-300 ease-out ${clicked ? 'animate-click' : ''}`}
         onClick={handleAddToCart}
-        className="bg-blue-600 text-white font-semibold py-2 px-6 rounded-lg hover:bg-blue-700 transition-all duration-200"
+        onAnimationEnd={handleAnimationEnd} // Listen for the end of the animation
       >
-        Add to Cart
+        {/* Animation background span */}
+        <span
+          className={`absolute inset-0 flex items-center justify-center w-full h-full transition-all duration-300 rounded-md transform ${clicked ? 'bg-green-500' : 'bg-blue-500'}`}
+        >
+          {/* Checkmark icon that appears when clicked */}
+          {clicked && (
+            <svg
+              className="w-6 h-6 text-white"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M5 13l4 4L19 7"
+              />
+            </svg>
+          )}
+        </span>
+
+        {/* Default content of the button */}
+        <span
+          className={`relative z-10 transition-all duration-300 ease ${clicked ? 'opacity-0' : 'opacity-100'}`}
+        >
+          Add to Cart
+        </span>
       </button>
     </div>
   );

@@ -24,9 +24,9 @@ const OfferCardSlider = () => {
   }
 
   return (
-    <div className="w-full p-4">
+    <div className="w-full max-w-2xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden p-6 mt-8">
       {/* Title */}
-      <h2 className="font-bold text-rich-pink text-2xl mb-4">
+      <h2 className="font-bold text-taupe-brown text-2xl mb-4">
         Offers
       </h2>
 
