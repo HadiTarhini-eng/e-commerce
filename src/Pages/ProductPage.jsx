@@ -1,21 +1,23 @@
+// src/pages/ProductPage.js
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import ProductInfo from '../components/product/ProductInfo';
 import AddToCart from '../components/product/AddToCart';
 import Description from '../components/product/Description';
 import ReviewContainer from '../components/product/ReviewContainer';
 import SubmitReview from '../components/product/SubmitReview';
+import { addToCart } from '../redux/cartSlice'; // Import the addToCart action
 
 const ProductPage = () => {
-  const { id } = useParams(); // Get the product ID from the URL
+  const { id } = useParams();
+  const dispatch = useDispatch(); // Get the dispatch function from Redux
   const [product, setProduct] = useState(null);
 
   useEffect(() => {
-    // Fetch the product data from products.json
     fetch('/data/productCardData.json')
       .then((response) => response.json())
       .then((data) => {
-        // Find the product with the matching ID
         const selectedProduct = data.products.find((product) => product.id === parseInt(id));
         setProduct(selectedProduct);
       })
@@ -23,8 +25,6 @@ const ProductPage = () => {
   }, [id]);
 
   const handleSubmitReview = (newReview) => {
-    
-    // Update the reviews array for the product in the state or make an API call to save the review
     setProduct((prevProduct) => ({
       ...prevProduct,
       reviews: [...prevProduct.reviews, newReview],
@@ -32,7 +32,7 @@ const ProductPage = () => {
   };
 
   if (!product) {
-    return <div>Loading...</div>; // If product is not found yet
+    return <div>Loading...</div>;
   }
 
   return (
@@ -51,7 +51,7 @@ const ProductPage = () => {
 
       {/* Add To Cart */}
       <div className="w-full max-w-lg px-4 mt-4">
-        <AddToCart />
+        <AddToCart product={product} />
       </div>
 
       {/* Description */}

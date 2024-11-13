@@ -1,25 +1,41 @@
+// src/components/product/AddToCart.js
 import React, { useState } from 'react';
 import toast from 'react-hot-toast';
+import { useDispatch } from 'react-redux'; // Import useDispatch
+import { addToCart } from '../../redux/cartSlice'; // Import the addToCart action
 
-const AddToCart = () => {
+const AddToCart = ({ product }) => {
+  const dispatch = useDispatch(); // Access the dispatch function from Redux
   const [quantity, setQuantity] = useState(1);
   const [clicked, setClicked] = useState(false);
 
   const increaseQuantity = () => {
-    setQuantity((prevQuantity) => prevQuantity + 1);
+    setQuantity(prevQuantity => prevQuantity + 1);
   };
 
   const decreaseQuantity = () => {
     if (quantity > 1) {
-      setQuantity((prevQuantity) => prevQuantity - 1);
+      setQuantity(prevQuantity => prevQuantity - 1);
     }
   };
 
   // Handle Add to Cart functionality
   const handleAddToCart = () => {
+    // Dispatch the product details to the cart
+    dispatch(addToCart({
+      productId: product.id,
+      title: product.title,
+      newPrice: product.newPrice,
+      oldPrice: product.oldPrice,
+      image: product.image,
+      quantity,
+      chipText: product.chipText,
+      chipColor: product.chipColor,
+    }));
+
     // Display a success toast when the item is added to the cart
     toast.success(`${quantity} item(s) added to the cart!`);
-    
+
     // Trigger the button animation
     setClicked(true);
   };

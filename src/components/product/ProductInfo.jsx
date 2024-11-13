@@ -51,9 +51,9 @@ const ProductInfo = ({ image, title, newPrice, oldPrice, chipText, chipColor }) 
         <div className="flex flex-col text-left">
           <h2 className="text-3xl font-semibold text-gray-800">{title}</h2>
           <div className="mt-4">
-            <p className="text-2xl font-bold text-green-500">{newPrice}</p>
+            <p className="text-2xl font-bold text-green-500">${newPrice}</p>
             {oldPrice && (
-              <p className="text-xl text-gray-500 line-through">{oldPrice}</p>
+              <p className="text-xl text-gray-500 line-through">${oldPrice}</p>
             )}
           </div>
         </div>

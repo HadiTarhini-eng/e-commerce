@@ -1,50 +1,56 @@
-// src/redux/cartSlice.js
 import { createSlice } from '@reduxjs/toolkit';
 
-// Initial state of the cart
 const initialState = {
-  items: [],
-  total: 0,
+  cart: [
+    // Example products
+    // {
+    //   productId: 1,
+    //   title: 'Product 1',
+    //   category: 'Category 1',
+    //   newPrice: 100,
+    //   quantity: 2,
+    //   image: 'image_url',
+    // },
+  ],
 };
 
-// Create a slice for the cart
 const cartSlice = createSlice({
   name: 'cart',
   initialState,
   reducers: {
+    // Add product to the cart
     addToCart: (state, action) => {
-      const { product, quantity } = action.payload;
-      const existingProduct = state.items.find(item => item.id === product.id);
-
+      const product = action.payload;
+      const existingProduct = state.cart.find((item) => item.productId === product.productId);
       if (existingProduct) {
-        existingProduct.quantity += quantity; // Increase quantity if item already in cart
+        existingProduct.quantity += product.quantity; // Update quantity if the product already exists
       } else {
-        state.items.push({ ...product, quantity });
+        state.cart.push(product); // Otherwise, add the product to the cart
       }
-
-      // Recalculate total
-      state.total = state.items.reduce((acc, item) => acc + item.price * item.quantity, 0);
     },
+
+    // Remove product from the cart
     removeFromCart: (state, action) => {
-      state.items = state.items.filter(item => item.id !== action.payload.id);
-      // Recalculate total
-      state.total = state.items.reduce((acc, item) => acc + item.price * item.quantity, 0);
+      const productId = action.payload;
+      state.cart = state.cart.filter((item) => item.productId !== productId);
     },
-    updateQuantity: (state, action) => {
-      const { id, quantity } = action.payload;
-      const product = state.items.find(item => item.id === id);
-      if (product) {
-        product.quantity = quantity;
-      }
 
-      // Recalculate total
-      state.total = state.items.reduce((acc, item) => acc + item.price * item.quantity, 0);
+    // Update product quantity in the cart
+    updateQuantity: (state, action) => {
+      const { id, newQuantity } = action.payload;
+      const existingProduct = state.cart.find((item) => item.productId === id);
+      if (existingProduct) {
+        existingProduct.quantity = newQuantity;
+      }
+    },
+
+    // Clear the entire cart (optional)
+    clearCart: (state) => {
+      state.cart = [];
     },
   },
 });
 
-// Export actions to be used in components
-export const { addToCart, removeFromCart, updateQuantity } = cartSlice.actions;
+export const { addToCart, removeFromCart, updateQuantity, clearCart } = cartSlice.actions;
 
-// Export the reducer to be added to the store
 export default cartSlice.reducer;

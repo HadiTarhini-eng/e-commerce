@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import toast from 'react-hot-toast'; // Import toast for notifications
+import { useDispatch } from 'react-redux'; // Import useDispatch
+import { addToCart } from '../../../redux/cartSlice'; // Import the addToCart action
 import { useNavigate } from 'react-router-dom';
 
 const ProductCard = ({
@@ -9,26 +11,37 @@ const ProductCard = ({
   oldPrice,
   chipText,
   chipColor,
-  destination
+  destination,
 }) => {
   const [isActive, setIsActive] = useState(false);
   const [clicked, setClicked] = useState(false);
   const [isFavorited, setIsFavorited] = useState(false);
-  const navigate = useNavigate(); 
-
-  const toggleFavorite = () => {
-    setIsFavorited(!isFavorited);
-  };
+  const navigate = useNavigate();
+  const dispatch = useDispatch(); // Initialize dispatch from Redux
 
   const handleClick = () => {
     setIsActive(!isActive);
-    navigate(destination); 
+    navigate(destination);
   };
 
   const handleAddToCart = (e) => {
     e.stopPropagation(); // Prevent the click event from propagating
     toast.success(`${title} added to the cart!`); // Show toast notification
     setClicked(true);
+
+    // Dispatch action to add the product to the cart (with quantity set to 1)
+    dispatch(
+      addToCart({
+        productId: title, // Use title as a unique identifier, or you could use product.id
+        title,
+        newPrice,
+        oldPrice,
+        image,
+        quantity: 1, // Always 1 for each product added from the ProductCard
+        chipText,
+        chipColor,
+      })
+    );
 
     // Reset animation after a short delay (the duration of the animation)
     setTimeout(() => setClicked(false), 500); // Animation lasts 500ms
@@ -57,8 +70,8 @@ const ProductCard = ({
 
       {/* Prices */}
       <div className="flex justify-left items-left space-x-2 mb-2">
-        <span className="font-bold text-black font-['Roboto']">{newPrice}</span>
-        <span className="line-through text-gray-500 text-sm font-['Roboto']">{oldPrice}</span>
+        <span className="font-bold text-black font-['Roboto']">${newPrice}</span>
+        <span className="line-through text-gray-500 text-sm font-['Roboto']">${oldPrice}</span>
       </div>
 
       {/* Add Button */}

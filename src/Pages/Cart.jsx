@@ -1,90 +1,50 @@
 import React, { useState, useEffect } from 'react';
 import toast from 'react-hot-toast'; // Import toast and Toaster
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import { useDispatch, useSelector } from 'react-redux'; // Import Redux hooks
+import { removeFromCart, updateQuantity } from '../redux/cartSlice'; // Import actions from cartSlice
 
 const Cart = () => {
   const navigate = useNavigate(); // Initialize navigate function
+  const dispatch = useDispatch(); // Initialize dispatch function
+  const cartItems = useSelector(state => state.cart.cart); // Get cart items from Redux store
 
   // Scroll to top when the component is mounted
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
-  // Initial product data (deliveryCharge removed from product data)
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);  // Loading state
+  const [loading, setLoading] = useState(false); // Loading state
 
-  const [total, setTotal] = useState(0);
-  
   // Fixed Delivery Charge
   const deliveryCharge = 15.00;
 
-  // Simulate fetching data (replace this with actual API call in real app)
-  useEffect(() => {
-    setTimeout(() => {
-      // Simulating fetching product data
-      setProducts([
-        {
-          id: 1,
-          name: 'Latest N-5 Perfume',
-          category: 'Perfumes',
-          price: 120.00,
-          image: 'https://pagedone.io/asset/uploads/1701162850.png',
-          quantity: 1,
-        },
-        {
-          id: 2,
-          name: 'Musk Rose Cooper',
-          category: 'Perfumes',
-          price: 120.00,
-          image: 'https://pagedone.io/asset/uploads/1701162866.png',
-          quantity: 1,
-        },
-        {
-          id: 3,
-          name: 'Dusk Dark Hue',
-          category: 'Perfumes',
-          price: 120.00,
-          image: 'https://pagedone.io/asset/uploads/1701162880.png',
-          quantity: 1,
-        },
-      ]);
-      setLoading(false);  // Data is loaded
-    }, 2000);  // Simulating delay of 2 seconds
-  }, []);
-
   // Calculate subtotal and total (fixed delivery charge)
   const calculateTotals = () => {
-    const subtotal = products.reduce((acc, product) => acc + product.price * product.quantity, 0);
-    setTotal(subtotal);
+    const subtotal = cartItems.reduce((acc, product) => acc + product.newPrice * product.quantity, 0);
+    return subtotal;
   };
 
-  // Update product quantity
-  const updateQuantity = (id, newQuantity) => {
-    setProducts((prevProducts) =>
-      prevProducts.map((product) =>
-        product.id === id ? { ...product, quantity: newQuantity } : product
-      )
-    );
+  // Handle updating product quantity
+  const handleQuantityChange = (id, newQuantity) => {
+    if (newQuantity < 1) return; // Prevent going below 1
+    dispatch(updateQuantity({ id, newQuantity }));
   };
 
-  // Remove product from cart
-  const removeItem = (id) => {
-    setProducts((prevProducts) => prevProducts.filter(product => product.id !== id));
+  // Remove item from cart
+  const handleRemoveItem = (id) => {
+    dispatch(removeFromCart(id));
     toast.error('Item removed from cart!');
   };
 
-  // Function to handle the continue to payment button click
+  // Handle Continue to Payment button click
   const handleContinueToPayment = () => {
-    // Perform any final checks or actions here if needed
     navigate('/payment'); // Redirect to the payment page
   };
 
-  // Update totals when products change
-  React.useEffect(() => {
-    calculateTotals();
-  }, [products]);
-
+  // Calculate totals when cart items change
+  const total = calculateTotals();
+  
   return (
     <div className="min-h-screen flex flex-col items-center w-full mt-10">
       <section className="py-6 md:py-24 relative">
@@ -111,54 +71,58 @@ const Cart = () => {
             </div>
           ) : (
             // Product List
-            products.map((product) => (
-              <div key={product.id} className="grid grid-cols-1 lg:grid-cols-2 gap-6 border-t border-gray-200 py-6">
-                <div className="flex items-center flex-row gap-4 w-full max-xl:max-w-xl max-xl:mx-auto">
-                  {/* Left side - Image and Product Name */}
-                  <div className="flex items-center gap-4 w-full max-w-[200px] sm:max-w-[250px]">
-                    <div className="img-box">
-                      <img src={product.image} alt={product.name} className="w-[80px] sm:w-[120px] rounded-xl object-cover" />
+            cartItems.length === 0 ? (
+              <div className="text-center text-xl text-gray-600">Your cart is empty!</div>
+            ) : (
+              cartItems.map((product) => (
+                <div key={product.productId} className="grid grid-cols-1 lg:grid-cols-2 gap-6 border-t border-gray-200 py-6">
+                  <div className="flex items-center flex-row gap-4 w-full max-xl:max-w-xl max-xl:mx-auto">
+                    {/* Left side - Image and Product Name */}
+                    <div className="flex items-center gap-4 w-full max-w-[200px] sm:max-w-[250px]">
+                      <div className="img-box">
+                        <img src={product.image} alt={product.title} className="w-[80px] sm:w-[120px] rounded-xl object-cover" />
+                      </div>
+                      <div className="pro-data w-full">
+                        <h5 className="font-semibold text-base sm:text-xl leading-8 text-black">{product.title}</h5>
+                        <p className="font-normal text-sm sm:text-lg leading-8 text-gray-500 my-2">{product.category}</p>
+                        <h6 className="font-medium text-sm sm:text-lg leading-8 text-indigo-600">${product.newPrice}</h6>
+                      </div>
                     </div>
-                    <div className="pro-data w-full">
-                      <h5 className="font-semibold text-base sm:text-xl leading-8 text-black">{product.name}</h5>
-                      <p className="font-normal text-sm sm:text-lg leading-8 text-gray-500 my-2">{product.category}</p>
-                      <h6 className="font-medium text-sm sm:text-lg leading-8 text-indigo-600">${product.price}</h6>
-                    </div>
-                  </div>
 
-                  {/* Right side - Quantity controls and Remove button */}
-                  <div className="flex flex-col items-center gap-2 w-full max-w-[200px] sm:max-w-[220px]">
-                    <div className="flex items-center gap-2">
-                      <button onClick={() => updateQuantity(product.id, Math.max(product.quantity - 1, 1))} className="group rounded-l-full px-4 sm:px-6 py-2 sm:py-[18px] border border-gray-200">
-                        {/* Minus Icon */}
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 22 22" fill="none">
-                          <path d="M16.5 11H5.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
-                        </svg>
-                      </button>
-                      <input
-                        type="text"
-                        className="border-y border-gray-200 outline-none text-gray-900 font-semibold text-sm sm:text-lg w-full max-w-[80px] sm:max-w-[100px] placeholder:text-gray-900 py-2 sm:py-[15px] text-center bg-transparent"
-                        value={product.quantity}
-                        onChange={(e) => updateQuantity(product.id, parseInt(e.target.value, 10))}
-                      />
-                      <button onClick={() => updateQuantity(product.id, product.quantity + 1)} className="group rounded-r-full px-4 sm:px-6 py-2 sm:py-[18px] border border-gray-200">
-                        {/* Plus Icon */}
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 22 22" fill="none">
-                          <path d="M11 5.5V16.5M16.5 11H5.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
-                        </svg>
+                    {/* Right side - Quantity controls and Remove button */}
+                    <div className="flex flex-col items-center gap-2 w-full max-w-[200px] sm:max-w-[220px]">
+                      <div className="flex items-center gap-2">
+                        <button onClick={() => handleQuantityChange(product.productId, Math.max(product.quantity - 1, 1))} className="group rounded-l-full px-4 sm:px-6 py-2 sm:py-[18px] border border-gray-200">
+                          {/* Minus Icon */}
+                          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 22 22" fill="none">
+                            <path d="M16.5 11H5.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+                          </svg>
+                        </button>
+                        <input
+                          type="text"
+                          className="border-y border-gray-200 outline-none text-gray-900 font-semibold text-sm sm:text-lg w-full max-w-[80px] sm:max-w-[100px] placeholder:text-gray-900 py-2 sm:py-[15px] text-center bg-transparent"
+                          value={product.quantity}
+                          onChange={(e) => handleQuantityChange(product.productId, parseInt(e.target.value, 10))}
+                        />
+                        <button onClick={() => handleQuantityChange(product.productId, product.quantity + 1)} className="group rounded-r-full px-4 sm:px-6 py-2 sm:py-[18px] border border-gray-200">
+                          {/* Plus Icon */}
+                          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 22 22" fill="none">
+                            <path d="M11 5.5V16.5M16.5 11H5.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+                          </svg>
+                        </button>
+                      </div>
+                      <h6 className="text-indigo-600 font-manrope font-bold text-base sm:text-2xl leading-9 w-full max-w-[176px] text-center">
+                        ${product.newPrice * product.quantity}
+                      </h6>
+                      {/* Remove Item Button */}
+                      <button onClick={() => handleRemoveItem(product.productId)} className="mt-2 text-red-600 font-semibold text-sm sm:text-lg">
+                        Remove
                       </button>
                     </div>
-                    <h6 className="text-indigo-600 font-manrope font-bold text-base sm:text-2xl leading-9 w-full max-w-[176px] text-center">
-                      ${product.price * product.quantity}
-                    </h6>
-                    {/* Remove Item Button */}
-                    <button onClick={() => removeItem(product.id)} className="mt-2 text-red-600 font-semibold text-sm sm:text-lg">
-                      Remove
-                    </button>
                   </div>
                 </div>
-              </div>
-            ))
+              ))
+            )
           )}
 
           {/* Fixed Total Summary */}
