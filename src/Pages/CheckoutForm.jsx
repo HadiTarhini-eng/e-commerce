@@ -1,11 +1,15 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import toast from 'react-hot-toast'; // Import toast and Toaster
+import { useDispatch, useSelector } from 'react-redux';
+import { submitOrder } from '../api/api';
+import { clearCart } from '../redux/cartSlice';
 
 export default function CheckoutForm() {
-  const navigate = useNavigate(); // Initialize navigate function
+  const navigate = useNavigate();
   const [clicked, setClicked] = useState(false);
   const [loading, setLoading] = useState(false);  // Add loading state for skeleton
+  const dispatch = useDispatch(); // Redux dispatch
 
   const [formData, setFormData] = useState({
     username: '',
@@ -24,9 +28,12 @@ export default function CheckoutForm() {
     offers: false,
     pushNotifications: 'push-everything',
   });
+  
+  // Get cart data from Redux
+  const cartItems = useSelector((state) => state.cart.items);
 
   // Handle form submission
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     
     // Show loading skeleton while processing
@@ -72,15 +79,34 @@ export default function CheckoutForm() {
       // Store data (e.g., send it to an API or local storage)
     }
 
-    toast.success('Order Sent!'); // Show toast notification
-    setClicked(true);
+    // If no errors, proceed to send data to the backend
+    try {
+      // Prepare the payload by combining formData and cartItems
+      const payload = {
+        personalInfo: formData,
+        cart: cartItems,
+      };
 
-    // Reset animation after a short delay (the duration of the animation)
-    setTimeout(() => setClicked(false), 1000); // Animation lasts 1000ms
-    setTimeout(() => navigate('/'), 1000); // Navigate to home after animation
+      // Send the POST request to the backend
+      await submitOrder(payload);
 
-    // Scroll to the top of the page
-    window.scrollTo(0, 0);
+      // Reset the cart in Redux after successful submission
+      dispatch(clearCart());
+
+      toast.success('Order Sent!');
+      setClicked(true);
+
+      setTimeout(() => setClicked(false), 1000);
+      setTimeout(() => navigate('/'), 1000); // Navigate to home after submission
+
+      // Scroll to top after submission
+      window.scrollTo(0, 0);
+    } catch (err) {
+      toast.error('Error submitting order!');
+      console.error('Order submission error:', err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleCancel = () => {

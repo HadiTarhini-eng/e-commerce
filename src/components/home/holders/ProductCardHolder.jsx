@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import ProductCard from '../cards/ProductCard'; // Assuming ProductCard is in the same directory
 import Search from '../SearchBar'; // Import the Search component
+import { fetchProductsData } from '../../../api/api';
+import { calculateDiscount } from '../../../utils/discountUtils'; // Import the discount calculation function
 
 const ProductCardHolder = ({ selectedCategories }) => {
   const [products, setProducts] = useState([]);
@@ -10,22 +12,19 @@ const ProductCardHolder = ({ selectedCategories }) => {
 
   // Fetch the products data when the component mounts
   useEffect(() => {
-    const fetchProducts = async () => {
+    // Define an inner async function and call it immediately
+    const fetchData = async () => {
       try {
-        const response = await fetch('/data/productCardData.json'); // Make sure the file is accessible
-        if (!response.ok) {
-          throw new Error('Failed to fetch data');
-        }
-        const data = await response.json();
-        setProducts(data.products); // Set the products from the JSON response
+        const productsData = await fetchProductsData();
+        setProducts(productsData); // Set the products data
       } catch (err) {
-        setError(err.message); // Set any error message
+        setError(err.message); // Set error message if there's an issue
       } finally {
         setIsLoading(false); // Set loading to false once the data is fetched
       }
     };
 
-    fetchProducts();
+    fetchData();
   }, []);
 
   // Filter products by search term and selected categories
@@ -49,8 +48,8 @@ const ProductCardHolder = ({ selectedCategories }) => {
     return <div>Error: {error}</div>;
   }
 
-    // Generate a label for selected categories
-    const categoryLabel = selectedCategories.length > 0
+  // Generate a label for selected categories
+  const categoryLabel = selectedCategories.length > 0
     ? `Filtered by: ${selectedCategories.join(', ')}`
     : 'All Products';
 
@@ -68,19 +67,25 @@ const ProductCardHolder = ({ selectedCategories }) => {
       {/* Grid of Product Cards */}
       <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-4">
         {filteredProducts.length > 0 ? (
-          filteredProducts.map((product) => (
-            <ProductCard
-              key={product.id}
-              image={product.image}
-              title={product.title}
-              newPrice={product.newPrice}
-              oldPrice={product.oldPrice}
-              rating={product.rating}
-              chipText={product.chipText}
-              chipColor={product.chipColor}
-              destination={product.destination} // Passing the destination prop
-            />
-          ))
+          filteredProducts.map((product) => {
+            // Get the discount logic from the utility function
+            const { newPrice, oldPrice, chipText, chipColor } = calculateDiscount(product);
+
+            return (
+              <ProductCard
+                key={product.id}
+                id={product.id}
+                image={product.image}
+                title={product.title}
+                newPrice={newPrice}
+                oldPrice={oldPrice}
+                rating={product.rating}
+                chipText={chipText}
+                chipColor={chipColor}
+                destination={product.destination} // Passing the destination prop
+              />
+            );
+          })
         ) : (
           <div>No products found</div>
         )}

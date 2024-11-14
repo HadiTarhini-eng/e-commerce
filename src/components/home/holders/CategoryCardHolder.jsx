@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import CategoryCard from '../cards/CategoryCard'; // Import CategoryCard component
+import { fetchCategoriesData } from '../../../api/api';
 
 const CategoryCardHolder = ({ page, title, onCategorySelection }) => {
   const [categories, setCategories] = useState([]);
@@ -7,23 +8,19 @@ const CategoryCardHolder = ({ page, title, onCategorySelection }) => {
 
   // Fetch categories from the JSON file
   useEffect(() => {
-    const fetchCategories = async () => {
+    // Define an inner async function and call it immediately
+    const fetchData = async () => {
       try {
-        let data;
-        if (page === 'Home') {
-          data = await fetch('/data/categoryData.json').then((res) => res.json());
-        } else if (page === 'Payment') {
-          data = await fetch('/data/paymentTypeData.json').then((res) => res.json());
-        }
-        setCategories(data);
-        setIsLoading(false); // Stop loading after data is fetched
+        const categoriesData = await fetchCategoriesData(page);
+        setCategories(categoriesData);
+        setIsLoading(false);
       } catch (error) {
-        console.error("Error fetching categories:", error);
-        setIsLoading(false); // Stop loading in case of error
+        console.error('Error fetching categories:', error);
+        setIsLoading(false);
       }
     };
 
-    fetchCategories();
+    fetchData();
   }, [page]); // Re-run effect when `page` changes
 
   // Skeleton Loader for Category Cards

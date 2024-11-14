@@ -3,17 +3,21 @@ import Carousel from '../components/home/Carousel';
 import CategoryCardHolder from '../components/home/holders/CategoryCardHolder';
 import ProductCardHolder from '../components/home/holders/ProductCardHolder';
 import Ads from '../components/home/Ads';
+import { fetchCarouselData } from '../api/api';
 
 const Home = () => {
   const [carouselData, setCarouselData] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState([]); // State for selected categories
 
-  // Fetch carousel data
   useEffect(() => {
+    // Define an inner async function and call it immediately
     const fetchData = async () => {
-      const carouselResponse = await fetch('/data/carouselData.json');
-      const carouselJson = await carouselResponse.json();
-      setCarouselData(carouselJson.carousels);
+      try {
+        const carouselResponse = await fetchCarouselData();
+        setCarouselData(carouselResponse);
+      } catch (error) {
+        console.error('Error fetching carousel data:', error);
+      }
     };
 
     fetchData();
@@ -32,11 +36,21 @@ const Home = () => {
     });
   };
 
+  const customSettings = {
+    infinite: true,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    arrows: false,
+    dots: false,
+    autoplay: true,
+    autoplaySpeed: 5000,
+  };
+
   return (
     <div className="min-h-screen bg-light-cream flex flex-col items-center w-full mt-12">
       {/* Carousel */}
       <div className="w-full max-w-lg px-4 mt-4">
-        <Carousel slides={carouselData} />
+        <Carousel slides={carouselData} settings={customSettings} />
       </div>
 
       {/* Category Cards Holder */}

@@ -31,7 +31,7 @@ const SearchBar = ({ placeholder, onSearchChange }) => {
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="2"
-            d="M11 4a7 7 0 017 7 7 7 0 01-7 7 7 7 0 01-7-7 7 7 0 017-7zM11 4v4m0 4v4"
+            d="M21 21l-4.35-4.35M18.5 10a7.5 7.5 0 10-7 7.5 7.5 7.5 0 007-7.5z"
           />
         </svg>
       </div>

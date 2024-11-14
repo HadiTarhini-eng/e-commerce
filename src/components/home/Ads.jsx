@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { fetchAdsData } from '../../api/api';
 
 const Ads = () => {
   const [ads, setAds] = useState([]);
@@ -7,22 +8,19 @@ const Ads = () => {
 
   // Fetch ad data from the JSON file
   useEffect(() => {
-    const fetchAds = async () => {
+    // Define an inner async function and call it immediately
+    const fetchData = async () => {
       try {
-        const response = await fetch('/data/adsData.json'); // Path to your ads data
-        if (!response.ok) {
-          throw new Error('Failed to fetch ads data');
-        }
-        const data = await response.json();
-        setAds(data.ads); // Set ads data in state
+        const adsData = await fetchAdsData();
+        setAds(adsData); // Set the ads data in state
       } catch (err) {
-        setError(err.message); // Handle error
+        setError(err.message); // Set error message if there is an issue
       } finally {
-        setIsLoading(false); // Set loading state to false when done
+        setIsLoading(false); // Set loading to false once the data is fetched
       }
     };
 
-    fetchAds();
+    fetchData();
   }, []); // Run this effect only once when the component mounts
 
   // Conditional rendering

@@ -5,6 +5,7 @@ import { addToCart } from '../../../redux/cartSlice'; // Import the addToCart ac
 import { useNavigate } from 'react-router-dom';
 
 const ProductCard = ({
+  id,
   image,
   title,
   newPrice,
@@ -32,7 +33,7 @@ const ProductCard = ({
     // Dispatch action to add the product to the cart (with quantity set to 1)
     dispatch(
       addToCart({
-        productId: title, // Use title as a unique identifier, or you could use product.id
+        productId: id,
         title,
         newPrice,
         oldPrice,
@@ -71,7 +72,11 @@ const ProductCard = ({
       {/* Prices */}
       <div className="flex justify-left items-left space-x-2 mb-2">
         <span className="font-bold text-black font-['Roboto']">${newPrice}</span>
-        <span className="line-through text-gray-500 text-sm font-['Roboto']">${oldPrice}</span>
+        {oldPrice !== null && (
+          <span className="line-through text-gray-500 text-sm font-['Roboto']">
+            ${oldPrice}
+          </span>
+        )}
       </div>
 
       {/* Add Button */}
