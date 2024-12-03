@@ -2,11 +2,14 @@
 module.exports = {
   content: [
     "./index.html",
-    "./src/**/*.{html,js}",
-    "./node_modules/tw-elements/js/**/*.js",
+    "./src/**/*.{html,jsx}",
+    "./node_modules/tw-elements/js/**/*.jsx",
   ],
   theme: {
     extend: {
+      clipPath: {
+        'artistic': 'polygon(0% 12%, 100% 0%, 100% 88%, 0% 100%)', // Custom clip path
+      },
       colors: {
         'light-cream': '#FCF3C4',
         'pale-peach': '#FCDBBE',
@@ -15,6 +18,8 @@ module.exports = {
         'light-rose': '#FA92AC',
         'vibrant-pink': '#FA7AA6',
         'rich-pink': '#F962A0',
+        'dark-charcoal' : '#4A4A4A',
+        'taupe-brown' : '#6D4C41'
       },
       fontFamily: {
         sans: ['Inter', 'sans-serif'],
@@ -40,6 +45,7 @@ module.exports = {
       },
     },
   },
-  plugins: [require("tw-elements/plugin.cjs")],
+  plugins: [
+    require("tw-elements/plugin.cjs")],
   darkMode: "class"
 };

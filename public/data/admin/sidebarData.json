@@ -1,0 +1,7 @@
+[
+    { "id": 1, "label": "Dashboard", "icon": "../../../src/assets/image/sidebar/dashboard.png", "destination": "/dashboard" },
+    { "id": 2, "label": "Users", "icon": "../../../src/assets/image/sidebar/users.png", "destination": "#" },
+    { "id": 3, "label": "Products", "icon": "../../../src/assets/image/sidebar/products.png", "destination": "/productTable" },
+    { "id": 4, "label": "Sign In", "icon": "../../../src/assets/image/sidebar/signin.png", "destination": "#" }
+  ]
+  
