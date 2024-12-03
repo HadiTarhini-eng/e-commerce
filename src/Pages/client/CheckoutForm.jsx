@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import toast from 'react-hot-toast'; // Import toast and Toaster
 import { useDispatch, useSelector } from 'react-redux';
-import { submitOrder } from '../api/api';
-import { clearCart } from '../redux/cartSlice';
+import { submitOrder } from '../../api/ClientApi';
+import { clearCart } from '../../redux/cartSlice';
 
 export default function CheckoutForm() {
   const navigate = useNavigate();

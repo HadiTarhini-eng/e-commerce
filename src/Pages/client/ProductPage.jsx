@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import ProductInfo from '../components/product/ProductInfo';
-import AddToCart from '../components/product/AddToCart';
-import Description from '../components/product/Description';
-import ReviewContainer from '../components/product/ReviewContainer';
-import SubmitReview from '../components/product/SubmitReview';
-import { fetchProductById } from '../api/api';
-import { calculateDiscount } from '../utils/discountUtils';  // Import the discount calculation utility
+import ProductInfo from '../../components/client/product/ProductInfo';
+import AddToCart from '../../components/client/product/AddToCart';
+import Description from '../../components/client/product/Description';
+import ReviewContainer from '../../components/client/product/ReviewContainer';
+import SubmitReview from '../../components/client/product/SubmitReview';
+import { fetchProductById } from '../../api/ClientApi';
+import { calculateDiscount } from '../../utils/discountUtils';  // Import the discount calculation utility
 
 const ProductPage = () => {
   const { id } = useParams();

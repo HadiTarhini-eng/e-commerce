@@ -1,0 +1,57 @@
+[
+    {
+      "id": 1,
+      "Header": "ID",
+      "accessor": "id",
+      "width": "10%",
+      "canFilter": true
+    },
+    {
+      "id": 2,
+      "Header": "Product Image",
+      "accessor": "image",
+      "Cell": "ProductImageCell",
+      "width": "15%"
+    },
+    {
+      "id": 3,
+      "Header": "Product Name",
+      "accessor": "name",
+      "canFilter": true,
+      "width": "20%"
+    },
+    {
+      "id": 4,
+      "Header": "Category",
+      "accessor": "category",
+      "canFilter": true,
+      "width": "15%"
+    },
+    {
+      "id": 5,
+      "Header": "Price",
+      "accessor": "price",
+      "width": "10%"
+    },
+    {
+      "id": 6,
+      "Header": "Discount",
+      "accessor": "discount",
+      "Cell": "BadgeCell",
+      "width": "10%"
+    },
+    {
+      "id": 7,
+      "Header": "Discount Amount",
+      "accessor": "discountAmount",
+      "width": "10%"
+    },
+    {
+      "id": 8,
+      "Header": "Action",
+      "accessor": "id",
+      "Cell": "ActionButtonCell",
+      "width": "10%"
+    }
+  ]
+  

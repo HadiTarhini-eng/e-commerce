@@ -7,7 +7,7 @@ const OfferCardSlider = () => {
 
   // Fetch offers data from the JSON file
   useEffect(() => {
-    fetch('/data/offerCardData.json') // Assuming the JSON file is located in the public/data folder
+    fetch('/data/client/offerCardData.json') // Assuming the JSON file is located in the public/data folder
       .then((response) => response.json())
       .then((data) => {
         setOffers(data.offers); // Store the offers in the state

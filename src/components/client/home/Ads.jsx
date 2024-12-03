@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { fetchAdsData } from '../../api/api';
+import { fetchAdsData } from '../../../api/ClientApi';
 
 const Ads = () => {
   const [ads, setAds] = useState([]);

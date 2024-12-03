@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import toast from 'react-hot-toast'; // Import toast and Toaster
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import { useDispatch, useSelector } from 'react-redux'; // Import Redux hooks
-import { removeFromCart, updateQuantity } from '../redux/cartSlice'; // Import actions from cartSlice
+import { removeFromCart, updateQuantity } from '../../redux/cartSlice'; // Import actions from cartSlice
 
 const Cart = () => {
   const navigate = useNavigate(); // Initialize navigate function

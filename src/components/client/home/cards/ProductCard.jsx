@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import toast from 'react-hot-toast'; // Import toast for notifications
 import { useDispatch } from 'react-redux'; // Import useDispatch
-import { addToCart } from '../../../redux/cartSlice'; // Import the addToCart action
+import { addToCart } from '../../../../redux/cartSlice'; // Import the addToCart action
 import { useNavigate } from 'react-router-dom';
 
 const ProductCard = ({

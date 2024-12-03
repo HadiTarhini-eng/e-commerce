@@ -1,0 +1,31 @@
+[
+    {
+      "title": "Total Views",
+      "total": "$3.456K",
+      "rate": "0.43%",
+      "levelUp": true,
+      "icon": "eye"
+    },
+    {
+      "title": "Total Profit",
+      "total": "$45.2K",
+      "rate": "4.35%",
+      "levelUp": true,
+      "icon": "dollar-sign"
+    },
+    {
+      "title": "Total Product",
+      "total": "2.450",
+      "rate": "2.59%",
+      "levelUp": true,
+      "icon": "box"
+    },
+    {
+      "title": "Total Users",
+      "total": "3.456",
+      "rate": "0.95%",
+      "levelDown": true,
+      "icon": "user"
+    }
+  ]
+  

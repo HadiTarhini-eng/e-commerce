@@ -1,0 +1,23 @@
+[
+    {
+      "id": 1,
+      "title": "Product",
+      "image": "https://via.placeholder.com/150",
+      "name": "Apple iPhone",
+      "category": "Mobile Phones",
+      "price": 999,
+      "discount": "Discounted",
+      "discountAmount": 10
+    },
+    {
+      "id": 2,
+      "title": "Product",
+      "image": "https://via.placeholder.com/150",
+      "name": "Samsung Galaxy",
+      "category": "Mobile Phones",
+      "price": 899,
+      "discount": "No Discount",
+      "discountAmount": null
+    }
+  ]
+  

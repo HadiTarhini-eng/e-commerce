@@ -4,7 +4,7 @@ import axios from "axios";
 
 // Fetch Carousel Data
 export const fetchCarouselData = async () => {
-    const carouselResponse = await axios.get('/data/carouselData.json');
+    const carouselResponse = await axios.get('/data/client/carouselData.json');
     const carouselJson = carouselResponse.data.carousels;
     return carouselJson;
 };
@@ -16,7 +16,7 @@ export const fetchCategoriesData = async (page) => {
     if (page === 'Home') {
         url = '/data/categoryData.json';
     } else if (page === 'Payment') {
-        url = '/data/paymentTypeData.json';
+        url = '/data/client/paymentTypeData.json';
     }
 
     const response = await axios.get(url);
@@ -25,7 +25,7 @@ export const fetchCategoriesData = async (page) => {
 
 // Fetch Products Data
 export const fetchProductsData = async () => {
-    const response = await axios.get('/data/productCardData.json'); // Fetch the product data
+    const response = await axios.get('/data/client/productCardData.json'); // Fetch the product data
     if (response.status !== 200) {
       throw new Error('Failed to fetch products'); // Throw error if the response is not OK
     }
@@ -34,7 +34,7 @@ export const fetchProductsData = async () => {
 
 // Fetch Ads Data
 export const fetchAdsData = async () => {
-    const response = await axios.get('/data/adsData.json'); // Fetch the ads data
+    const response = await axios.get('/data/client/adsData.json'); // Fetch the ads data
     if (response.status !== 200) {
       throw new Error('Failed to fetch ads data'); // Throw an error if the response status is not 200
     }
@@ -46,7 +46,7 @@ export const fetchAdsData = async () => {
 
 // Fetch Product by ID
 export const fetchProductById = async (id) => {
-    const response = await axios.get('/data/productCardData.json'); // Fetch all products data
+    const response = await axios.get('/data/client/productCardData.json'); // Fetch all products data
     if (response.status !== 200) {
       throw new Error('Failed to fetch products data'); // Throw an error if the response is not OK
     }
@@ -65,7 +65,7 @@ export const fetchProductById = async (id) => {
 // POST Request to submit the order (personal info + cart data)
 export const submitOrder = async (payload) => {
     try {
-      const response = await axios.post('/data/checkout.json', payload); // Your backend endpoint
+      const response = await axios.post('/data/client/checkout.json', payload); // Your backend endpoint
       if (response.status !== 200) {
         throw new Error('Failed to submit order');
       }

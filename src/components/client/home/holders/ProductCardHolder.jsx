@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import ProductCard from '../cards/ProductCard'; // Assuming ProductCard is in the same directory
 import Search from '../SearchBar'; // Import the Search component
-import { fetchProductsData } from '../../../api/api';
-import { calculateDiscount } from '../../../utils/discountUtils'; // Import the discount calculation function
+import { fetchProductsData } from '../../../../api/ClientApi';
+import { calculateDiscount } from '../../../../utils/discountUtils'; // Import the discount calculation function
 
 const ProductCardHolder = ({ selectedCategories }) => {
   const [products, setProducts] = useState([]);

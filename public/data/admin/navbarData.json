@@ -1,0 +1,22 @@
+{
+    "logo": {
+      "image": "https://flowbite.com/docs/images/logo.svg",
+      "link": "https://flowbite.com",
+      "text": "Flowbite",
+      "userImage": "https://flowbite.com/docs/images/people/profile-picture-5.jpg"
+    },
+    "navItems": [
+      {
+        "label": "Dashboard",
+        "icon": "M16 10H8V4.025a1 1 0 0 0-1.066-.998 8.5 8.5 0 1 0 9.039 9.039.999.999 0 0 0-1-1.066h.002Z",
+        "destination": "#",
+        "badge": "New"
+      },
+      {
+        "label": "Settings",
+        "icon": "M12.5 0c-.157 0-.311.01-.565.027A1 1 0 0 0 11 1.02V10h8.975a1 1 0 0 0 1-.935c.013-.188.028-.374.028-.565A8.51 8.51 0 0 0 12.5 0Z",
+        "destination": "#"
+      }
+    ]
+  }
+  

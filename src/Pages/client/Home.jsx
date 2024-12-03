@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import Carousel from '../components/home/Carousel';
-import CategoryCardHolder from '../components/home/holders/CategoryCardHolder';
-import ProductCardHolder from '../components/home/holders/ProductCardHolder';
-import Ads from '../components/home/Ads';
-import { fetchCarouselData } from '../api/api';
+import Carousel from '../../components/client/home/Carousel';
+import CategoryCardHolder from '../../components/client/home/holders/CategoryCardHolder';
+import ProductCardHolder from '../../components/client/home/holders/ProductCardHolder';
+import Ads from '../../components/client/home/Ads';
+import { fetchCarouselData } from '../../api/ClientApi';
 
 const Home = () => {
   const [carouselData, setCarouselData] = useState([]);

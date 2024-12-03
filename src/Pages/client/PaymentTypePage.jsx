@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate from react-router-dom
-import CategoryCardHolder from '../components/home/holders/CategoryCardHolder';
+import CategoryCardHolder from '../../components/client/home/holders/CategoryCardHolder';
 
 const PaymentTypePage = () => {
   const navigate = useNavigate(); // Initialize useNavigate hook

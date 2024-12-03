@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import CategoryCard from '../cards/CategoryCard'; // Import CategoryCard component
-import { fetchCategoriesData } from '../../../api/api';
+import { fetchCategoriesData } from '../../../../api/ClientApi';
 
 const CategoryCardHolder = ({ page, title, onCategorySelection }) => {
   const [categories, setCategories] = useState([]);
