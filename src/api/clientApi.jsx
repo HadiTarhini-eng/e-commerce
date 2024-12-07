@@ -14,20 +14,25 @@ export const fetchCategoriesData = async (page) => {
     let url = '';
 
     if (page === 'Home') {
-        url = '/data/categoryData.json';
+        url = 'http://localhost/e-commerce/src/backend/categoryData.php';
     } else if (page === 'Payment') {
-        url = '/data/client/paymentTypeData.json';
+        url = 'http://localhost/e-commerce/src/backend/paymentTypeData.php';
     }
 
-    const response = await axios.get(url);
-    return response.data; // Return the response data
+    try {
+        const response = await axios.get(url);
+        return response.data; // Return the response data
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        throw error; // Or handle the error as needed
+    }
 
 
 };
 
 // Fetch Products Data
 export const fetchProductsData = async () => {
-    const response = await axios.get('/data/client/productCardData.json'); // Fetch the product data
+    const response = await axios.get('http://localhost/e-commerce/src/backend/productCardData.php'); // Fetch the product data
     if (response.status !== 200) {
       throw new Error('Failed to fetch products'); // Throw error if the response is not OK
     }
@@ -48,7 +53,7 @@ export const fetchAdsData = async () => {
 
 // Fetch Product by ID
 export const fetchProductById = async (id) => {
-    const response = await axios.get('/data/client/productCardData.json'); // Fetch all products data
+    const response = await axios.get('http://localhost/e-commerce/src/backend/productCardData.php'); // Fetch all products data
     if (response.status !== 200) {
       throw new Error('Failed to fetch products data'); // Throw an error if the response is not OK
     }
