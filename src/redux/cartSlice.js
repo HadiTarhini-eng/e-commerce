@@ -12,6 +12,16 @@ const initialState = {
     //   image: 'image_url',
     // },
   ],
+  checkoutData: { // New state to store checkout data
+    name: '',
+    email: '',
+    phoneNumber: '',
+    address: '',
+    paymentMethod: '',
+    deliveryMethod: '',
+    sendAsGift: false,
+    noteForDriver: '',
+  }
 };
 
 const cartSlice = createSlice({
@@ -48,9 +58,20 @@ const cartSlice = createSlice({
     clearCart: (state) => {
       state.cart = [];
     },
+
+    // Update checkout data in the state
+    updateCheckoutData: (state, action) => {
+      const { field, value } = action.payload;
+      state.checkoutData[field] = value;
+    },
+
+    // Clear checkout data (optional, after order submission)
+    clearCheckoutData: (state) => {
+      state.checkoutData = initialState.checkoutData;
+    }
   },
 });
 
-export const { addToCart, removeFromCart, updateQuantity, clearCart } = cartSlice.actions;
+export const { addToCart, removeFromCart, updateQuantity, clearCart, updateCheckoutData, clearCheckoutData } = cartSlice.actions;
 
 export default cartSlice.reducer;

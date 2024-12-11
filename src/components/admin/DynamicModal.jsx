@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import InputField from './InputField';
+import InputField from '../InputField';
 
 const DynamicModal = ({ isOpen, closeModal, onProductAdd, inputFields, modalTitle, buttonText }) => {
   const [formData, setFormData] = useState({});

@@ -1,0 +1,41 @@
+[
+  {
+    "orderID": "1",
+    "total": 360.00,
+    "shipping": 40.00,
+    "subtotal": 400.00,
+    "status": "pending",
+    "products": [
+      {
+        "productID": "101",
+        "name": "Dark Denim Jacket",
+        "scent": "Wood & Spice",
+        "quantity": 1,
+        "price": 120.00
+      }
+    ]
+  },
+  {
+    "orderID": "2",
+    "total": 200.00,
+    "shipping": 20.00,
+    "subtotal": 220.00,
+    "status": "completed",
+    "products": [
+      {
+        "productID": "102",
+        "name": "Leather Jacket",
+        "scent": "Citrus Breeze",
+        "quantity": 2,
+        "price": 100.00
+      },
+      {
+        "productID": "103",
+        "name": "Dark Denim Jacket",
+        "scent": "Wood & Spice",
+        "quantity": 1,
+        "price": 120.00
+      }
+    ]
+  }
+]

@@ -1,0 +1,31 @@
+/* .slick-dots.slick-thumb {
+  display: flex !important;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.slick-dots.slick-thumb li {
+  width: fit-content;
+  height: fit-content;
+  margin: 0 3px;
+  border-radius: 15px;
+  transition: all 0.5s ease-in-out;
+  will-change: width;
+}
+
+.slick-dots.slick-thumb li.slick-active {
+  background-color: lightblue;
+}
+
+.slick-prev:before {
+    color: black !important;
+    left: 0 !important;
+}
+.slick-next:before {
+    color: black !important;
+    right: 0 !important;
+}
+
+.height {
+    height: 350px;
+} */

@@ -51,6 +51,20 @@ const FooterNav = () => {
           />
         </Link>
 
+        {/* Orders Icon */}
+        <Link
+          to="/orderHistory"
+          className="text-gray-700 hover:text-blue-500"
+          onClick={() => handleIconClick("/orderHistory")}
+        >
+          <img
+            src="../../src/assets/image/icons/orders.png"
+            alt="Orders"
+            className="w-8 h-8 transition-all duration-300 ease-in-out"
+            style={getIconStyles("/orderHistory")} // Apply filter and scale dynamically
+          />
+        </Link>
+
         {/* Socials Icon */}
         <Link
           to="/socials"

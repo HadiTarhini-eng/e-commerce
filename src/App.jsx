@@ -5,11 +5,15 @@ import Cart from './Pages/client/Cart';
 import NotFoundPage from './components/client/NotFoundPage';
 import Layout from './components/client/Layout';
 import CheckoutForm from './Pages/client/CheckoutForm';
-import PaymentTypePage from './Pages/client/PaymentTypePage';
+import PaymentPage from './Pages/client/PaymentPage';
 import SocialsPage from './Pages/client/SocialsPage';
 import AdminLayout from './components/admin/AdminLayout';
 import ProductTablePage from './Pages/admin/ProductTablePage';
 import AdminDashboard from './Pages/admin/AdminDashboard';
+import SignInPage from './Pages/client/SignInPage';
+import OrderTrack from './Pages/client/OrderTrack';
+import OrderHistory from './Pages/client/OrderHistory';
+import OrderDetails from './Pages/client/OrderDetails';
 
 const App = () => {
   return (
@@ -21,8 +25,12 @@ const App = () => {
           <Route path="/product/:id" element={<ProductPage />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/checkout" element={<CheckoutForm />} />
-          <Route path="/payment" element={<PaymentTypePage />} />
+          <Route path="/payment" element={<PaymentPage />} />
           <Route path="/socials" element={<SocialsPage />} />
+          <Route path="/signin" element={<SignInPage />}/>
+          <Route path="/orderHistory" element={<OrderHistory />}/>
+          <Route path="/orderTrack/:orderID" element={<OrderTrack />}/>
+          <Route path="/orderDetails/:orderID" element={<OrderDetails />}/>
         </Route>
 
         {/* Admin */}

@@ -7,7 +7,7 @@ import cartReducer from './cartSlice'; // Import your cartSlice
 const persistConfig = {
   key: 'root', // Key under which the state is saved in storage
   storage, // Use localStorage for persistence
-  whitelist: ['cart'], // Only persist the cart state (you can persist more slices if needed)
+  whitelist: ['cart', 'checkoutData'], // Only persist the cart state (you can persist more slices if needed)
 };
 
 // Persisted reducer

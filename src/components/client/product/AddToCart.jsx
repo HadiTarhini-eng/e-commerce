@@ -4,7 +4,7 @@ import toast from 'react-hot-toast';
 import { useDispatch } from 'react-redux'; // Import useDispatch
 import { addToCart } from '../../../redux/cartSlice'; // Import the addToCart action
 
-const AddToCart = ({ product }) => {
+const AddToCart = ({ product, selectedScent, hasScents }) => {
   const dispatch = useDispatch(); // Access the dispatch function from Redux
   const [quantity, setQuantity] = useState(1);
   const [clicked, setClicked] = useState(false);
@@ -21,6 +21,8 @@ const AddToCart = ({ product }) => {
 
   // Handle Add to Cart functionality
   const handleAddToCart = () => {
+    setClicked(true);
+
     // Dispatch the product details to the cart
     dispatch(addToCart({
       productId: product.id,
@@ -31,18 +33,18 @@ const AddToCart = ({ product }) => {
       quantity,
       chipText: product.chipText,
       chipColor: product.chipColor,
+      ...(hasScents && selectedScent ? {
+        scentId: selectedScent.id,
+        scentName: selectedScent.scentName,
+        scentImage: selectedScent.image,
+      } : {})
     }));
 
     // Display a success toast when the item is added to the cart
     toast.success(`${quantity} item(s) added to the cart!`);
 
     // Trigger the button animation
-    setClicked(true);
-  };
-
-  // Reset the clicked state when animation finishes
-  const handleAnimationEnd = () => {
-    setClicked(false);
+    setTimeout(() => setClicked(false), 1000);
   };
 
   return (
@@ -68,7 +70,6 @@ const AddToCart = ({ product }) => {
       <button
         className={`relative inline-flex items-center justify-center w-fit p-3 font-bold h-8 bg-blue-500 text-white rounded-md transition duration-300 ease-out ${clicked ? 'animate-click' : ''}`}
         onClick={handleAddToCart}
-        onAnimationEnd={handleAnimationEnd} // Listen for the end of the animation
       >
         {/* Animation background span */}
         <span

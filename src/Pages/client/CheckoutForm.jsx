@@ -1,320 +1,270 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
-import toast from 'react-hot-toast'; // Import toast and Toaster
-import { useDispatch, useSelector } from 'react-redux';
-import { submitOrder } from '../../api/ClientApi';
-import { clearCart } from '../../redux/cartSlice';
+import axios from 'axios';
+import React, { useState, useEffect } from 'react';
+import toast from 'react-hot-toast';
+import { useDispatch } from 'react-redux';
+import { updateCheckoutData } from '../../redux/cartSlice';
+import { useNavigate } from 'react-router-dom';
+import { fetchDeliveryMethods, fetchFormFields, fetchPaymentMethods } from '../../api/ClientApi';
 
-export default function CheckoutForm() {
-  const navigate = useNavigate();
-  const [clicked, setClicked] = useState(false);
-  const [loading, setLoading] = useState(false);  // Add loading state for skeleton
-  const dispatch = useDispatch(); // Redux dispatch
+const CheckoutForm = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate(); // Initialize navigate
 
   const [formData, setFormData] = useState({
-    username: '',
-    about: '',
-    firstName: '',
-    lastName: '',
+    name: '',
     email: '',
-    phone: '', // New phone number field
-    country: 'United States',
-    streetAddress: '',
-    city: '',
-    region: '',
-    postalCode: '',
-    comments: false,
-    candidates: false,
-    offers: false,
-    pushNotifications: 'push-everything',
+    phoneNumber: '',
+    address: '',
+    paymentMethod: '',
+    deliveryMethod: '',
+    sendAsGift: false,
+    noteForDriver: '',  
   });
+
+  const [errors, setErrors] = useState({
+    name: '',
+    email: '',
+    phoneNumber: '',
+  });
+
+  const [formFields, setFormFields] = useState([]);
+  const [paymentMethods, setPaymentMethods] = useState([]);
+  const [deliveryMethods, setDeliveryMethods] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [formFieldsData, paymentMethodsData, deliveryMethodsData] = await Promise.all([
+          fetchFormFields(),
+          fetchPaymentMethods(),
+          fetchDeliveryMethods(),
+        ]);
   
-  // Get cart data from Redux
-  const cartItems = useSelector((state) => state.cart.items);
-
-  // Handle form submission
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    
-    // Show loading skeleton while processing
-    setLoading(true);
-
-    // Custom validations
-    const errors = [];
-
-    // Name validation: should not include numbers
-    const namePattern = /^[A-Za-z\s]+$/;
-    if (!namePattern.test(formData.firstName)) {
-      errors.push('First name should not include numbers.');
-    }
-    if (!namePattern.test(formData.lastName)) {
-      errors.push('Last name should not include numbers.');
-    }
-
-    // City and Region validation: should not include numbers
-    if (!namePattern.test(formData.city)) {
-      errors.push('City should not include numbers.');
-    }
-    if (!namePattern.test(formData.region)) {
-      errors.push('State/Province should not include numbers.');
-    }
-
-    // Email validation
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailPattern.test(formData.email)) {
-      errors.push('Please enter a valid email address.');
-    }
-
-    // Phone number validation (US format: e.g., (123) 456-7890)
-    const phonePattern = /^\(\d{3}\) \d{3}-\d{4}$/;
-    if (!phonePattern.test(formData.phone)) {
-      errors.push('Please enter a valid phone number (e.g., (123) 456-7890).');
-    }
-
-    if (errors.length > 0) {
-      alert(errors.join('\n'));
-      setLoading(false);  // Hide skeleton if there's an error
-    } else {
-      console.log('Form Data:', formData);
-      // Store data (e.g., send it to an API or local storage)
-    }
-
-    // If no errors, proceed to send data to the backend
-    try {
-      // Prepare the payload by combining formData and cartItems
-      const payload = {
-        personalInfo: formData,
-        cart: cartItems,
-      };
-
-      // Send the POST request to the backend
-      await submitOrder(payload);
-
-      // Reset the cart in Redux after successful submission
-      dispatch(clearCart());
-
-      toast.success('Order Sent!');
-      setClicked(true);
-
-      setTimeout(() => setClicked(false), 1000);
-      setTimeout(() => navigate('/'), 1000); // Navigate to home after submission
-
-      // Scroll to top after submission
-      window.scrollTo(0, 0);
-    } catch (err) {
-      toast.error('Error submitting order!');
-      console.error('Order submission error:', err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleCancel = () => {
-    navigate('/cart'); // Redirect to the cart page
-  };
+        setFormFields(formFieldsData.fields);
+        setPaymentMethods(paymentMethodsData.paymentMethods);
+        setDeliveryMethods(deliveryMethodsData.deliveryMethods);
+      } catch (error) {
+        console.error('Error fetching data', error);
+      }
+    };
+  
+    fetchData();
+  }, []);
 
   const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: type === 'checkbox' ? checked : value,
+    const { id, value } = e.target;
+    setFormData((prevState) => ({
+      ...prevState,
+      [id]: value,
     }));
+
+    // Dispatch to Redux store
+    dispatch(updateCheckoutData({ field: id, value }));
+  };
+
+  const handleRadioChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+
+    // Dispatch to Redux store
+    dispatch(updateCheckoutData({ field: name, value }));
+  };
+
+  const handleGiftCheckboxChange = (e) => {
+    const { checked } = e.target;
+    setFormData((prevState) => ({
+      ...prevState,
+      sendAsGift: checked,
+    }));
+
+    // Dispatch to Redux store
+    dispatch(updateCheckoutData({ field: 'sendAsGift', value: checked }));
+
+    if (checked) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      toast("Please update information of the gift's recipient if needed!", {
+        duration: 5000,
+        style: {
+          border: '1px solid #713200',
+          padding: '16px',
+          color: '#713200',
+        },
+        iconTheme: {
+          primary: '#713200',
+          secondary: '#FFFAEE',
+        },
+      });
+    }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    // Validate form
+    const validationErrors = validateForm(formData);
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      return;
+    }
+
+    // Dispatch the entire formData to Redux store
+    for (const field in formData) {
+      dispatch(updateCheckoutData({ field, value: formData[field] }));
+    }
+
+    // Show success toast
+    toast.success('Your order has been successfully submitted!', {
+      duration: 3000,
+    });
+
+    // Navigate to the /payment page
+    navigate('/payment');
+  };
+
+  const validateForm = (data) => {
+    const errors = {};
+    if (!data.name || /\d/.test(data.name)) {
+      errors.name = 'Name cannot be empty or contain numbers';
+    }
+    if (!data.email || !/\S+@\S+\.\S+/.test(data.email)) {
+      errors.email = 'Please enter a valid email address';
+    }
+    if (!data.phoneNumber || !/^\d{10}$/.test(data.phoneNumber)) {
+      errors.phoneNumber = 'Phone number must be 10 digits';
+    }
+    return errors;
   };
 
   return (
-    <form onSubmit={handleSubmit} className="min-h-screen flex flex-col items-center w-full mt-20">
-      <div className="space-y-12">
-        {/* Personal Information */}
-        <div className="border-b border-gray-900/10 pb-12">
-          <h2 className="text-base font-semibold text-gray-900">Personal Information</h2>
-          <p className="mt-1 text-sm text-gray-600">Use a permanent address where you can receive the order.</p>
+    <form onSubmit={handleSubmit} className="mx-auto w-full px-10 2xl:px-0 mt-12 mb-16">
+      <div className="mt-6 sm:mt-8 lg:flex lg:items-start lg:gap-12 xl:gap-16">
+        <div className="min-w-0 flex-1 space-y-8">
+          {/* Personal Details */}
+          <div className="space-y-4">
+            <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Payment Details</h2>
 
-          <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-            <div className="grid grid-cols-2 gap-x-2">
-              {/* First Name */}
-              <div className="sm:col-span-3">
-                <label htmlFor="first-name" className="block text-sm font-medium text-gray-900">
-                  First name
-                </label>
-                <div className="mt-2">
-                  {loading ? (
-                    <div className="h-10 bg-gray-300 animate-pulse rounded-md w-full"></div> // Skeleton loader
-                  ) : (
-                    <input
-                      id="first-name"
-                      name="firstName"
-                      type="text"
-                      autoComplete="given-name"
-                      className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm"
-                      required
-                      value={formData.firstName}
-                      onChange={handleChange}
-                      pattern="[A-Za-z\s]+"
-                      title="First name should not contain numbers"
-                    />
-                  )}
-                </div>
-              </div>
-
-              {/* Last Name */}
-              <div className="sm:col-span-3">
-                <label htmlFor="last-name" className="block text-sm font-medium text-gray-900">
-                  Last name
-                </label>
-                <div className="mt-2">
-                  {loading ? (
-                    <div className="h-10 bg-gray-300 animate-pulse rounded-md w-full"></div> // Skeleton loader
-                  ) : (
-                    <input
-                      id="last-name"
-                      name="lastName"
-                      type="text"
-                      autoComplete="family-name"
-                      className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm"
-                      required
-                      value={formData.lastName}
-                      onChange={handleChange}
-                      pattern="[A-Za-z\s]+"
-                      title="Last name should not contain numbers"
-                    />
-                  )}
-                </div>
-              </div>
-            </div>
-
-            {/* Email */}
-            <div className="sm:col-span-4">
-              <label htmlFor="email" className="block text-sm font-medium text-gray-900">
-                Email address
-              </label>
-              <div className="mt-2">
-                {loading ? (
-                  <div className="h-10 bg-gray-300 animate-pulse rounded-md w-full"></div> // Skeleton loader
-                ) : (
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+              {formFields.map((field) => (
+                <div key={field.id}>
+                  <label htmlFor={field.id} className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">{field.label}</label>
                   <input
-                    id="email"
-                    name="email"
-                    type="email"
-                    autoComplete="email"
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm"
-                    required
-                    value={formData.email}
+                    type={field.type}
+                    id={field.id}
+                    value={formData[field.id]}
                     onChange={handleChange}
-                    pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$"
-                    title="Please enter a valid email address"
+                    className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
+                    placeholder={field.placeholder}
+                    required={field.required}
                   />
-                )}
-              </div>
-            </div>
-
-            {/* Phone Number */}
-            <div className="sm:col-span-4">
-              <label htmlFor="phone" className="block text-sm font-medium text-gray-900">
-                Phone number
-              </label>
-              <div className="mt-2">
-                {loading ? (
-                  <div className="h-10 bg-gray-300 animate-pulse rounded-md w-full"></div> // Skeleton loader
-                ) : (
-                  <input
-                    id="phone"
-                    name="phone"
-                    type="text"
-                    placeholder="(123) 456-7890"
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm"
-                    required
-                    value={formData.phone}
-                    onChange={handleChange}
-                    pattern="^\(\d{3}\) \d{3}-\d{4}$"
-                    title="Please enter a valid phone number (e.g., (123) 456-7890)"
-                  />
-                )}
-              </div>
-            </div>
-
-            <div className="grid grid-cols-2 gap-x-2">
-              {/* City */}
-              <div className="sm:col-span-2 sm:col-start-1">
-                <label htmlFor="city" className="block text-sm font-medium text-gray-900">
-                  City
-                </label>
-                <div className="mt-2">
-                  {loading ? (
-                    <div className="h-10 bg-gray-300 animate-pulse rounded-md w-full"></div> // Skeleton loader
-                  ) : (
-                    <input
-                      id="city"
-                      name="city"
-                      type="text"
-                      autoComplete="address-level2"
-                      className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm"
-                      required
-                      value={formData.city}
-                      onChange={handleChange}
-                      pattern="[A-Za-z\s]+"
-                      title="City should not contain numbers"
-                    />
-                  )}
+                  {errors[field.id] && <p className="text-xs text-red-600">{errors[field.id]}</p>}
                 </div>
-              </div>
-
-              {/* State */}
-              <div className="sm:col-span-2">
-                <label htmlFor="region" className="block text-sm font-medium text-gray-900">
-                  State / Province
-                </label>
-                <div className="mt-2">
-                  {loading ? (
-                    <div className="h-10 bg-gray-300 animate-pulse rounded-md w-full"></div> // Skeleton loader
-                  ) : (
-                    <input
-                      id="region"
-                      name="region"
-                      type="text"
-                      autoComplete="address-level1"
-                      className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm"
-                      required
-                      value={formData.region}
-                      onChange={handleChange}
-                      pattern="[A-Za-z\s]+"
-                      title="State/Province should not contain numbers"
-                    />
-                  )}
-                </div>
-              </div>
+              ))}
             </div>
           </div>
-        </div>
 
-        {/* Save and Cancel buttons */}
-        <div className="mt-6 flex items-center justify-end gap-x-6">
-          <button onClick={handleCancel} type="button" className="text-sm font-semibold text-gray-900">
-            Cancel
-          </button>
-          <button
-            className={`relative inline-flex items-center justify-center w-fit p-3 font-bold h-8 bg-blue-500 text-white rounded-md transition duration-300 ease-out ${clicked ? 'animate-click' : ''}`}
-          >
-            {/* Animation background span */}
-            <span
-              className={`absolute inset-0 flex items-center justify-center w-full h-full transition-all duration-300 rounded-md transform ${clicked ? 'bg-green-500 translate-x-0' : 'display-none'}`}
+          {/* Payment Methods */}
+          <div className="space-y-4">
+            <h3 className="text-xl font-semibold text-gray-900 dark:text-white">Payment Methods</h3>
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+              {paymentMethods.map((method) => (
+                <div key={method.id} className="rounded-lg border border-gray-200 bg-gray-50 p-4 ps-4 dark:border-gray-700 dark:bg-gray-800">
+                  <div className="flex items-start">
+                    <input
+                      id={method.id}
+                      type="radio"
+                      name="paymentMethod"
+                      value={method.value}
+                      checked={formData.paymentMethod === method.value}
+                      onChange={handleRadioChange}
+                      className="h-4 w-4 border-gray-300 bg-white text-primary-600 focus:ring-2 focus:ring-primary-600 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-primary-600"
+                    />
+                    <div className="ms-4 text-sm">
+                      <label htmlFor={method.id} className="font-medium leading-none text-gray-900 dark:text-white">{method.label}</label>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Delivery Methods */}
+          <div className="space-y-4">
+            <h3 className="text-xl font-semibold text-gray-900 dark:text-white">Delivery Methods</h3>
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+              {deliveryMethods.map((method) => (
+                <div key={method.id} className="rounded-lg border border-gray-200 bg-gray-50 p-4 ps-4 dark:border-gray-700 dark:bg-gray-800">
+                  <div className="flex items-start">
+                    <div className="flex h-5 items-center">
+                      <input
+                        id={method.id}
+                        type="radio"
+                        name="deliveryMethod"
+                        value={method.value}
+                        checked={formData.deliveryMethod === method.value}
+                        onChange={handleRadioChange}
+                        className="h-4 w-4 border-gray-300 bg-white text-primary-600 focus:ring-2 focus:ring-primary-600 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-primary-600"
+                      />
+                    </div>
+                    <div className="ms-4 text-sm">
+                      <label htmlFor={method.id} className="font-medium leading-none text-gray-900 dark:text-white">{method.label}</label>
+                      <p className="mt-1 text-xs font-normal text-gray-500 dark:text-gray-400">{method.description}</p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Note for Driver (conditional) */}
+          {formData.deliveryMethod === 'wakilni' && (
+            <div className="space-y-4">
+              <label htmlFor="noteForDriver" className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
+                Note for Driver
+              </label>
+              <textarea
+                id="noteForDriver"
+                value={formData.noteForDriver}
+                onChange={handleChange}
+                placeholder="Please add any instructions for the driver."
+                className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
+                rows="3"
+              />
+            </div>
+          )}
+
+          {/* Send as Gift Section */}
+          <div className="space-y-4">
+            <div className="flex items-center">
+              <input
+                type="checkbox"
+                id="sendAsGift"
+                checked={formData.sendAsGift}
+                onChange={handleGiftCheckboxChange}
+                className="h-4 w-4 text-primary-600 focus:ring-primary-500 dark:bg-gray-700 dark:border-gray-600"
+              />
+              <label htmlFor="sendAsGift" className="ml-2 text-sm font-medium text-gray-900 dark:text-white">Send as a gift?</label>
+            </div>
+
+            {formData.sendAsGift && (
+              <p className="text-sm text-red-600 dark:text-gray-400">Please contact us on WhatsApp for more details on the gift!</p>
+            )}
+          </div>
+
+          <div className="mt-6 w-full space-y-6 sm:mt-8 lg:mt-0 lg:max-w-xs xl:max-w-md">
+            <button
+              type="submit"
+              className="flex w-full items-center justify-center rounded-lg bg-primary-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
             >
-              {/* Checkmark icon that appears when clicked */}
-              {clicked && (
-                <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
-                </svg>
-              )}
-            </span>
-            
-            {/* Default content of the button */}
-            <span
-              className={`relative z-10 transition-all duration-300 ease ${clicked ? 'opacity-0' : 'opacity-100'}`}
-            >
-              Submit
-            </span>
-          </button>
+              Proceed to Payment
+            </button>
+          </div>
         </div>
-        </div>
-      </form>
-    );
-}
+      </div>
+    </form>
+  );
+};
+
+export default CheckoutForm;

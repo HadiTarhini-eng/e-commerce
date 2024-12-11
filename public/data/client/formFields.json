@@ -1,0 +1,33 @@
+{
+    "fields": [
+      {
+        "id": "name",
+        "label": "Your name",
+        "type": "text",
+        "placeholder": "Full Name",
+        "required": true
+      },
+      {
+        "id": "email",
+        "label": "Your email",
+        "type": "email",
+        "placeholder": "email@email.com",
+        "required": true
+      },
+      {
+        "id": "phoneNumber",
+        "label": "Phone Number",
+        "type": "text",
+        "placeholder": "123-456-7890",
+        "required": true
+      },
+      {
+        "id": "address",
+        "label": "Address",
+        "type": "text",
+        "placeholder": "Area, Street, Building, Floor",
+        "required": true
+      }
+    ]
+  }
+  

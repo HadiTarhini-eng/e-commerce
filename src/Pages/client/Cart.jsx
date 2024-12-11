@@ -39,7 +39,7 @@ const Cart = () => {
 
   // Handle Continue to Payment button click
   const handleContinueToPayment = () => {
-    navigate('/payment'); // Redirect to the payment page
+    navigate('/checkout'); // Redirect to the payment page
   };
 
   // Calculate totals when cart items change
@@ -112,7 +112,7 @@ const Cart = () => {
                         </button>
                       </div>
                       <h6 className="text-indigo-600 font-manrope font-bold text-base sm:text-2xl leading-9 w-full max-w-[176px] text-center">
-                        ${product.newPrice * product.quantity}
+                        ${parseFloat(product.newPrice * product.quantity).toFixed(2)}
                       </h6>
                       {/* Remove Item Button */}
                       <button onClick={() => handleRemoveItem(product.productId)} className="mt-2 text-red-600 font-semibold text-sm sm:text-lg">
@@ -129,7 +129,7 @@ const Cart = () => {
           <div className="bg-gray-50 rounded-xl p-4 sm:p-6 w-full mb-8 max-lg:max-w-xl max-lg:mx-auto sticky bottom-0 left-0 z-1">
             <div className="flex items-center justify-between w-full mb-4 sm:mb-6">
               <p className="font-normal text-sm sm:text-xl leading-8 text-gray-400">Sub Total</p>
-              <h6 className="font-semibold text-sm sm:text-xl leading-8 text-gray-900">${total}</h6>
+              <h6 className="font-semibold text-sm sm:text-xl leading-8 text-gray-900">${parseFloat(total).toFixed(2)}</h6>
             </div>
             <div className="flex items-center justify-between w-full pb-4 sm:pb-6 border-b border-gray-200">
               <p className="font-normal text-sm sm:text-xl leading-8 text-gray-400">Delivery Charge</p>
@@ -137,7 +137,7 @@ const Cart = () => {
             </div>
             <div className="flex items-center justify-between w-full py-4 sm:py-6">
               <p className="font-manrope font-medium text-lg sm:text-2xl leading-9 text-gray-900">Total</p>
-              <h6 className="font-manrope font-medium text-lg sm:text-2xl leading-9 text-indigo-500">${total + deliveryCharge}</h6>
+              <h6 className="font-manrope font-medium text-lg sm:text-2xl leading-9 text-indigo-500">${parseFloat(total + deliveryCharge).toFixed(2)}</h6>
             </div>
           </div>
 

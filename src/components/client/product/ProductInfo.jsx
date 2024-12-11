@@ -1,8 +1,9 @@
 import React from 'react';
+import CustomPaging from './CustomPaging';
 
-const ProductInfo = ({ image, title, newPrice, oldPrice, chipText, chipColor }) => {
+const ProductInfo = ({ images, title, newPrice, oldPrice, chipText, chipColor, setSelectedScent, hasScents }) => {
   // If the data is not available, we assume it's still loading
-  const isLoading = !image || !title || !newPrice; // Example condition for loading state
+  const isLoading = !images || !title || !newPrice; // Example condition for loading state
 
   // Skeleton Loader Component
   const SkeletonLoader = () => (
@@ -36,14 +37,9 @@ const ProductInfo = ({ image, title, newPrice, oldPrice, chipText, chipColor }) 
     <div className="w-full max-w-2xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden p-6">
       {/* Image Container with Curved Border and Artistic Shape */}
       <div className="relative mb-6 overflow-hidden">
-        <img
-          src={image}
-          alt={title}
-          className="object-cover w-full h-96 rounded-t-[50%] shadow-xl transform transition duration-300 hover:scale-105"
-          style={{
-            clipPath: 'polygon(0% 15%, 100% 0%, 100% 85%, 0% 100%)',
-          }}
-        />
+        {hasScents ? (
+            <CustomPaging setSelectedScent={setSelectedScent} scents={images} />
+        ) : null}
       </div>
 
       {/* Product Info (Title, Price, Chip) */}

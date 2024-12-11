@@ -8,9 +8,18 @@ import SubmitReview from '../../components/client/product/SubmitReview';
 import { fetchProductById } from '../../api/ClientApi';
 import { calculateDiscount } from '../../utils/discountUtils';  // Import the discount calculation utility
 
+// Sample product data
+const scentsData = [
+  { id: "product1", scentName: "Mint", scentImage: "/product1.png" },
+  { id: "product2", scentName: "Lavender", scentImage: "/product2.png" },
+  { id: "product3", scentName: "Rose", scentImage: "/product3.png" }
+];
+
 const ProductPage = () => {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
+  const [selectedScent, setSelectedScent] = useState(null);
+  console.log(selectedScent);
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -50,23 +59,36 @@ const ProductPage = () => {
     chipColor,       // Add chip color (e.g., "green")
   };
 
+  // Determine if there are scents
+  const hasScents = scentsData && scentsData.length > 0;
+
+  const slides = hasScents
+    ? scentsData.map((scent) => ({
+        id: scent.id,
+        image: scent.scentImage,
+        name: scent.scentName
+      }))
+    : [{ id: 0, image: updatedProduct.image }];
+
   return (
     <div className="min-h-screen bg-light-cream flex flex-col items-center w-full mt-12">
       {/* Product Info */}
       <div className="w-full max-w-lg px-4 mt-4">
         <ProductInfo
-          image={updatedProduct.image}
+          images={slides}
           title={updatedProduct.title}
           newPrice={updatedProduct.newPrice}  // Pass the modified price
           oldPrice={updatedProduct.oldPrice}  // Pass the modified price
           chipText={updatedProduct.chipText}  // Pass the modified chip text
           chipColor={updatedProduct.chipColor}  // Pass the modified chip color
+          setSelectedScent={setSelectedScent} 
+          hasScents={hasScents}
         />
       </div>
 
       {/* Add To Cart */}
       <div className="w-full max-w-lg px-4 mt-4">
-        <AddToCart product={updatedProduct} />
+        <AddToCart product={updatedProduct} selectedScent={selectedScent} hasScents={hasScents} />
       </div>
 
       {/* Description */}

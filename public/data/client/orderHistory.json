@@ -1,0 +1,32 @@
+[
+    {
+        "orderID": "1",
+        "dateOrdered": "Jan, 10, 2024",
+        "total": "$400",
+        "status": "Pending"
+    },
+    {
+        "orderID": "2",
+        "dateOrdered": "Jan, 10, 2024",
+        "total": "$420",
+        "status": "Delivered"
+    },
+    {
+        "orderID": "3",
+        "dateOrdered": "Jan, 10, 2024",
+        "total": "$340",
+        "status": "Delivered"
+    },
+    {
+        "orderID": "4",
+        "dateOrdered": "Jan, 10, 2024",
+        "total": "$520",
+        "status": "Delivered"
+    },
+    {
+        "orderID": "5",
+        "dateOrdered": "Jan, 10, 2024",
+        "total": "$520",
+        "status": "Delivered"
+    }
+]

@@ -21,6 +21,14 @@ const Layout = () => {
     pageTitle = 'Checkout';
   } else if(location.pathname === '/payment') {
     pageTitle = 'Payment Methods';
+  } else if(location.pathname === '/signin') {
+    pageTitle = 'Sign In';
+  } else if(location.pathname === '/orderHistory') {
+    pageTitle = 'Past Orders';
+  } else if(location.pathname === '/orderTrack/:orderID') {
+    pageTitle = 'Order Track';
+  } else if(location.pathname === '/orderDetails/:orderID') {
+    pageTitle = 'Order Details';
   }
 
   return (

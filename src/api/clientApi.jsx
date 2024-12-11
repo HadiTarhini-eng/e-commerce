@@ -67,17 +67,92 @@ export const fetchProductById = async (id) => {
 };
 
 
-///////////// POST ///////////////////// CHECKOUT PAGE ///////////// POST /////////////////////
+///////////// FETCH ///////////////////// Orders PAGE ///////////// FETCH /////////////////////
 
-// POST Request to submit the order (personal info + cart data)
+// Fetch Order Details by ID
+export const fetchOrderDetailsById = async (orderID) => {
+  try {
+    const response = await axios.get('/data/client/orderDetails.json');
+    const order = response.data.find(order => order.orderID === orderID);
+    return order;
+  } catch (error) {
+    console.error('Error fetching order details:', error);
+    throw error;
+  }
+};
+
+// Fetch Order History Data
+export const fetchOrderHistory = async () => {
+  try {
+    const response = await axios.get('/data/client/orderHistory.json');
+    return response.data; // Return the order history data
+  } catch (error) {
+    console.error('Error fetching order history:', error);
+    throw error;
+  }
+};
+
+// Fetch Order Track by ID
+export const fetchOrderTrackById = async (orderID) => {
+  try {
+    const response = await axios.get('/data/client/orderTrack.json');
+    const order = response.data.find(order => order.orderID === orderID);
+    return order ? order.steps : null; // Return the order steps if found
+  } catch (error) {
+    console.error('Error fetching order track:', error);
+    throw error;
+  }
+};
+
+
+///////////// FETCH ///////////////////// CHECKOUT PAGE ///////////// FETCH /////////////////////
+
+// Fetch Form Fields Data
+export const fetchFormFields = async () => {
+  try {
+    const response = await axios.get('/data/client/formFields.json');
+    return response.data; // Return the form fields data
+  } catch (error) {
+    console.error('Error fetching form fields:', error);
+    throw error;
+  }
+};
+
+// Fetch Payment Methods Data
+export const fetchPaymentMethods = async () => {
+  try {
+    const response = await axios.get('/data/client/paymentMethods.json');
+    return response.data; // Return the payment methods data
+  } catch (error) {
+    console.error('Error fetching payment methods:', error);
+    throw error;
+  }
+};
+
+// Fetch Delivery Methods Data
+export const fetchDeliveryMethods = async () => {
+  try {
+    const response = await axios.get('/data/client/deliveryMethods.json');
+    return response.data; // Return the delivery methods data
+  } catch (error) {
+    console.error('Error fetching delivery methods:', error);
+    throw error;
+  }
+};
+
+
+///////////// POST ///////////////////// PURCHASE PAGE ///////////// POST /////////////////////
+
+// submitOrder function in the API file
 export const submitOrder = async (payload) => {
-    try {
-      const response = await axios.post('/data/client/checkout.json', payload); // Your backend endpoint
-      if (response.status !== 200) {
-        throw new Error('Failed to submit order');
-      }
-      return response.data; // You can handle the response if needed
-    } catch (error) {
-      throw new Error('Error while submitting order: ' + error.message);
+  try {
+    const response = await axios.post('/backend/backend/submitOrder', payload);
+    if (response.status !== 200) {
+      throw new Error('Failed to submit order');
     }
-  };
+    return response.data; // Return the response from the server
+  } catch (error) {
+    console.error('Error while submitting order:', error);
+    throw error; // Propagate the error to the calling function
+  }
+};

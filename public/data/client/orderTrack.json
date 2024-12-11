@@ -1,0 +1,65 @@
+[
+  {
+    "orderID": "1",
+    "steps": [
+      {
+        "date": "24 Nov 2024",
+        "description": "Products delivered",
+        "status": "in-progress",
+        "iconPath": "m4 12 8-8 8 8M6 10.5V19a1 1 0 0 0 1 1h3v-3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3h3a1 1 0 0 0 1-1v-8.5"
+      },
+      {
+        "date": "23 Nov 2024, 15:15",
+        "description": "Products in the courier's warehouse",
+        "status": "completed",
+        "iconPath": "M5 11.917 9.724 16.5 19 7.5"
+      },
+      {
+        "date": "22 Nov 2024, 12:27",
+        "description": "Products delivered to the courier - DHL Express",
+        "status": "completed",
+        "iconPath": "M5 11.917 9.724 16.5 19 7.5"
+      }
+    ]
+  },
+  {
+    "orderID": "2",
+    "steps": [
+      {
+        "date": "Today",
+        "description": "Products being delivered",
+        "status": "in-progress",
+        "iconPath": "M13 7h6l2 4m-8-4v8m0-8V6a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v9h2m8 0H9m4 0h2m4 0h2v-4m0 0h-5m3.5 5.5a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0Zm-10 0a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0Z"
+      },
+      {
+        "date": "19 Nov 2024, 10:47",
+        "description": "Payment accepted - VISA Credit Card",
+        "status": "completed",
+        "iconPath": "M5 11.917 9.724 16.5 19 7.5"
+      },
+      {
+        "date": "19 Nov 2024, 10:45",
+        "description": "Order placed - Receipt #647563",
+        "status": "completed",
+        "iconPath": "M5 11.917 9.724 16.5 19 7.5"
+      }
+    ]
+  },
+  {
+    "orderID": "3",
+    "steps": [
+      {
+        "date": "20 Nov 2024",
+        "description": "Products shipped",
+        "status": "completed",
+        "iconPath": "M5 11.917 9.724 16.5 19 7.5"
+      },
+      {
+        "date": "19 Nov 2024",
+        "description": "Order placed - Receipt #647563",
+        "status": "completed",
+        "iconPath": "M5 11.917 9.724 16.5 19 7.5"
+      }
+    ]
+  }
+]

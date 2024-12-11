@@ -12,11 +12,15 @@ const ProductCardHolder = ({ selectedCategories }) => {
 
   // Fetch the products data when the component mounts
   useEffect(() => {
-    // Define an inner async function and call it immediately
     const fetchData = async () => {
       try {
         const productsData = await fetchProductsData();
-        setProducts(productsData); // Set the products data
+        // Initialize each product with a "favorite" status
+        const initializedProducts = productsData.map((product) => ({
+          ...product,
+          isFavorited: false, // Default value; update if needed
+        }));
+        setProducts(initializedProducts);
       } catch (err) {
         setError(err.message); // Set error message if there's an issue
       } finally {
@@ -31,7 +35,7 @@ const ProductCardHolder = ({ selectedCategories }) => {
   const filteredProducts = products.filter((product) => {
     const matchesSearchTerm =
       product.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      product.category.toLowerCase().includes(searchTerm.toLowerCase()); // Search in both title and category
+      product.category.toLowerCase().includes(searchTerm.toLowerCase());
 
     const matchesCategory =
       selectedCategories.length === 0 || selectedCategories.includes(product.category);
@@ -48,27 +52,22 @@ const ProductCardHolder = ({ selectedCategories }) => {
     return <div>Error: {error}</div>;
   }
 
-  // Generate a label for selected categories
   const categoryLabel = selectedCategories.length > 0
     ? `Filtered by: ${selectedCategories.join(', ')}`
     : 'All Products';
 
   return (
     <div className="w-full max-w-2xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden p-6 mt-8">
-      {/* Title */}
       <div className="font-bold text-rich-pink text-2xl mb-4">
         Products
         <div className="text-sm text-dark-charcoal mt-1">{categoryLabel}</div>
       </div>
 
-      {/* Search Component */}
       <Search placeholder="Search for products..." onSearchChange={setSearchTerm} />
 
-      {/* Grid of Product Cards */}
       <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-4">
         {filteredProducts.length > 0 ? (
           filteredProducts.map((product) => {
-            // Get the discount logic from the utility function
             const { newPrice, oldPrice, chipText, chipColor } = calculateDiscount(product);
 
             return (
@@ -79,10 +78,10 @@ const ProductCardHolder = ({ selectedCategories }) => {
                 title={product.title}
                 newPrice={newPrice}
                 oldPrice={oldPrice}
-                rating={product.rating}
                 chipText={chipText}
                 chipColor={chipColor}
-                destination={product.destination} // Passing the destination prop
+                destination={product.destination}
+                isFavorited={product.isFavorited}
               />
             );
           })

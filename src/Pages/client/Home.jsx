@@ -7,7 +7,7 @@ import { fetchCarouselData } from '../../api/ClientApi';
 
 const Home = () => {
   const [carouselData, setCarouselData] = useState([]);
-  const [selectedCategories, setSelectedCategories] = useState([]); // State for selected categories
+  const [selectedCategories, setSelectedCategories] = useState([]);  
 
   useEffect(() => {
     // Define an inner async function and call it immediately
@@ -60,7 +60,9 @@ const Home = () => {
 
       {/* Product Cards Holder */}
       <div className="w-full max-w-screen-lg px-4">
-        <ProductCardHolder selectedCategories={selectedCategories} />
+        <ProductCardHolder 
+          selectedCategories={selectedCategories}
+        />
       </div>
 
       {/* Ads Section */}

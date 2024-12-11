@@ -16,8 +16,7 @@ const CategoryCard = ({ image, title, onClick }) => {
       className={`relative p-4 max-w-[16rem] rounded-md bg-white shadow-md cursor-pointer 
         transition-all duration-300 ease-in-out transform 
         hover:scale-105
-        ${isActive ? 'bg-soft-pink' : 'hover:bg-light-cream'} 
-        active:bg-light-cream`} // Ensure 'bg-soft-pink' is applied correctly
+        ${isActive ? 'bg-rich-pink' : 'hover:bg-light-cream'}`} // Ensure 'bg-soft-pink' is applied correctly
     >
       <div className="flex justify-center mb-2">
         <img
