@@ -72,7 +72,7 @@ export const fetchProductById = async (id) => {
 // Fetch Order Details by ID
 export const fetchOrderDetailsById = async (orderID) => {
   try {
-    const response = await axios.get('/data/client/orderDetails.json');
+    const response = await axios.get('http://localhost/e-commerce/src/backend/orderDetails.php');
     const order = response.data.find(order => order.orderID === orderID);
     return order;
   } catch (error) {
@@ -84,7 +84,7 @@ export const fetchOrderDetailsById = async (orderID) => {
 // Fetch Order History Data
 export const fetchOrderHistory = async () => {
   try {
-    const response = await axios.get('/data/client/orderHistory.json');
+    const response = await axios.get('http://localhost/e-commerce/src/backend/orders.php');
     return response.data; // Return the order history data
   } catch (error) {
     console.error('Error fetching order history:', error);
@@ -95,7 +95,7 @@ export const fetchOrderHistory = async () => {
 // Fetch Order Track by ID
 export const fetchOrderTrackById = async (orderID) => {
   try {
-    const response = await axios.get('/data/client/orderTrack.json');
+    const response = await axios.get('http://localhost/e-commerce/src/backend/orderHistory.php');
     const order = response.data.find(order => order.orderID === orderID);
     return order ? order.steps : null; // Return the order steps if found
   } catch (error) {
@@ -145,8 +145,9 @@ export const fetchDeliveryMethods = async () => {
 
 // submitOrder function in the API file
 export const submitOrder = async (payload) => {
+  console.log(payload);
   try {
-    const response = await axios.post('/backend/backend/submitOrder', payload);
+    const response = await axios.post('http://localhost/e-commerce/src/backend/submitOrder.php', payload);
     if (response.status !== 200) {
       throw new Error('Failed to submit order');
     }
