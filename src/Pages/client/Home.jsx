@@ -47,9 +47,9 @@ const Home = () => {
   };
 
   return (
-    <div className="min-h-screen bg-light-cream flex flex-col items-center w-full mt-12">
+    <div className="min-h-screen bg-palette-body flex flex-col items-center w-full mt-12">
       {/* Carousel */}
-      <div className="w-full max-w-lg px-4 mt-4">
+      <div className="w-full max-w-lg mt-4 px-2">
         <Carousel slides={carouselData} settings={customSettings} />
       </div>
 
@@ -58,16 +58,16 @@ const Home = () => {
         <CategoryCardHolder page='Home' title='Categories' onCategorySelection={handleCategorySelection} />
       </div>
 
+      {/* Ads Section */}
+      <div className="w-full max-w-screen-lg px-4 mt-8">
+        <Ads />
+      </div>
+
       {/* Product Cards Holder */}
-      <div className="w-full max-w-screen-lg px-4">
+      <div className="w-full max-w-screen-lg">
         <ProductCardHolder 
           selectedCategories={selectedCategories}
         />
-      </div>
-
-      {/* Ads Section */}
-      <div className="w-full max-w-screen-lg px-4 mt-8 mb-20">
-        <Ads />
       </div>
     </div>
   );

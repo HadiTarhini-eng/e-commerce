@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 import toast from 'react-hot-toast';
 import { useDispatch } from 'react-redux'; // Import useDispatch
 import { addToCart } from '../../../redux/cartSlice'; // Import the addToCart action
+import { PlusIcon } from '@heroicons/react/24/solid';
+import { MinusIcon } from '@heroicons/react/24/solid';
 
 const AddToCart = ({ product, selectedScent, hasScents }) => {
   const dispatch = useDispatch(); // Access the dispatch function from Redux
@@ -48,32 +50,32 @@ const AddToCart = ({ product, selectedScent, hasScents }) => {
   };
 
   return (
-    <div className="flex items-center justify-center space-x-6">
+    <div className="flex items-center justify-start space-x-3">
       {/* Quantity Control */}
       <div className="flex items-center rounded-lg overflow-hidden">
         <button
-          className="px-4 py-2 bg-gray-200 text-gray-600 hover:bg-gray-300 transition-all duration-200"
+          className="rounded-l-lg px-2 py-1 bg-gray-200 text-gray-600 hover:bg-gray-300 transition-all duration-200"
           onClick={decreaseQuantity}
         >
-          -
+          <MinusIcon className="w-4 h-4 text-white"/>
         </button>
-        <span className="px-6 py-2 text-lg font-semibold text-gray-700">{quantity}</span>
+        <span className="px-4 py-2 text-lg font-semibold text-gray-700">{quantity}</span>
         <button
-          className="px-4 py-2 bg-gray-200 text-gray-600 hover:bg-gray-300 transition-all duration-200"
+          className="rounded-r-lg px-2 py-1 bg-gray-200 text-gray-600 hover:bg-gray-300 transition-all duration-200"
           onClick={increaseQuantity}
         >
-          +
+          <PlusIcon className="w-4 h-4 text-white"/>
         </button>
       </div>
 
       {/* Add to Cart Button */}
       <button
-        className={`relative inline-flex items-center justify-center w-fit p-3 font-bold h-8 bg-blue-500 text-white rounded-md transition duration-300 ease-out ${clicked ? 'animate-click' : ''}`}
+        className={`relative inline-flex items-center justify-center w-fit font-bold p-2 h-6 bg-blue-500 text-white rounded-md transition duration-300 ease-out ${clicked ? 'animate-click' : ''}`}
         onClick={handleAddToCart}
       >
         {/* Animation background span */}
         <span
-          className={`absolute inset-0 flex items-center justify-center w-full h-full transition-all duration-300 rounded-md transform ${clicked ? 'bg-green-500' : 'bg-blue-500'}`}
+          className={`absolute inset-0 flex items-center justify-center w-full h-full transition-all duration-300 rounded-md transform ${clicked ? 'bg-green-500' : 'bg-button'}`}
         >
           {/* Checkmark icon that appears when clicked */}
           {clicked && (
@@ -96,7 +98,7 @@ const AddToCart = ({ product, selectedScent, hasScents }) => {
 
         {/* Default content of the button */}
         <span
-          className={`relative z-10 transition-all duration-300 ease ${clicked ? 'opacity-0' : 'opacity-100'}`}
+          className={`text-sm relative z-10 transition-all duration-300 ease ${clicked ? 'opacity-0' : 'opacity-100'}`}
         >
           Add to Cart
         </span>

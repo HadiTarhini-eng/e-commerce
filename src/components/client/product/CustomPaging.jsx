@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useImperativeHandle, forwardRef } from "react";
 import Slider from "react-slick";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // Import FontAwesome
+import { faArrowRight } from '@fortawesome/free-solid-svg-icons'; // Import specific icon
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'; // Import specific icon
 
-export default function CustomPaging({ setSelectedScent, scents }) {
+const CustomPaging = forwardRef(({ setSelectedScent, scents, onSlideChange }, ref) => {
   const [slider, setSlider] = useState(null); // To keep track of the slider instance
-  const [activeIndex, setActiveIndex] = useState(0); // Track the active scent index
 
   // Slider settings
   const settings = {
@@ -14,51 +16,69 @@ export default function CustomPaging({ setSelectedScent, scents }) {
     slidesToScroll: 1,
   };
 
-  // Slider navigation handler when a scent name button is clicked
-  const handleButtonClick = (index) => {
-    setActiveIndex(index); // Set the active index
-    if (slider) {
-      slider.slickGoTo(index); // Navigate to the slide at the given index
+  // Slider navigation handler
+  const handleSliderChange = (index) => {
+    if (onSlideChange) {
+      onSlideChange(index); // Pass the active index to the parent
     }
-
-    // Set the selected scent in the parent component
-    const selectedScent = scents[index];
-    setSelectedScent(selectedScent);
   };
 
+  // Expose slider instance to parent
+  useImperativeHandle(ref, () => ({
+    slickGoTo: (index) => {
+      if (slider) {
+        slider.slickGoTo(index); // Navigate to the specific slide
+      }
+    },
+    slickPrev: () => {
+      if (slider) {
+        slider.slickPrev(); // Go to the previous slide
+      }
+    },
+    slickNext: () => {
+      if (slider) {
+        slider.slickNext(); // Go to the next slide
+      }
+    }
+  }));
+
   return (
-    <div className="w-full mx-auto h-[400px]">
+    <div className="w-full mx-auto h-full relative">
       <Slider
         {...settings}
         ref={(sliderInstance) => setSlider(sliderInstance)} // Set the slider instance
-        afterChange={(index) => setActiveIndex(index)} // Update active index on slide change
+        afterChange={handleSliderChange} // Update active index on slide change
+        className="h-[350px] rounded-br-[150px] overflow-hidden bg-palette-body-4 !flex justify-center items-center"
       >
         {/* Slider images */}
         {scents.map((scent) => (
-          <div key={scent.id} className="relative">
+          <div key={scent.id} className="p-2 relative bg-palette-body-4 !flex justify-center items-center">
             <img
-              src={scent.image} 
+              src={scent.image}
               alt={scent.name}
-              className="w-full h-auto rounded-lg"
+              className="bg-palette-white rounded-full border-2 border-palette-white"
             />
           </div>
         ))}
       </Slider>
 
-      {/* Buttons to control the slider */}
-      <div className="flex justify-center space-x-4 mt-4">
-        {scents.map((scent, index) => (
-          <button
-            key={scent.id}
-            onClick={() => handleButtonClick(index)}
-            className={`px-6 py-2 text-white rounded-md transition-colors duration-300 ${
-              activeIndex === index ? "bg-blue-500 hover:bg-blue-600" : "bg-gray-500 hover:bg-gray-600"
-            }`}
-          >
-            {scent.name}
-          </button>
-        ))}
-      </div>
+      {/* Left button */}
+      <button
+        className="absolute left-4 top-1/2 transform -translate-y-1/2 text-palette-mimi-pink-2 p-1 rounded-full z-10"
+        onClick={() => slider && slider.slickPrev()}
+      >
+        <FontAwesomeIcon icon={faArrowLeft} /> {/* Left arrow icon */}
+      </button>
+
+      {/* Right button */}
+      <button
+        className="absolute right-4 top-1/2 transform -translate-y-1/2 text-palette-mimi-pink-2 p-1 rounded-full z-10"
+        onClick={() => slider && slider.slickNext()}
+      >
+        <FontAwesomeIcon icon={faArrowRight} /> {/* Corrected FontAwesome icon */}
+      </button>
     </div>
   );
-}
+});
+
+export default CustomPaging;

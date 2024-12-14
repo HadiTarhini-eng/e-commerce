@@ -57,15 +57,19 @@ const ProductCardHolder = ({ selectedCategories }) => {
     : 'All Products';
 
   return (
-    <div className="w-full max-w-2xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden p-6 mt-8">
-      <div className="font-bold text-rich-pink text-2xl mb-4">
-        Products
-        <div className="text-sm text-dark-charcoal mt-1">{categoryLabel}</div>
+    <div className="w-full max-w-2xl mx-auto bg-palette-body overflow-hidden mb-20">
+      <div className="w-full font-bold text-black text-2xl p-4 mb-4 flex flex-col items-start gap-4">
+        {/* Title and Label (stacked vertically) */}
+        <div className="flex flex-col">
+          <div>Products</div>
+          <div className="text-sm text-dark-charcoal mt-1">{categoryLabel}</div>
+        </div>
+
+        {/* Search Bar */}
+        <Search placeholder="Search items..." onSearchChange={setSearchTerm} />
       </div>
 
-      <Search placeholder="Search for products..." onSearchChange={setSearchTerm} />
-
-      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-4">
+      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4 mt-4">
         {filteredProducts.length > 0 ? (
           filteredProducts.map((product) => {
             const { newPrice, oldPrice, chipText, chipColor } = calculateDiscount(product);

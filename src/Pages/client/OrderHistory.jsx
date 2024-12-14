@@ -28,7 +28,7 @@ const OrderHistory = () => {
     };
 
     return (
-        <div className="relative flex flex-col my-6 bg-white shadow-sm border border-slate-200 rounded-lg w-96 mt-12">
+        <div className="relative flex flex-col my-6 bg-white shadow-sm border border-slate-200 rounded-lg w-full mt-8">
             <div className="p-4">
                 <div className="mb-4 flex items-center justify-between">
                     <h5 className="text-slate-800 text-lg font-semibold">
