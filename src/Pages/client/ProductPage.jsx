@@ -4,7 +4,6 @@ import ProductInfo from '../../components/client/product/ProductInfo';
 import AddToCart from '../../components/client/product/AddToCart';
 import Description from '../../components/client/product/Description';
 import ReviewContainer from '../../components/client/product/ReviewContainer';
-import SubmitReview from '../../components/client/product/SubmitReview';
 import { fetchProductById } from '../../api/ClientApi';
 import { calculateDiscount } from '../../utils/discountUtils';  // Import the discount calculation utility
 
@@ -71,9 +70,9 @@ const ProductPage = () => {
     : [{ id: 0, image: updatedProduct.image }];
 
   return (
-    <div className="min-h-screen bg-light-cream flex flex-col items-center w-full mt-12">
+    <div className="min-h-screen bg-palette-body-3 flex flex-col items-center w-full mt-10">
       {/* Product Info */}
-      <div className="w-full max-w-lg px-4 mt-4">
+      <div className="w-full max-w-lg">
         <ProductInfo
           images={slides}
           title={updatedProduct.title}
@@ -87,23 +86,18 @@ const ProductPage = () => {
       </div>
 
       {/* Add To Cart */}
-      <div className="w-full max-w-lg px-4 mt-4">
+      <div className="w-full max-w-lg px-4 mt-4 bg-palette-white p-2">
         <AddToCart product={updatedProduct} selectedScent={selectedScent} hasScents={hasScents} />
       </div>
 
       {/* Description */}
-      <div className="w-full max-w-screen-lg px-4">
+      <div className="w-full max-w-screen-lg">
         <Description description={product.description} />
       </div>
 
       {/* Review Container */}
-      <div className="w-full max-w-screen-lg px-4">
-        <ReviewContainer reviews={product.reviews} />
-      </div>
-
-      {/* Submit Review */}
-      <div className="w-full max-w-screen-lg px-4 mb-20">
-        <SubmitReview productId={product.id} onSubmitReview={handleSubmitReview} />
+      <div className="w-full max-w-screen-lg mb-20">
+        <ReviewContainer reviews={product.reviews} productId={product.id} onSubmitReview={handleSubmitReview} />
       </div>
     </div>
   );

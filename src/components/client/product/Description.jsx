@@ -11,9 +11,9 @@ const Description = ({ description }) => {
   }, [description]);
 
   return (
-    <div className="w-full max-w-2xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden p-6 mt-8">
+    <div className="w-full max-w-2xl mx-auto bg-palette-white rounded-lg overflow-hidden p-4 mt-4">
       {/* Title */}
-      <h2 className="text-xl font-semibold text-gray-800">Description</h2>
+      <h2 className="text-xl font-semibold text-gray-800">Specifications</h2>
 
       {/* Conditional Rendering for Skeleton Loader or Description */}
       <div className="mt-4">

@@ -2,20 +2,18 @@ import React, { useState } from 'react';
 import toast from 'react-hot-toast';
 
 const SubmitReview = ({ productId, onSubmitReview }) => {
-  const [name, setName] = useState('');
   const [comment, setComment] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [clicked, setClicked] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);  // New state for submission process
 
-  const handleNameChange = (e) => setName(e.target.value);
   const handleReviewChange = (e) => setComment(e.target.value);
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (name.trim() === '' || comment.trim() === '') {
-      setErrorMessage('Name and Review cannot be empty.');
+    if (comment.trim() === '') {
+      setErrorMessage('Review cannot be empty.');
       return;
     }
 
@@ -25,14 +23,12 @@ const SubmitReview = ({ productId, onSubmitReview }) => {
     // Call the parent onSubmitReview callback
     onSubmitReview({
       productId,
-      name,
       comment,
       date: new Date().toISOString().split('T')[0], // Current date in YYYY-MM-DD format
     });
 
     // Reset form after a short delay to simulate loading process
     setTimeout(() => {
-      setName('');
       setComment('');
       setErrorMessage('');
       setIsSubmitting(false);
@@ -43,8 +39,7 @@ const SubmitReview = ({ productId, onSubmitReview }) => {
   };
 
   return (
-    <div className="w-full max-w-xl mx-auto p-6 rounded-lg bg-white mt-8">
-      <h2 className="text-xl font-semibold mb-4 text-gray-800">Submit Your Review</h2>
+    <div className="w-full max-w-xl mx-auto p-6 rounded-lg bg-white">
       
       {errorMessage && <div className="text-red-500 text-sm mb-4">{errorMessage}</div>}
 
@@ -59,21 +54,6 @@ const SubmitReview = ({ productId, onSubmitReview }) => {
         </div>
       ) : (
         <form onSubmit={handleSubmit} className="space-y-4">
-          {/* Name Input */}
-          <div>
-            <label htmlFor="name" className="block text-sm font-medium text-gray-700">
-              Your Name
-            </label>
-            <input
-              type="text"
-              id="name"
-              value={name}
-              onChange={handleNameChange}
-              className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600"
-              placeholder="Enter your name"
-              required
-            />
-          </div>
 
           {/* Review Input */}
           <div>
@@ -94,7 +74,7 @@ const SubmitReview = ({ productId, onSubmitReview }) => {
           {/* Submit Button */}
           <button
             type='Submit'
-            className={`relative inline-flex items-center justify-center w-fit p-3 font-bold h-8 bg-blue-500 text-white rounded-md transition duration-300 ease-out ${clicked ? 'animate-click' : ''}`}
+            className={`relative inline-flex items-center justify-center w-fit p-3 font-bold h-8 bg-palette-button text-white rounded-md transition duration-300 ease-out ${clicked ? 'animate-click' : ''}`}
           >
             {/* Animation background span */}
             <span

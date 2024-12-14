@@ -46,19 +46,10 @@ const Cart = () => {
   const total = calculateTotals();
   
   return (
-    <div className="min-h-screen flex flex-col items-center w-full mt-10">
+    <div className="min-h-screen flex flex-col items-center w-full">
       <section className="py-6 md:py-24 relative">
-        <h2 className="text-2xl font-semibold text-dark-charcoal m-6">Shopping Cart</h2>
+        <h2 className="text-2xl font-semibold text-dark-charcoal m-6">Your Cart</h2>
         <div className="w-full max-w-7xl px-4 md:px-5 lg-6 mx-auto">
-          {/* Table Header */}
-          <div className="hidden lg:grid grid-cols-2 py-6">
-            <div className="font-normal text-xl leading-8 text-gray-500">Product</div>
-            <p className="font-normal text-xl leading-8 text-gray-500 flex items-center justify-between">
-              <span className="w-full max-w-[150px] text-center">Quantity</span>
-              <span className="w-full max-w-[150px] text-center">Total</span>
-            </p>
-          </div>
-
           {/* Show loading spinner while fetching data */}
           {loading ? (
             <div className="flex justify-center items-center h-full">

@@ -139,7 +139,7 @@ const CheckoutForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="mx-auto w-full px-10 2xl:px-0 mt-12 mb-16">
+    <form onSubmit={handleSubmit} className="mx-auto w-full px-4 2xl:px-0 mt-6 mb-16">
       <div className="mt-6 sm:mt-8 lg:flex lg:items-start lg:gap-12 xl:gap-16">
         <div className="min-w-0 flex-1 space-y-8">
           {/* Personal Details */}

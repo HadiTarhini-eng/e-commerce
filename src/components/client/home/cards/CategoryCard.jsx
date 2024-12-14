@@ -13,14 +13,14 @@ const CategoryCard = ({ image, title, onClick }) => {
   return (
     <div
       onClick={handleCardClick}
-      className={`relative p-4 max-w-[16rem] rounded-md bg-white shadow-md cursor-pointer 
-        transition-all duration-300 ease-in-out transform 
-        hover:scale-105
-        ${isActive ? 'bg-rich-pink' : 'hover:bg-light-cream'}`} // Ensure 'bg-soft-pink' is applied correctly
+      className={`relative p-2 max-w-[16rem] rounded-md 
+        cursor-pointer transition-all duration-300 ease-in-out transform 
+        hover:bg-palette-mimi-pink-2 border-2 
+        ${isActive ? 'bg-palette-mimi-pink-2 text-palette-white' : 'bg-palette-white text-gray-700'}`} // Background and text color based on active state
     >
       <div className="flex justify-center mb-2">
         <img
-          className="w-20 h-20 object-cover rounded-full"
+          className="w-full h-full object-cover rounded-full"
           src={image}
           alt={title}
         />
@@ -28,9 +28,8 @@ const CategoryCard = ({ image, title, onClick }) => {
 
       {/* Title with responsive font size and text truncation */}
       <h3
-        className={`text-center font-semibold text-dark-charcoal transition-colors duration-300
-          ${isActive ? 'text-white' : 'text-gray-700'} 
-          `}
+        className={`text-center font-semibold transition-colors duration-300 
+          ${isActive ? 'text-palette-white' : 'text-gray-700'}`}
         style={{
           fontSize: 'clamp(0.875rem, 2.5vw, 1rem)', // Responsive font size
         }}
