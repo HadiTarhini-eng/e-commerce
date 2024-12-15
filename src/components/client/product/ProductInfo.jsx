@@ -3,8 +3,9 @@ import CustomPaging from './CustomPaging';
 import toast from 'react-hot-toast';
 import { useAuth } from '../AuthContext';
 import { useNavigate } from 'react-router-dom';
+import { toggleFavoriteStatus } from '../../../api/clientApi';
 
-const ProductInfo = ({ images, title, newPrice, oldPrice, chipText, chipColor, setSelectedScent, hasScents }) => {
+const ProductInfo = ({ images, title, newPrice, oldPrice, chipText, chipColor, setSelectedScent, hasScents, productId }) => {
   const isLoading = !images || !title || !newPrice;
 
   const [isFavorited, setIsFavorited] = useState(false);
@@ -23,15 +24,25 @@ const ProductInfo = ({ images, title, newPrice, oldPrice, chipText, chipColor, s
     }
   };
 
-  const toggleFavorite = () => {
+  const toggleFavorite = async () => {
     if (!isLoggedIn) {
       navigate('/signin');
     } else {
-      setIsFavorited((prevState) => !prevState);
-      if (isFavorited) {
-        toast.error(`${title} removed from favorites!`);
-      } else {
-        toast.success(`${title} added to favorites!`);
+      try {
+        const newFavoriteStatus = !isFavorited;
+
+        // Call the API to update the favorite status on the backend
+        await toggleFavoriteStatus(productId, newFavoriteStatus);
+
+        // Update the local state after successful API call
+        setIsFavorited(newFavoriteStatus);
+
+        // Show toast based on the action
+        newFavoriteStatus
+          ? toast.success(`${title} added to favorites!`)
+          : toast.error(`${title} removed from favorites!`);
+      } catch (error) {
+        toast.error('Failed to update favorite status. Please try again.');
       }
     }
   };

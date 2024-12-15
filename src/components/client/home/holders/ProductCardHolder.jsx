@@ -3,7 +3,7 @@ import ProductCard from '../cards/ProductCard'; // Assuming ProductCard is in th
 import { calculateDiscount } from '../../../../utils/discountUtils'; // Import the discount calculation function
 import { fetchProductsData } from '../../../../api/clientApi';
 
-const ProductCardHolder = ({ selectedCategories, searchTerm }) => {
+const ProductCardHolder = ({ selectedCategories, searchTerm, fromFavorites }) => {
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -81,6 +81,7 @@ const ProductCardHolder = ({ selectedCategories, searchTerm }) => {
                 chipColor={chipColor}
                 destination={product.destination}
                 isFavorited={product.isFavorited}
+                fromFavorites={fromFavorites}
               />
             );
           })

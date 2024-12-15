@@ -202,3 +202,48 @@ export const postSignUpData = async (userData) => {
     throw error; // Propagate the error
   }
 };
+
+
+///////////// POST ///////////////////// FAVORITE ///////////// POST /////////////////////
+
+// Post Favorite Status Data (send product id and favorite status to backend)
+export const toggleFavoriteStatus = async (productId, favoriteStatus) => {
+  try {
+    const response = await axios.post('http://localhost/e-commerce/src/backend/favoriteStatus.php', {
+      productId,
+      favoriteStatus,
+    });
+
+    if (response.status !== 200) {
+      throw new Error('Failed to update favorite status');
+    }
+
+    return response.data; // Return the response from the server (could be a success message or updated data)
+  } catch (error) {
+    console.error('Error while updating favorite status:', error);
+    throw error; // Propagate the error to the calling function
+  }
+};
+
+
+///////////// POST ///////////////////// REVIEW ///////////// POST /////////////////////
+
+// Submit Review Data (send product id and review details to backend)
+export const submitReview = async (productId, reviewData) => {
+  try {
+    const response = await axios.post('http://localhost/e-commerce/src/backend/submitReview.php', {
+      productId,
+      comment: reviewData.comment,
+      date: reviewData.date,
+    });
+
+    if (response.status !== 200) {
+      throw new Error('Failed to submit review');
+    }
+
+    return response.data; // Return the response from the server (could be success message or review data)
+  } catch (error) {
+    console.error('Error while submitting review:', error);
+    throw error; // Propagate the error to the calling function
+  }
+};

@@ -70,6 +70,7 @@ const Home = () => {
         <ProductCardHolder 
           selectedCategories={selectedCategories}
           searchTerm={searchTerm} // Pass searchTerm to ProductCardHolder
+          fromFavorites={false}
         />
       </div>
     </div>

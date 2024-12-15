@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../AuthContext';
+import { submitReview } from '../../../api/clientApi';
 
 const SubmitReview = ({ productId, onSubmitReview }) => {
   const [comment, setComment] = useState('');
@@ -10,47 +11,59 @@ const SubmitReview = ({ productId, onSubmitReview }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);  // New state for submission process
   const navigate = useNavigate();
 
-  const { isLoggedIn } =  useAuth();
+  const { isLoggedIn } = useAuth();
 
   const handleReviewChange = (e) => setComment(e.target.value);
 
-  const handleSubmit = (e) => {
-    if(!isLoggedIn) {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!isLoggedIn) {
       navigate('/signin');
     } else {
-      e.preventDefault();
-  
       if (comment.trim() === '') {
         setErrorMessage('Review cannot be empty.');
         return;
       }
-  
-      // Simulate review submission by adding delay (this should be replaced with real submission logic)
+
       setIsSubmitting(true);
-  
-      // Call the parent onSubmitReview callback
-      onSubmitReview({
+
+      // Prepare the review data
+      const reviewData = {
         productId,
         comment,
         date: new Date().toISOString().split('T')[0], // Current date in YYYY-MM-DD format
-      });
-  
-      // Reset form after a short delay to simulate loading process
-      setTimeout(() => {
+      };
+
+      try {
+        // Call the submitReview API
+        const response = await submitReview(productId, reviewData);
+
+        // Assuming the response contains the submitted review, you can pass it to the parent component
+        if (onSubmitReview) {
+          onSubmitReview(response); // This could be to update the UI with the new review
+        }
+
+        // Show success toast
+        toast.success('Review Submitted!');
+        
+        // Reset the form and loading state
         setComment('');
         setErrorMessage('');
         setIsSubmitting(false);
-        toast.success(`Review Submitted!`);
         setClicked(true);
-        setTimeout(() => setClicked(false), 1000);
-      }, 2000); // 2 seconds to simulate submission delay
+        setTimeout(() => setClicked(false), 1000); // Button animation reset
 
+      } catch (error) {
+        // Handle error
+        toast.error('Failed to submit review. Please try again.');
+        setIsSubmitting(false);
+      }
     }
   };
 
   return (
     <div className="w-full max-w-xl mx-auto p-6 rounded-lg bg-white">
-      
       {errorMessage && <div className="text-red-500 text-sm mb-4">{errorMessage}</div>}
 
       {/* Conditional rendering for skeleton loader or form */}
@@ -64,7 +77,6 @@ const SubmitReview = ({ productId, onSubmitReview }) => {
         </div>
       ) : (
         <form onSubmit={handleSubmit} className="space-y-4">
-
           {/* Review Input */}
           <div>
             <label htmlFor="review" className="block text-sm font-medium text-gray-700">
@@ -83,7 +95,7 @@ const SubmitReview = ({ productId, onSubmitReview }) => {
 
           {/* Submit Button */}
           <button
-            type='Submit'
+            type="submit"
             className={`relative inline-flex items-center justify-center w-fit p-3 font-bold h-8 bg-palette-button text-white rounded-md transition duration-300 ease-out ${clicked ? 'animate-click' : ''}`}
           >
             {/* Animation background span */}
@@ -97,7 +109,7 @@ const SubmitReview = ({ productId, onSubmitReview }) => {
                 </svg>
               )}
             </span>
-            
+
             {/* Default content of the button */}
             <span
               className={`relative z-10 transition-all duration-300 ease ${clicked ? 'opacity-0' : 'opacity-100'}`}

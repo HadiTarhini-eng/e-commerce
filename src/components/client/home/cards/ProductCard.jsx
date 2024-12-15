@@ -7,6 +7,7 @@ import { useAuth } from '../../AuthContext';
 
 // Import Heroicons (Plus icon in this case)
 import { PlusIcon } from '@heroicons/react/24/solid';
+import { toggleFavoriteStatus } from '../../../../api/clientApi';
 
 const ProductCard = ({
   id,
@@ -18,6 +19,7 @@ const ProductCard = ({
   chipColor,
   destination,
   isFavorited: initialFavoriteStatus,
+  fromFavorites,
 }) => {
   const [isActive, setIsActive] = useState(false);
   const [clicked, setClicked] = useState(false);
@@ -27,15 +29,26 @@ const ProductCard = ({
 
   const { isLoggedIn } =  useAuth();
 
-  const toggleFavorite = () => {
-    if(!isLoggedIn) {
-      // toast.error('You must sign in to perform this action!');
+  const toggleFavorite = async () => {
+    if (!isLoggedIn) {
       navigate('/signin');
     } else {
-      setIsFavorited((prevState) => !prevState);
-      isFavorited
-        ? toast.error(`${title} removed from favorites!`)
-        : toast.success(`${title} added to favorites!`);
+      try {
+        const newFavoriteStatus = !isFavorited;
+  
+        // Call the API to update the favorite status on the backend
+        await toggleFavoriteStatus(id, newFavoriteStatus);
+  
+        // Update the local state after successful API call
+        setIsFavorited(newFavoriteStatus);
+  
+        // Show toast based on the action
+        newFavoriteStatus
+          ? toast.success(`${title} added to favorites!`)
+          : toast.error(`${title} removed from favorites!`);
+      } catch (error) {
+        toast.error('Failed to update favorite status. Please try again.');
+      }
     }
   };
 
