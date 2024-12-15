@@ -8,9 +8,9 @@ import { calculateDiscount } from '../../utils/discountUtils';  // Import the di
 import { fetchProductById } from '../../api/clientApi';
 
 const scentsData = [
-  { id: "product1", scentName: "Mint", scentImage: "/product1.png" },
-  { id: "product2", scentName: "Lavender", scentImage: "/product2.png" },
-  { id: "product3", scentName: "Rose", scentImage: "/product3.png" }
+  { id: "1", scentName: "Mint", scentImage: "/product1.png" },
+  { id: "2", scentName: "Lavender", scentImage: "/product2.png" },
+  { id: "3", scentName: "Rose", scentImage: "/product3.png" }
 ];
 
 const ProductPage = () => {

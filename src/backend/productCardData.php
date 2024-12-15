@@ -5,7 +5,7 @@ header('Content-Type: application/json');
 
 $query = "
     SELECT p.id, p.productName, p.discount, p.price, p.description, p.categoryID,p.image, c.categoryName,
-           r.id AS reviewID, concat(u.firstName,' ',u.lastName) AS username, r.description AS reviewComment, r.date AS reviewDate
+           r.id AS reviewID, fullName AS username, r.description AS reviewComment, r.date AS reviewDate
     FROM products p
     JOIN categories c ON p.categoryID = c.id
     LEFT JOIN reviews r ON p.id = r.productID

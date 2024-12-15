@@ -182,7 +182,7 @@ export const postSignInData = async (credentials) => {
     }
 
     // Assuming the backend returns a status message (true or false) as a string
-    return response.data; // For example, response.data might be "true" or "false"
+    return response.data.message; // For example, response.data might be "true" or "false"
   } catch (error) {
     console.error('Error during sign-in:', error);
     throw error; // Propagate the error

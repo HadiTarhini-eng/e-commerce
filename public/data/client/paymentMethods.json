@@ -1,19 +1,19 @@
 {
     "paymentMethods": [
       {
-        "id": "visa-card",
+        "id": "1",
         "label": "Visa Card",
         "value": "visa-card",
         "display": true
       },
       {
-        "id": "pay-on-delivery",
+        "id": "2",
         "label": "Cash on delivery",
         "value": "pay-on-delivery",
         "display": false
       },
       {
-        "id": "wish",
+        "id": "3",
         "label": "Wish",
         "value": "wish",
         "display": false

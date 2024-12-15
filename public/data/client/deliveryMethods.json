@@ -1,19 +1,19 @@
 {
     "deliveryMethods": [
       {
-        "id": "Pick up",
+        "id": "1",
         "label": "Pick up",
         "value": "pickUp",
         "description": "No charge - Only available in Saida"
       },
       {
-        "id": "Wakilni",
+        "id": "2",
         "label": "Wakilini",
         "value": "wakilni",
         "description": "Delivery charge: 10$"
       },
       {
-        "id": "Delivery",
+        "id": "3",
         "label": "Delivery",
         "value": "delivery",
         "description": "3$ - Only available in Saida"

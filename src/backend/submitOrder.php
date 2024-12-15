@@ -1,12 +1,12 @@
 <?php
 include 'connection.php';
- session_start();
 
 $input = file_get_contents('php://input');
 
 $data = json_decode($input, true);
-$userID=$_SESSION['userID'];
 
+$userID=$_SESSION['id'];
+var_dump($userID);die;
 if ($data === null) {
     echo json_encode(["error" => "Invalid JSON payload"]);
     http_response_code(400);
@@ -16,7 +16,7 @@ if ($data === null) {
 $checkoutData = $data['checkoutData'];
 $cartData = $data['cart'];
 
-$sql = "INSERT INTO orders (userID,name, email, phone,city, address, 
+$sql = "INSERT INTO orders (userID,name, email, phone, address, 
         paymentID ,deliveryID, gift, note,Date,statusID,totalPrice,DeliveryCost,totalPriceWithDel)
         VALUES (?,?, ?, ?, ?, ?,?, ?, ?, ?,?,?,?,?,?)";
 $stmt = $conn->prepare($sql);
@@ -26,7 +26,6 @@ $stmt->bind_param(
     $checkoutData['name'], 
     $checkoutData['email'], 
     $checkoutData['phoneNumber'], 
-    $checkoutData['city'], 
     $checkoutData['address'], 
     $checkoutData['paymentMethod'], 
     $checkoutData['deliveryMethod'], 

@@ -63,7 +63,7 @@ const SignIn = () => {
       try {
         const response = await postSignInData(credentials);
   
-        if (response === "true") { // Assuming backend returns "true" if credentials are valid
+        if (response === "Sign-in successful") { // Assuming backend returns "true" if credentials are valid
           login({ email }); // You can also return user data if needed
           toast.success('Successfully signed in!');
           navigate('/'); // Redirect to home page after successful sign-in
