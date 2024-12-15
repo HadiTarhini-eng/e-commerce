@@ -1,10 +1,9 @@
-import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import toast from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
 import { updateCheckoutData } from '../../redux/cartSlice';
 import { useNavigate } from 'react-router-dom';
-import { fetchDeliveryMethods, fetchFormFields, fetchPaymentMethods } from '../../api/ClientApi';
+import { fetchDeliveryMethods, fetchFormFields, fetchPaymentMethods } from '../../api/clientApi';
 
 const CheckoutForm = () => {
   const dispatch = useDispatch();
@@ -219,16 +218,16 @@ const CheckoutForm = () => {
           </div>
 
           {/* Note for Driver (conditional) */}
-          {formData.deliveryMethod === 'wakilni' && (
+          {(formData.deliveryMethod === 'wakilni' || formData.deliveryMethod === 'pickUp' || formData.deliveryMethod === 'delivery') && (
             <div className="space-y-4">
               <label htmlFor="noteForDriver" className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
-                Note for Driver
+                Add Note
               </label>
               <textarea
                 id="noteForDriver"
                 value={formData.noteForDriver}
                 onChange={handleChange}
-                placeholder="Please add any instructions for the driver."
+                placeholder="Please add any instructions."
                 className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
                 rows="3"
               />

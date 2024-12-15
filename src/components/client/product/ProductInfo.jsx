@@ -1,18 +1,22 @@
 import React, { useState, useRef } from 'react';
 import CustomPaging from './CustomPaging';
-import toast from 'react-hot-toast'; // To show success/error messages
+import toast from 'react-hot-toast';
+import { useAuth } from '../AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 const ProductInfo = ({ images, title, newPrice, oldPrice, chipText, chipColor, setSelectedScent, hasScents }) => {
-  const isLoading = !images || !title || !newPrice; // Loading condition
+  const isLoading = !images || !title || !newPrice;
 
-  const [isFavorited, setIsFavorited] = useState(false); // Track the favorite state
-  const sliderRef = useRef(null); // Reference to the CustomPaging slider
-  const [activeIndex, setActiveIndex] = useState(0); // Track the active scent index
+  const [isFavorited, setIsFavorited] = useState(false);
+  const sliderRef = useRef(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const navigate = useNavigate();
+  const { isLoggedIn } = useAuth();
 
   const handleButtonClick = (index) => {
     setActiveIndex(index);
-    const selectedScent = images[index];
-    setSelectedScent(selectedScent);
+    const selectedScent = images[index]; // This is the selected scent object
+    setSelectedScent(selectedScent); // Update the parent state with the selected scent
 
     if (sliderRef.current) {
       sliderRef.current.slickGoTo(index); // Scroll to the selected scent image
@@ -20,11 +24,15 @@ const ProductInfo = ({ images, title, newPrice, oldPrice, chipText, chipColor, s
   };
 
   const toggleFavorite = () => {
-    setIsFavorited((prevState) => !prevState);
-    if (isFavorited) {
-      toast.error(`${title} removed from favorites!`);
+    if (!isLoggedIn) {
+      navigate('/signin');
     } else {
-      toast.success(`${title} added to favorites!`);
+      setIsFavorited((prevState) => !prevState);
+      if (isFavorited) {
+        toast.error(`${title} removed from favorites!`);
+      } else {
+        toast.success(`${title} added to favorites!`);
+      }
     }
   };
 
@@ -37,7 +45,7 @@ const ProductInfo = ({ images, title, newPrice, oldPrice, chipText, chipColor, s
       <div className="relative bg-palette-white">
         {hasScents ? (
           <CustomPaging
-            ref={sliderRef} // Pass the ref to CustomPaging
+            ref={sliderRef}
             setSelectedScent={setSelectedScent}
             scents={images}
             onSlideChange={setActiveIndex}
@@ -59,10 +67,9 @@ const ProductInfo = ({ images, title, newPrice, oldPrice, chipText, chipColor, s
             </div>
 
             <div className="flex flex-col items-center gap-4">
-              {/* Heart Icon */}
               <div
                 className="cursor-pointer"
-                onClick={toggleFavorite} // Toggle favorite status
+                onClick={toggleFavorite}
               >
                 {isFavorited ? (
                   <svg
@@ -91,7 +98,6 @@ const ProductInfo = ({ images, title, newPrice, oldPrice, chipText, chipColor, s
                 )}
               </div>
 
-              {/* Discount Chip */}
               {chipText && (
                 <div
                   className={`inline-block px-2 py-1 rounded-full text-sm font-semibold text-white ${chipColor === 'green' ? 'bg-green-500' :
@@ -115,8 +121,7 @@ const ProductInfo = ({ images, title, newPrice, oldPrice, chipText, chipColor, s
               <button
                 key={scent.id}
                 onClick={() => handleButtonClick(index)}
-                className={`px-2 py-0 text-sm text-palette-complement-3 rounded-full transition-colors duration-300 ${activeIndex === index ? "border-2 border-palette-mimi-pink-2" : "border-2 border-grey"
-                  }`}
+                className={`px-2 py-0 text-sm text-palette-complement-3 rounded-full transition-colors duration-300 ${activeIndex === index ? "border-2 border-palette-mimi-pink-2" : "border-2 border-grey"}`}
               >
                 {scent.name}
               </button>

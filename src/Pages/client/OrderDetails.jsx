@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import { fetchOrderDetailsById } from '../../api/ClientApi';
+import { fetchOrderDetailsById } from '../../api/clientApi';
 
 const OrderDetails = () => {
     const { orderID } = useParams();
@@ -38,7 +38,7 @@ const OrderDetails = () => {
     const { total, shipping, subtotal, products, status } = orderData;
 
     return (
-        <div className="w-full max-w-7xl px-4 md:px-5 lg-6 mx-auto no-scrollbar mt-20 mb-20">
+        <div className="w-full max-w-7xl px-4 md:px-5 lg-6 mx-auto no-scrollbar mt-12 mb-20">
             <div className="flex items-start flex-col gap-6 xl:flex-row">
                 {/* Order Details Section */}
                 <div className="w-full max-w-sm md:max-w-3xl xl:max-w-sm flex items-start flex-col gap-8 max-xl:mx-auto">

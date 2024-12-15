@@ -2,8 +2,8 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { clearCart, clearCheckoutData } from '../../redux/cartSlice';
-import { submitOrder } from '../../api/ClientApi';
 import toast from 'react-hot-toast';
+import { submitOrder } from '../../api/clientApi';
 
 const PaymentPage = () => {
   const navigate = useNavigate(); // Initialize useNavigate hook

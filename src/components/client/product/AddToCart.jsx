@@ -5,11 +5,16 @@ import { useDispatch } from 'react-redux'; // Import useDispatch
 import { addToCart } from '../../../redux/cartSlice'; // Import the addToCart action
 import { PlusIcon } from '@heroicons/react/24/solid';
 import { MinusIcon } from '@heroicons/react/24/solid';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../AuthContext';
 
 const AddToCart = ({ product, selectedScent, hasScents }) => {
   const dispatch = useDispatch(); // Access the dispatch function from Redux
   const [quantity, setQuantity] = useState(1);
   const [clicked, setClicked] = useState(false);
+  const navigate = useNavigate();
+
+  const { isLoggedIn } =  useAuth();
 
   const increaseQuantity = () => {
     setQuantity(prevQuantity => prevQuantity + 1);
@@ -21,32 +26,47 @@ const AddToCart = ({ product, selectedScent, hasScents }) => {
     }
   };
 
+  const defaultScent = {
+    id: 'default',
+    scentName: 'default',
+    scentImage: 'default',
+  };
+
   // Handle Add to Cart functionality
   const handleAddToCart = () => {
-    setClicked(true);
+    if(!isLoggedIn) {
+      navigate('/signin');
+    } else {
+      setClicked(true);
+  
+      // Dispatch the product details to the cart
+      dispatch(addToCart({
+        productId: product.id,
+        title: product.title,
+        newPrice: product.newPrice,
+        oldPrice: product.oldPrice,
+        image: product.image,
+        quantity,
+        chipText: product.chipText,
+        chipColor: product.chipColor,
+        ...(hasScents && selectedScent ? {
+          scentId: selectedScent.id,
+          scentName: selectedScent.scentName,
+          scentImage: selectedScent.scentImage, // Ensure you're using scentImage, not image
+        } : {
+          scentId: defaultScent.id,
+          scentName: defaultScent.scentName,
+          scentImage: defaultScent.scentImage,
+        })
+      }))
+  
+      // Display a success toast when the item is added to the cart
+      toast.success(`${quantity} item(s) added to the cart!`);
+  
+      // Trigger the button animation
+      setTimeout(() => setClicked(false), 1000);
 
-    // Dispatch the product details to the cart
-    dispatch(addToCart({
-      productId: product.id,
-      title: product.title,
-      newPrice: product.newPrice,
-      oldPrice: product.oldPrice,
-      image: product.image,
-      quantity,
-      chipText: product.chipText,
-      chipColor: product.chipColor,
-      ...(hasScents && selectedScent ? {
-        scentId: selectedScent.id,
-        scentName: selectedScent.scentName,
-        scentImage: selectedScent.image,
-      } : {})
-    }));
-
-    // Display a success toast when the item is added to the cart
-    toast.success(`${quantity} item(s) added to the cart!`);
-
-    // Trigger the button animation
-    setTimeout(() => setClicked(false), 1000);
+    }
   };
 
   return (

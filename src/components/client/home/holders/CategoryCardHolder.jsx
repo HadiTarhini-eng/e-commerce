@@ -34,7 +34,7 @@ const CategoryCardHolder = ({ page, title, onCategorySelection }) => {
   );
 
   return (
-    <div className="w-full max-w-2xl mx-auto bg-palette-body rounded-lg overflow-hidden p-2 mt-2">
+    <div className="w-full max-w-2xl mx-auto bg-palette-body-3 rounded-lg overflow-hidden p-2 mt-2">
       {/* Categories Heading */}
       {/* <h2 className="text-2xl font-semibold text-taupe-brown mb-6">{title}</h2> */}
 

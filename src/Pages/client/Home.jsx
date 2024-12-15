@@ -3,11 +3,13 @@ import Carousel from '../../components/client/home/Carousel';
 import CategoryCardHolder from '../../components/client/home/holders/CategoryCardHolder';
 import ProductCardHolder from '../../components/client/home/holders/ProductCardHolder';
 import Ads from '../../components/client/home/Ads';
-import { fetchCarouselData } from '../../api/ClientApi';
+import SearchBar from '../../components/client/home/SearchBar';
+import { fetchCarouselData } from '../../api/clientApi';
 
 const Home = () => {
   const [carouselData, setCarouselData] = useState([]);
-  const [selectedCategories, setSelectedCategories] = useState([]);  
+  const [selectedCategories, setSelectedCategories] = useState([]);
+  const [searchTerm, setSearchTerm] = useState(''); // State for search term
 
   useEffect(() => {
     // Define an inner async function and call it immediately
@@ -47,7 +49,12 @@ const Home = () => {
   };
 
   return (
-    <div className="min-h-screen bg-palette-body flex flex-col items-center w-full mt-12">
+    <div className="min-h-screen bg-palette-body-3 flex flex-col items-center w-full mt-10">
+      {/* Search Bar */}
+      <div className="w-full max-w-screen-lg px-4 mt-4">
+        <SearchBar placeholder="Search in Blush&eacute;" onSearchChange={setSearchTerm} />
+      </div>
+
       {/* Carousel */}
       <div className="w-full max-w-lg mt-4 px-2">
         <Carousel slides={carouselData} settings={customSettings} />
@@ -55,18 +62,14 @@ const Home = () => {
 
       {/* Category Cards Holder */}
       <div className="w-full max-w-screen-lg px-4">
-        <CategoryCardHolder page='Home' title='Categories' onCategorySelection={handleCategorySelection} />
-      </div>
-
-      {/* Ads Section */}
-      <div className="w-full max-w-screen-lg px-4 mt-8">
-        <Ads />
+        <CategoryCardHolder page="Home" title="Categories" onCategorySelection={handleCategorySelection} />
       </div>
 
       {/* Product Cards Holder */}
       <div className="w-full max-w-screen-lg">
         <ProductCardHolder 
           selectedCategories={selectedCategories}
+          searchTerm={searchTerm} // Pass searchTerm to ProductCardHolder
         />
       </div>
     </div>

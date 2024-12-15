@@ -21,6 +21,7 @@ module.exports = {
         'rich-pink': '#F962A0',
         'dark-charcoal': '#4A4A4A',
         'taupe-brown': '#6D4C41',
+        'completed': '#4BB543',
         primary: { 
           "50": "#eff6ff", 
           "100": "#dbeafe", 

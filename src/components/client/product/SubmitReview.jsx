@@ -1,41 +1,51 @@
 import React, { useState } from 'react';
 import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../AuthContext';
 
 const SubmitReview = ({ productId, onSubmitReview }) => {
   const [comment, setComment] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [clicked, setClicked] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);  // New state for submission process
+  const navigate = useNavigate();
+
+  const { isLoggedIn } =  useAuth();
 
   const handleReviewChange = (e) => setComment(e.target.value);
 
   const handleSubmit = (e) => {
-    e.preventDefault();
+    if(!isLoggedIn) {
+      navigate('/signin');
+    } else {
+      e.preventDefault();
+  
+      if (comment.trim() === '') {
+        setErrorMessage('Review cannot be empty.');
+        return;
+      }
+  
+      // Simulate review submission by adding delay (this should be replaced with real submission logic)
+      setIsSubmitting(true);
+  
+      // Call the parent onSubmitReview callback
+      onSubmitReview({
+        productId,
+        comment,
+        date: new Date().toISOString().split('T')[0], // Current date in YYYY-MM-DD format
+      });
+  
+      // Reset form after a short delay to simulate loading process
+      setTimeout(() => {
+        setComment('');
+        setErrorMessage('');
+        setIsSubmitting(false);
+        toast.success(`Review Submitted!`);
+        setClicked(true);
+        setTimeout(() => setClicked(false), 1000);
+      }, 2000); // 2 seconds to simulate submission delay
 
-    if (comment.trim() === '') {
-      setErrorMessage('Review cannot be empty.');
-      return;
     }
-
-    // Simulate review submission by adding delay (this should be replaced with real submission logic)
-    setIsSubmitting(true);
-
-    // Call the parent onSubmitReview callback
-    onSubmitReview({
-      productId,
-      comment,
-      date: new Date().toISOString().split('T')[0], // Current date in YYYY-MM-DD format
-    });
-
-    // Reset form after a short delay to simulate loading process
-    setTimeout(() => {
-      setComment('');
-      setErrorMessage('');
-      setIsSubmitting(false);
-      toast.success(`Review Submitted!`);
-      setClicked(true);
-      setTimeout(() => setClicked(false), 1000);
-    }, 2000); // 2 seconds to simulate submission delay
   };
 
   return (

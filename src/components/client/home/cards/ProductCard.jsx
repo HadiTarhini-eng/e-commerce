@@ -3,6 +3,7 @@ import toast from 'react-hot-toast';
 import { useDispatch } from 'react-redux'; 
 import { addToCart } from '../../../../redux/cartSlice';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../AuthContext';
 
 // Import Heroicons (Plus icon in this case)
 import { PlusIcon } from '@heroicons/react/24/solid';
@@ -24,10 +25,11 @@ const ProductCard = ({
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const isLoggedIn = true;
+  const { isLoggedIn } =  useAuth();
 
   const toggleFavorite = () => {
     if(!isLoggedIn) {
+      // toast.error('You must sign in to perform this action!');
       navigate('/signin');
     } else {
       setIsFavorited((prevState) => !prevState);
@@ -44,25 +46,29 @@ const ProductCard = ({
 
   const handleAddToCart = (e) => {
     e.stopPropagation(); // Prevent the click event from propagating
-    toast.success(`${title} added to the cart!`); // Show toast notification
-    setClicked(true);
-
-    // Dispatch action to add the product to the cart (with quantity set to 1)
-    dispatch(
-      addToCart({
-        productId: id,
-        title,
-        newPrice,
-        oldPrice,
-        image,
-        quantity: 1, // Always 1 for each product added from the ProductCard
-        chipText,
-        chipColor,
-      })
-    );
-
-    // Reset animation after a short delay (the duration of the animation)
-    setTimeout(() => setClicked(false), 500); // Animation lasts 500ms
+    if(!isLoggedIn) {
+      navigate('/signin');
+    } else {
+      toast.success(`${title} added to the cart!`); // Show toast notification
+      setClicked(true);
+  
+      // Dispatch action to add the product to the cart (with quantity set to 1)
+      dispatch(
+        addToCart({
+          productId: id,
+          title,
+          newPrice,
+          oldPrice,
+          image,
+          quantity: 1, // Always 1 for each product added from the ProductCard
+          chipText,
+          chipColor,
+        })
+      );
+  
+      // Reset animation after a short delay (the duration of the animation)
+      setTimeout(() => setClicked(false), 500); // Animation lasts 500ms
+    }
   };
 
   return (
@@ -72,7 +78,7 @@ const ProductCard = ({
     >
       {/* Chip */}
       <div
-        className={`absolute top-2 left-2 px-2 py-1 text-white text-xs rounded-xl`}
+        className={`absolute top-2 left-2 px-1 py-[1px] text-white text-xs rounded-xl`}
         style={{ backgroundColor: chipColor }}
       >
         {chipText}
@@ -80,7 +86,7 @@ const ProductCard = ({
       
       {/* Heart Icon */}
       <div
-        className={'absolute top-2 right-2 cursor-pointer transition-colors'}
+        className={'absolute top-[7px] right-2 cursor-pointer transition-colors'}
         onClick={(e) => {
           e.stopPropagation();
           toggleFavorite();
@@ -90,7 +96,7 @@ const ProductCard = ({
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="currentColor"
-            className="w-6 h-6 text-red-500"
+            className="w-5 h-5 text-red-500"
             viewBox="0 0 24 24"
           >
             <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
@@ -99,7 +105,7 @@ const ProductCard = ({
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
-            className="w-6 h-6 text-gray-400"
+            className="w-5 h-5 text-gray-400"
             viewBox="0 0 24 24"
             stroke="currentColor"
           >
@@ -114,46 +120,46 @@ const ProductCard = ({
       </div>
 
       {/* Image */}
-      <img src={image} alt={title} className="w-full h-40 object-cover rounded-md" />
+      <img src={image} alt={title} className="w-full h-fit object-cover rounded-md mt-3" />
 
       {/* Title */}
       <h3 className="font-bold text-black text-left text-xl">{title}</h3>
 
       {/* Prices */}
-      <div className="flex justify-left items-left flex-col space-x-2 mb-2">
+      <div className="flex justify-left items-center flex-row space-x-1">
         <span className="font-bold text-black font-['Roboto']">${newPrice}</span>
         {oldPrice !== null && (
           <span className="line-through text-gray-500 text-sm font-['Roboto']">
             ${oldPrice}
           </span>
         )}
-      </div>
-
-      {/* Add Button */}
-      <div className="absolute bottom-4 right-4">
-        <button
-          className={`relative inline-flex items-center justify-center w-10 h-10 bg-blue-500 text-white rounded-full transition duration-300 ease-out ${clicked ? 'animate-click' : ''}`}
-          onClick={handleAddToCart}
-        >
-          {/* Animation background span */}
-          <span
-            className={`absolute inset-0 flex items-center justify-center w-full h-full transition-all duration-300 rounded-full transform ${clicked ? 'bg-green-500 translate-x-0' : 'display-none'}`}
+      
+        {/* Add Button */}
+        <div className="w-full flex justify-end">
+          <button
+            className={`relative items-center justify-center w-6 h-6 bg-blue-500 text-white rounded-full transition duration-300 ease-out ${clicked ? 'animate-click' : ''}`}
+            onClick={handleAddToCart}
           >
-            {/* Checkmark icon that appears when clicked */}
-            {clicked && (
-              <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
-              </svg>
-            )}
-          </span>
-          
-          {/* Default content of the button */}
-          <span
-            className={`absolute inset-0 flex items-center justify-center w-full h-full transition-all duration-300 ease ${clicked ? 'opacity-0' : 'opacity-100'}`}
-          >
-            <PlusIcon className="w-6 h-6 text-white" /> {/* Heroicons PlusIcon */}
-          </span>
-        </button>
+            {/* Animation background span */}
+            <span
+              className={`absolute inset-0 flex items-center justify-center w-full h-full transition-all duration-300 rounded-full transform ${clicked ? 'bg-green-500 translate-x-0' : 'display-none'}`}
+            >
+              {/* Checkmark icon that appears when clicked */}
+              {clicked && (
+                <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+                </svg>
+              )}
+            </span>
+            
+            {/* Default content of the button */}
+            <span
+              className={`absolute inset-0 flex items-center justify-center w-full h-full transition-all duration-300 ease ${clicked ? 'opacity-0' : 'opacity-100'}`}
+            >
+              <PlusIcon className="w-4 h-4 text-white" /> {/* Heroicons PlusIcon */}
+            </span>
+          </button>
+        </div>
       </div>
     </div>
   );

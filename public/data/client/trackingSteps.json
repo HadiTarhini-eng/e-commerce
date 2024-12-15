@@ -1,0 +1,38 @@
+[
+    {
+      "id": 1,
+      "type": "confirming",
+      "description": "Your order is being confirmed.",
+      "status": "confirming",
+      "date": ""
+    },
+    {
+      "id": 2,
+      "type": "In Progress",
+      "description": "Your order is in progress.",
+      "status": "In Progress",
+      "date": ""
+    },
+    {
+      "id": 4,
+      "type": "In Preparation",
+      "description": "Your order is being prepared.",
+      "status": "In Preparation",
+      "date": ""
+    },
+    {
+      "id": 5,
+      "type": "Shipped",
+      "description": "Your order has been shipped.",
+      "status": "",
+      "date": ""
+    },
+    {
+      "id": 6,
+      "type": "Delivered",
+      "description": "Your order has been delivered.",
+      "status": "Shipped",
+      "date": ""
+    }
+  ]
+  

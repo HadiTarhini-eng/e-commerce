@@ -92,6 +92,17 @@ export const fetchOrderHistory = async () => {
   }
 };
 
+// Fetch Order Track Step
+export const fetchOrderTrackSteps = async () => {
+  try {
+    const response = await axios.get('/data/client/trackingSteps.json');
+    return response.data; // Return the order history data
+  } catch (error) {
+    console.error('Error fetching track steps:', error);
+    throw error;
+  }
+};
+
 // Fetch Order Track by ID
 export const fetchOrderTrackById = async (orderID) => {
   try {
@@ -155,5 +166,39 @@ export const submitOrder = async (payload) => {
   } catch (error) {
     console.error('Error while submitting order:', error);
     throw error; // Propagate the error to the calling function
+  }
+};
+
+
+///////////// FETCH ///////////////////// USERS PAGE ///////////// FETCH /////////////////////
+
+// Post Sign-In Data (send credentials to backend for validation)
+export const postSignInData = async (credentials) => {
+  try {
+    const response = await axios.post('http://localhost/e-commerce/src/backend/signIn.php', credentials); // Update the URL to your backend endpoint
+
+    if (response.status !== 200) {
+      throw new Error('Failed to sign in');
+    }
+
+    // Assuming the backend returns a status message (true or false) as a string
+    return response.data; // For example, response.data might be "true" or "false"
+  } catch (error) {
+    console.error('Error during sign-in:', error);
+    throw error; // Propagate the error
+  }
+};
+
+// Post Signup Data (simulating an API call to sign up a user)
+export const postSignUpData = async (userData) => {
+  try {
+    const response = await axios.post('http://localhost/e-commerce/src/backend/signUp.php', userData); //edit this as you like
+    if (response.status !== 201) {
+      throw new Error('Failed to sign up');
+    }
+    return response.data; // Return the response (mocking success)
+  } catch (error) {
+    console.error('Error during sign-up:', error);
+    throw error; // Propagate the error
   }
 };

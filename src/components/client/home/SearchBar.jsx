@@ -15,7 +15,7 @@ const SearchBar = ({ placeholder, onSearchChange }) => {
         type="text"
         value={searchTerm}
         onChange={handleChange}
-        className="w-full p-1 pl-10 pr-1 text-dark-charcoal border rounded-md focus:outline-none focus:ring-2 focus:ring-dark-charcoal"
+        className="w-full p-2 pl-10 pr-1 text-sm text-dark-charcoal border rounded-md focus:outline-none focus:ring-2 focus:ring-palette-mimi-pink-2"
         placeholder={placeholder || 'Search...'}
       />
       {/* Search Icon */}
