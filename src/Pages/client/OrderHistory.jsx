@@ -1,32 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../../AuthContext';  // Importing AuthContext to use getUserId
-import { fetchOrderHistory } from '../../api/clientApi';
+import { fetchOrderHistory } from '../../api/ClientApi';
 
 const OrderHistory = () => {
     const [orders, setOrders] = useState([]);
     const navigate = useNavigate();
-    const { getUserId } = useAuth();  // Use getUserId from AuthContext
 
     useEffect(() => {
         const fetchData = async () => {
-            const userId = getUserId();  // Get userId from AuthContext
-            if (!userId) {
-                console.error('User is not authenticated');
-                return;
-            }
-
-            try {
-                // Pass the userId when fetching the order history
-                const orderHistory = await fetchOrderHistory(userId);
-                setOrders(orderHistory);
-            } catch (error) {
-                console.error('Error fetching order data:', error);
-            }
+          try {
+            const orders = await fetchOrderHistory();
+            setOrders(orders);
+          } catch (error) {
+            console.error('Error fetching order data:', error);
+          }
         };
-
+      
         fetchData();
-    }, [getUserId]);  // Re-run this effect if `getUserId` changes
+      }, []);
 
     const handleButtonClick = (orderID, status) => {
         if (status === 'Delivered') {
