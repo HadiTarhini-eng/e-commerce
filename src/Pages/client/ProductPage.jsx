@@ -54,7 +54,7 @@ const ProductPage = () => {
   const slides = hasScents
     ? availableScents.map((scent) => ({
         id: scent.scentID,
-        image: scent.scentImages[0].imageSource, // Use the first image of each scent
+        image: scent.scentImages, // Use the first image of each scent
         name: scent.scentName
       }))
     : [{ id: 0, image: updatedProduct.image }];

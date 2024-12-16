@@ -53,7 +53,9 @@ export const fetchAdsData = async () => {
 
 // Fetch Product by ID
 export const fetchProductById = async (id) => {
-    const response = await axios.get('http://localhost/e-commerce/src/backend/productCardData.php'); // Fetch all products data
+    const response = await axios.get('http://localhost/e-commerce/src/backend/productCardData.php',{
+      params: { id }
+    }); // Fetch all products data
     if (response.status !== 200) {
       throw new Error('Failed to fetch products data'); // Throw an error if the response is not OK
     }
@@ -72,7 +74,9 @@ export const fetchProductById = async (id) => {
 // Fetch Order Details by ID
 export const fetchOrderDetailsById = async (orderID) => {
   try {
-    const response = await axios.get('http://localhost/e-commerce/src/backend/orderDetails.php');
+    const response = await axios.get('http://localhost/e-commerce/src/backend/orderDetails.php',{
+      params: { orderID }
+    });
     const order = response.data.find(order => order.orderID === orderID);
     return order;
   } catch (error) {
@@ -108,7 +112,9 @@ export const fetchOrderTrackSteps = async () => {
 // Fetch Order Track by ID
 export const fetchOrderTrackById = async (orderID) => {
   try {
-    const response = await axios.get('http://localhost/e-commerce/src/backend/orderHistory.php');
+    const response = await axios.get('http://localhost/e-commerce/src/backend/orderHistory.php',{
+      params: { orderID }
+    });
     const order = response.data.find(order => order.orderID === orderID);
     return order ? order.steps : null; // Return the order steps if found
   } catch (error) {

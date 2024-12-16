@@ -3,7 +3,9 @@ include 'connection.php';
 
 header('Content-Type: application/json');
 
-$query = "SELECT o.id as orderID,
+$id = $_GET['orderID'];
+$query = $conn->prepare("
+    SELECT o.id as orderID,
                  od.productID as productID,
                  o.totalPrice as total,
                  o.deliveryCost as shipping,
@@ -13,16 +15,23 @@ $query = "SELECT o.id as orderID,
                  s.scentName as scent,
                  od.quantity as quantity,
                  od.price as price,
-                 COALESCE(pd.image, p.image) AS image 
+                 COALESCE(si.image, p.image) AS image 
           FROM orders o
           LEFT JOIN lookup l ON l.id=o.statusID
           LEFT JOIN orderData od on od.orderID=o.id
           LEFT JOIN products p on p.id=od.productID
           LEFT JOIN scents s on s.id=od.scentID
           LEFT JOIN productData pd ON pd.productID = od.productID AND pd.scentID = od.scentID  
-          ORDER BY o.id ASC";
+          LEFT JOIN scentImages si on si.ProductDataID=pd.id AND si.dominant = true
+          where o.id=? 
+          ORDER BY o.id ASC
+");
 
-$result = $conn->query($query);
+$query->bind_param("i", $id);
+
+$query->execute();
+
+$result = $query->get_result();
 
 if ($result->num_rows > 0) {
     $orderDetails = array();
