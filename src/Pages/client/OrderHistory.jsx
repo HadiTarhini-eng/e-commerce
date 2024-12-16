@@ -1,17 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { fetchOrderHistory } from '../../api/clientApi';
+import { useAuth } from '../../components/client/AuthContext';
 
 const OrderHistory = () => {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+  const { userId } = useAuth()
 
   useEffect(() => {
     const fetchData = async () => {
+      if (!userId) {
+        setError('User is not logged in');
+        setLoading(false);
+        return;
+      }
+      
       try {
-        const orders = await fetchOrderHistory();
+        const orders = await fetchOrderHistory(userId);
         if (orders && orders.length === 0) {
           setError('No orders found');
         } else {
@@ -26,7 +34,7 @@ const OrderHistory = () => {
     };
 
     fetchData();
-  }, []);
+  }, [userId]);
 
   const handleButtonClick = (orderID, status) => {
     if (status === 'Delivered') {

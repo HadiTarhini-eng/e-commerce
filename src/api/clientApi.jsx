@@ -81,11 +81,13 @@ export const fetchOrderDetailsById = async (orderID) => {
   }
 };
 
-// Fetch Order History Data
-export const fetchOrderHistory = async () => {
+// Fetch Order History Data with userId
+export const fetchOrderHistory = async (userId) => {
   try {
-    const response = await axios.get('http://localhost/e-commerce/src/backend/orders.php');
-    return response.data; // Return the order history data
+    const response = await axios.get('http://localhost/e-commerce/src/backend/orders.php', {
+      params: { userId }
+    });
+    return response.data;
   } catch (error) {
     console.error('Error fetching order history:', error);
     throw new Error('Failed to fetch order data');
