@@ -17,12 +17,14 @@ export const calculateDiscount = (product) => {
     const newPrice = (oldPrice - discountAmount).toFixed(0);  // Calculate new price after discount
     const chipText = `-${discount}%`;  // Text for chip
     const chipColor = "red";  // You can modify this logic to dynamically change based on discount range
+    const discountValue = discount
   
     return {
       newPrice,
       oldPrice,
       chipText,
       chipColor,
+      discountValue
     };
   };
   

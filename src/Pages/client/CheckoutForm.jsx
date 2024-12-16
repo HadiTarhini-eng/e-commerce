@@ -64,14 +64,28 @@ const CheckoutForm = () => {
 
   const handleRadioChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
 
-    // Dispatch to Redux store
-    dispatch(updateCheckoutData({ field: name, value }));
+    // Find the method by matching the value
+    const selectedMethod = (name === 'paymentMethod' ? paymentMethods : deliveryMethods).find(
+      (method) => method.value === value
+    );
+
+    // Dispatch both the id, label, and delivery price (without the "$" sign) for deliveryMethod
+    if (name === 'deliveryMethod') {
+      const { id, label, deliveryPrice } = selectedMethod;
+      dispatch(updateCheckoutData({
+        field: name,
+        value: { id, label, deliveryPrice: parseFloat(deliveryPrice) }, // Remove '$' and convert to number
+      }));
+    } else {
+      // Dispatch paymentMethod id and label for payment method
+      dispatch(updateCheckoutData({
+        field: name,
+        value: { id: selectedMethod.id, label: selectedMethod.label },
+      }));
+    }
   };
+
 
   const handleGiftCheckboxChange = (e) => {
     const { checked } = e.target;
@@ -199,7 +213,7 @@ const CheckoutForm = () => {
                     <input
                       id={method.id}
                       type="radio"
-                      name="paymentMethod"
+                      name="paymentMethod" // This remains 'paymentMethod' to differentiate in handleRadioChange
                       value={method.value}
                       checked={formData.paymentMethod === method.value}
                       onChange={handleRadioChange}
@@ -225,7 +239,7 @@ const CheckoutForm = () => {
                       <input
                         id={method.id}
                         type="radio"
-                        name="deliveryMethod"
+                        name="deliveryMethod" // This remains 'deliveryMethod' to differentiate in handleRadioChange
                         value={method.value}
                         checked={formData.deliveryMethod === method.value}
                         onChange={handleRadioChange}

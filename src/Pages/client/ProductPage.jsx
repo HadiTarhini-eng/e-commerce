@@ -37,7 +37,7 @@ const ProductPage = () => {
     return <div>Loading...</div>;
   }
 
-  const { newPrice, oldPrice, chipText, chipColor } = calculateDiscount(product);
+  const { newPrice, oldPrice, chipText, chipColor, discountValue } = calculateDiscount(product);
 
   const updatedProduct = {
     ...product,
@@ -45,6 +45,7 @@ const ProductPage = () => {
     oldPrice,
     chipText,
     chipColor,
+    discountValue
   };
 
   // Filter out scents that are out of stock
