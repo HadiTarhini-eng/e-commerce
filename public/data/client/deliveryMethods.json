@@ -4,19 +4,22 @@
         "id": "1",
         "label": "Pick up",
         "value": "pickUp",
-        "description": "No charge - Only available in Saida"
+        "description": "No charge - Only available in Saida",
+        "deliveryPrice": "0"
       },
       {
         "id": "2",
         "label": "Wakilini",
         "value": "wakilni",
-        "description": "Delivery charge: 10$"
+        "description": "Delivery charge: 10$",
+        "deliveryPrice": "10"
       },
       {
         "id": "3",
         "label": "Delivery",
         "value": "delivery",
-        "description": "3$ - Only available in Saida"
+        "description": "3$ - Only available in Saida",
+        "deliveryPrice": "3"
       }
     ]
   }

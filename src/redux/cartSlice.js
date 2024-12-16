@@ -17,10 +17,19 @@ const initialState = {
     email: '',
     phoneNumber: '',
     address: '',
-    paymentMethod: '',
-    deliveryMethod: '',
+    paymentMethod: {
+      id: '', // payment method id
+      label: '', // payment method label
+    },
+    deliveryMethod: {
+      id: '', // delivery method id
+      label: '', // delivery method label
+      deliveryPrice: 0, // delivery price (without '$')
+    },
     sendAsGift: false,
     noteForDriver: '',
+    totalWithoutDelivery: 0,
+    totalWithDelivery: 0, // Added to store the total with delivery
   }
 };
 
@@ -54,15 +63,29 @@ const cartSlice = createSlice({
       }
     },
 
-    // Clear the entire cart (optional)
-    clearCart: (state) => {
-      state.cart = [];
-    },
-
     // Update checkout data in the state
     updateCheckoutData: (state, action) => {
       const { field, value } = action.payload;
-      state.checkoutData[field] = value;
+
+      if (field === 'paymentMethod' || field === 'deliveryMethod') {
+        // If the field is paymentMethod or deliveryMethod, handle differently
+        if (field === 'deliveryMethod' && value && typeof value === 'object') {
+          state.checkoutData.deliveryMethod = value;
+        } else if (field === 'paymentMethod' && value && typeof value === 'object') {
+          state.checkoutData.paymentMethod = value;
+        }
+      } else {
+        state.checkoutData[field] = value;
+      }
+
+      // Handle totalWithoutDelivery and totalWithDelivery separately
+      if (field === 'totalWithoutDelivery') {
+        state.checkoutData.totalWithoutDelivery = value;
+      }
+
+      if (field === 'totalWithDelivery') {
+        state.checkoutData.totalWithDelivery = value;
+      }
     },
 
     // Clear checkout data (optional, after order submission)

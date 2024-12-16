@@ -49,6 +49,7 @@ const AddToCart = ({ product, selectedScent, hasScents }) => {
         quantity,
         chipText: product.chipText,
         chipColor: product.chipColor,
+        discountValue: product.discountValue,
         ...(hasScents && selectedScent ? {
           scentId: selectedScent.id,
           scentName: selectedScent.scentName,
