@@ -32,7 +32,7 @@ const OrderHistory = () => {
         setLoading(false);
       }
     };
-
+    console.log(userId);
     fetchData();
   }, [userId]);
 

@@ -1,4 +1,3 @@
-// AuthContext.js
 import React, { createContext, useState, useEffect, useContext } from 'react';
 import CryptoJS from 'crypto-js';
 
@@ -26,7 +25,7 @@ export const AuthProvider = ({ children }) => {
         const decryptedUserData = decryptData(encryptedUserData, secretKey);
         if (decryptedUserData && decryptedUserData.userId) {
           setIsLoggedIn(true);
-          setUserId(decryptedUserData.userId); // Set the decrypted userId
+          setUserId(decryptedUserData.userId); // Set the decrypted userId (you may also want to store full user data in the future)
         }
       } catch (error) {
         console.error('Failed to decrypt user data:', error);
@@ -39,7 +38,7 @@ export const AuthProvider = ({ children }) => {
     setIsLoggedIn(true);
     const encryptedData = encryptData(user, secretKey); // Encrypt and store user data
     localStorage.setItem('userData', encryptedData);
-    setUserId(user.userId); // Store userId from the logged-in user
+    setUserId(user.userId); // Store only the userId (you may choose to store full data later)
   };
 
   // Function to handle logout

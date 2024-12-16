@@ -49,10 +49,8 @@ const SignIn = () => {
       // Sign-Up Logic
       const userData = { fullName, email, password, phoneNumber }; // Include phone number during sign up
       try {
-        // Post user data to the server (simulated with mock API)
         const response = await postSignUpData(userData);
         if (response && response.id) {
-          // Assuming the backend returns the user ID
           login({ email, id: response.id }); // Store user data in AuthContext
           toast.success('User created successfully!'); // Toast for user creation
           setFullName(''); // Clear fields after successful sign-up
@@ -71,12 +69,16 @@ const SignIn = () => {
       // Sign-In Logic
       const credentials = { email, password };
       try {
-        const response = await postSignInData(credentials);
+        const userDetails = await postSignInData(credentials); // Get user details from backend
   
-        if (response === "Sign-in successful") { // Assuming backend returns "true" if credentials are valid
-          // Assuming the backend returns the user ID after successful login
-          const userId = response.userId; // Adjust based on your backend response
-          login({ email, id: userId }); // Save encrypted user data in AuthContext
+        if (userDetails) {
+          login({
+            email,
+            id: userDetails.id,
+            fullName: userDetails.full_name,
+            phone: userDetails.phone,
+            userType: userDetails.user_type
+          }); // Store user data in AuthContext
           toast.success('Successfully signed in!');
           navigate('/'); // Redirect to home page after successful sign-in
         } else {
@@ -87,8 +89,7 @@ const SignIn = () => {
         toast.error('Error signing in. Please try again later.');
       }
     }
-  };
-  
+  };  
 
   // Handle the toggling of Sign-Up and Sign-In
   const toggleForm = () => {
