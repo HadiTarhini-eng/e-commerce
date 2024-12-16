@@ -178,13 +178,11 @@ export const submitOrder = async (payload) => {
 export const postSignInData = async (credentials) => {
   try {
     const response = await axios.post('http://localhost/e-commerce/src/backend/signIn.php', credentials);
-
     if (response.status !== 200) {
       throw new Error('Failed to sign in');
     }
-
     // Check if the response status is 'success' and return user data
-    if (response.data.status === 'success') {
+    if (response.status ===200) {
       return response.data.user; // Return the user details (id, full_name, phone, user_type)
     } else {
       throw new Error('Invalid credentials');

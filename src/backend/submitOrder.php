@@ -5,34 +5,29 @@ $input = file_get_contents('php://input');
 
 $data = json_decode($input, true);
 
-$userID=$_SESSION['id'];
-var_dump($userID);die;
-if ($data === null) {
-    echo json_encode(["error" => "Invalid JSON payload"]);
-    http_response_code(400);
-    exit;
-}
-
 $checkoutData = $data['checkoutData'];
 $cartData = $data['cart'];
-
-$sql = "INSERT INTO orders (userID,name, email, phone, address, 
+$userID=$data['userId'];
+$date = date("d-m-Y");
+$status=1;
+$sql = "INSERT INTO orders (userID,name, email, phone, address,city,
         paymentID ,deliveryID, gift, note,Date,statusID,totalPrice,DeliveryCost,totalPriceWithDel)
         VALUES (?,?, ?, ?, ?, ?,?, ?, ?, ?,?,?,?,?,?)";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param(
-    "issssiisssiiii", 
+    "isssssiisssiiii", 
     $userID,
     $checkoutData['name'], 
     $checkoutData['email'], 
     $checkoutData['phoneNumber'], 
     $checkoutData['address'], 
+    $checkoutData['city'], 
     $checkoutData['paymentMethod'], 
     $checkoutData['deliveryMethod'], 
     $checkoutData['sendAsGift'], 
     $checkoutData['noteForDriver'],
-    NOW(),
-    1,
+    $date,
+    $status,
     $checkoutData['totalPrice'],
     $checkoutData['DeliveryCost'],
     $checkoutData['totalPriceWithDel'],

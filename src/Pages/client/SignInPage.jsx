@@ -70,14 +70,13 @@ const SignIn = () => {
       const credentials = { email, password };
       try {
         const userDetails = await postSignInData(credentials); // Get user details from backend
-  
         if (userDetails) {
           login({
             email,
-            id: userDetails.id,
-            fullName: userDetails.full_name,
+            userId: userDetails.id,
+            fullName: userDetails.fullName,
             phone: userDetails.phone,
-            userType: userDetails.user_type
+            userType: userDetails.userType
           }); // Store user data in AuthContext
           toast.success('Successfully signed in!');
           navigate('/'); // Redirect to home page after successful sign-in

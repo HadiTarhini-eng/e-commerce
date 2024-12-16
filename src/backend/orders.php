@@ -3,12 +3,16 @@ include 'connection.php';
 
 header('Content-Type: application/json');
 
+$userID=$_GET['userId'];
+
 $query = $conn->prepare("
     SELECT o.id, o.totalPricewithdel, l.name AS status, o.Date
     FROM orders o
     LEFT JOIN lookup l ON l.id = o.statusID
+    where userID=?
 ");
 
+$query->bind_param("i", $userID);
 $query->execute();
 $result = $query->get_result();
 
