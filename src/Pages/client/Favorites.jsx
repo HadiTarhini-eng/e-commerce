@@ -6,16 +6,16 @@ const Favorites = () => {
   const [searchTerm, setSearchTerm] = useState('');
 
   return (
-    <div className="min-h-screen bg-palette-body-3 flex flex-col items-center w-full mt-10">
+    <div className="min-h-screen bg-palette-body-3 flex flex-col items-center w-full">
       {/* Search Bar */}
       <div className="w-full max-w-screen-lg px-4 mt-4">
-        <SearchBar placeholder="Search in Blush&eacute;" onSearchChange={setSearchTerm} />
+        <SearchBar placeholder="Search in Favorites" onSearchChange={setSearchTerm} />
       </div>
 
       {/* Product Cards Holder */}
       <div className="w-full max-w-screen-lg">
         <ProductCardHolder 
-          selectedCategories={selectedCategories}
+          selectedCategories={[]}
           searchTerm={searchTerm}
           fromFavorites={true}
         />

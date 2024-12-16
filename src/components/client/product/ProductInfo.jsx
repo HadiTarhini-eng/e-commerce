@@ -3,46 +3,27 @@ import CustomPaging from './CustomPaging';
 import toast from 'react-hot-toast';
 import { useAuth } from '../AuthContext';
 import { useNavigate } from 'react-router-dom';
-import { toggleFavoriteStatus } from '../../../api/clientApi';
+import useToggleFavorite from '../../../hooks/useToggleFavorite';
 
-const ProductInfo = ({ images, title, newPrice, oldPrice, chipText, chipColor, setSelectedScent, hasScents, productId }) => {
+const ProductInfo = ({ images, title, newPrice, oldPrice, chipText, chipColor, setSelectedScent, hasScents, productId, scents }) => {
   const isLoading = !images || !title || !newPrice;
 
-  const [isFavorited, setIsFavorited] = useState(false);
+  const { isFavorited, toggleFavorite } = useToggleFavorite(false, productId, title);
   const sliderRef = useRef(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const navigate = useNavigate();
   const { isLoggedIn } = useAuth();
 
   const handleButtonClick = (index) => {
-    setActiveIndex(index);
-    const selectedScent = images[index]; // This is the selected scent object
-    setSelectedScent(selectedScent); // Update the parent state with the selected scent
+    const selectedScent = scents[index]; // Get the selected scent object
 
-    if (sliderRef.current) {
-      sliderRef.current.slickGoTo(index); // Scroll to the selected scent image
-    }
-  };
-
-  const toggleFavorite = async () => {
-    if (!isLoggedIn) {
-      navigate('/signin');
+    if (selectedScent.scentStock === "0") {
+      toast.error(`This scent for this item is out of stock!`);
     } else {
-      try {
-        const newFavoriteStatus = !isFavorited;
-
-        // Call the API to update the favorite status on the backend
-        await toggleFavoriteStatus(productId, newFavoriteStatus);
-
-        // Update the local state after successful API call
-        setIsFavorited(newFavoriteStatus);
-
-        // Show toast based on the action
-        newFavoriteStatus
-          ? toast.success(`${title} added to favorites!`)
-          : toast.error(`${title} removed from favorites!`);
-      } catch (error) {
-        toast.error('Failed to update favorite status. Please try again.');
+      setActiveIndex(index);
+      setSelectedScent(selectedScent); // Update the parent state with the selected scent
+      if (sliderRef.current) {
+        sliderRef.current.slickGoTo(index); // Scroll to the selected scent image
       }
     }
   };
@@ -54,14 +35,14 @@ const ProductInfo = ({ images, title, newPrice, oldPrice, chipText, chipColor, s
   return (
     <div className="w-full max-w-2xl mx-auto bg-palette-body-3 overflow-hidden">
       <div className="relative bg-palette-white">
-        {hasScents ? (
+        {hasScents && (
           <CustomPaging
             ref={sliderRef}
             setSelectedScent={setSelectedScent}
             scents={images}
             onSlideChange={setActiveIndex}
           />
-        ) : null}
+        )}
       </div>
 
       <div className="w-full bg-palette-body-4">
@@ -125,20 +106,30 @@ const ProductInfo = ({ images, title, newPrice, oldPrice, chipText, chipColor, s
           </div>
         </div>
 
-        <div className="bg-palette-white flex justify-center space-x-2 mt-4 flex flex-col">
-          <h2 className="text-md font-semibold text-gray-800 px-4">Scents:</h2>
-          <div className="flex justify-start space-x-2 p-2">
-            {images.map((scent, index) => (
-              <button
-                key={scent.id}
-                onClick={() => handleButtonClick(index)}
-                className={`px-2 py-0 text-sm text-palette-complement-3 rounded-full transition-colors duration-300 ${activeIndex === index ? "border-2 border-palette-mimi-pink-2" : "border-2 border-grey"}`}
-              >
-                {scent.name}
-              </button>
-            ))}
+        {/* Scents */}
+        {hasScents && (
+          <div className="bg-palette-white flex justify-center space-x-2 mt-4 flex flex-col">
+            <h2 className="text-md font-semibold text-gray-800 px-4">Scents:</h2>
+            <div className="flex justify-start space-x-2 p-2">
+              {scents.map((scent, index) => (
+                <button
+                  key={scent.scentID}
+                  onClick={() => handleButtonClick(index)}
+                  className={`px-2 py-0 text-sm text-palette-complement-3 rounded-full transition-colors duration-300 ${
+                    scent.scentStock === "0"
+                      ? "bg-gray-400 cursor-not-allowed"
+                      : activeIndex === index
+                      ? "border-2 border-palette-mimi-pink-2"
+                      : "border-2 border-grey"
+                  }`}
+                  disabled={scent.scentStock === "0"} // Disable button if out of stock
+                >
+                  {scent.scentName}
+                </button>
+              ))}
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );

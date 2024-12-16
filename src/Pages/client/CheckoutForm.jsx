@@ -13,11 +13,12 @@ const CheckoutForm = () => {
     name: '',
     email: '',
     phoneNumber: '',
+    city: '',
     address: '',
     paymentMethod: '',
     deliveryMethod: '',
     sendAsGift: false,
-    noteForDriver: '',  
+    noteForDriver: '',
   });
 
   const [errors, setErrors] = useState({
@@ -38,7 +39,7 @@ const CheckoutForm = () => {
           fetchPaymentMethods(),
           fetchDeliveryMethods(),
         ]);
-  
+
         setFormFields(formFieldsData.fields);
         setPaymentMethods(paymentMethodsData.paymentMethods);
         setDeliveryMethods(deliveryMethodsData.deliveryMethods);
@@ -46,7 +47,7 @@ const CheckoutForm = () => {
         console.error('Error fetching data', error);
       }
     };
-  
+
     fetchData();
   }, []);
 
@@ -138,7 +139,7 @@ const CheckoutForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="mx-auto w-full px-4 2xl:px-0 mt-6 mb-16">
+    <form onSubmit={handleSubmit} className="mx-auto w-full px-4 2xl:px-0 mb-16 bg-palette-body-3">
       <div className="mt-6 sm:mt-8 lg:flex lg:items-start lg:gap-12 xl:gap-16">
         <div className="min-w-0 flex-1 space-y-8">
           {/* Personal Details */}
@@ -146,21 +147,45 @@ const CheckoutForm = () => {
             <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Payment Details</h2>
 
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-              {formFields.map((field) => (
-                <div key={field.id}>
-                  <label htmlFor={field.id} className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">{field.label}</label>
-                  <input
-                    type={field.type}
-                    id={field.id}
-                    value={formData[field.id]}
-                    onChange={handleChange}
-                    className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
-                    placeholder={field.placeholder}
-                    required={field.required}
-                  />
-                  {errors[field.id] && <p className="text-xs text-red-600">{errors[field.id]}</p>}
-                </div>
-              ))}
+              {formFields.map((field) => {
+                if (field.type === 'select') {
+                  return (
+                    <div key={field.id}>
+                      <label htmlFor={field.id} className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">{field.label}</label>
+                      <select
+                        id={field.id}
+                        value={formData[field.id]}
+                        onChange={handleChange}
+                        required={field.required}
+                        className="block w-full rounded-lg border border-gray-300 bg-white p-2.5 text-sm focus:border-primary-500 focus:ring-primary-500"
+                      >
+                        <option value="" className='text-grey-200'>{field.placeholder}</option>
+                        {field.options.map((option, idx) => (
+                          <option key={idx} value={option.title}>
+                            {option.title}
+                          </option>
+                        ))}
+                      </select>
+                      {errors[field.id] && <p className="text-xs text-red-600">{errors[field.id]}</p>}
+                    </div>
+                  );
+                }
+                return (
+                  <div key={field.id}>
+                    <label htmlFor={field.id} className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">{field.label}</label>
+                    <input
+                      type={field.type}
+                      id={field.id}
+                      value={formData[field.id]}
+                      onChange={handleChange}
+                      className="block w-full rounded-lg border border-gray-300 bg-white p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500"
+                      placeholder={field.placeholder}
+                      required={field.required}
+                    />
+                    {errors[field.id] && <p className="text-xs text-red-600">{errors[field.id]}</p>}
+                  </div>
+                );
+              })}
             </div>
           </div>
 
@@ -178,7 +203,7 @@ const CheckoutForm = () => {
                       value={method.value}
                       checked={formData.paymentMethod === method.value}
                       onChange={handleRadioChange}
-                      className="h-4 w-4 border-gray-300 bg-white text-primary-600 focus:ring-2 focus:ring-primary-600 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-primary-600"
+                      className="h-4 w-4 border-gray-300 bg-white text-primary-600"
                     />
                     <div className="ms-4 text-sm">
                       <label htmlFor={method.id} className="font-medium leading-none text-gray-900 dark:text-white">{method.label}</label>
@@ -204,7 +229,7 @@ const CheckoutForm = () => {
                         value={method.value}
                         checked={formData.deliveryMethod === method.value}
                         onChange={handleRadioChange}
-                        className="h-4 w-4 border-gray-300 bg-white text-primary-600 focus:ring-2 focus:ring-primary-600 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-primary-600"
+                        className="h-4 w-4 border-gray-300 bg-white text-primary-600"
                       />
                     </div>
                     <div className="ms-4 text-sm">

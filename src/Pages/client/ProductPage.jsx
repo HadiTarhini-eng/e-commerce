@@ -7,12 +7,6 @@ import ReviewContainer from '../../components/client/product/ReviewContainer';
 import { calculateDiscount } from '../../utils/discountUtils';  // Import the discount calculation utility
 import { fetchProductById } from '../../api/clientApi';
 
-const scentsData = [
-  { id: "1", scentName: "Mint", scentImage: "/product1.png" },
-  { id: "2", scentName: "Lavender", scentImage: "/product2.png" },
-  { id: "3", scentName: "Rose", scentImage: "/product3.png" }
-];
-
 const ProductPage = () => {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
@@ -53,18 +47,20 @@ const ProductPage = () => {
     chipColor,
   };
 
-  const hasScents = scentsData && scentsData.length > 0;
+  // Filter out scents that are out of stock
+  const availableScents = product.scents.filter(scent => scent.scentStock > 0);
+  const hasScents = availableScents.length > 0;
 
   const slides = hasScents
-    ? scentsData.map((scent) => ({
-        id: scent.id,
-        image: scent.scentImage,
+    ? availableScents.map((scent) => ({
+        id: scent.scentID,
+        image: scent.scentImages[0].imageSource, // Use the first image of each scent
         name: scent.scentName
       }))
     : [{ id: 0, image: updatedProduct.image }];
 
   return (
-    <div className="min-h-screen bg-palette-body-3 flex flex-col items-center w-full mt-10">
+    <div className="min-h-screen bg-palette-body-3 flex flex-col items-center w-full">
       {/* Product Info */}
       <div className="w-full max-w-lg">
         <ProductInfo
@@ -74,8 +70,10 @@ const ProductPage = () => {
           oldPrice={updatedProduct.oldPrice}
           chipText={updatedProduct.chipText}
           chipColor={updatedProduct.chipColor}
-          setSelectedScent={setSelectedScent}  // Passing the function correctly to the child
+          setSelectedScent={setSelectedScent}
           hasScents={hasScents}
+          productId={updatedProduct.id}
+          scents={availableScents}
         />
       </div>
 

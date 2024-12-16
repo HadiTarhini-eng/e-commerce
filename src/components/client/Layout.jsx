@@ -1,34 +1,35 @@
-// components/Layout.js
-import React from 'react';
+import React, { useState } from 'react';
+import { Outlet, useLocation, useParams } from 'react-router-dom';
 import Navbar from './Navbar';
 import FooterNav from './FooterNav';
-import { Outlet, useLocation } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 
 const Layout = () => {
-  const location = useLocation();  // Get current location (route)
+  const location = useLocation(); // Get current location (route)
+  const { orderID } = useParams(); // Get the dynamic orderID parameter if available
+  let pageTitle = '';
   
   // Define the title based on the current route
-  let pageTitle = 'Home';  // Default title
-
-  if (location.pathname === '/product/:id') {
-    pageTitle = 'Product Details';  // Change title for product page
+  if (location.pathname === '/') {
+    pageTitle = 'Home';
+  } else if (location.pathname.startsWith('/product/')) {
+    pageTitle = 'Product Details'; // Handle dynamic product title
+  } else if (location.pathname.startsWith('/OrderTrack/')) {
+    pageTitle = `Track your order`; // Dynamic title for Order Track page
+  } else if (location.pathname.startsWith('/orderDetails/')) {
+    pageTitle = `Order Details`; // Dynamic title for Order Details page
   } else if (location.pathname === '/cart') {
-    pageTitle = 'Your Cart';  // Change title for cart page
-  } else if(location.pathname === '/socials') {
-    pageTitle = 'Socials';
-  } else if(location.pathname === '/checkout') {
+    pageTitle = 'Your Cart';
+  } else if (location.pathname === '/checkout') {
     pageTitle = 'Checkout';
-  } else if(location.pathname === '/payment') {
-    pageTitle = 'Payment Methods';
-  } else if(location.pathname === '/signin') {
+  } else if (location.pathname === '/signin') {
     pageTitle = 'Sign In';
-  } else if(location.pathname === '/orderHistory') {
+  } else if (location.pathname === '/orderHistory') {
     pageTitle = 'Past Orders';
-  } else if(location.pathname === '/orderTrack/:orderID') {
-    pageTitle = 'Order Track';
-  } else if(location.pathname === '/orderDetails/:orderID') {
-    pageTitle = 'Order Details';
+  } else if (location.pathname === '/favorites') {
+    pageTitle = 'Your Favorites';
+  } else if (location.pathname === '/socials') {
+    pageTitle = 'Contact Us';
   }
 
   return (
@@ -37,7 +38,7 @@ const Layout = () => {
       <Toaster />
 
       {/* Navbar */}
-      <div className="w-full max-w-lg px-4 mt-4">
+      <div className="sticky top-0 w-full max-w-lg z-50">
         <Navbar title={pageTitle} />
       </div>
 

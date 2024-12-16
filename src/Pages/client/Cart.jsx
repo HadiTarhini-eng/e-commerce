@@ -43,9 +43,8 @@ const Cart = () => {
   const total = calculateTotals();
   
   return (
-    <div className="min-h-screen flex flex-col items-center w-full">
-      <section className="py-6 md:py-24 relative">
-        <h2 className="text-2xl font-semibold text-dark-charcoal m-6">Your Cart</h2>
+    <div className="min-h-screen flex flex-col items-center w-full bg-palette-body-3">
+      <section className="md:py-24 relative mt-2">
         <div className="w-full max-w-7xl px-4 md:px-5 lg-6 mx-auto">
           {/* Show loading spinner while fetching data */}
           {loading ? (
@@ -63,39 +62,47 @@ const Cart = () => {
               <div className="text-center text-xl text-gray-600">Your cart is empty!</div>
             ) : (
               cartItems.map((product) => (
-                <div key={product.productId} className="grid grid-cols-1 lg:grid-cols-2 gap-6 border-t border-gray-200 py-6">
+                <div key={product.productId} className="bg-white grid grid-cols-1 lg:grid-cols-2 shadow-md border-2 border-gray-200 rounded-lg m-2 py-3">
                   <div className="flex items-center flex-row gap-4 w-full max-xl:max-w-xl max-xl:mx-auto">
                     {/* Left side - Image and Product Name */}
-                    <div className="flex items-center gap-4 w-full max-w-[200px] sm:max-w-[250px]">
+                    <div className="flex items-center gap-1 w-full max-w-[200px] sm:max-w-[250px]">
                       <div className="img-box">
-                        <img src={product.image} alt={product.title} className="w-[80px] sm:w-[120px] rounded-xl object-cover" />
+                        <img src={product.image} alt={product.title} className="w-fit rounded-xl object-cover" />
                       </div>
                       <div className="pro-data w-full">
                         <h5 className="font-semibold text-base sm:text-xl leading-8 text-black">{product.title}</h5>
-                        <p className="font-normal text-sm sm:text-lg leading-8 text-gray-500 my-2">{product.category}</p>
                         <h6 className="font-medium text-sm sm:text-lg leading-8 text-indigo-600">${product.newPrice}</h6>
                       </div>
                     </div>
 
                     {/* Right side - Quantity controls and Remove button */}
-                    <div className="flex flex-col items-center gap-2 w-full max-w-[200px] sm:max-w-[220px]">
-                      <div className="flex items-center gap-2">
-                        <button onClick={() => handleQuantityChange(product.productId, Math.max(product.quantity - 1, 1))} className="group rounded-l-full px-4 sm:px-6 py-2 sm:py-[18px] border border-gray-200">
-                          {/* Minus Icon */}
-                          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 22 22" fill="none">
-                            <path d="M16.5 11H5.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+                    <div className="flex flex-col items-center w-full max-w-[200px] sm:max-w-[220px]">
+                      <div className="flex items-center">
+                        {/* Decrement Button */}
+                        <button 
+                          onClick={() => handleQuantityChange(product.productId, Math.max(product.quantity - 1, 1))}
+                          className="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-md border border-gray-300 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700"
+                        >
+                          <svg className="h-2.5 w-2.5 text-gray-900 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 2">
+                            <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M1 1h16" />
                           </svg>
                         </button>
-                        <input
+
+                        {/* Quantity Input */}
+                        <input 
                           type="text"
-                          className="border-y border-gray-200 outline-none text-gray-900 font-semibold text-sm sm:text-lg w-full max-w-[80px] sm:max-w-[100px] placeholder:text-gray-900 py-2 sm:py-[15px] text-center bg-transparent"
+                          className="w-10 shrink-0 border-0 bg-transparent text-center text-sm font-medium text-gray-900 focus:outline-none focus:ring-0 dark:text-white"
                           value={product.quantity}
                           onChange={(e) => handleQuantityChange(product.productId, parseInt(e.target.value, 10))}
                         />
-                        <button onClick={() => handleQuantityChange(product.productId, product.quantity + 1)} className="group rounded-r-full px-4 sm:px-6 py-2 sm:py-[18px] border border-gray-200">
-                          {/* Plus Icon */}
-                          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 22 22" fill="none">
-                            <path d="M11 5.5V16.5M16.5 11H5.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+
+                        {/* Increment Button */}
+                        <button 
+                          onClick={() => handleQuantityChange(product.productId, product.quantity + 1)}
+                          className="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-md border border-gray-300 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700"
+                        >
+                          <svg className="h-2.5 w-2.5 text-gray-900 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
+                            <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 1v16M1 9h16" />
                           </svg>
                         </button>
                       </div>
@@ -103,7 +110,7 @@ const Cart = () => {
                         ${parseFloat(product.newPrice * product.quantity).toFixed(0)}
                       </h6>
                       {/* Remove Item Button */}
-                      <button onClick={() => handleRemoveItem(product.productId)} className="mt-2 text-red-600 font-semibold text-sm sm:text-lg">
+                      <button onClick={() => handleRemoveItem(product.productId)} className="text-red-600 font-semibold text-sm sm:text-lg">
                         Remove
                       </button>
                     </div>
@@ -114,7 +121,7 @@ const Cart = () => {
           )}
 
           {/* Fixed Total Summary */}
-          <div className="bg-gray-50 rounded-xl p-4 sm:p-6 w-full mb-8 max-lg:max-w-xl max-lg:mx-auto sticky bottom-0 left-0 z-1">
+          <div className="bg-white rounded-xl mt-6 p-4 sm:p-6 w-full mb-2 max-lg:max-w-xl max-lg:mx-auto sticky bottom-0 left-0 z-1">
             <div className="flex items-center justify-between w-full mb-4 sm:mb-6">
               <p className="font-normal text-sm sm:text-xl leading-8 text-gray-400">Sub Total</p>
               <h6 className="font-semibold text-sm sm:text-xl leading-8 text-gray-900">${parseFloat(total).toFixed(0)}</h6>
@@ -126,7 +133,7 @@ const Cart = () => {
           </div>
 
           {/* Continue to Payment Button */}
-          <div className="flex items-center flex-col sm:flex-row justify-center gap-3 mt-6 sm:mt-8 mb-20">
+          <div className="flex items-center flex-col sm:flex-row justify-center gap-3 mt-2 mb-20">
             <button 
               onClick={handleContinueToPayment} // Add the click handler
               className="rounded-full w-full max-w-[240px] py-3 sm:py-4 text-center justify-center items-center bg-indigo-600 font-semibold text-sm sm:text-lg text-white flex transition-all duration-500 hover:bg-indigo-700">

@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'; // useNavigate for programmatic 
 import { useAuth } from './AuthContext';
 
 // Import Heroicons (Solid icons in this case)
-import { HomeIcon, ShoppingCartIcon, UserGroupIcon, ClipboardDocumentListIcon } from '@heroicons/react/24/solid';
+import { HomeIcon, ShoppingCartIcon, UserGroupIcon, ClipboardDocumentListIcon, HeartIcon } from '@heroicons/react/24/solid';
 import toast from 'react-hot-toast';
 
 const FooterNav = () => {
@@ -18,13 +18,14 @@ const FooterNav = () => {
   const menuItems = [
     { path: '/', icon: <HomeIcon className="w-6 h-6" />, alt: 'Home' },
     { path: '/cart', icon: <ShoppingCartIcon className="w-6 h-6" />, alt: 'Cart' },
+    { path: '/favorites', icon: <HeartIcon className="w-6 h-6" />, alt: 'Favorites' },
     { path: '/orderHistory', icon: <ClipboardDocumentListIcon className="w-6 h-6" />, alt: 'Orders' },
     { path: '/socials', icon: <UserGroupIcon className="w-6 h-6" />, alt: 'Socials' },
   ];
 
   // Function to handle icon click and update the active icon state
   const handleIconClick = (path) => {
-    if ((path === '/cart' || path === '/orderHistory') && !isLoggedIn) {
+    if ((path === '/cart' || path === '/orderHistory' || path === '/favorites') && !isLoggedIn) {
       toast.error('You need to Login to access this page!')
       navigate('/signin');
     } else {

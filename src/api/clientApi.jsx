@@ -88,7 +88,7 @@ export const fetchOrderHistory = async () => {
     return response.data; // Return the order history data
   } catch (error) {
     console.error('Error fetching order history:', error);
-    throw error;
+    throw new Error('Failed to fetch order data');
   }
 };
 
@@ -156,7 +156,7 @@ export const fetchDeliveryMethods = async () => {
 
 // submitOrder function in the API file
 export const submitOrder = async (payload) => {
-  console.log(payload);
+  console.log(payload);  // Debugging: check the payload
   try {
     const response = await axios.post('http://localhost/e-commerce/src/backend/submitOrder.php', payload);
     if (response.status !== 200) {
@@ -170,7 +170,7 @@ export const submitOrder = async (payload) => {
 };
 
 
-///////////// FETCH ///////////////////// USERS PAGE ///////////// FETCH /////////////////////
+///////////// POST ///////////////////// USERS PAGE ///////////// POST /////////////////////
 
 // Post Sign-In Data (send credentials to backend for validation)
 export const postSignInData = async (credentials) => {
@@ -207,9 +207,10 @@ export const postSignUpData = async (userData) => {
 ///////////// POST ///////////////////// FAVORITE ///////////// POST /////////////////////
 
 // Post Favorite Status Data (send product id and favorite status to backend)
-export const toggleFavoriteStatus = async (productId, favoriteStatus) => {
+export const toggleFavoriteStatus = async (userId, productId, favoriteStatus) => {
   try {
     const response = await axios.post('http://localhost/e-commerce/src/backend/favoriteStatus.php', {
+      userId, // Send userId along with productId and favoriteStatus
       productId,
       favoriteStatus,
     });
@@ -229,12 +230,14 @@ export const toggleFavoriteStatus = async (productId, favoriteStatus) => {
 ///////////// POST ///////////////////// REVIEW ///////////// POST /////////////////////
 
 // Submit Review Data (send product id and review details to backend)
-export const submitReview = async (productId, reviewData) => {
+export const submitReview = async (productId, reviewData, userId) => {
   try {
+    // Send the productId, review data, and userId to the backend
     const response = await axios.post('http://localhost/e-commerce/src/backend/submitReview.php', {
       productId,
       comment: reviewData.comment,
       date: reviewData.date,
+      userId,  // Include the userId in the payload
     });
 
     if (response.status !== 200) {

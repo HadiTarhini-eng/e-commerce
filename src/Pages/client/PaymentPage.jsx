@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { clearCart, clearCheckoutData } from '../../redux/cartSlice';
 import toast from 'react-hot-toast';
 import { submitOrder } from '../../api/clientApi';
+import { useAuth } from '../../components/client/AuthContext';
 
 const PaymentPage = () => {
   const navigate = useNavigate(); // Initialize useNavigate hook
@@ -11,6 +12,9 @@ const PaymentPage = () => {
 
   // Access cart and checkout data from Redux store
   const { cart, checkoutData } = useSelector((state) => state.cart);
+
+  // Access the logged-in user ID from AuthContext
+  const { isLoggedIn, userId } = useAuth(); // We now directly use userId from AuthContext
 
   // Scroll to top when the component is mounted
   React.useEffect(() => {
@@ -20,10 +24,21 @@ const PaymentPage = () => {
   // Handle Confirm Purchase button click
   const handleConfirmPurchase = async () => {
     try {
+      if (!isLoggedIn) {
+        toast.error('You must be logged in to make a purchase.');
+        return;
+      }
+
+      if (!userId) {
+        toast.error('User ID not found.');
+        return;
+      }
+
       // Prepare the payload to send in the POST request
       const payload = {
         cart,
         checkoutData,
+        userId, // Include the user ID in the payload
       };
 
       // Call the submitOrder function from the API file
@@ -31,18 +46,18 @@ const PaymentPage = () => {
       console.log('Order confirmed:', response);
 
       // Clear the cart and checkout data, and navigate to home
-      toast.success('You have successfully purchased your order!')
+      toast.success('You have successfully purchased your order!');
       dispatch(clearCart());
       dispatch(clearCheckoutData());
       navigate('/home'); // Navigate to the home page
     } catch (error) {
       console.error('Error confirming purchase:', error);
-      // You can handle the error here (e.g., show an alert or log it)
+      toast.error('There was an error confirming your order.');
     }
   };
 
   return (
-    <div className="min-h-screen bg-light-cream flex flex-col items-center justify-center w-full mt-12">
+    <div className="min-h-screen bg-light-cream flex flex-col items-center justify-center w-full">
       {/* Button to confirm purchase */}
       <button
         onClick={handleConfirmPurchase}

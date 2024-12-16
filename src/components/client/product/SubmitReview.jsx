@@ -11,7 +11,8 @@ const SubmitReview = ({ productId, onSubmitReview }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);  // New state for submission process
   const navigate = useNavigate();
 
-  const { isLoggedIn } = useAuth();
+  // Access logged-in user ID and login status from AuthContext
+  const { isLoggedIn, userId } = useAuth();
 
   const handleReviewChange = (e) => setComment(e.target.value);
 
@@ -26,13 +27,19 @@ const SubmitReview = ({ productId, onSubmitReview }) => {
         return;
       }
 
+      if (!userId) {
+        setErrorMessage('User ID not found.');
+        return;
+      }
+
       setIsSubmitting(true);
 
-      // Prepare the review data
+      // Prepare the review data, including the userId
       const reviewData = {
         productId,
         comment,
         date: new Date().toISOString().split('T')[0], // Current date in YYYY-MM-DD format
+        userId, // Add userId to the review payload
       };
 
       try {

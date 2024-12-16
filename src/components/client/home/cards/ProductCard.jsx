@@ -7,7 +7,7 @@ import { useAuth } from '../../AuthContext';
 
 // Import Heroicons (Plus icon in this case)
 import { PlusIcon } from '@heroicons/react/24/solid';
-import { toggleFavoriteStatus } from '../../../../api/clientApi';
+import useToggleFavorite from '../../../../hooks/useToggleFavorite';
 
 const ProductCard = ({
   id,
@@ -19,53 +19,34 @@ const ProductCard = ({
   chipColor,
   destination,
   isFavorited: initialFavoriteStatus,
-  fromFavorites,
+  outOfStock,
 }) => {
   const [isActive, setIsActive] = useState(false);
   const [clicked, setClicked] = useState(false);
-  const [isFavorited, setIsFavorited] = useState(initialFavoriteStatus);
+  const { isFavorited, toggleFavorite } = useToggleFavorite(initialFavoriteStatus, id, title);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const { isLoggedIn } =  useAuth();
 
-  const toggleFavorite = async () => {
-    if (!isLoggedIn) {
-      navigate('/signin');
-    } else {
-      try {
-        const newFavoriteStatus = !isFavorited;
-  
-        // Call the API to update the favorite status on the backend
-        await toggleFavoriteStatus(id, newFavoriteStatus);
-  
-        // Update the local state after successful API call
-        setIsFavorited(newFavoriteStatus);
-  
-        // Show toast based on the action
-        newFavoriteStatus
-          ? toast.success(`${title} added to favorites!`)
-          : toast.error(`${title} removed from favorites!`);
-      } catch (error) {
-        toast.error('Failed to update favorite status. Please try again.');
-      }
-    }
-  };
-
   const handleClick = () => {
-    setIsActive(!isActive);
-    navigate(destination);
+    if (outOfStock) {
+      toast.error(`${title} is out of stock!`);
+    } else {
+      setIsActive(!isActive);
+      navigate(destination);
+    }
   };
 
   const handleAddToCart = (e) => {
     e.stopPropagation(); // Prevent the click event from propagating
-    if(!isLoggedIn) {
+    if (outOfStock) {
+      toast.error(`${title} is out of stock!`);
+    } else if (!isLoggedIn) {
       navigate('/signin');
     } else {
-      toast.success(`${title} added to the cart!`); // Show toast notification
+      toast.success(`${title} added to the cart!`);
       setClicked(true);
-  
-      // Dispatch action to add the product to the cart (with quantity set to 1)
       dispatch(
         addToCart({
           productId: id,
@@ -78,17 +59,24 @@ const ProductCard = ({
           chipColor,
         })
       );
-  
-      // Reset animation after a short delay (the duration of the animation)
-      setTimeout(() => setClicked(false), 500); // Animation lasts 500ms
+      setTimeout(() => setClicked(false), 500); // Reset animation
     }
   };
 
   return (
     <div
-      className={'relative bg-white shadow-lg rounded-lg p-4 w-full cursor-pointer'}
+      className={`relative bg-white shadow-lg rounded-lg p-4 w-full cursor-pointer ${
+        outOfStock ? 'opacity-50 cursor-not-allowed' : ''
+        }`}
       onClick={handleClick} // This is responsible for the redirection
     >
+      {/* Out of Stock Badge */}
+      {outOfStock && (
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-red-500 text-white font-bold text-lg px-4 py-2 rounded-full">
+          Out of Stock
+        </div>
+      )}
+      
       {/* Chip */}
       <div
         className={`absolute top-2 left-2 px-1 py-[1px] text-white text-xs rounded-xl`}

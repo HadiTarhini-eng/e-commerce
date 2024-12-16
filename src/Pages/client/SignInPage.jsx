@@ -10,12 +10,14 @@ const SignIn = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState(''); // New state for phone number
   const [isSignUp, setIsSignUp] = useState(false); // Toggle between Sign Up and Sign In
   const [error, setError] = useState(null); // State to store error messages
   const [validationErrors, setValidationErrors] = useState({
     email: false,
     password: false,
     confirmPassword: false,
+    phoneNumber: false, // Validation for phone number
   }); // State to manage input errors
   const { isLoggedIn, login } = useAuth(); // Login function from context to set user as logged in
   const navigate = useNavigate();
@@ -27,6 +29,7 @@ const SignIn = () => {
     if (!password) errors.password = 'Password is required';
     if (isSignUp && !fullName) errors.fullName = 'Full Name is required';
     if (isSignUp && password !== confirmPassword) errors.confirmPassword = 'Passwords do not match';
+    if (isSignUp && !phoneNumber) errors.phoneNumber = 'Phone number is required'; // Validate phone number during sign-up
     return errors;
   };
 
@@ -44,16 +47,23 @@ const SignIn = () => {
   
     if (isSignUp) {
       // Sign-Up Logic
-      const userData = { fullName, email, password };
+      const userData = { fullName, email, password, phoneNumber }; // Include phone number during sign up
       try {
         // Post user data to the server (simulated with mock API)
-        await postSignUpData(userData);
-        toast.success('Account created successfully!');
-        setFullName('');
-        setEmail('');
-        setPassword('');
-        setConfirmPassword('');
-        setIsSignUp(false); // Switch to Sign In after successful sign up
+        const response = await postSignUpData(userData);
+        if (response && response.id) {
+          // Assuming the backend returns the user ID
+          login({ email, id: response.id }); // Store user data in AuthContext
+          toast.success('User created successfully!'); // Toast for user creation
+          setFullName(''); // Clear fields after successful sign-up
+          setEmail('');
+          setPassword('');
+          setConfirmPassword('');
+          setPhoneNumber(''); // Clear phone number field
+          setIsSignUp(false); // Switch to Sign In after successful sign-up
+        } else {
+          toast.error('Error during sign-up. Please try again.');
+        }
       } catch (error) {
         toast.error('Error during sign-up. Please try again.');
       }
@@ -64,7 +74,9 @@ const SignIn = () => {
         const response = await postSignInData(credentials);
   
         if (response === "Sign-in successful") { // Assuming backend returns "true" if credentials are valid
-          login({ email }); // You can also return user data if needed
+          // Assuming the backend returns the user ID after successful login
+          const userId = response.userId; // Adjust based on your backend response
+          login({ email, id: userId }); // Save encrypted user data in AuthContext
           toast.success('Successfully signed in!');
           navigate('/'); // Redirect to home page after successful sign-in
         } else {
@@ -75,7 +87,8 @@ const SignIn = () => {
         toast.error('Error signing in. Please try again later.');
       }
     }
-  };  
+  };
+  
 
   // Handle the toggling of Sign-Up and Sign-In
   const toggleForm = () => {
@@ -89,7 +102,7 @@ const SignIn = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0 mt-12">
+    <div className="flex flex-col items-center justify-center px-6 pb-4 mx-auto md:h-screen lg:py-0">
       <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
         <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
           <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
@@ -120,6 +133,19 @@ const SignIn = () => {
               error={validationErrors.email}
               className={getInputClass('email')}
             />
+            {isSignUp && (
+              <InputField
+                type="text"
+                id="phoneNumber"
+                title="Phone Number"
+                value={phoneNumber}
+                onChange={(e) => setPhoneNumber(e.target.value)}
+                placeholder="(123) 456-7890"
+                required
+                error={validationErrors.phoneNumber}
+                className={getInputClass('phoneNumber')}
+              />
+            )}
             <InputField
               type="password"
               id="password"

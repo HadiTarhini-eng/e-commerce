@@ -124,13 +124,13 @@ module.exports = {
       keyframes: {
         fadeInOut: {
           '0%': {
-            color: '#455A64', // Initial color (Gray)
+            color: '#FBD3DA', // Initial color (Gray)
           },
           '50%': {
-            color: '#4bb8a9', // Primary color
+            color: '#455A64', // Primary color
           },
           '100%': {
-            color: '#455A64', // Return to initial color
+            color: '#FBD3DA', // Return to initial color
           },
         },
         translateY: {

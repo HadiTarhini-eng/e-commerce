@@ -14,6 +14,7 @@ import SignInPage from './Pages/client/SignInPage';
 import OrderTrack from './Pages/client/OrderTrack';
 import OrderHistory from './Pages/client/OrderHistory';
 import OrderDetails from './Pages/client/OrderDetails';
+import Favorites from './Pages/client/Favorites';
 
 const App = () => {
   return (
@@ -31,6 +32,7 @@ const App = () => {
           <Route path="/orderHistory" element={<OrderHistory />}/>
           <Route path="/orderTrack/:orderID" element={<OrderTrack />}/>
           <Route path="/orderDetails/:orderID" element={<OrderDetails />}/>
+          <Route path="/favorites" element={<Favorites />}/>
         </Route>
 
         {/* Admin */}

@@ -4,7 +4,7 @@ import CategoryCardHolder from '../../components/client/home/holders/CategoryCar
 import ProductCardHolder from '../../components/client/home/holders/ProductCardHolder';
 import Ads from '../../components/client/home/Ads';
 import SearchBar from '../../components/client/home/SearchBar';
-import { fetchCarouselData } from '../../api/clientApi';
+import { fetchCarouselData } from '../../api/ClientApi';
 
 const Home = () => {
   const [carouselData, setCarouselData] = useState([]);
@@ -49,7 +49,7 @@ const Home = () => {
   };
 
   return (
-    <div className="min-h-screen bg-palette-body-3 flex flex-col items-center w-full mt-10">
+    <div className="min-h-screen bg-palette-body-3 flex flex-col items-center w-full">
       {/* Search Bar */}
       <div className="w-full max-w-screen-lg px-4 mt-4">
         <SearchBar placeholder="Search in Blush&eacute;" onSearchChange={setSearchTerm} />

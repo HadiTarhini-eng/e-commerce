@@ -88,7 +88,7 @@ const InputField = ({
             )}
           </select>
         </div>
-      );
+      );      
 
     case 'textarea':
       return (

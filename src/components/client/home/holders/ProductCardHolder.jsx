@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ProductCard from '../cards/ProductCard'; // Assuming ProductCard is in the same directory
 import { calculateDiscount } from '../../../../utils/discountUtils'; // Import the discount calculation function
-import { fetchProductsData } from '../../../../api/clientApi';
+import { fetchProductsData } from '../../../../api/ClientApi';
 
 const ProductCardHolder = ({ selectedCategories, searchTerm, fromFavorites }) => {
   const [products, setProducts] = useState([]);
@@ -17,6 +17,7 @@ const ProductCardHolder = ({ selectedCategories, searchTerm, fromFavorites }) =>
         const initializedProducts = productsData.map((product) => ({
           ...product,
           isFavorited: false, // Default value; update if needed
+          outOfStock: product.stock === "0", // Check if the product is out of stock
         }));
         setProducts(initializedProducts);
       } catch (err) {
@@ -41,6 +42,11 @@ const ProductCardHolder = ({ selectedCategories, searchTerm, fromFavorites }) =>
     return matchesSearchTerm && matchesCategory;
   });
 
+  // If fromFavorites is true, filter out products that are not favorited
+  const displayedProducts = fromFavorites
+    ? filteredProducts.filter((product) => product.isFavorited)
+    : filteredProducts;
+
   // Conditional rendering based on loading and error states
   if (isLoading) {
     return <div>Loading...</div>;
@@ -60,13 +66,16 @@ const ProductCardHolder = ({ selectedCategories, searchTerm, fromFavorites }) =>
         {/* Title and Label (stacked vertically) */}
         <div className="flex flex-col">
           <div>Products</div>
-          <div className="text-sm text-dark-charcoal mt-1">{categoryLabel}</div>
+          {/* Show category label only if fromFavorites is false */}
+          {!fromFavorites && (
+            <div className="text-sm text-dark-charcoal mt-1">{categoryLabel}</div>
+          )}
         </div>
       </div>
 
       <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4 pt-0">
-        {filteredProducts.length > 0 ? (
-          filteredProducts.map((product) => {
+        {displayedProducts.length > 0 ? (
+          displayedProducts.map((product) => {
             const { newPrice, oldPrice, chipText, chipColor } = calculateDiscount(product);
 
             return (
@@ -81,7 +90,7 @@ const ProductCardHolder = ({ selectedCategories, searchTerm, fromFavorites }) =>
                 chipColor={chipColor}
                 destination={product.destination}
                 isFavorited={product.isFavorited}
-                fromFavorites={fromFavorites}
+                outOfStock={product.outOfStock}
               />
             );
           })

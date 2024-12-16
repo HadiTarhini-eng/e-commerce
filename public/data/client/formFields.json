@@ -1,33 +1,56 @@
 {
-    "fields": [
-      {
-        "id": "name",
-        "label": "Your name",
-        "type": "text",
-        "placeholder": "Full Name",
-        "required": true
-      },
-      {
-        "id": "email",
-        "label": "Your email",
-        "type": "email",
-        "placeholder": "email@email.com",
-        "required": true
-      },
-      {
-        "id": "phoneNumber",
-        "label": "Phone Number",
-        "type": "text",
-        "placeholder": "123-456-7890",
-        "required": true
-      },
-      {
-        "id": "address",
-        "label": "Address",
-        "type": "text",
-        "placeholder": "Area, Street, Building, Floor",
-        "required": true
-      }
-    ]
-  }
-  
+  "fields": [
+    {
+      "id": "name",
+      "label": "Your name",
+      "type": "text",
+      "placeholder": "Full Name",
+      "required": true
+    },
+    {
+      "id": "email",
+      "label": "Your email",
+      "type": "email",
+      "placeholder": "email@email.com",
+      "required": true
+    },
+    {
+      "id": "phoneNumber",
+      "label": "Phone Number",
+      "type": "text",
+      "placeholder": "123-456-7890",
+      "required": true
+    },
+    {
+      "id": "city",
+      "label": "City",
+      "type": "select",
+      "placeholder": "Select your city",
+      "options": [
+        { "title": "Beirut" },
+        { "title": "Tripoli" },
+        { "title": "Sidon" },
+        { "title": "Tyre" },
+        { "title": "Zahle" },
+        { "title": "Jounieh" },
+        { "title": "Baabda" },
+        { "title": "Byblos" },
+        { "title": "Batroun" },
+        { "title": "Aley" },
+        { "title": "Bint Jbeil" },
+        { "title": "Rashaya" },
+        { "title": "Jezzine" },
+        { "title": "Koura" },
+        { "title": "Hermel" }
+      ],
+      "required": true
+    },
+    {
+      "id": "address",
+      "label": "Address",
+      "type": "text",
+      "placeholder": "Area, Street, Building, Floor",
+      "required": true
+    }
+  ]
+}

@@ -14,8 +14,8 @@
       },
       {
         "id": "3",
-        "label": "Wish",
-        "value": "wish",
+        "label": "Cash on pickup",
+        "value": "cashOnPickup",
         "display": false
       }
     ]

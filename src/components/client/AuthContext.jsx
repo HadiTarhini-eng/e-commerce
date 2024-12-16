@@ -1,3 +1,4 @@
+// AuthContext.js
 import React, { createContext, useState, useEffect, useContext } from 'react';
 import CryptoJS from 'crypto-js';
 
@@ -15,6 +16,7 @@ export const useAuth = () => {
 // AuthProvider Component
 export const AuthProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userId, setUserId] = useState(null); // Store the decrypted userId
 
   // Check if the user is logged in when the app is mounted
   useEffect(() => {
@@ -22,8 +24,9 @@ export const AuthProvider = ({ children }) => {
     if (encryptedUserData) {
       try {
         const decryptedUserData = decryptData(encryptedUserData, secretKey);
-        if (decryptedUserData) {
-          setIsLoggedIn(true); // User is logged in if valid data is found
+        if (decryptedUserData && decryptedUserData.userId) {
+          setIsLoggedIn(true);
+          setUserId(decryptedUserData.userId); // Set the decrypted userId
         }
       } catch (error) {
         console.error('Failed to decrypt user data:', error);
@@ -36,11 +39,13 @@ export const AuthProvider = ({ children }) => {
     setIsLoggedIn(true);
     const encryptedData = encryptData(user, secretKey); // Encrypt and store user data
     localStorage.setItem('userData', encryptedData);
+    setUserId(user.userId); // Store userId from the logged-in user
   };
 
   // Function to handle logout
   const logout = () => {
     setIsLoggedIn(false);
+    setUserId(null); // Clear the userId on logout
     localStorage.removeItem('userData'); // Clear encrypted user data from localStorage
   };
 
@@ -57,7 +62,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn, login, logout }}>
+    <AuthContext.Provider value={{ isLoggedIn, login, logout, userId }}>
       {children}
     </AuthContext.Provider>
   );
