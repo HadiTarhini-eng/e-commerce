@@ -10,6 +10,7 @@ $query = $conn->prepare("
     FROM orders o
     LEFT JOIN lookup l ON l.id = o.statusID
     where userID=?
+    ORDER BY o.id DESC
 ");
 
 $query->bind_param("i", $userID);
