@@ -50,7 +50,7 @@ const AddToCart = ({ product, selectedScent, hasScents }) => {
         chipColor: product.chipColor,
         discountValue: product.discountValue,
         ...(hasScents && selectedScent ? {
-          scentId: selectedScent.id,
+          scentId: selectedScent.scentID,
           scentName: selectedScent.scentName,
           scentImage: selectedScent.scentImage, // Ensure you're using scentImage, not image
         } : {
