@@ -63,6 +63,11 @@ const cartSlice = createSlice({
       }
     },
 
+    // Clear all products from the cart
+    clearCart: (state) => {
+      state.cart = [];
+    },
+
     // Update checkout data in the state
     updateCheckoutData: (state, action) => {
       const { field, value } = action.payload;
