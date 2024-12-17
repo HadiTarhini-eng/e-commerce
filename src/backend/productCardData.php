@@ -5,30 +5,43 @@ header('Content-Type: application/json');
 
 $products = array();
 $params = [];
+$types = "";
 $whereCondition = "";
+$favCondition = "";
 
-if (isset($_GET['id'])) {
-    $id = $_GET['id'];
+$userID = isset($_GET['userID']) ? (int)$_GET['userID'] : null;
+
+if (isset($_GET['id']) && !empty($_GET['id'])) {
+    $id = (int)$_GET['id'];
     $whereCondition = "WHERE p.id = ?";
-    $params[] = $id;
+    $favCondition = "LEFT JOIN favorites f ON f.productID = p.id AND f.userID = ?";
+    $params = [$userID, $id];
+    $types = "ii";
+} else {
+    $favCondition = "LEFT JOIN favorites f ON f.productID = p.id AND f.userID = ?";
+    $params = [$userID];
+    $types = "i";
 }
 
 $query = $conn->prepare("
     SELECT p.id, p.productName, p.discount, p.price, p.description, p.categoryID, p.image, c.categoryName,
-           r.id AS reviewID, u.fullName AS username, r.description AS reviewComment, r.date AS reviewDate,
-           pd.scentID AS scentID, si.image AS scentImage, pd.stock AS stock, s.scentName AS scentName
+           pd.scentID AS scentID, pd.stock AS stock, s.scentName AS scentName, f.id AS isFavorited
+           " . (isset($id) ? ", r.id AS reviewID, u.fullName AS username, r.description AS reviewComment, r.date AS reviewDate,
+           si.image AS scentImage" : "") . "
     FROM products p
     LEFT JOIN ProductData pd ON pd.productID = p.id
     LEFT JOIN Scents s ON s.id = pd.scentID
-    LEFT JOIN scentImages si ON si.productDataID = pd.id
     LEFT JOIN categories c ON p.categoryID = c.id
+    " . $favCondition . "
+    " . (isset($id) ? "
     LEFT JOIN reviews r ON p.id = r.productID
     LEFT JOIN users u ON u.id = r.userID
+    LEFT JOIN scentImages si ON si.productDataID = pd.id" : "") . "
     $whereCondition
 ");
 
 if (!empty($params)) {
-    $query->bind_param("i", $params[0]);
+    $query->bind_param($types, ...$params);
 }
 
 $query->execute();
@@ -48,22 +61,11 @@ if ($result->num_rows > 0) {
                 "destination" => "/product/" . $row['id'],
                 "description" => $row['description'],
                 "category" => $row['categoryName'],
+                "isFavorited" => !empty($row['isFavorited']) ? true : false,
                 "scents" => [],
                 "reviews" => [],
                 "totalStock" => 0
             );
-        }
-
-        if ($row['reviewID']) {
-            $existingReviews = array_column($products[$productID]['reviews'], 'id');
-            if (!in_array($row['reviewID'], $existingReviews)) {
-                $products[$productID]['reviews'][] = array(
-                    "id" => $row['reviewID'],
-                    "name" => $row['username'],
-                    "comment" => $row['reviewComment'],
-                    "date" => $row['reviewDate']
-                );
-            }
         }
 
         if ($row['scentID']) {
@@ -78,8 +80,22 @@ if ($result->num_rows > 0) {
                 $products[$productID]['totalStock'] += (int)$row['stock'];
             }
 
-            if ($row['scentImage']) {
-                $products[$productID]['scents'][$row['scentID']]['ScentImages'][] = $row['scentImage'];
+            if (isset($id) && $row['scentImage']) {
+                if (!in_array($row['scentImage'], $products[$productID]['scents'][$row['scentID']]['ScentImages'])) {
+                    $products[$productID]['scents'][$row['scentID']]['ScentImages'][] = $row['scentImage'];
+                }
+            }
+        }
+
+        if (isset($id) && $row['reviewID']) {
+            $existingReviews = array_column($products[$productID]['reviews'], 'id');
+            if (!in_array($row['reviewID'], $existingReviews)) {
+                $products[$productID]['reviews'][] = array(
+                    "id" => $row['reviewID'],
+                    "name" => $row['username'],
+                    "comment" => $row['reviewComment'],
+                    "date" => $row['reviewDate']
+                );
             }
         }
     }

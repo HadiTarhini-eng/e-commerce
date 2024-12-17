@@ -49,7 +49,7 @@ const PaymentPage = () => {
       toast.success('You have successfully purchased your order!');
       dispatch(clearCart());
       dispatch(clearCheckoutData());
-      navigate('/home'); // Navigate to the home page
+      navigate('/'); // Navigate to the home page
     } catch (error) {
       console.error('Error confirming purchase:', error);
       toast.error('There was an error confirming your order.');

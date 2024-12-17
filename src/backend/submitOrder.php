@@ -22,15 +22,15 @@ $stmt->bind_param(
     $checkoutData['phoneNumber'], 
     $checkoutData['address'], 
     $checkoutData['city'], 
-    $checkoutData['paymentMethod'], 
-    $checkoutData['deliveryMethod'], 
+    $checkoutData['paymentMethod']['id'], 
+    $checkoutData['deliveryMethod']['id'], 
     $checkoutData['sendAsGift'], 
     $checkoutData['noteForDriver'],
     $date,
     $status,
-    $checkoutData['totalPrice'],
-    $checkoutData['DeliveryCost'],
-    $checkoutData['totalPriceWithDel'],
+    $checkoutData['totalWithoutDelivery'],
+    $checkoutData['deliveryMethod']['deliveryPrice'],
+    $checkoutData['totalWithDelivery'],
 
 );
 $stmt->execute();
@@ -42,20 +42,22 @@ $orderID = $conn->insert_id;
     $stmt_history->bind_param(
     "iis", 
     $orderID, 
-    1, 
-    Now()
+    $status, 
+    $date
     );
     $stmt_history->execute();
 
 foreach ($cartData as $item) {
-    $sql_item = "INSERT INTO orderData (orderID, productId, scentID, price, quantity)
-                 VALUES (?, ?, ?, ?, ?)";
+    
+    $sql_item = "INSERT INTO orderData (orderID, productId, scentID,discount, price, quantity)
+                 VALUES (?, ?, ?, ?, ?,?)";
     $stmt_item = $conn->prepare($sql_item);
     $stmt_item->bind_param(
-        "iiiii", 
+        "iiiiii", 
         $orderID, 
         $item['productId'], 
-        $item['scentID'], 
+        $item['scentId'], 
+        $item['discountValue'], 
         $item['newPrice'], 
         $item['quantity'], 
     );
@@ -66,7 +68,7 @@ $stmt->close();
 $stmt_item->close();
 $stmt_history->close();
 
-echo json_encode(["success" => true, "orderID" => $order_id]);
+echo json_encode(["success" => true, "orderID" => $orderID]);
 http_response_code(200); 
 
 ?>
