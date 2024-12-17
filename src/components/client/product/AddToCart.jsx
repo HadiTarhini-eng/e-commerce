@@ -13,7 +13,6 @@ const AddToCart = ({ product, selectedScent, hasScents }) => {
   const [quantity, setQuantity] = useState(1);
   const [clicked, setClicked] = useState(false);
   const navigate = useNavigate();
-
   const { isLoggedIn } =  useAuth();
 
   const increaseQuantity = () => {

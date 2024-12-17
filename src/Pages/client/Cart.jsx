@@ -24,10 +24,6 @@ const Cart = () => {
 
   const totalWithoutDelivery = calculateTotals();  // Calculate total without delivery
 
-  // Define a delivery charge (fixed or dynamic)
-  const deliveryCharge = 10;  // Example fixed delivery charge
-  const totalWithDelivery = totalWithoutDelivery + deliveryCharge;  // Add delivery charge
-
   // Handle updating product quantity
   const handleQuantityChange = (id, newQuantity) => {
     if (newQuantity < 1) return; // Prevent going below 1
@@ -44,7 +40,6 @@ const Cart = () => {
   const handleContinueToPayment = () => {
     // Dispatch total without delivery and total with delivery to Redux
     dispatch(updateCheckoutData({ field: 'totalWithoutDelivery', value: totalWithoutDelivery }));
-    dispatch(updateCheckoutData({ field: 'totalWithDelivery', value: totalWithDelivery }));
 
     navigate('/checkout'); // Redirect to the payment page
   };
@@ -129,13 +124,9 @@ const Cart = () => {
 
           {/* Fixed Total Summary */}
           <div className="bg-white rounded-xl mt-6 p-4 sm:p-6 w-full mb-2 max-lg:max-w-xl max-lg:mx-auto sticky bottom-0 left-0 z-1">
-            <div className="flex items-center justify-between w-full mb-4 sm:mb-6">
-              <p className="font-normal text-sm sm:text-xl leading-8 text-gray-400">Sub Total</p>
-              <h6 className="font-semibold text-sm sm:text-xl leading-8 text-gray-900">${parseFloat(totalWithoutDelivery).toFixed(0)}</h6>
-            </div>
             <div className="flex items-center justify-between w-full py-4 sm:py-6">
-              <p className="font-manrope font-medium text-lg sm:text-2xl leading-9 text-gray-900">Total (With Delivery)</p>
-              <h6 className="font-manrope font-medium text-lg sm:text-2xl leading-9 text-indigo-500">${parseFloat(totalWithDelivery).toFixed(0)}</h6>
+              <p className="font-manrope font-medium text-lg sm:text-2xl leading-9 text-gray-900">Total (Without Delivery)</p>
+              <h6 className="font-manrope font-medium text-lg sm:text-2xl leading-9 text-indigo-500">${parseFloat(totalWithoutDelivery).toFixed(0)}</h6>
             </div>
           </div>
 

@@ -17,9 +17,10 @@ const ProductCard = ({
   oldPrice,
   chipText,
   chipColor,
+  discountValue,
   destination,
   isFavorited: initialFavoriteStatus,
-  outOfStock,
+  totalStock,
 }) => {
   const [isActive, setIsActive] = useState(false);
   const [clicked, setClicked] = useState(false);
@@ -29,6 +30,8 @@ const ProductCard = ({
 
   const { isLoggedIn } =  useAuth();
 
+  const outOfStock = totalStock === 0;
+
   const handleClick = () => {
     if (outOfStock) {
       toast.error(`${title} is out of stock!`);
@@ -36,6 +39,12 @@ const ProductCard = ({
       setIsActive(!isActive);
       navigate(destination);
     }
+  };
+
+  const defaultScent = {
+    id: 'default',
+    scentName: 'default',
+    scentImage: 'default',
   };
 
   const handleAddToCart = (e) => {
@@ -57,6 +66,10 @@ const ProductCard = ({
           quantity: 1, // Always 1 for each product added from the ProductCard
           chipText,
           chipColor,
+          discountValue,
+          scentId: defaultScent.id,
+          scentName: defaultScent.scentName,
+          scentImage: defaultScent.scentImage,
         })
       );
       setTimeout(() => setClicked(false), 500); // Reset animation
@@ -72,8 +85,8 @@ const ProductCard = ({
     >
       {/* Out of Stock Badge */}
       {outOfStock && (
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-red-500 text-white font-bold text-lg px-4 py-2 rounded-full">
-          Out of Stock
+        <div className="absolute w-full text-center top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 -rotate-12 bg-red-500 text-white font-bold text-lg px-2 py-2 rounded-md">
+          Out of stock
         </div>
       )}
       

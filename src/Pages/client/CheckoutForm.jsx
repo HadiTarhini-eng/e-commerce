@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import toast from 'react-hot-toast';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { updateCheckoutData } from '../../redux/cartSlice';
 import { useNavigate } from 'react-router-dom';
 import { fetchDeliveryMethods, fetchFormFields, fetchPaymentMethods } from '../../api/clientApi';
@@ -8,6 +8,7 @@ import { fetchDeliveryMethods, fetchFormFields, fetchPaymentMethods } from '../.
 const CheckoutForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate(); // Initialize navigate
+  const totalWithoutDelivery = parseInt(useSelector(state => state.cart.checkoutData.totalWithoutDelivery), 10);
 
   const [formData, setFormData] = useState({
     name: '',
@@ -77,6 +78,9 @@ const CheckoutForm = () => {
         field: name,
         value: { id, label, deliveryPrice: parseFloat(deliveryPrice) }, // Remove '$' and convert to number
       }));
+
+      const totalWithDelivery = totalWithoutDelivery + parseInt(deliveryPrice, 10);  // Add delivery charge
+      dispatch(updateCheckoutData({ field: 'totalWithDelivery', value: totalWithDelivery }));
     } else {
       // Dispatch paymentMethod id and label for payment method
       dispatch(updateCheckoutData({
@@ -85,7 +89,6 @@ const CheckoutForm = () => {
       }));
     }
   };
-
 
   const handleGiftCheckboxChange = (e) => {
     const { checked } = e.target;

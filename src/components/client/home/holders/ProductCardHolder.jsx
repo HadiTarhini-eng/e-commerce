@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ProductCard from '../cards/ProductCard'; // Assuming ProductCard is in the same directory
 import { calculateDiscount } from '../../../../utils/discountUtils'; // Import the discount calculation function
-import { fetchProductsData } from '../../../../api/ClientApi';
+import { fetchProductsData } from '../../../../api/clientApi';
 
 const ProductCardHolder = ({ selectedCategories, searchTerm, fromFavorites }) => {
   const [products, setProducts] = useState([]);
@@ -17,7 +17,6 @@ const ProductCardHolder = ({ selectedCategories, searchTerm, fromFavorites }) =>
         const initializedProducts = productsData.map((product) => ({
           ...product,
           isFavorited: false, // Default value; update if needed
-          outOfStock: product.stock === "0", // Check if the product is out of stock
         }));
         setProducts(initializedProducts);
       } catch (err) {
@@ -76,7 +75,7 @@ const ProductCardHolder = ({ selectedCategories, searchTerm, fromFavorites }) =>
       <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4 pt-0">
         {displayedProducts.length > 0 ? (
           displayedProducts.map((product) => {
-            const { newPrice, oldPrice, chipText, chipColor } = calculateDiscount(product);
+            const { newPrice, oldPrice, chipText, chipColor, discountValue } = calculateDiscount(product);
 
             return (
               <ProductCard
@@ -88,9 +87,10 @@ const ProductCardHolder = ({ selectedCategories, searchTerm, fromFavorites }) =>
                 oldPrice={oldPrice}
                 chipText={chipText}
                 chipColor={chipColor}
+                discountValue={discountValue}
                 destination={product.destination}
                 isFavorited={product.isFavorited}
-                outOfStock={product.outOfStock}
+                totalStock={product.totalStock}
               />
             );
           })

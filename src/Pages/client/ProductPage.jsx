@@ -75,6 +75,7 @@ const ProductPage = () => {
           hasScents={hasScents}
           productId={updatedProduct.id}
           scents={availableScents}
+          favorite={updatedProduct.isFavorited}
         />
       </div>
 

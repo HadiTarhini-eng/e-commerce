@@ -5,10 +5,10 @@ import { useAuth } from '../AuthContext';
 import { useNavigate } from 'react-router-dom';
 import useToggleFavorite from '../../../hooks/useToggleFavorite';
 
-const ProductInfo = ({ images, title, newPrice, oldPrice, chipText, chipColor, setSelectedScent, hasScents, productId, scents }) => {
+const ProductInfo = ({ images, title, newPrice, oldPrice, chipText, chipColor, setSelectedScent, hasScents, productId, scents, favorite }) => {
   const isLoading = !images || !title || !newPrice;
 
-  const { isFavorited, toggleFavorite } = useToggleFavorite(false, productId, title);
+  const { isFavorited, toggleFavorite } = useToggleFavorite(favorite, productId, title);
   const sliderRef = useRef(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const navigate = useNavigate();

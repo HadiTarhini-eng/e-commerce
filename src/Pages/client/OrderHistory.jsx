@@ -4,11 +4,11 @@ import { fetchOrderHistory } from '../../api/clientApi';
 import { useAuth } from '../../components/client/AuthContext';
 
 const OrderHistory = () => {
-  const [orders, setOrders] = useState([]);
+  const [orders, setOrders] = useState([]);  // Ensuring orders is always an array
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
-  const { userId } = useAuth()
+  const { userId } = useAuth();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -24,6 +24,7 @@ const OrderHistory = () => {
           setError('No orders found');
         } else {
           setOrders(orders);
+          setError(null);
         }
       } catch (err) {
         setError('Failed to fetch order data. Please try again later.');
@@ -32,7 +33,6 @@ const OrderHistory = () => {
         setLoading(false);
       }
     };
-    console.log(userId);
     fetchData();
   }, [userId]);
 
@@ -64,11 +64,13 @@ const OrderHistory = () => {
     <div className="relative flex flex-col my-6 bg-white shadow-sm border border-slate-200 rounded-lg w-full">
       <div className="p-4">
         <div className="divide-y divide-slate-200">
+          {/* Show message if there are no orders */}
           {orders.length === 0 ? (
             <div className="flex justify-center items-center py-6">
               <span>No orders available</span>
             </div>
           ) : (
+            // Display list of orders if available
             orders.map((order, index) => (
               <div className="flex items-center justify-between pb-3 pt-3 last:pb-0" key={index}>
                 <div className="flex items-center gap-x-3">
