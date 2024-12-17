@@ -240,14 +240,14 @@ export const toggleFavoriteStatus = async (userId, productId, favoriteStatus) =>
 ///////////// POST ///////////////////// REVIEW ///////////// POST /////////////////////
 
 // Submit Review Data (send product id and review details to backend)
-export const submitReview = async (productId, reviewData, userId) => {
+export const submitReview = async (productId, reviewData) => {
   try {
     // Send the productId, review data, and userId to the backend
     const response = await axios.post('http://localhost/e-commerce/src/backend/submitReview.php', {
       productId,
       comment: reviewData.comment,
       date: reviewData.date,
-      userId,  // Include the userId in the payload
+      userId: reviewData.userId
     });
 
     if (response.status !== 200) {
