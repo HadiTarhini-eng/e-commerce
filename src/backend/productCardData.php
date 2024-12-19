@@ -9,7 +9,7 @@ $types = "";
 $whereCondition = "";
 $favCondition = "";
 
-$userID = isset($_GET['userID']) ? (int)$_GET['userID'] : null;
+$userID = isset($_GET['userId']) ? (int)$_GET['userId'] : null;
 
 if (isset($_GET['id']) && !empty($_GET['id'])) {
     $id = (int)$_GET['id'];
@@ -39,7 +39,6 @@ $query = $conn->prepare("
     LEFT JOIN scentImages si ON si.productDataID = pd.id" : "") . "
     $whereCondition
 ");
-
 if (!empty($params)) {
     $query->bind_param($types, ...$params);
 }
