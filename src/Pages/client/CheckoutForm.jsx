@@ -141,11 +141,6 @@ const CheckoutForm = () => {
       dispatch(updateCheckoutData({ field, value: formData[field] }));
     }
 
-    // Show success toast
-    toast.success('Your order has been successfully submitted!', {
-      duration: 3000,
-    });
-
     // Navigate to the /payment page
     navigate('/payment');
   };
@@ -245,6 +240,7 @@ const CheckoutForm = () => {
                       checked={formData.paymentMethod === method.value}
                       onChange={handleRadioChange}
                       className="h-4 w-4 border-gray-300 bg-white text-primary-600"
+                      required
                     />
                     <div className="ms-4 text-sm">
                       <label htmlFor={method.id} className="font-medium leading-none text-gray-900 dark:text-white">{method.label}</label>
@@ -271,6 +267,7 @@ const CheckoutForm = () => {
                         checked={formData.deliveryMethod === method.value}
                         onChange={handleRadioChange}
                         className="h-4 w-4 border-gray-300 bg-white text-primary-600"
+                        required
                       />
                     </div>
                     <div className="ms-4 text-sm">
