@@ -5,6 +5,7 @@ import { updateCheckoutData } from '../../redux/cartSlice';
 import { useNavigate } from 'react-router-dom';
 import { fetchDeliveryMethods, fetchFormFields, fetchPaymentMethods } from '../../api/clientApi';
 import InputField from '../../components/InputField';
+import { isPossiblePhoneNumber } from 'react-phone-number-input';
 
 const CheckoutForm = () => {
   const dispatch = useDispatch();

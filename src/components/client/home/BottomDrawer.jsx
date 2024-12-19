@@ -85,7 +85,7 @@ const BottomDrawer = ({ isDrawerOpen, toggleDrawer, productId }) => {
       {/* Drawer */}
       {(isDrawerOpen && selectedProduct) && (
         <div
-          className="fixed bottom-0 left-0 right-0 z-40 w-full h-[70%] overflow-y-auto transition-transform bg-palette-white transform-none"
+          className="fixed bottom-0 left-0 right-0 z-40 w-full h-[50%] overflow-y-auto transition-transform bg-palette-white transform-none"
         >
           {/* Header */}
           <div className="bg-palette-body-4 flex justify-center align-center w-full">
