@@ -40,13 +40,19 @@ const cartSlice = createSlice({
     // Add product to the cart
     addToCart: (state, action) => {
       const product = action.payload;
-      const existingProduct = state.cart.find((item) => item.productId === product.productId);
+      // Check if the product with the same productId and scentId already exists
+      const existingProduct = state.cart.find(
+        (item) => item.productId === product.productId && item.scentId === product.scentId
+      );
+    
       if (existingProduct) {
-        existingProduct.quantity += product.quantity; // Update quantity if the product already exists
+        // If the product already exists and scentId matches, update quantity
+        existingProduct.quantity += product.quantity;
       } else {
-        state.cart.push(product); // Otherwise, add the product to the cart
+        // Otherwise, add the new product to the cart
+        state.cart.push(product);
       }
-    },
+    },    
 
     // Remove product from the cart
     removeFromCart: (state, action) => {

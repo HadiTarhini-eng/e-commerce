@@ -5,13 +5,15 @@ import { toast } from 'react-hot-toast';
 import { useAuth } from '../components/client/AuthContext';
 import { toggleFavoriteStatus } from '../api/clientApi';
 
-const useToggleFavorite = (initialFavoriteStatus, productId, title) => {
+const useToggleFavorite = (initialFavoriteStatus, productId, title, outOfStock) => {
   const [isFavorited, setIsFavorited] = useState(initialFavoriteStatus);
   const navigate = useNavigate();
   const { isLoggedIn, userId } = useAuth(); // Now we have access to userId
 
   const toggleFavorite = async () => {
-    if (!isLoggedIn) {
+    if (outOfStock) {
+      toast.error(`${title} is out of stock!`);
+    } else if (!isLoggedIn) {
       navigate('/signin');
     } else {
       try {

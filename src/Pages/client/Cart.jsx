@@ -47,7 +47,7 @@ const Cart = () => {
   return (
     <div className="min-h-screen flex flex-col items-center w-full bg-palette-body-3">
       <section className="md:py-24 relative mt-2">
-        <div className="w-full max-w-7xl px-4 md:px-5 lg-6 mx-auto">
+        <div className="w-full max-w-7xl px-1 md:px-5 lg-6 mx-auto">
           {/* Show loading spinner while fetching data */}
           {loading ? (
             <div className="flex justify-center items-center h-full">
@@ -65,15 +65,16 @@ const Cart = () => {
             ) : (
               cartItems.map((product) => (
                 <div key={product.productId} className="bg-white grid grid-cols-1 lg:grid-cols-2 shadow-md border-2 border-gray-200 rounded-lg m-2 py-3">
-                  <div className="flex items-center flex-row gap-4 w-full max-xl:max-w-xl max-xl:mx-auto">
+                  <div className="flex items-center flex-row gap-2 w-full max-xl:max-w-xl max-xl:mx-auto">
                     {/* Left side - Image and Product Name */}
                     <div className="flex items-center gap-1 w-full max-w-[200px] sm:max-w-[250px]">
                       <div className="img-box">
                         <img src={product.image} alt={product.title} className="w-fit rounded-xl object-cover" />
                       </div>
                       <div className="pro-data w-full">
-                        <h5 className="font-semibold text-base sm:text-xl leading-8 text-black">{product.title}</h5>
-                        <h6 className="font-medium text-sm sm:text-lg leading-8 text-indigo-600">${product.newPrice}</h6>
+                        <h5 className="font-semibold text-xl sm:text-xl leading-8 text-black">{product.title}</h5>
+                        <p className="font-medium text-sm sm:text-lg text-black">{product.scentName}</p>
+                        <h6 className="font-medium text-sm sm:text-lg leading-8 text-black">${product.newPrice}</h6>
                       </div>
                     </div>
 

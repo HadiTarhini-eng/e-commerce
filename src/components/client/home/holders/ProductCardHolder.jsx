@@ -1,18 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import ProductCard from '../cards/ProductCard'; // Assuming ProductCard is in the same directory
 import { calculateDiscount } from '../../../../utils/discountUtils'; // Import the discount calculation function
+import { useAuth } from '../../AuthContext';
 import { fetchProductsData } from '../../../../api/clientApi';
 
 const ProductCardHolder = ({ selectedCategories, searchTerm, fromFavorites }) => {
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+  const { userId } = useAuth();
 
   // Fetch the products data when the component mounts
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const productsData = await fetchProductsData();
+        const productsData = await fetchProductsData(userId);
         // Initialize each product with a "favorite" status
         const initializedProducts = productsData.map((product) => ({
           ...product,
@@ -27,7 +29,7 @@ const ProductCardHolder = ({ selectedCategories, searchTerm, fromFavorites }) =>
     };
 
     fetchData();
-  }, []);
+  }, [userId]);
 
   // Filter products by search term and selected categories
   const filteredProducts = products.filter((product) => {

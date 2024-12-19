@@ -66,6 +66,12 @@ const CheckoutForm = () => {
   const handleRadioChange = (e) => {
     const { name, value } = e.target;
 
+    // Update formData state to reflect the selected radio button
+    setFormData((prevState) => ({
+      ...prevState,
+      [name]: value,  // Set the formData's paymentMethod or deliveryMethod value
+    }));
+    
     // Find the method by matching the value
     const selectedMethod = (name === 'paymentMethod' ? paymentMethods : deliveryMethods).find(
       (method) => method.value === value

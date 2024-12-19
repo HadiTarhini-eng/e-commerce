@@ -4,11 +4,13 @@ import ProductInfo from '../../components/client/product/ProductInfo';
 import AddToCart from '../../components/client/product/AddToCart';
 import Description from '../../components/client/product/Description';
 import ReviewContainer from '../../components/client/product/ReviewContainer';
-import { calculateDiscount } from '../../utils/discountUtils';  // Import the discount calculation utility
+import { calculateDiscount } from '../../utils/discountUtils';
 import { fetchProductById } from '../../api/clientApi';
+import { useAuth } from '../../components/client/AuthContext';
 
 const ProductPage = () => {
   const { id } = useParams();
+  const { userId } = useAuth();
   const [product, setProduct] = useState(null);
   const [selectedScent, setSelectedScent] = useState(null);
   const [error, setError] = useState(null);
@@ -16,7 +18,10 @@ const ProductPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const selectedProduct = await fetchProductById(id);
+        if (!userId) {
+          throw new Error('User not logged in');
+        }
+        const selectedProduct = await fetchProductById(id, userId);
         setProduct(selectedProduct);
       } catch (err) {
         setError(err.message);
@@ -24,7 +29,7 @@ const ProductPage = () => {
     };
 
     fetchData();
-  }, [id]);
+  }, [id, userId]);
 
   const handleSubmitReview = (newReview) => {
     setProduct((prevProduct) => ({

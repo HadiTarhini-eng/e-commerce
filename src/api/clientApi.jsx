@@ -31,8 +31,10 @@ export const fetchCategoriesData = async (page) => {
 };
 
 // Fetch Products Data
-export const fetchProductsData = async () => {
-    const response = await axios.get('http://localhost/e-commerce/src/backend/productCardData.php'); // Fetch the product data
+export const fetchProductsData = async (userId) => {
+    const response = await axios.get('http://localhost/e-commerce/src/backend/productCardData.php', {
+      params: { userId }
+    }); // Fetch the product data
     if (response.status !== 200) {
       throw new Error('Failed to fetch products'); // Throw error if the response is not OK
     }
@@ -51,21 +53,22 @@ export const fetchAdsData = async () => {
 
 ///////////// FETCH ///////////////////// PRODUCT PAGE ///////////// FETCH /////////////////////
 
-// Fetch Product by ID
-export const fetchProductById = async (id) => {
-    const response = await axios.get('http://localhost/e-commerce/src/backend/productCardData.php',{
-      params: { id }
-    }); // Fetch all products data
-    if (response.status !== 200) {
-      throw new Error('Failed to fetch products data'); // Throw an error if the response is not OK
-    }
-  
-    const selectedProduct = response.data.products.find((product) => product.id === parseInt(id));
-    if (!selectedProduct) {
-      throw new Error(`Product with ID ${id} not found`);
-    }
-  
-    return selectedProduct; // Return the selected product
+// Fetch Product by ID with userId
+export const fetchProductById = async (id, userId) => {
+  const response = await axios.get('http://localhost/e-commerce/src/backend/productCardData.php', {
+    params: { id, userId }
+  });
+
+  if (response.status !== 200) {
+    throw new Error('Failed to fetch products data');
+  }
+
+  const selectedProduct = response.data.products.find((product) => product.id === parseInt(id));
+  if (!selectedProduct) {
+    throw new Error(`Product with ID ${id} not found`);
+  }
+
+  return selectedProduct; // Return the selected product
 };
 
 

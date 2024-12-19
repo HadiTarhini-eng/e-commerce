@@ -2,7 +2,7 @@ import React, { createContext, useState, useEffect, useContext } from 'react';
 import CryptoJS from 'crypto-js';
 
 // Secret key for encryption (keep it secure!)
-const secretKey = 'your_secret_key'; // Make sure to use a secure key
+const secretKey = 'the_key_is_in_the_hands_of_the_king'; // Make sure to use a secure key
 
 // Create the AuthContext
 const AuthContext = createContext();
