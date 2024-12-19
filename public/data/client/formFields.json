@@ -17,7 +17,7 @@
     {
       "id": "phoneNumber",
       "label": "Phone Number",
-      "type": "text",
+      "type": "phoneNumber",
       "placeholder": "123-456-7890",
       "required": true
     },

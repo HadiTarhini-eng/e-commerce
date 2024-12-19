@@ -1,4 +1,9 @@
 import React, { useState } from 'react';
+import PhoneInput, {
+  isPossiblePhoneNumber,
+  formatPhoneNumber,
+  formatPhoneNumberIntl,
+} from 'react-phone-number-input';
 
 const InputField = ({
   type,
@@ -63,6 +68,34 @@ const InputField = ({
         </div>
       );
 
+    case 'phoneNumber':
+      return (
+        <div>
+          <label htmlFor={id} className="text-sm font-medium">
+            {title}
+          </label>
+          <PhoneInput
+            id={id}
+            placeholder={placeholder}
+            value={value}
+            onChange={onChange}
+            required={required}
+            className="w-full px-3 py-2 border rounded"
+          />
+          {/* Phone number validation */}
+          {value && !isPossiblePhoneNumber(value) && (
+            <p className="text-xs text-red-600">Invalid phone number</p>
+          )}
+          {value && isPossiblePhoneNumber(value) && (
+            <>
+              <p className="text-xs text-green-600">Valid phone number</p>
+              <p className="text-xs text-gray-600">National: {formatPhoneNumber(value)}</p>
+              <p className="text-xs text-gray-600">International: {formatPhoneNumberIntl(value)}</p>
+            </>
+          )}
+        </div>
+      );
+
     case 'select':
       return (
         <div>
@@ -88,7 +121,7 @@ const InputField = ({
             )}
           </select>
         </div>
-      );      
+      );
 
     case 'textarea':
       return (

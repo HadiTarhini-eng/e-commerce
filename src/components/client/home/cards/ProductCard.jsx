@@ -21,6 +21,8 @@ const ProductCard = ({
   destination,
   isFavorited: initialFavoriteStatus,
   totalStock,
+  onShowDrawer,
+  updatedProductId
 }) => {
   const [isActive, setIsActive] = useState(false);
   const [clicked, setClicked] = useState(false);
@@ -42,12 +44,6 @@ const ProductCard = ({
     }
   };
 
-  const defaultScent = {
-    id: 'default',
-    scentName: 'default',
-    scentImage: 'default',
-  };
-
   const handleAddToCart = (e) => {
     e.stopPropagation(); // Prevent the click event from propagating
     if (outOfStock) {
@@ -55,25 +51,27 @@ const ProductCard = ({
     } else if (!isLoggedIn) {
       navigate('/signin');
     } else {
-      toast.success(`${title} added to the cart!`);
-      setClicked(true);
-      dispatch(
-        addToCart({
-          productId: id,
-          title,
-          newPrice,
-          oldPrice,
-          image,
-          quantity: 1, // Always 1 for each product added from the ProductCard
-          chipText,
-          chipColor,
-          discountValue,
-          scentId: defaultScent.id,
-          scentName: defaultScent.scentName,
-          scentImage: defaultScent.scentImage,
-        })
-      );
-      setTimeout(() => setClicked(false), 500); // Reset animation
+      updatedProductId(id);
+      onShowDrawer();
+      // toast.success(`${title} added to the cart!`);
+      // setClicked(true);
+      // dispatch(
+      //   addToCart({
+      //     productId: id,
+      //     title,
+      //     newPrice,
+      //     oldPrice,
+      //     image,
+      //     quantity: 1, // Always 1 for each product added from the ProductCard
+      //     chipText,
+      //     chipColor,
+      //     discountValue,
+      //     scentId: defaultScent.id,
+      //     scentName: defaultScent.scentName,
+      //     scentImage: defaultScent.scentImage,
+      //   })
+      // );
+      // setTimeout(() => setClicked(false), 500); // Reset animation
     }
   };
 

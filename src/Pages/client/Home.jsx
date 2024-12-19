@@ -4,12 +4,24 @@ import CategoryCardHolder from '../../components/client/home/holders/CategoryCar
 import ProductCardHolder from '../../components/client/home/holders/ProductCardHolder';
 import Ads from '../../components/client/home/Ads';
 import SearchBar from '../../components/client/home/SearchBar';
-import { fetchCarouselData } from '../../api/ClientApi';
+import { fetchCarouselData } from '../../api/clientApi';
+import BottomDrawer from '../../components/client/home/BottomDrawer';
 
 const Home = () => {
   const [carouselData, setCarouselData] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState([]);
-  const [searchTerm, setSearchTerm] = useState(''); // State for search term
+  const [searchTerm, setSearchTerm] = useState('');
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [productId, setProductId] = useState(null);
+
+  const updatedProductId = (newId) => {
+    setProductId(newId);
+  }
+
+  // Function to toggle the drawer
+  const toggleDrawer = () => {
+    setIsDrawerOpen(!isDrawerOpen);
+  };
 
   useEffect(() => {
     // Define an inner async function and call it immediately
@@ -71,6 +83,17 @@ const Home = () => {
           selectedCategories={selectedCategories}
           searchTerm={searchTerm} // Pass searchTerm to ProductCardHolder
           fromFavorites={false}
+          onShowDrawer={toggleDrawer} 
+          updatedProductId={updatedProductId}
+        />
+      </div>
+
+      {/* Bottom Drawer */}
+      <div className="w-full max-w-screen-lg">
+        <BottomDrawer
+          isDrawerOpen={isDrawerOpen} 
+          toggleDrawer={toggleDrawer}
+          productId={productId}
         />
       </div>
     </div>

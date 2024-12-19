@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { updateCheckoutData } from '../../redux/cartSlice';
 import { useNavigate } from 'react-router-dom';
 import { fetchDeliveryMethods, fetchFormFields, fetchPaymentMethods } from '../../api/clientApi';
+import InputField from '../../components/InputField';
 
 const CheckoutForm = () => {
   const dispatch = useDispatch();
@@ -53,12 +54,13 @@ const CheckoutForm = () => {
   }, []);
 
   const handleChange = (e) => {
-    const { id, value } = e.target;
+    const { id, value } = e.target || e; // Added fallback in case e.target is undefined
+  
     setFormData((prevState) => ({
       ...prevState,
       [id]: value,
     }));
-
+  
     // Dispatch to Redux store
     dispatch(updateCheckoutData({ field: id, value }));
   };
@@ -155,8 +157,8 @@ const CheckoutForm = () => {
     if (!data.email || !/\S+@\S+\.\S+/.test(data.email)) {
       errors.email = 'Please enter a valid email address';
     }
-    if (!data.phoneNumber || !/^\d{10}$/.test(data.phoneNumber)) {
-      errors.phoneNumber = 'Phone number must be 10 digits';
+    if (!data.phoneNumber || !isPossiblePhoneNumber(data.phoneNumber)) {
+      errors.phoneNumber = 'Please enter a valid phone number';
     }
     return errors;
   };
@@ -189,6 +191,21 @@ const CheckoutForm = () => {
                           </option>
                         ))}
                       </select>
+                      {errors[field.id] && <p className="text-xs text-red-600">{errors[field.id]}</p>}
+                    </div>
+                  );
+                } else if(field.type === 'phoneNumber') {
+                  return (
+                    <div key={field.id}>
+                      <InputField
+                        type="phoneNumber"
+                        title={field.label}
+                        placeholder={'Enter phone number'}
+                        id={'phoneNumber'}
+                        value={formData.phoneNumber}
+                        onChange={(value) => handleChange({ target: { id: 'phoneNumber', value } })}
+                        required={field.required}
+                      />
                       {errors[field.id] && <p className="text-xs text-red-600">{errors[field.id]}</p>}
                     </div>
                   );

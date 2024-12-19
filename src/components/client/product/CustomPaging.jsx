@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // Import Font
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons'; // Import specific icon
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'; // Import specific icon
 
-const CustomPaging = forwardRef(({ setSelectedScent, scents, onSlideChange }, ref) => {
+const CustomPaging = forwardRef(({ images, isInBottomDrawer }, ref) => {
   const [slider, setSlider] = useState(null); // To keep track of the slider instance
 
   // Slider settings
@@ -14,13 +14,6 @@ const CustomPaging = forwardRef(({ setSelectedScent, scents, onSlideChange }, re
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
-  };
-
-  // Slider navigation handler
-  const handleSliderChange = (index) => {
-    if (onSlideChange) {
-      onSlideChange(index); // Pass the active index to the parent
-    }
   };
 
   // Expose slider instance to parent
@@ -47,16 +40,15 @@ const CustomPaging = forwardRef(({ setSelectedScent, scents, onSlideChange }, re
       <Slider
         {...settings}
         ref={(sliderInstance) => setSlider(sliderInstance)} // Set the slider instance
-        afterChange={handleSliderChange} // Update active index on slide change
-        className="h-[350px] rounded-br-[150px] overflow-hidden bg-palette-body-4 !flex justify-center items-center"
+        className={`overflow-hidden !flex justify-center items-center ${isInBottomDrawer ? 'h-[200px] bg-palette-white' : 'h-[360px] bg-palette-body-4 rounded-br-[150px]'}`}
       >
         {/* Slider images */}
-        {scents.map((scent) => (
-          <div key={scent.id} className="p-2 relative bg-palette-body-4 !flex justify-center items-center">
+        {images.map((image, index) => (
+          <div key={image.id || index} className={`p-2 relative !flex justify-center items-center ${isInBottomDrawer ? 'bg-palette-white' : 'bg-palette-body-4'}`}>
             <img
-              src={scent.image}
-              alt={scent.name}
-              className="bg-palette-white rounded-full border-2 border-palette-white"
+              src={image.image}
+              alt={image.name}
+              className={`bg-palette-white border-2 border-palette-white object-cover ${isInBottomDrawer ? '' : 'rounded-full'}`}
             />
           </div>
         ))}
@@ -64,7 +56,7 @@ const CustomPaging = forwardRef(({ setSelectedScent, scents, onSlideChange }, re
 
       {/* Left button */}
       <button
-        className="absolute left-4 top-1/2 transform -translate-y-1/2 text-palette-mimi-pink-2 p-1 rounded-full z-10"
+        className="absolute left-4 top-1/2 transform -translate-y-1/2 text-palette-mimi-pink-2 p-1 rounded-full z-10 hover:bg-palette-body-4 focus:outline-none"
         onClick={() => slider && slider.slickPrev()}
       >
         <FontAwesomeIcon icon={faArrowLeft} /> {/* Left arrow icon */}
@@ -72,7 +64,7 @@ const CustomPaging = forwardRef(({ setSelectedScent, scents, onSlideChange }, re
 
       {/* Right button */}
       <button
-        className="absolute right-4 top-1/2 transform -translate-y-1/2 text-palette-mimi-pink-2 p-1 rounded-full z-10"
+        className="absolute right-4 top-1/2 transform -translate-y-1/2 text-palette-mimi-pink-2 p-1 rounded-full z-10 hover:bg-palette-body-4 focus:outline-none"
         onClick={() => slider && slider.slickNext()}
       >
         <FontAwesomeIcon icon={faArrowRight} /> {/* Corrected FontAwesome icon */}

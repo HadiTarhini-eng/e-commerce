@@ -1,18 +1,14 @@
 import React, { useState, useRef } from 'react';
 import CustomPaging from './CustomPaging';
 import toast from 'react-hot-toast';
-import { useAuth } from '../AuthContext';
-import { useNavigate } from 'react-router-dom';
 import useToggleFavorite from '../../../hooks/useToggleFavorite';
 
-const ProductInfo = ({ images, title, newPrice, oldPrice, chipText, chipColor, setSelectedScent, hasScents, productId, scents, favorite }) => {
+const ProductInfo = ({ images, title, newPrice, oldPrice, chipText, chipColor, setSelectedScent, hasScents, productId, scents, favorite, isInBottomDrawer }) => {
   const isLoading = !images || !title || !newPrice;
 
   const { isFavorited, toggleFavorite } = useToggleFavorite(favorite, productId, title);
   const sliderRef = useRef(null);
   const [activeIndex, setActiveIndex] = useState(0);
-  const navigate = useNavigate();
-  const { isLoggedIn } = useAuth();
 
   const handleButtonClick = (index) => {
     const selectedScent = scents[index]; // Get the selected scent object
@@ -38,18 +34,17 @@ const ProductInfo = ({ images, title, newPrice, oldPrice, chipText, chipColor, s
         {hasScents && (
           <CustomPaging
             ref={sliderRef}
-            setSelectedScent={setSelectedScent}
-            scents={images}
-            onSlideChange={setActiveIndex}
+            images={images}
+            isInBottomDrawer={isInBottomDrawer}
           />
         )}
       </div>
 
-      <div className="w-full bg-palette-body-4">
-        <div className="w-full p-3 px-5 bg-palette-white rounded-tl-[50px] overflow-hidden">
-          <div className="flex justify-between items-center mb-6">
+      <div className={`w-full ${isInBottomDrawer ? 'bg-palette-white' : 'bg-palette-body-4'}`}>
+        <div className={`w-full p-3 px-5 bg-palette-white rounded-tl-[50px] overflow-hidden ${isInBottomDrawer ? 'p-0' : 'p-3'}`}>
+          <div className={`flex justify-between items-center ${isInBottomDrawer ? 'mb-2' : 'mb-6'}`}>
             <div className="flex flex-col text-left">
-              <h2 className="text-3xl font-semibold text-gray-800 mt-4">{title}</h2>
+              <h2 className={`text-3xl font-semibold text-gray-800 ${isInBottomDrawer ? 'mt-0' : 'mt-4'}`}>{title}</h2>
               <div className="flex flex-row gap-2 items-center">
                 <p className="text-lg font-bold text-palette-chip-red">${newPrice}</p>
                 {oldPrice && (
@@ -108,7 +103,7 @@ const ProductInfo = ({ images, title, newPrice, oldPrice, chipText, chipColor, s
 
         {/* Scents */}
         {hasScents && (
-          <div className="bg-palette-white flex justify-center space-x-2 mt-4 flex flex-col">
+          <div className={`bg-palette-white flex justify-center space-x-2 flex flex-col ${isInBottomDrawer ? 'mt-0' : 'mt-4'}`}>
             <h2 className="text-md font-semibold text-gray-800 px-4">Scents:</h2>
             <div className="flex justify-start space-x-2 p-2">
               {scents.map((scent, index) => (

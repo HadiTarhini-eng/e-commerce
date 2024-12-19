@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import ProductCard from '../cards/ProductCard'; // Assuming ProductCard is in the same directory
 import { calculateDiscount } from '../../../../utils/discountUtils'; // Import the discount calculation function
 import { useAuth } from '../../AuthContext';
-import { fetchProductsData } from '../../../../api/clientApi';
+import { fetchProductsData } from '../../../../../src/api/clientApi';
 
-const ProductCardHolder = ({ selectedCategories, searchTerm, fromFavorites }) => {
+const ProductCardHolder = ({ selectedCategories, searchTerm, fromFavorites, onShowDrawer, updatedProductId }) => {
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -93,6 +93,8 @@ const ProductCardHolder = ({ selectedCategories, searchTerm, fromFavorites }) =>
                 destination={product.destination}
                 isFavorited={product.isFavorited}
                 totalStock={product.totalStock}
+                onShowDrawer={onShowDrawer}
+                updatedProductId={updatedProductId}
               />
             );
           })

@@ -57,11 +57,21 @@ const ProductPage = () => {
   const availableScents = product.scents.filter(scent => scent.scentStock > 0);
   const hasScents = availableScents.length > 0;
 
-  const slides = hasScents
-    ? availableScents.map((scent) => ({
+  // Get the selected scent's data (images) if a scent is selected
+  const selectedScentData = availableScents.find(scent => scent.scentID === selectedScent?.scentID);
+
+  // If there's a selected scent, use its images
+  const slides = selectedScentData
+    ? selectedScentData.ScentImages.map(image => ({
+        id: selectedScentData.scentID,
+        image,
+        name: selectedScentData.scentName,
+      }))
+    : hasScents
+    ? availableScents.map(scent => ({
         id: scent.scentID,
-        image: scent.scentImages, // Use the first image of each scent
-        name: scent.scentName
+        image: scent.ScentImages[0], // You can use the first image of each scent here if you want
+        name: scent.scentName,
       }))
     : [{ id: 0, image: updatedProduct.image }];
 

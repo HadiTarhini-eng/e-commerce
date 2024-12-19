@@ -18,7 +18,7 @@ const useToggleFavorite = (initialFavoriteStatus, productId, title, outOfStock) 
     } else {
       try {
         const newFavoriteStatus = !isFavorited;
-
+        
         // Call the API with the userId, productId, and favoriteStatus
         await toggleFavoriteStatus(userId, productId, newFavoriteStatus);
 
