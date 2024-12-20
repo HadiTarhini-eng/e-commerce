@@ -10,6 +10,7 @@ $data = json_decode($input, true);
 $email = $data['email'];
 $fullName = $data['fullName'];
 $password = $data['password'];
+$phone = $data['phoneNumber'];
 
 // Validate email format
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -33,9 +34,9 @@ $options = ['cost' => 11];
 $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
 
 // Insert new user into the database
-$insertQuery = $conn->prepare("INSERT INTO users (email, fullname, password, type) VALUES (?, ?, ?, ?)");
+$insertQuery = $conn->prepare("INSERT INTO users (email, fullname,phone, password, type) VALUES (?, ?, ?, ?,?)");
 $type = 'client'; // Default type
-$insertQuery->bind_param("ssss", $email, $fullName, $hashedPassword, $type);
+$insertQuery->bind_param("sssss", $email, $fullName,$phone, $hashedPassword, $type);
 
 if ($insertQuery->execute()) {
     echo json_encode(["success" => true, "message" => "Signup successful"]);

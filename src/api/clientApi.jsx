@@ -269,7 +269,7 @@ export const submitReview = async (productId, reviewData) => {
 
 // Fetch Product by ID with userId
 export const fetchOrderNumber = async (userId) => {
-  const response = await axios.get('', {
+  const response = await axios.get('http://localhost/e-commerce/src/backend/nbOfOrders.php', {
     params: { userId }
   });
 
