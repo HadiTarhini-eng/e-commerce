@@ -11,11 +11,11 @@ $userID=$data['userId'];
 $date = date("d-m-Y");
 $status=1;
 $sql = "INSERT INTO orders (userID,name, email, phone, address,city,
-        paymentID ,deliveryID, gift, note,Date,statusID,totalPrice,DeliveryCost,totalPriceWithDel)
-        VALUES (?,?, ?, ?, ?, ?,?, ?, ?, ?,?,?,?,?,?)";
+        paymentID ,deliveryID, gift, note,Date,statusID,totalPrice,DeliveryCost,totalPriceWithDel,discount)
+        VALUES (?,?, ?, ?, ?, ?,?, ?, ?, ?,?,?,?,?,?,?)";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param(
-    "isssssiisssiiii", 
+    "isssssiisssiiiii", 
     $userID,
     $checkoutData['name'], 
     $checkoutData['email'], 
@@ -31,6 +31,7 @@ $stmt->bind_param(
     $checkoutData['totalWithoutDelivery'],
     $checkoutData['deliveryMethod']['deliveryPrice'],
     $checkoutData['totalWithDelivery'],
+    $checkoutData['discount'],
 
 );
 $stmt->execute();

@@ -22,7 +22,7 @@ $query = $conn->prepare("
           LEFT JOIN products p on p.id=od.productID
           LEFT JOIN scents s on s.id=od.scentID
           LEFT JOIN productData pd ON pd.productID = od.productID AND pd.scentID = od.scentID  
-          LEFT JOIN scentImages si on si.ProductDataID=pd.id AND si.dominant = true
+          LEFT JOIN scentImages si on si.ProductDataID=pd.id AND si.dominant = 1
           where o.id=? 
           ORDER BY o.id ASC
 ");
