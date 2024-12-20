@@ -87,7 +87,7 @@ const ProductInfo = ({ images, dominant, title, newPrice, oldPrice, chipText, ch
                     fill="none"
                     className="w-6 h-6 text-gray-400"
                     viewBox="0 0 24 24"
-                    stroke="currentColor"
+                    stroke="red"
                   >
                     <path
                       strokeLinecap="round"

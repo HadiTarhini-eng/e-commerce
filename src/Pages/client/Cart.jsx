@@ -41,7 +41,7 @@ const Cart = () => {
   const calculateTotals = () => {
     const subtotal = cartItems.reduce((acc, product) => acc + product.newPrice * product.quantity, 0);
     let result = {};
-    if(orderNumber === 1) {
+    if(orderNumber === 0) {
       result = {
         originalPrice: subtotal,
         newPrice: (subtotal - (subtotal * 0.1)).toFixed(0)
@@ -68,7 +68,7 @@ const Cart = () => {
   // Handle Continue to Payment button click
   const handleContinueToPayment = () => {
     // Dispatch total without delivery and total with delivery to Redux
-    if(orderNumber === 1){
+    if(orderNumber === 0){
       dispatch(updateCheckoutData({ field: 'totalWithoutDelivery', value: totalWithoutDelivery.newPrice }));
     } else {
       dispatch(updateCheckoutData({ field: 'totalWithoutDelivery', value: totalWithoutDelivery }));
@@ -165,7 +165,7 @@ const Cart = () => {
             <div className="flex items-center justify-between w-full py-4 sm:py-6">
               <p className="font-manrope font-medium text-lg sm:text-2xl leading-9 text-gray-900">Total (Without Delivery)</p>
               <h6 className="font-manrope font-medium text-xl sm:text-2xl leading-9 text-indigo-500 mx-2">
-              {orderNumber === 1 ? (
+              {orderNumber === 0 ? (
                 <>
                   ${parseFloat(totalWithoutDelivery.newPrice).toFixed(0)}
                   <span className="line-through text-gray-500 text-lg font-['Roboto'] mx-1">
@@ -179,7 +179,7 @@ const Cart = () => {
               )}
               </h6>
             </div>
-            {orderNumber === 1 && (
+            {orderNumber === 0 && (
               <p className="font-manrope font-medium text-md text-center sm:text-2xl text-red-600">10% Discount on your first order!</p>
             )}
           </div>
