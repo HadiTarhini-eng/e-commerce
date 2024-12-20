@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../AuthContext';
 
 // Import Heroicons (Plus icon in this case)
-import { PlusIcon } from '@heroicons/react/24/solid';
+import { ShoppingCartIcon } from '@heroicons/react/24/solid';
 import useToggleFavorite from '../../../../hooks/useToggleFavorite';
 
 const ProductCard = ({
@@ -22,18 +22,19 @@ const ProductCard = ({
   isFavorited: initialFavoriteStatus,
   totalStock,
   onShowDrawer,
-  updatedProductId
+  updatedProductId,
+  onToggleFavorite
 }) => {
   const [isActive, setIsActive] = useState(false);
-  const [clicked, setClicked] = useState(false);
+  const [clicked] = useState(false);
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-
   const { isLoggedIn } = useAuth();
-
   const outOfStock = totalStock === 0;
-  
-  const { isFavorited, toggleFavorite } = useToggleFavorite(initialFavoriteStatus, id, title, outOfStock);
+
+  const handleFavoriteClick = (e) => {
+    e.stopPropagation(); // Prevent parent click handler
+    onToggleFavorite(id, title, initialFavoriteStatus); // Inform parent to toggle favorite
+  };
 
   const handleClick = () => {
     if (outOfStock) {
@@ -44,7 +45,7 @@ const ProductCard = ({
     }
   };
 
-  const handleAddToCart = (e) => {
+  const handleOpenDrawer = (e) => {
     e.stopPropagation(); // Prevent the click event from propagating
     if (outOfStock) {
       toast.error(`${title} is out of stock!`);
@@ -53,25 +54,6 @@ const ProductCard = ({
     } else {
       updatedProductId(id);
       onShowDrawer();
-      // toast.success(`${title} added to the cart!`);
-      // setClicked(true);
-      // dispatch(
-      //   addToCart({
-      //     productId: id,
-      //     title,
-      //     newPrice,
-      //     oldPrice,
-      //     image,
-      //     quantity: 1, // Always 1 for each product added from the ProductCard
-      //     chipText,
-      //     chipColor,
-      //     discountValue,
-      //     scentId: defaultScent.id,
-      //     scentName: defaultScent.scentName,
-      //     scentImage: defaultScent.scentImage,
-      //   })
-      // );
-      // setTimeout(() => setClicked(false), 500); // Reset animation
     }
   };
 
@@ -99,12 +81,9 @@ const ProductCard = ({
         {/* Heart Icon */}
         <div
           className={'absolute top-[7px] right-2 cursor-pointer transition-colors'}
-          onClick={(e) => {
-            e.stopPropagation();
-            toggleFavorite();
-          }}
+          onClick={handleFavoriteClick}
         >
-          {isFavorited ? (
+          {initialFavoriteStatus ? (
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="currentColor"
@@ -149,8 +128,8 @@ const ProductCard = ({
           {/* Add Button */}
           <div className="w-full flex justify-end">
             <button
-              className={`relative items-center justify-center w-6 h-6 bg-blue-500 text-white rounded-full transition duration-300 ease-out ${clicked ? 'animate-click' : ''}`}
-              onClick={handleAddToCart}
+              className={`relative items-center justify-center w-6 h-6 bg-pink-300 text-white rounded-full transition duration-300 ease-out ${clicked ? 'animate-click' : ''}`}
+              onClick={handleOpenDrawer}
             >
               {/* Animation background span */}
               <span
@@ -168,7 +147,7 @@ const ProductCard = ({
               <span
                 className={`absolute inset-0 flex items-center justify-center w-full h-full transition-all duration-300 ease ${clicked ? 'opacity-0' : 'opacity-100'}`}
               >
-                <PlusIcon className="w-4 h-4 text-white" /> {/* Heroicons PlusIcon */}
+                <ShoppingCartIcon className="w-4 h-4 text-white" /> {/* Heroicons ShoppingCartIcon */}
               </span>
             </button>
           </div>

@@ -8,7 +8,7 @@ import { MinusIcon } from '@heroicons/react/24/solid';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../AuthContext';
 
-const AddToCart = ({ product, selectedScent, hasScents }) => {
+const AddToCart = ({ product, selectedScent, hasScents, isScentSelected }) => {
   const dispatch = useDispatch(); // Access the dispatch function from Redux
   const [quantity, setQuantity] = useState(1);
   const [clicked, setClicked] = useState(false);
@@ -35,6 +35,8 @@ const AddToCart = ({ product, selectedScent, hasScents }) => {
   const handleAddToCart = () => {
     if(!isLoggedIn) {
       navigate('/signin');
+    } else if(!isScentSelected && hasScents) {
+      toast.error('You must select a scent before you proceed.')
     } else {
       setClicked(true);
   

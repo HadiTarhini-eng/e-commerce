@@ -5,13 +5,14 @@ import ProductInfo from "../product/ProductInfo";
 import AddToCart from "../product/AddToCart";
 import { calculateDiscount } from "../../../utils/discountUtils";
 import { useAuth } from "../AuthContext";
-import { fetchProductById } from "../../../api/clientApi";
+import { fetchProductById } from "../../../api/ClientApi";
 
 const BottomDrawer = ({ isDrawerOpen, toggleDrawer, productId }) => {
   const { userId } = useAuth();
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [error, setError] = useState(null);
   const [selectedScent, setSelectedScent] = useState(null);
+  const [isScentSelected, setIsScentSelected] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -41,7 +42,7 @@ const BottomDrawer = ({ isDrawerOpen, toggleDrawer, productId }) => {
 
   if (!selectedProduct) {
     return (
-      <div className="loading-message">
+      <div className="loading-message hidden">
         <p>Loading product details...</p>
       </div>
     );
@@ -121,6 +122,7 @@ const BottomDrawer = ({ isDrawerOpen, toggleDrawer, productId }) => {
           <div className="mt-2">
             <ProductInfo
               images={ImageSlides}
+              dominant={updatedProduct.image}
               title={updatedProduct.title}
               newPrice={updatedProduct.newPrice}
               oldPrice={updatedProduct.oldPrice}
@@ -132,6 +134,7 @@ const BottomDrawer = ({ isDrawerOpen, toggleDrawer, productId }) => {
               scents={availableScents}
               favorite={updatedProduct.isFavorited}
               isInBottomDrawer={true}
+              setIsScentSelected={setIsScentSelected}
             />
           </div>
 
@@ -141,6 +144,7 @@ const BottomDrawer = ({ isDrawerOpen, toggleDrawer, productId }) => {
                product={updatedProduct} 
                selectedScent={selectedScent} 
                hasScents={hasScents}
+               isScentSelected={isScentSelected}
             />
           </div>
         </div>

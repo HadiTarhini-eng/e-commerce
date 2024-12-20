@@ -3,7 +3,7 @@ import toast from 'react-hot-toast';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateCheckoutData } from '../../redux/cartSlice';
 import { useNavigate } from 'react-router-dom';
-import { fetchDeliveryMethods, fetchFormFields, fetchPaymentMethods } from '../../api/clientApi';
+import { fetchDeliveryMethods, fetchFormFields, fetchPaymentMethods } from '../../api/ClientApi';
 import InputField from '../../components/InputField';
 import { isPossiblePhoneNumber } from 'react-phone-number-input';
 
@@ -88,8 +88,15 @@ const CheckoutForm = () => {
         value: { id, label, deliveryPrice: parseFloat(deliveryPrice) }, // Remove '$' and convert to number
       }));
 
-      const totalWithDelivery = totalWithoutDelivery + parseInt(deliveryPrice, 10);  // Add delivery charge
+      let totalWithDelivery;
+      if (totalWithoutDelivery < 75) {
+        totalWithDelivery = totalWithoutDelivery + parseInt(deliveryPrice, 10);  // Add delivery charge
+      } else {
+        totalWithDelivery = totalWithoutDelivery;  // Free delivery
+      }
+      console.log(totalWithDelivery);
       dispatch(updateCheckoutData({ field: 'totalWithDelivery', value: totalWithDelivery }));
+
     } else {
       // Dispatch paymentMethod id and label for payment method
       dispatch(updateCheckoutData({

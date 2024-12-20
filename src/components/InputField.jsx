@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import PhoneInput, {
-  isPossiblePhoneNumber,
-  formatPhoneNumber,
-  formatPhoneNumberIntl,
+	formatPhoneNumber,
+	formatPhoneNumberIntl,
+	isPossiblePhoneNumber
 } from 'react-phone-number-input';
+import 'react-phone-number-input/style.css';
 
 const InputField = ({
   type,

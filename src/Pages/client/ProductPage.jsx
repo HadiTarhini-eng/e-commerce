@@ -5,7 +5,7 @@ import AddToCart from '../../components/client/product/AddToCart';
 import Description from '../../components/client/product/Description';
 import ReviewContainer from '../../components/client/product/ReviewContainer';
 import { calculateDiscount } from '../../utils/discountUtils';
-import { fetchProductById } from '../../api/clientApi';
+import { fetchProductById } from '../../api/ClientApi';
 import { useAuth } from '../../components/client/AuthContext';
 
 const ProductPage = () => {
@@ -14,6 +14,7 @@ const ProductPage = () => {
   const [product, setProduct] = useState(null);
   const [selectedScent, setSelectedScent] = useState(null);
   const [error, setError] = useState(null);
+  const [isScentSelected, setIsScentSelected] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -81,6 +82,7 @@ const ProductPage = () => {
       <div className="w-full max-w-lg">
         <ProductInfo
           images={slides}
+          dominant={updatedProduct.image}
           title={updatedProduct.title}
           newPrice={updatedProduct.newPrice}
           oldPrice={updatedProduct.oldPrice}
@@ -91,12 +93,13 @@ const ProductPage = () => {
           productId={updatedProduct.id}
           scents={availableScents}
           favorite={updatedProduct.isFavorited}
+          setIsScentSelected={setIsScentSelected}
         />
       </div>
 
       {/* Add To Cart */}
       <div className="w-full max-w-lg px-4 mt-4 bg-palette-white p-2">
-        <AddToCart product={updatedProduct} selectedScent={selectedScent} hasScents={hasScents} />
+        <AddToCart product={updatedProduct} selectedScent={selectedScent} hasScents={hasScents} isScentSelected={isScentSelected} />
       </div>
 
       {/* Description */}

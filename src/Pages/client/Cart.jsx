@@ -3,11 +3,16 @@ import toast from 'react-hot-toast'; // Import toast and Toaster
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import { useDispatch, useSelector } from 'react-redux'; // Import Redux hooks
 import { removeFromCart, updateQuantity, updateCheckoutData } from '../../redux/cartSlice'; // Import actions from cartSlice
+import { useAuth } from '../../../src/components/client/AuthContext';
+import { fetchOrderNumber } from '../../../src/api/ClientApi';
 
 const Cart = () => {
   const navigate = useNavigate(); // Initialize navigate function
   const dispatch = useDispatch(); // Initialize dispatch function
   const cartItems = useSelector(state => state.cart.cart); // Get cart items from Redux store
+  const { userId } = useAuth();
+  const [orderNumber, setOrderNumber] = useState(null);
+  const [error, setError] = useState(null);
 
   // Scroll to top when the component is mounted
   useEffect(() => {
@@ -16,9 +21,33 @@ const Cart = () => {
 
   const [loading, setLoading] = useState(false); // Loading state
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // if (!userId) {
+        //   throw new Error('User not logged in');
+        // }
+        const orderNumber = await fetchOrderNumber(userId);
+        setOrderNumber(orderNumber);
+      } catch (err) {
+        setError(err.message);
+      }
+    };
+
+    fetchData();
+  }, [userId]);
+
   // Calculate subtotal and total (fixed delivery charge)
   const calculateTotals = () => {
     const subtotal = cartItems.reduce((acc, product) => acc + product.newPrice * product.quantity, 0);
+    let result = {};
+    if(orderNumber === 1) {
+      result = {
+        originalPrice: subtotal,
+        newPrice: (subtotal - (subtotal * 0.1)).toFixed(0)
+      }
+      return result;
+    }
     return subtotal;
   };
 
@@ -39,10 +68,18 @@ const Cart = () => {
   // Handle Continue to Payment button click
   const handleContinueToPayment = () => {
     // Dispatch total without delivery and total with delivery to Redux
-    dispatch(updateCheckoutData({ field: 'totalWithoutDelivery', value: totalWithoutDelivery }));
+    if(orderNumber === 1){
+      dispatch(updateCheckoutData({ field: 'totalWithoutDelivery', value: totalWithoutDelivery.newPrice }));
+    } else {
+      dispatch(updateCheckoutData({ field: 'totalWithoutDelivery', value: totalWithoutDelivery }));
+    }
 
     navigate('/checkout'); // Redirect to the payment page
   };
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
 
   return (
     <div className="min-h-screen flex flex-col items-center w-full bg-palette-body-3">
@@ -127,8 +164,24 @@ const Cart = () => {
           <div className="bg-white rounded-xl mt-6 p-4 sm:p-6 w-full mb-2 max-lg:max-w-xl max-lg:mx-auto sticky bottom-0 left-0 z-1">
             <div className="flex items-center justify-between w-full py-4 sm:py-6">
               <p className="font-manrope font-medium text-lg sm:text-2xl leading-9 text-gray-900">Total (Without Delivery)</p>
-              <h6 className="font-manrope font-medium text-lg sm:text-2xl leading-9 text-indigo-500">${parseFloat(totalWithoutDelivery).toFixed(0)}</h6>
+              <h6 className="font-manrope font-medium text-xl sm:text-2xl leading-9 text-indigo-500 mx-2">
+              {orderNumber === 1 ? (
+                <>
+                  ${parseFloat(totalWithoutDelivery.newPrice).toFixed(0)}
+                  <span className="line-through text-gray-500 text-lg font-['Roboto'] mx-1">
+                    ${parseFloat(totalWithoutDelivery.originalPrice).toFixed(0)}
+                  </span>
+                </>
+              ) : (
+                <>
+                  ${parseFloat(totalWithoutDelivery).toFixed(0)}
+                </>
+              )}
+              </h6>
             </div>
+            {orderNumber === 1 && (
+              <p className="font-manrope font-medium text-md text-center sm:text-2xl text-red-600">10% Discount on your first order!</p>
+            )}
           </div>
 
           {/* Continue to Payment Button */}

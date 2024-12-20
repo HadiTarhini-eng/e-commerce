@@ -3,12 +3,12 @@ import CustomPaging from './CustomPaging';
 import toast from 'react-hot-toast';
 import useToggleFavorite from '../../../hooks/useToggleFavorite';
 
-const ProductInfo = ({ images, title, newPrice, oldPrice, chipText, chipColor, setSelectedScent, hasScents, productId, scents, favorite, isInBottomDrawer }) => {
+const ProductInfo = ({ images, dominant, title, newPrice, oldPrice, chipText, chipColor, setSelectedScent, hasScents, productId, scents, favorite, isInBottomDrawer, setIsScentSelected }) => {
   const isLoading = !images || !title || !newPrice;
 
   const { isFavorited, toggleFavorite } = useToggleFavorite(favorite, productId, title);
   const sliderRef = useRef(null);
-  const [activeIndex, setActiveIndex] = useState(0);
+  const [activeIndex, setActiveIndex] = useState(null); // Use null for no scent selected initially
 
   const handleButtonClick = (index) => {
     const selectedScent = scents[index]; // Get the selected scent object
@@ -16,12 +16,17 @@ const ProductInfo = ({ images, title, newPrice, oldPrice, chipText, chipColor, s
     if (selectedScent.scentStock === "0") {
       toast.error(`This scent for this item is out of stock!`);
     } else {
-      setActiveIndex(index);
+      setActiveIndex(index); // Set the selected scent index
       setSelectedScent(selectedScent); // Update the parent state with the selected scent
+      setIsScentSelected(true); // Update the parent state to indicate a scent is selected
       if (sliderRef.current) {
         sliderRef.current.slickGoTo(index); // Scroll to the selected scent image
       }
     }
+  };
+
+  const isScentSelected = () => {
+    return activeIndex !== null; // Check if a scent is selected
   };
 
   if (isLoading) {
@@ -31,12 +36,21 @@ const ProductInfo = ({ images, title, newPrice, oldPrice, chipText, chipColor, s
   return (
     <div className="w-full max-w-2xl mx-auto bg-palette-body-3 overflow-hidden">
       <div className="relative bg-palette-white">
-        {hasScents && (
+        {/* Conditionally render CustomPaging or the dominant image */}
+        {hasScents && isScentSelected() ? (
           <CustomPaging
             ref={sliderRef}
             images={images}
             isInBottomDrawer={isInBottomDrawer}
           />
+        ) : (
+          <div className="w-full h-full flex justify-center">
+            <img
+              src={dominant}
+              alt="Dominant Image"
+              className={`object-cover ${isInBottomDrawer ? 'w-[200px] h-[200px]' : 'w-full h-full'}`}
+            />
+          </div>
         )}
       </div>
 
@@ -87,7 +101,7 @@ const ProductInfo = ({ images, title, newPrice, oldPrice, chipText, chipColor, s
 
               {chipText && (
                 <div
-                  className={`inline-block px-2 py-1 rounded-full text-sm font-semibold text-white ${chipColor === 'green' ? 'bg-green-500' :
+                  className={`inline-block px-3 py-1 rounded-full text-sm font-semibold text-white ${chipColor === 'green' ? 'bg-green-500' :
                     chipColor === 'blue' ? 'bg-blue-500' :
                       chipColor === 'red' ? 'bg-palette-chip-red' :
                         chipColor === 'yellow' ? 'bg-yellow-500' :
@@ -113,8 +127,8 @@ const ProductInfo = ({ images, title, newPrice, oldPrice, chipText, chipColor, s
                   className={`px-2 py-0 text-sm text-palette-complement-3 rounded-full transition-colors duration-300 ${
                     scent.scentStock === "0"
                       ? "bg-gray-400 cursor-not-allowed"
-                      : activeIndex === index
-                      ? "border-2 border-palette-mimi-pink-2"
+                      : isScentSelected() && activeIndex === index
+                      ? "border-2 border-palette-mimi-pink-2" // Only show the border when scent is selected
                       : "border-2 border-grey"
                   }`}
                   disabled={scent.scentStock === "0"} // Disable button if out of stock

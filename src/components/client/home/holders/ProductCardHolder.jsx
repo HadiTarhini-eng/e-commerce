@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import ProductCard from '../cards/ProductCard'; // Assuming ProductCard is in the same directory
 import { calculateDiscount } from '../../../../utils/discountUtils'; // Import the discount calculation function
 import { useAuth } from '../../AuthContext';
-import { fetchProductsData } from '../../../../../src/api/clientApi';
+import { fetchProductsData, toggleFavoriteStatus } from '../../../../api/ClientApi';
+import toast from 'react-hot-toast';
 
 const ProductCardHolder = ({ selectedCategories, searchTerm, fromFavorites, onShowDrawer, updatedProductId }) => {
   const [products, setProducts] = useState([]);
@@ -18,9 +19,9 @@ const ProductCardHolder = ({ selectedCategories, searchTerm, fromFavorites, onSh
         // Initialize each product with a "favorite" status
         const initializedProducts = productsData.map((product) => ({
           ...product,
-          isFavorited: false, // Default value; update if needed
+          isFavorited: product.isFavorited,
         }));
-        setProducts(initializedProducts);
+        setProducts(productsData);
       } catch (err) {
         setError(err.message); // Set error message if there's an issue
       } finally {
@@ -31,6 +32,39 @@ const ProductCardHolder = ({ selectedCategories, searchTerm, fromFavorites, onSh
     fetchData();
   }, [userId]);
 
+  const handleToggleFavorite = async (productId, title, currentFavoriteStatus) => {
+    setProducts((prevProducts) =>
+      prevProducts.map((product) =>
+        product.id === productId
+          ? { ...product, isFavorited: !currentFavoriteStatus } // Toggle favorite status locally
+          : product
+      )
+    );
+  
+    try {
+      const newFavoriteStatus = !currentFavoriteStatus;
+  
+      // Call the API with the userId, productId, and favoriteStatus
+      await toggleFavoriteStatus(userId, productId, newFavoriteStatus);
+  
+      // Show toast based on the action
+      newFavoriteStatus
+        ? toast.success(`${title} added to favorites!`)
+        : toast.error(`${title} removed from favorites!`);
+    } catch (error) {
+      // Revert the favorite state in case of an error (rollback)
+      setProducts((prevProducts) =>
+        prevProducts.map((product) =>
+          product.id === productId
+            ? { ...product, isFavorited: currentFavoriteStatus }
+            : product
+        )
+      );
+      toast.error('Failed to update favorite status. Please try again.');
+    }
+  };
+  
+  
   // Filter products by search term and selected categories
   const filteredProducts = products.filter((product) => {
     const matchesSearchTerm =
@@ -95,6 +129,7 @@ const ProductCardHolder = ({ selectedCategories, searchTerm, fromFavorites, onSh
                 totalStock={product.totalStock}
                 onShowDrawer={onShowDrawer}
                 updatedProductId={updatedProductId}
+                onToggleFavorite={handleToggleFavorite}
               />
             );
           })

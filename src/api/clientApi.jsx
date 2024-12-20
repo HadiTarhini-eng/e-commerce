@@ -263,3 +263,19 @@ export const submitReview = async (productId, reviewData) => {
     throw error; // Propagate the error to the calling function
   }
 };
+
+
+///////////// FETCH ///////////////////// PRODUCT PAGE ///////////// FETCH /////////////////////
+
+// Fetch Product by ID with userId
+export const fetchOrderNumber = async (userId) => {
+  const response = await axios.get('', {
+    params: { userId }
+  });
+
+  if (response.status !== 200) {
+    throw new Error('Failed to fetch order number');
+  }
+
+  return response.data; // Return the order number
+};
