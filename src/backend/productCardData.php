@@ -26,7 +26,7 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
 $query = $conn->prepare("
     SELECT p.id, p.productName, p.discount, p.price, p.description, p.categoryID, p.image, c.categoryName,
            pd.scentID AS scentID, pd.stock AS stock, s.scentName AS scentName, f.id AS isFavorited
-           " . (isset($id) ? ", r.id AS reviewID, u.fullName AS username, r.description AS reviewComment, r.date AS reviewDate,
+           " . (isset($id) ? ", r.id AS reviewID, u.fullName AS username, r.description AS reviewComment, r.date AS reviewDate,si.dominant,
            si.image AS scentImage" : "") . "
     FROM products p
     LEFT JOIN ProductData pd ON pd.productID = p.id
@@ -75,16 +75,24 @@ if ($result->num_rows > 0) {
                     "ScentImages" => [],
                     "scentStock" => (int)$row['stock']
                 );
-
+        
                 $products[$productID]['totalStock'] += (int)$row['stock'];
             }
-
+        
             if (isset($id) && $row['scentImage']) {
-                if (!in_array($row['scentImage'], $products[$productID]['scents'][$row['scentID']]['ScentImages'])) {
-                    $products[$productID]['scents'][$row['scentID']]['ScentImages'][] = $row['scentImage'];
+                $currentImages = &$products[$productID]['scents'][$row['scentID']]['ScentImages'];
+        
+                if (!in_array($row['scentImage'], $currentImages)) {
+                    if ($row['dominant'] == 1) {
+                        array_unshift($currentImages, $row['scentImage']);
+                    } else {
+                        $currentImages[] = $row['scentImage'];
+                    }
                 }
             }
         }
+        
+        
 
         if (isset($id) && $row['reviewID']) {
             $existingReviews = array_column($products[$productID]['reviews'], 'id');
