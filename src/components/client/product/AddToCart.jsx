@@ -92,7 +92,7 @@ const AddToCart = ({ product, selectedScent, hasScents, isScentSelected }) => {
 
       {/* Add to Cart Button */}
       <button
-        className={`relative inline-flex items-center justify-center w-fit font-bold p-2 h-6 bg-blue-500 text-white rounded-md transition duration-300 ease-out ${clicked ? 'animate-click' : ''}`}
+        className={`relative inline-flex items-center justify-center w-fit font-bold p-2 h-6 bg-palette-button text-white rounded-md transition duration-300 ease-out ${clicked ? 'animate-click' : ''}`}
         onClick={handleAddToCart}
       >
         {/* Animation background span */}

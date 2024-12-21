@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import ProductCard from '../cards/ProductCard'; // Assuming ProductCard is in the same directory
 import { calculateDiscount } from '../../../../utils/discountUtils'; // Import the discount calculation function
 import { useAuth } from '../../AuthContext';
-import { fetchProductsData, toggleFavoriteStatus } from '../../../../api/ClientApi';
+import { fetchProductsData, toggleFavoriteStatus } from '../../../../api/clientApi';
 import toast from 'react-hot-toast';
 
 const ProductCardHolder = ({ selectedCategories, searchTerm, fromFavorites, onShowDrawer, updatedProductId }) => {
@@ -111,7 +111,7 @@ const ProductCardHolder = ({ selectedCategories, searchTerm, fromFavorites, onSh
       <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4 pt-0">
         {displayedProducts.length > 0 ? (
           displayedProducts.map((product) => {
-            const { newPrice, oldPrice, chipText, chipColor, discountValue } = calculateDiscount(product);
+            const { newPrice, oldPrice, chipText, chipColor, discountValue, createdAt } = calculateDiscount(product);
 
             return (
               <ProductCard
@@ -119,6 +119,7 @@ const ProductCardHolder = ({ selectedCategories, searchTerm, fromFavorites, onSh
                 id={product.id}
                 image={product.image}
                 title={product.title}
+                createdAt={createdAt}
                 newPrice={newPrice}
                 oldPrice={oldPrice}
                 chipText={chipText}

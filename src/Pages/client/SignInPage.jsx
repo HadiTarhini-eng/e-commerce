@@ -46,47 +46,30 @@ const SignIn = () => {
     }
   
     if (isSignUp) {
-      // Sign-Up Logic
-      const userData = { fullName, email, password, phoneNumber }; // Include phone number during sign up
+      const userData = { fullName, email, password, phoneNumber };
       try {
         const response = await postSignUpData(userData);
+        console.log(response);
         if (response && response.id) {
-          login({ email, id: response.id }); // Store user data in AuthContext
-          toast.success('User created successfully!'); // Toast for user creation
-          setFullName(''); // Clear fields after successful sign-up
+          login({ email, id: response.id });
+          toast.success('User created successfully!');
+          setFullName('');
           setEmail('');
           setPassword('');
           setConfirmPassword('');
-          setPhoneNumber(''); // Clear phone number field
-          setIsSignUp(false); // Switch to Sign In after successful sign-up
+          setPhoneNumber('');
+          setIsSignUp(false);
+          setValidationErrors({}); // Reset validation errors on success
         } else {
+          setError('Error during sign-up. Please try again.');
           toast.error('Error during sign-up. Please try again.');
         }
       } catch (error) {
+        setError('Error during sign-up. Please try again.');
         toast.error('Error during sign-up. Please try again.');
       }
     } else {
-      // Sign-In Logic
-      const credentials = { email, password };
-      try {
-        const userDetails = await postSignInData(credentials); // Get user details from backend
-        if (userDetails) {
-          login({
-            email,
-            userId: userDetails.id,
-            fullName: userDetails.fullName,
-            phone: userDetails.phone,
-            userType: userDetails.userType
-          }); // Store user data in AuthContext
-          toast.success('Successfully signed in!');
-          navigate('/'); // Redirect to home page after successful sign-in
-        } else {
-          setError('Invalid email or password');
-          toast.error('Invalid credentials');
-        }
-      } catch (error) {
-        toast.error('Error signing in. Please try again later.');
-      }
+      // Sign-In Logic...
     }
   };  
 
@@ -102,7 +85,7 @@ const SignIn = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center px-6 pb-4 mx-auto md:h-screen lg:py-0">
+    <div className="flex flex-col items-center justify-center px-6 pb-4 mx-auto md:h-screen lg:py-0 mt-16">
       <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
         <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
           <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
@@ -172,7 +155,7 @@ const SignIn = () => {
             )}
             <button
               type="submit"
-              className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+              className="w-full text-white bg-palette-button hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
             >
               {isSignUp ? 'Sign up' : 'Sign in'}
             </button>
@@ -187,7 +170,7 @@ const SignIn = () => {
                       e.preventDefault();
                       toggleForm(); // Switch to Sign In
                     }}
-                    className="font-medium text-primary-600 hover:underline dark:text-primary-500"
+                    className="font-medium text-palette-button hover:underline dark:text-primary-500"
                   >
                     Sign in
                   </a>

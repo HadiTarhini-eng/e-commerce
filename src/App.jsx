@@ -18,7 +18,6 @@ import Favorites from './Pages/client/Favorites';
 
 const App = () => {
   return (
-    <Router>
       <Routes>
         {/* Client */}
         <Route element={<Layout />}>
@@ -44,7 +43,6 @@ const App = () => {
         {/* 404 Page */}
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
-    </Router>
   );
 };
 

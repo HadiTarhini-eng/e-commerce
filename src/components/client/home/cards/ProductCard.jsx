@@ -13,6 +13,7 @@ const ProductCard = ({
   id,
   image,
   title,
+  createdAt,
   newPrice,
   oldPrice,
   chipText,

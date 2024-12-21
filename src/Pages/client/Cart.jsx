@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import { useDispatch, useSelector } from 'react-redux'; // Import Redux hooks
 import { removeFromCart, updateQuantity, updateCheckoutData } from '../../redux/cartSlice'; // Import actions from cartSlice
 import { useAuth } from '../../../src/components/client/AuthContext';
-import { fetchOrderNumber } from '../../../src/api/ClientApi';
+import { fetchOrderNumber } from '../../../src/api/clientApi';
 
 const Cart = () => {
   const navigate = useNavigate(); // Initialize navigate function
@@ -70,6 +70,7 @@ const Cart = () => {
     // Dispatch total without delivery and total with delivery to Redux
     if(orderNumber === 0){
       dispatch(updateCheckoutData({ field: 'totalWithoutDelivery', value: totalWithoutDelivery.newPrice }));
+      dispatch(updateCheckoutData({ field: 'discount', value: 10 }));
     } else {
       dispatch(updateCheckoutData({ field: 'totalWithoutDelivery', value: totalWithoutDelivery }));
     }
@@ -146,7 +147,7 @@ const Cart = () => {
                           </svg>
                         </button>
                       </div>
-                      <h6 className="text-indigo-600 font-manrope font-bold text-base sm:text-2xl leading-9 w-full max-w-[176px] text-center">
+                      <h6 className="text-palette-button font-manrope font-bold text-base sm:text-2xl leading-9 w-full max-w-[176px] text-center">
                         ${parseFloat(product.newPrice * product.quantity).toFixed(0)}
                       </h6>
                       {/* Remove Item Button */}
@@ -164,7 +165,7 @@ const Cart = () => {
           <div className="bg-white rounded-xl mt-6 p-4 sm:p-6 w-full mb-2 max-lg:max-w-xl max-lg:mx-auto sticky bottom-0 left-0 z-1">
             <div className="flex items-center justify-between w-full py-4 sm:py-6">
               <p className="font-manrope font-medium text-lg sm:text-2xl leading-9 text-gray-900">Total (Without Delivery)</p>
-              <h6 className="font-manrope font-medium text-xl sm:text-2xl leading-9 text-indigo-500 mx-2">
+              <h6 className="font-manrope font-medium text-xl sm:text-2xl leading-9 text-palette-button mx-2">
               {orderNumber === 0 ? (
                 <>
                   ${parseFloat(totalWithoutDelivery.newPrice).toFixed(0)}
@@ -188,7 +189,7 @@ const Cart = () => {
           <div className="flex items-center flex-col sm:flex-row justify-center gap-3 mt-2 mb-20">
             <button 
               onClick={handleContinueToPayment} // Add the click handler
-              className="rounded-full w-full max-w-[240px] py-3 sm:py-4 text-center justify-center items-center bg-indigo-600 font-semibold text-sm sm:text-lg text-white flex transition-all duration-500 hover:bg-indigo-700">
+              className="rounded-full w-full max-w-[240px] py-3 sm:py-4 text-center justify-center items-center bg-palette-button font-semibold text-sm sm:text-lg text-white flex transition-all duration-500 hover:bg-indigo-700">
               Continue to Payment
               <svg className="ml-2" xmlns="http://www.w3.org/2000/svg" width="23" height="22" viewBox="0 0 23 22" fill="none">
                 <path d="M8.75324 5.49609L14.2535 10.9963L8.75 16.4998" stroke="white" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />

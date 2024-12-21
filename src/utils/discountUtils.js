@@ -1,19 +1,28 @@
 // Utility function to calculate the new price and generate chip text
 export const calculateDiscount = (product) => {
-    const { discount, oldPrice } = product;
-  
-    // Case when there is no discount (discount is null)
-    if (discount === null) {
-      return {
-        newPrice: oldPrice,  // No discount, so the new price is the old price
-        oldPrice: null,      // No old price when there's no discount
-        chipText: "",        // No chip text when there's no discount
-        chipColor: "",       // No chip color when there's no discount
-        discountValue: "0"
-      };
-    }
-  
-    // Case when discount exists
+  const { discount, oldPrice, createdAt } = product;
+
+  // Helper function to check if a date is within the last 7 days
+  const isNewProduct = (dateString) => {
+    const currentDate = new Date();
+    const productDate = new Date(dateString.split("-").reverse().join("-")); // Convert to 'YYYY-MM-DD' format for Date parsing
+    const differenceInDays = (currentDate - productDate) / (1000 * 60 * 60 * 24);
+    return differenceInDays <= 7;
+  };
+
+  // Check if the product is new and discount is null
+  if (discount === null && isNewProduct(createdAt)) {
+    return {
+      newPrice: oldPrice,  // No discount, so the new price is the old price
+      oldPrice: null,      // No old price when there's no discount
+      chipText: "New",     // Chip text for new products
+      chipColor: "green",  // Chip color for new products
+      discountValue: "0"
+    };
+  }
+
+  // Case when discount exists
+  if (discount !== null) {
     const discountAmount = (oldPrice * (discount / 100)).toFixed(0);  // Calculate discount amount
     const newPrice = (oldPrice - discountAmount).toFixed(0);  // Calculate new price after discount
     const chipText = `-${discount}%`;  // Text for chip
@@ -27,5 +36,14 @@ export const calculateDiscount = (product) => {
       chipColor,
       discountValue
     };
+  }
+
+  // Default return if no conditions are met
+  return {
+    newPrice: oldPrice,
+    oldPrice: null,
+    chipText: "",
+    chipColor: "",
+    discountValue: "0"
   };
-  
+};

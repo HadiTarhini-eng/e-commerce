@@ -90,7 +90,7 @@ const PaymentPage = () => {
                 <p className="font-medium text-lg leading-8 text-gray-900">${checkoutData.totalWithDelivery}</p>
               </div>
               <button
-                className="px-4 py-2 rounded-lg font-semibold text-white bg-green-600 hover:bg-green-700 cursor-pointer"
+                className="px-4 py-2 rounded-lg font-semibold text-white bg-palette-button hover:bg-green-700 cursor-pointer"
                 onClick={handleConfirmPurchase}
               >
                 Confirm Purchase

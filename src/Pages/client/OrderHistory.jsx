@@ -20,12 +20,11 @@ const OrderHistory = () => {
   
       try {
         const response = await fetchOrderHistory(userId); // Fetch the full response
-        const { orders } = response; // Destructure the `orders` array from the response
-  
-        if (Array.isArray(orders) && orders.length === 0) {
+
+        if (Array.isArray(response) && response.length === 0) {
           setError('No orders yet!');
-        } else if (Array.isArray(orders)) {
-          setOrders(orders);
+        } else if (Array.isArray(response)) {
+          setOrders(response);
           setError(null);
         } else {
           setError('Unexpected response structure');
