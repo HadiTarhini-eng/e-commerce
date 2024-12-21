@@ -19,9 +19,6 @@ const ProductPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        if (!userId) {
-          throw new Error('User not logged in');
-        }
         const selectedProduct = await fetchProductById(id, userId);
         setProduct(selectedProduct);
       } catch (err) {

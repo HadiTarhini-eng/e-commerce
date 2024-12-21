@@ -15,6 +15,7 @@ const useToggleFavorite = (initialFavoriteStatus, productId, title, outOfStock) 
       toast.error(`${title} is out of stock!`);
     } else if (!isLoggedIn) {
       navigate('/signin');
+      toast.error('You must login to access this feature!');
     } else {
       try {
         const newFavoriteStatus = !isFavorited;
