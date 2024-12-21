@@ -236,21 +236,21 @@ const CheckoutForm = () => {
           <div className="space-y-4">
             <h3 className="text-xl font-semibold text-gray-900 dark:text-white">Payment Methods</h3>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-              {paymentMethods.map((method) => (
-                <div key={method.id} className="rounded-lg border border-gray-200 bg-white p-4 ps-4 dark:border-gray-700 dark:bg-gray-800">
+              {paymentMethods.map((paymentMethod) => (
+                <div key={paymentMethod.id} className="rounded-lg border border-gray-200 bg-white p-4 ps-4 dark:border-gray-700 dark:bg-gray-800">
                   <div className="flex items-start">
                     <input
-                      id={method.id}
+                      id={paymentMethod.id}
                       type="radio"
                       name="paymentMethod" // This remains 'paymentMethod' to differentiate in handleRadioChange
-                      value={method.value}
-                      checked={formData.paymentMethod === method.value}
+                      value={paymentMethod.value}
+                      checked={formData.paymentMethod === paymentMethod.value}
                       onChange={handleRadioChange}
                       className="h-4 w-4 border-gray-300 bg-white text-palette-button"
                       required
                     />
                     <div className="ms-4 text-sm">
-                      <label htmlFor={method.id} className="font-medium leading-none text-gray-900 dark:text-white">{method.label}</label>
+                      <label htmlFor={paymentMethod.id} className="font-medium leading-none text-gray-900 dark:text-white">{paymentMethod.label}</label>
                     </div>
                   </div>
                 </div>
@@ -262,24 +262,24 @@ const CheckoutForm = () => {
           <div className="space-y-4">
             <h3 className="text-xl font-semibold text-gray-900 dark:text-white">Delivery Methods</h3>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-              {deliveryMethods.map((method) => (
-                <div key={method.id} className="rounded-lg border border-gray-200 bg-white p-4 ps-4 dark:border-gray-700 dark:bg-gray-800">
+              {deliveryMethods.map((deliveryMethod) => (
+                <div key={deliveryMethod.id} className="rounded-lg border border-gray-200 bg-white p-4 ps-4 dark:border-gray-700 dark:bg-gray-800">
                   <div className="flex items-start">
                     <div className="flex h-5 items-center">
                       <input
-                        id={method.id}
+                        id={deliveryMethod.id}
                         type="radio"
                         name="deliveryMethod" // This remains 'deliveryMethod' to differentiate in handleRadioChange
-                        value={method.value}
-                        checked={formData.deliveryMethod === method.value}
+                        value={deliveryMethod.value}
+                        checked={formData.deliveryMethod === deliveryMethod.value}
                         onChange={handleRadioChange}
                         className="h-4 w-4 border-gray-300 bg-white text-palette-button"
                         required
                       />
                     </div>
                     <div className="ms-4 text-sm">
-                      <label htmlFor={method.id} className="font-medium leading-none text-gray-900 dark:text-white">{method.label}</label>
-                      <p className="mt-1 text-xs font-normal text-gray-500 dark:text-gray-400">{method.description}</p>
+                      <label htmlFor={deliveryMethod.id} className="font-medium leading-none text-gray-900 dark:text-white">{deliveryMethod.label}</label>
+                      <p className="mt-1 text-xs font-normal text-gray-500 dark:text-gray-400">{deliveryMethod.description}</p>
                     </div>
                   </div>
                 </div>
@@ -288,7 +288,7 @@ const CheckoutForm = () => {
           </div>
 
           {/* Note for Driver (conditional) */}
-          {(formData.deliveryMethod === 'wakilni' || formData.deliveryMethod === 'pickUp' || formData.deliveryMethod === 'delivery') && (
+          {(formData.deliveryMethod) && (
             <div className="space-y-4">
               <label htmlFor="noteForDriver" className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
                 Add Note
@@ -298,7 +298,7 @@ const CheckoutForm = () => {
                 value={formData.noteForDriver}
                 onChange={handleChange}
                 placeholder="Please add any instructions."
-                className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
+                className="block w-full rounded-lg border border-gray-300 bg-white p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
                 rows="3"
               />
             </div>
