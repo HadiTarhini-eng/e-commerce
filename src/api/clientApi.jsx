@@ -206,7 +206,7 @@ export const postSignInData = async (credentials) => {
 export const postSignUpData = async (userData) => {
   try {
     const response = await axios.post('http://localhost/e-commerce/src/backend/signUp.php', userData); //edit this as you like
-    if (response.status !== 201) {
+    if (response.status !== 200) {
       throw new Error('Failed to sign up');
     }
     return response.data; // Return the response (mocking success)

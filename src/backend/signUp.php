@@ -39,7 +39,8 @@ $type = 'client'; // Default type
 $insertQuery->bind_param("sssss", $email, $fullName,$phone, $hashedPassword, $type);
 
 if ($insertQuery->execute()) {
-    echo json_encode(["success" => true, "message" => "Signup successful"]);
+    $userId = $conn->insert_id;
+    echo json_encode(["success" => true, "message" => "Signup successful", "id" => $userId]);
 } else {
     echo json_encode(["success" => false, "message" => "Database error"]);
     http_response_code(500);

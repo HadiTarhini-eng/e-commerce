@@ -20,15 +20,15 @@ const OrderHistory = () => {
   
       try {
         const response = await fetchOrderHistory(userId); // Fetch the full response
-
-        if (Array.isArray(response) && response.length === 0) {
+            console.log(response)
+        if (Array.isArray(response.orders) && response.orders.length === 0) {
           setError('No orders yet!');
-        } else if (Array.isArray(response)) {
-          setOrders(response);
+        } else if (Array.isArray(response.orders)) {
+          setOrders(response.orders);
           setError(null);
         } else {
           setError('Unexpected response structure');
-          console.error('Unexpected response structure:', response);
+          console.error('Unexpected response structure:', response.orders);
         }
       } catch (err) {
         setError('Failed to fetch order data. Please try again later.');

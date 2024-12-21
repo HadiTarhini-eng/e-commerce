@@ -49,7 +49,6 @@ const SignIn = () => {
       const userData = { fullName, email, password, phoneNumber };
       try {
         const response = await postSignUpData(userData);
-        console.log(response);
         if (response && response.id) {
           login({ email, id: response.id });
           toast.success('User created successfully!');
@@ -69,7 +68,26 @@ const SignIn = () => {
         toast.error('Error during sign-up. Please try again.');
       }
     } else {
-      // Sign-In Logic...
+      const credentials = { email, password };
+      try {
+        const userDetails = await postSignInData(credentials); // Get user details from backend
+        if (userDetails) {
+          login({
+            email,
+            userId: userDetails.id,
+            fullName: userDetails.fullName,
+            phone: userDetails.phone,
+            userType: userDetails.userType
+          }); // Store user data in AuthContext
+          toast.success('Successfully signed in!');
+          navigate('/'); // Redirect to home page after successful sign-in
+        } else {
+          setError('Invalid email or password');
+          toast.error('Invalid credentials');
+        }
+      } catch (error) {
+        toast.error('Error signing in. Please try again later.');
+      }
     }
   };  
 
