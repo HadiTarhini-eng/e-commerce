@@ -9,17 +9,17 @@
       },
       {
         "id": "2",
-        "label": "Wakilini",
-        "value": "wakilni",
-        "description": "Delivery charge: 10$",
-        "deliveryPrice": "10"
+        "label": "Delivery All Over Lebanon",
+        "value": "delivery-lebanon",
+        "description": "Delivery charge: 4$",
+        "deliveryPrice": "4"
       },
       {
         "id": "3",
-        "label": "Delivery",
-        "value": "delivery",
-        "description": "3$ - Only available in Saida",
-        "deliveryPrice": "3"
+        "label": "Delivery in Saida",
+        "value": "delivery-saida",
+        "description": "Delivery charge: 2$",
+        "deliveryPrice": "2"
       }
     ]
   }

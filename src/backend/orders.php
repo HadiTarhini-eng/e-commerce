@@ -35,7 +35,7 @@ if ($result->num_rows > 0) {
 
     echo json_encode(array_values($orders));
 } else {
-    echo json_encode(array("orders" => []));
+    echo json_encode([]);
 }
 
 $conn->close();
