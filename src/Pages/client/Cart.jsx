@@ -107,7 +107,7 @@ const Cart = () => {
                     {/* Left side - Image and Product Name */}
                     <div className="flex items-center gap-1 w-full max-w-[200px] sm:max-w-[250px]">
                       <div className="img-box">
-                        <img src={product.image} alt={product.title} className="w-fit rounded-xl object-cover" />
+                        <img src={product.image} alt={product.title} className="w-max rounded-xl object-cover" />
                       </div>
                       <div className="pro-data w-full">
                         <h5 className="font-semibold text-xl sm:text-xl leading-8 text-black">{product.title}</h5>
