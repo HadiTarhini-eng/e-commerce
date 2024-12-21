@@ -35,6 +35,7 @@ const AddToCart = ({ product, selectedScent, hasScents, isScentSelected }) => {
   const handleAddToCart = () => {
     if(!isLoggedIn) {
       navigate('/signin');
+      toast.error('You must login to access this feature!');
     } else if(!isScentSelected && hasScents) {
       toast.error('You must select a scent before you proceed.')
     } else {

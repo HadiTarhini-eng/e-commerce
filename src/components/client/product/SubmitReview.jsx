@@ -21,6 +21,7 @@ const SubmitReview = ({ productId, onSubmitReview }) => {
 
     if (!isLoggedIn) {
       navigate('/signin');
+      toast.error('You must login to access this feature!');
     } else {
       if (comment.trim() === '') {
         setErrorMessage('Review cannot be empty.');
