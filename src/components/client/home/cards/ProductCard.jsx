@@ -33,8 +33,14 @@ const ProductCard = ({
   const outOfStock = totalStock === 0;
 
   const handleFavoriteClick = (e) => {
-    e.stopPropagation(); // Prevent parent click handler
-    onToggleFavorite(id, title, initialFavoriteStatus); // Inform parent to toggle favorite
+    if(!isLoggedIn) {
+      e.stopPropagation();
+      navigate('/signin')
+      toast.error('You must Login to access this feature!')
+    } else {
+      e.stopPropagation(); // Prevent parent click handler
+      onToggleFavorite(id, title, initialFavoriteStatus); // Inform parent to toggle favorite
+    }
   };
 
   const handleClick = () => {

@@ -16,7 +16,7 @@ export const calculateDiscount = (product) => {
       newPrice: oldPrice,  // No discount, so the new price is the old price
       oldPrice: null,      // No old price when there's no discount
       chipText: "New",     // Chip text for new products
-      chipColor: "green",  // Chip color for new products
+      chipColor: "#14d414",  // Chip color for new products
       discountValue: "0"
     };
   }
