@@ -207,7 +207,7 @@ const CheckoutForm = () => {
                         value={formData.phoneNumber}
                         onChange={(value) => handleChange({ target: { id: 'phoneNumber', value } })}
                         required={field.required}
-                        className='bg-white'
+                        className='bg-white border rounded border-gray-300'
                       />
                       {errors[field.id] && <p className="text-xs text-red-600">{errors[field.id]}</p>}
                     </div>

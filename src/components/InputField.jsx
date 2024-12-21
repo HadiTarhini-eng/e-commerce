@@ -72,7 +72,7 @@ const InputField = ({
     case 'phoneNumber':
       return (
         <div>
-          <label htmlFor={id} className="text-sm font-medium">
+          <label htmlFor={id} className="text-sm font-medium mb-1">
             {title}
           </label>
           <PhoneInput
