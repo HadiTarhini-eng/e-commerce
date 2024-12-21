@@ -198,7 +198,7 @@ const CheckoutForm = () => {
                   );
                 } else if(field.type === 'phoneNumber') {
                   return (
-                    <div key={field.id} className='bg-white'>
+                    <div key={field.id}>
                       <InputField
                         type="phoneNumber"
                         title={field.label}
@@ -207,6 +207,7 @@ const CheckoutForm = () => {
                         value={formData.phoneNumber}
                         onChange={(value) => handleChange({ target: { id: 'phoneNumber', value } })}
                         required={field.required}
+                        className='bg-white'
                       />
                       {errors[field.id] && <p className="text-xs text-red-600">{errors[field.id]}</p>}
                     </div>
