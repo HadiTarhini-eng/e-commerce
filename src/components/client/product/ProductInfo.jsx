@@ -44,11 +44,13 @@ const ProductInfo = ({ images, dominant, title, newPrice, oldPrice, chipText, ch
             isInBottomDrawer={isInBottomDrawer}
           />
         ) : (
-          <div className="w-full h-full flex justify-center">
+          <div
+            className={`p-2 relative !flex justify-center items-center ${isInBottomDrawer ? 'bg-palette-white' : 'bg-palette-body-4'}`}
+          >
             <img
               src={dominant}
               alt="Dominant Image"
-              className={`object-cover ${isInBottomDrawer ? 'w-[200px] h-[200px]' : 'w-full h-full'}`}
+              className={`bg-palette-white border-2 border-palette-white object-cover ${isInBottomDrawer ? 'w-[180px] h-[180px]' : 'w-full h-full rounded-full'}`}
             />
           </div>
         )}

@@ -61,7 +61,7 @@ const OrderDetails = () => {
                             {status !== 'completed' && (
                                 <button 
                                     className="px-4 py-2 rounded-lg font-semibold text-white bg-pink-600 hover:bg-pink-700 cursor-pointer"
-                                    onClick={()=>navigate(`/orderTrack/${orderID}`)}
+                                    onClick={()=>navigate(`/OrderTrack/${orderID}`)}
                                 >
                                         Track Order
                                 </button>
@@ -69,7 +69,7 @@ const OrderDetails = () => {
                         </div>
                         <div className="total flex items-center justify-between pt-6">
                             <p className="font-normal text-xl leading-8 text-black">Subtotal</p>
-                            <h5 className="font-manrope font-bold text-2xl leading-9 text-indigo-600">${subtotal}</h5>
+                            <h5 className="font-manrope font-bold text-2xl leading-9 text-palette-button">${subtotal}</h5>
                         </div>
                     </div>
                 </div>
@@ -100,7 +100,7 @@ const OrderDetails = () => {
                                         <div className="flex items-center gap-3">
                                             <p className="font-medium text-lg leading-8 text-gray-700">Quantity: {product.quantity}</p>
                                         </div>
-                                        <h6 className="font-medium text-xl leading-8 text-indigo-600">Price: ${product.price}</h6>
+                                        <h6 className="font-medium text-xl leading-8 text-palette-button">Price: ${product.price}</h6>
                                     </div>
                                 </div>
                             </div>

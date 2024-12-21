@@ -1,5 +1,6 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
 import CryptoJS from 'crypto-js';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 
 // Secret key for encryption (keep it secure!)
 const secretKey = 'the_key_is_in_the_hands_of_the_king'; // Make sure to use a secure key
@@ -16,6 +17,7 @@ export const useAuth = () => {
 export const AuthProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userId, setUserId] = useState(null); // Store the decrypted userId
+  const navigate = useNavigate(); // Initialize the navigate hook
 
   // Check if the user is logged in when the app is mounted
   useEffect(() => {
@@ -41,11 +43,12 @@ export const AuthProvider = ({ children }) => {
     setUserId(user.userId); // Store only the userId (you may choose to store full data later)
   };
 
-  // Function to handle logout
+  // Function to handle logout and redirect to home page
   const logout = () => {
     setIsLoggedIn(false);
     setUserId(null); // Clear the userId on logout
     localStorage.removeItem('userData'); // Clear encrypted user data from localStorage
+    navigate('/'); // Redirect to homepage after logout
   };
 
   // Encrypt the data

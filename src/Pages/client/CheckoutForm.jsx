@@ -3,7 +3,7 @@ import toast from 'react-hot-toast';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateCheckoutData } from '../../redux/cartSlice';
 import { useNavigate } from 'react-router-dom';
-import { fetchDeliveryMethods, fetchFormFields, fetchPaymentMethods } from '../../api/ClientApi';
+import { fetchDeliveryMethods, fetchFormFields, fetchPaymentMethods } from '../../api/clientApi';
 import InputField from '../../components/InputField';
 import { isPossiblePhoneNumber } from 'react-phone-number-input';
 
@@ -68,35 +68,33 @@ const CheckoutForm = () => {
 
   const handleRadioChange = (e) => {
     const { name, value } = e.target;
-
+  
     // Update formData state to reflect the selected radio button
     setFormData((prevState) => ({
       ...prevState,
-      [name]: value,  // Set the formData's paymentMethod or deliveryMethod value
+      [name]: value, // Set the formData's paymentMethod or deliveryMethod value
     }));
-    
+  
     // Find the method by matching the value
     const selectedMethod = (name === 'paymentMethod' ? paymentMethods : deliveryMethods).find(
       (method) => method.value === value
     );
-
-    // Dispatch both the id, label, and delivery price (without the "$" sign) for deliveryMethod
+  
     if (name === 'deliveryMethod') {
       const { id, label, deliveryPrice } = selectedMethod;
+  
+      let adjustedDeliveryPrice = totalWithoutDelivery > 75 ? 0 : parseFloat(deliveryPrice); // Set delivery price to 0 if totalWithoutDelivery > 75
+  
+      // Dispatch the delivery method with the adjusted delivery price
       dispatch(updateCheckoutData({
         field: name,
-        value: { id, label, deliveryPrice: parseFloat(deliveryPrice) }, // Remove '$' and convert to number
+        value: { id, label, deliveryPrice: adjustedDeliveryPrice },
       }));
-
-      let totalWithDelivery;
-      if (totalWithoutDelivery < 75) {
-        totalWithDelivery = totalWithoutDelivery + parseInt(deliveryPrice, 10);  // Add delivery charge
-      } else {
-        totalWithDelivery = totalWithoutDelivery;  // Free delivery
-      }
-      console.log(totalWithDelivery);
+  
+      const totalWithDelivery = totalWithoutDelivery + adjustedDeliveryPrice;
+  
+      // Dispatch the total with delivery
       dispatch(updateCheckoutData({ field: 'totalWithDelivery', value: totalWithDelivery }));
-
     } else {
       // Dispatch paymentMethod id and label for payment method
       dispatch(updateCheckoutData({
@@ -105,6 +103,7 @@ const CheckoutForm = () => {
       }));
     }
   };
+  
 
   const handleGiftCheckboxChange = (e) => {
     const { checked } = e.target;
@@ -246,7 +245,7 @@ const CheckoutForm = () => {
                       value={method.value}
                       checked={formData.paymentMethod === method.value}
                       onChange={handleRadioChange}
-                      className="h-4 w-4 border-gray-300 bg-white text-primary-600"
+                      className="h-4 w-4 border-gray-300 bg-white text-palette-button"
                       required
                     />
                     <div className="ms-4 text-sm">
@@ -273,7 +272,7 @@ const CheckoutForm = () => {
                         value={method.value}
                         checked={formData.deliveryMethod === method.value}
                         onChange={handleRadioChange}
-                        className="h-4 w-4 border-gray-300 bg-white text-primary-600"
+                        className="h-4 w-4 border-gray-300 bg-white text-palette-button"
                         required
                       />
                     </div>
@@ -312,7 +311,7 @@ const CheckoutForm = () => {
                 id="sendAsGift"
                 checked={formData.sendAsGift}
                 onChange={handleGiftCheckboxChange}
-                className="h-4 w-4 text-primary-600 focus:ring-primary-500 dark:bg-gray-700 dark:border-gray-600"
+                className="h-4 w-4 text-palette-button focus:ring-primary-500 dark:bg-gray-700 dark:border-gray-600"
               />
               <label htmlFor="sendAsGift" className="ml-2 text-sm font-medium text-gray-900 dark:text-white">Send as a gift?</label>
             </div>
@@ -325,7 +324,7 @@ const CheckoutForm = () => {
           <div className="mt-6 w-full space-y-6 sm:mt-8 lg:mt-0 lg:max-w-xs xl:max-w-md">
             <button
               type="submit"
-              className="flex w-full items-center justify-center rounded-lg bg-primary-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+              className="flex w-full items-center justify-center rounded-lg bg-palette-button px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
             >
               Proceed to Payment
             </button>

@@ -53,7 +53,7 @@ module.exports = {
           'body-4': '#fef2f5',
           // 'body-4': '#ea4c62',
           'chip-red': '#ea4c62',
-          'button': '#0000FF',
+          'button': '#19bcff',
 
           // If you want to add additional custom gradients or complementary colors
           'soft-gradient': 'linear-gradient(45deg, #FAD3DD, #FFFFFF, #FBD3DA, #F8D8DE, #FDD2DC)', // A gradient using the new palette
