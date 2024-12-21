@@ -198,7 +198,7 @@ const CheckoutForm = () => {
                   );
                 } else if(field.type === 'phoneNumber') {
                   return (
-                    <div key={field.id}>
+                    <div key={field.id} className='bg-white'>
                       <InputField
                         type="phoneNumber"
                         title={field.label}
@@ -236,7 +236,7 @@ const CheckoutForm = () => {
             <h3 className="text-xl font-semibold text-gray-900 dark:text-white">Payment Methods</h3>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
               {paymentMethods.map((method) => (
-                <div key={method.id} className="rounded-lg border border-gray-200 bg-gray-50 p-4 ps-4 dark:border-gray-700 dark:bg-gray-800">
+                <div key={method.id} className="rounded-lg border border-gray-200 bg-white p-4 ps-4 dark:border-gray-700 dark:bg-gray-800">
                   <div className="flex items-start">
                     <input
                       id={method.id}
@@ -262,7 +262,7 @@ const CheckoutForm = () => {
             <h3 className="text-xl font-semibold text-gray-900 dark:text-white">Delivery Methods</h3>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
               {deliveryMethods.map((method) => (
-                <div key={method.id} className="rounded-lg border border-gray-200 bg-gray-50 p-4 ps-4 dark:border-gray-700 dark:bg-gray-800">
+                <div key={method.id} className="rounded-lg border border-gray-200 bg-white p-4 ps-4 dark:border-gray-700 dark:bg-gray-800">
                   <div className="flex items-start">
                     <div className="flex h-5 items-center">
                       <input
