@@ -44,7 +44,7 @@ const Cart = () => {
     if(orderNumber === 0) {
       result = {
         originalPrice: subtotal,
-        newPrice: (subtotal - (subtotal * 0.1)).toFixed(0)
+        newPrice: (subtotal - (subtotal * 0.1)).toFixed(2)
       }
       return result;
     }
@@ -148,7 +148,7 @@ const Cart = () => {
                         </button>
                       </div>
                       <h6 className="text-palette-button font-manrope font-bold text-base sm:text-2xl leading-9 w-full max-w-[176px] text-center">
-                        ${parseFloat(product.newPrice * product.quantity).toFixed(0)}
+                        ${parseFloat(product.newPrice * product.quantity).toFixed(2)}
                       </h6>
                       {/* Remove Item Button */}
                       <button onClick={() => handleRemoveItem(product.productId)} className="text-red-600 font-semibold text-sm sm:text-lg">
@@ -168,14 +168,14 @@ const Cart = () => {
               <h6 className="font-manrope font-medium text-xl sm:text-2xl leading-9 text-palette-button mx-2">
               {orderNumber === 0 ? (
                 <>
-                  ${parseFloat(totalWithoutDelivery.newPrice).toFixed(0)}
+                  ${parseFloat(totalWithoutDelivery.newPrice).toFixed(2)}
                   <span className="line-through text-gray-500 text-lg font-['Roboto'] mx-1">
-                    ${parseFloat(totalWithoutDelivery.originalPrice).toFixed(0)}
+                    ${parseFloat(totalWithoutDelivery.originalPrice).toFixed(2)}
                   </span>
                 </>
               ) : (
                 <>
-                  ${parseFloat(totalWithoutDelivery).toFixed(0)}
+                  ${parseFloat(totalWithoutDelivery).toFixed(2)}
                 </>
               )}
               </h6>
