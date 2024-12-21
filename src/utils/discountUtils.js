@@ -23,8 +23,8 @@ export const calculateDiscount = (product) => {
 
   // Case when discount exists
   if (discount !== null) {
-    const discountAmount = (oldPrice * (discount / 100)).toFixed(2);  // Calculate discount amount
-    const newPrice = (oldPrice - discountAmount).toFixed(2);  // Calculate new price after discount
+    const discountAmount = (oldPrice * (discount / 100)).toFixed(1);  // Calculate discount amount
+    const newPrice = (oldPrice - discountAmount).toFixed(1);  // Calculate new price after discount
     const chipText = `-${discount}%`;  // Text for chip
     const chipColor = "red";  // You can modify this logic to dynamically change based on discount range
     const discountValue = `${discount}`;
