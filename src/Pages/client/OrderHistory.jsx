@@ -17,14 +17,19 @@ const OrderHistory = () => {
         setLoading(false);
         return;
       }
-      
+  
       try {
-        const orders = await fetchOrderHistory(userId);
-        if (orders && orders.length === 0) {
-          setError('No orders found');
-        } else {
+        const response = await fetchOrderHistory(userId); // Fetch the full response
+        const { orders } = response; // Destructure the `orders` array from the response
+  
+        if (Array.isArray(orders) && orders.length === 0) {
+          setError('No orders yet!');
+        } else if (Array.isArray(orders)) {
           setOrders(orders);
           setError(null);
+        } else {
+          setError('Unexpected response structure');
+          console.error('Unexpected response structure:', response);
         }
       } catch (err) {
         setError('Failed to fetch order data. Please try again later.');
@@ -33,16 +38,17 @@ const OrderHistory = () => {
         setLoading(false);
       }
     };
+  
     fetchData();
   }, [userId]);
-
+  
   const handleButtonClick = (orderID, status) => {
     if (status === 'Delivered') {
       navigate(`/orderDetails/${orderID}`);
     } else {
       navigate(`/OrderTrack/${orderID}`);
     }
-  };
+  };  
 
   if (loading) {
     return (
@@ -55,7 +61,7 @@ const OrderHistory = () => {
   if (error) {
     return (
       <div className="flex justify-center items-center my-6">
-        <span className="text-red-500">{error}</span>
+        <span className="text-grey-500 font-bold text-3xl mt-10">{error}</span>
       </div>
     );
   }

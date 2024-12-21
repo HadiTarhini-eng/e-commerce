@@ -30,6 +30,8 @@ const Layout = () => {
     pageTitle = 'Your Favorites';
   } else if (location.pathname === '/socials') {
     pageTitle = 'Contact Us';
+  } else if (location.pathname === '/payment') {
+    pageTitle = 'Payment Page';
   }
 
   return (

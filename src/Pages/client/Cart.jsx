@@ -100,8 +100,8 @@ const Cart = () => {
             cartItems.length === 0 ? (
               <div className="text-center text-xl text-gray-600">Your cart is empty!</div>
             ) : (
-              cartItems.map((product) => (
-                <div key={product.productId} className="bg-white grid grid-cols-1 lg:grid-cols-2 shadow-md border-2 border-gray-200 rounded-lg m-2 py-3">
+              cartItems.map((product, index) => (
+                <div key={index} className="bg-white grid grid-cols-1 lg:grid-cols-2 shadow-md border-2 border-gray-200 rounded-lg m-2 py-3">
                   <div className="flex items-center flex-row gap-2 w-full max-xl:max-w-xl max-xl:mx-auto">
                     {/* Left side - Image and Product Name */}
                     <div className="flex items-center gap-1 w-full max-w-[200px] sm:max-w-[250px]">

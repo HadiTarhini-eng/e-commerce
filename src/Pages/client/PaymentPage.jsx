@@ -57,14 +57,82 @@ const PaymentPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-light-cream flex flex-col items-center justify-center w-full">
-      {/* Button to confirm purchase */}
-      <button
-        onClick={handleConfirmPurchase}
-        className="bg-green-500 text-white font-bold py-3 px-6 rounded-lg shadow-lg hover:bg-green-600"
-      >
-        Confirm Purchase
-      </button>
+    <div className="w-full max-w-7xl px-4 md:px-5 lg-6 mx-auto no-scrollbar mb-20 mt-4">
+      <div className="flex items-start flex-col gap-6 xl:flex-row">
+        {/* Order Details Section */}
+        <div className="w-full max-w-sm md:max-w-3xl xl:max-w-sm flex items-start flex-col gap-8 max-xl:mx-auto">
+          <div className="p-6 border border-gray-200 rounded-3xl w-full group transition-all duration-500 hover:border-gray-400">
+            <div>
+              <h2 className="font-manrope pb-6 font-bold text-3xl leading-10 text-black border-b border-gray-200">
+                Checkout Details
+              </h2>
+            </div>
+
+            <div className="data py-6 border-b border-gray-200">
+              <div className="flex items-center justify-between gap-4 mb-5">
+                <p className="font-normal text-lg leading-8 text-gray-400">Name</p>
+                <p className="font-medium text-lg leading-8 text-gray-900">{checkoutData.name}</p>
+              </div>
+              <div className="flex items-center justify-between gap-4 mb-5">
+                <p className="font-normal text-lg leading-8 text-gray-400">Email</p>
+                <p className="font-medium text-lg leading-8 text-gray-900">{checkoutData.email}</p>
+              </div>
+              <div className="flex items-center justify-between gap-4 mb-5">
+                <p className="font-normal text-lg leading-8 text-gray-400">Phone</p>
+                <p className="font-medium text-lg leading-8 text-gray-900">{checkoutData.phoneNumber}</p>
+              </div>
+              <div className="flex items-center justify-between gap-4 mb-5">
+                <p className="font-normal text-lg leading-8 text-gray-400">Address</p>
+                <p className="font-medium text-lg leading-8 text-gray-900">{checkoutData.address}</p>
+              </div>
+              <div className="flex items-center justify-between gap-4 mb-5">
+                <p className="font-normal text-lg leading-8 text-gray-400">Total</p>
+                <p className="font-medium text-lg leading-8 text-gray-900">${checkoutData.totalWithDelivery}</p>
+              </div>
+              <button
+                className="px-4 py-2 rounded-lg font-semibold text-white bg-green-600 hover:bg-green-700 cursor-pointer"
+                onClick={handleConfirmPurchase}
+              >
+                Confirm Purchase
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Products Section */}
+        <div className="w-full max-w-sm md:max-w-3xl max-xl:mx-auto">
+          <div className="grid grid-cols-1 gap-6">
+            {cart.map((product, index) => (
+              <div
+                key={index}
+                className="rounded-3xl p-6 bg-white border border-gray-200 shadow-lg hover:shadow-2xl transition-shadow duration-300 ease-in-out transform hover:scale-105"
+              >
+                <div className="grid grid-cols-3 md:grid-cols-3 w-full gap-3 md:gap-8">
+                  <div className="img-box">
+                    <img
+                      src={product.image || 'https://via.placeholder.com/122'}
+                      alt={`${product.title} image`}
+                      className="w-[80px] sm:w-[120px] rounded-xl object-cover"
+                    />
+                  </div>
+                  <div className="col-span-2">
+                    <h2 className="font-medium text-xl leading-8 text-black">{product.title}</h2>
+                    <p className="font-normal text-lg leading-8 text-gray-500">{product.scentName}</p>
+                  </div>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 w-full gap-3 md:gap-8">
+                  <div className="flex items-center justify-between gap-8">
+                    <div className="flex items-center gap-3">
+                      <p className="font-medium text-lg leading-8 text-gray-700">Quantity: {product.quantity}</p>
+                    </div>
+                    <h6 className="font-medium text-xl leading-8 text-indigo-600">Price: ${product.newPrice}</h6>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
