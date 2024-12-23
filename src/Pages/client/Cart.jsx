@@ -14,7 +14,7 @@ const Cart = () => {
   const { userId } = useAuth();
   const [orderNumber, setOrderNumber] = useState(null);
   const [error, setError] = useState(null);
-
+console.log(cartItems)
   // Scroll to top when the component is mounted
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -61,8 +61,9 @@ const Cart = () => {
   };
 
   // Remove item from cart
-  const handleRemoveItem = (id, scentID) => {
-    dispatch(removeFromCart(id, scentID));
+  const handleRemoveItem = (id, scentId) => {
+    console.log(id, scentId);
+    dispatch(removeFromCart(id, scentId));
     toast.error('Item removed from cart!');
   };
 
@@ -161,7 +162,7 @@ const Cart = () => {
                       ${formatPrice(product.newPrice * product.quantity)}
                     </h6>
                     {/* Remove Item Button */}
-                    <button onClick={() => handleRemoveItem(product.productId, product.scentID)} className="text-red-600 font-semibold text-sm sm:text-lg">
+                    <button onClick={() => handleRemoveItem(product.productId, product.scentId)} className="text-red-600 font-semibold text-sm sm:text-lg">
                       Remove
                     </button>
                   </div>
