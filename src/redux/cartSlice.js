@@ -57,12 +57,12 @@ const cartSlice = createSlice({
 
     // Remove product from the cart
     removeFromCart: (state, action) => {
-      const { id, scentID } = action.payload;
+      const { productId, scentId } = action.payload;
       state.cart = state.cart.filter(
-        (item) => item.scentID !== scentID
+          (item) => !(item.productId === productId && item.scentId === scentId)
       );
-    },
-
+  },
+  
     // Update product quantity in the cart
     updateQuantity: (state, action) => {
       const { id, newQuantity } = action.payload;

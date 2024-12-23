@@ -10,7 +10,7 @@ import { isPossiblePhoneNumber } from 'react-phone-number-input';
 const CheckoutForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate(); // Initialize navigate
-  const totalWithoutDelivery = parseInt(useSelector(state => state.cart.checkoutData.totalWithoutDelivery), 10);
+  const totalWithoutDelivery = parseFloat(useSelector(state => state.cart.checkoutData.totalWithoutDelivery), 10);
 
   const [formData, setFormData] = useState({
     name: '',
@@ -84,7 +84,7 @@ const CheckoutForm = () => {
       const { id, label, deliveryPrice } = selectedMethod;
   
       let adjustedDeliveryPrice = totalWithoutDelivery > 60 ? 0 : parseFloat(deliveryPrice); // Set delivery price to 0 if totalWithoutDelivery > 75
-  
+
       // Dispatch the delivery method with the adjusted delivery price
       dispatch(updateCheckoutData({
         field: name,
@@ -92,7 +92,7 @@ const CheckoutForm = () => {
       }));
   
       const totalWithDelivery = totalWithoutDelivery + adjustedDeliveryPrice;
-  
+
       // Dispatch the total with delivery
       dispatch(updateCheckoutData({ field: 'totalWithDelivery', value: totalWithDelivery }));
     } else {
