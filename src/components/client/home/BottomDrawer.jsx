@@ -89,7 +89,7 @@ const BottomDrawer = ({ isDrawerOpen, toggleDrawer, productId }) => {
           className="fixed bottom-0 left-0 right-0 z-40 w-full h-[50%] overflow-y-auto transition-transform bg-palette-white transform-none"
         >
           {/* Header */}
-          <div className="bg-palette-body-4 flex justify-center align-center w-full sticky top-0 z-10">
+          <div className="bg-palette-body-4 flex justify-center align-center w-full sticky top-0 z-50">
             <h5
               id="drawer-bottom-label"
               className="inline-flex items-center my-2 text-xl font-semibold text-gray-500 dark:text-gray-400"

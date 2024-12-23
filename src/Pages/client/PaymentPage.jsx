@@ -92,7 +92,7 @@ const PaymentPage = () => {
               </div>
               <div className="flex items-center justify-between gap-4 mb-5">
                 <p className="font-normal text-lg leading-8 text-gray-400">Total</p>
-                <p className="font-medium text-lg leading-8 text-gray-900">$${formatPrice(checkoutData.totalWithDelivery)}</p>
+                <p className="font-medium text-lg leading-8 text-gray-900">${formatPrice(checkoutData.totalWithDelivery)}</p>
               </div>
               <button
                 className="px-4 py-2 rounded-lg font-semibold text-white bg-palette-button hover:bg-green-700 cursor-pointer"
