@@ -1,0 +1,39 @@
+[
+    {
+      "id": 1,
+      "status": "Confirming",
+      "color": "#FFB300",
+      "comment": "The order is being confirmed."
+    },
+    {
+      "id": 2,
+      "status": "In Progress",
+      "color": "#FF6600",
+      "comment": "The order is being processed."
+    },
+    {
+      "id": 3,
+      "status": "Canceled",
+      "color": "#FF0000",
+      "comment": "The order has been cancelled."
+    },
+    {
+      "id": 4,
+      "status": "In Preparation",
+      "color": "#FFCC00",
+      "comment": "The order is being prepared."
+    },
+    {
+      "id": 5,
+      "status": "Shipped",
+      "color": "#00CC66",
+      "comment": "The order has been shipped."
+    },
+    {
+      "id": 6,
+      "status": "Delivered",
+      "color": "#19bcff",
+      "comment": "The order has been delivered."
+    }
+  ]
+  

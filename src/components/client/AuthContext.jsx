@@ -1,6 +1,7 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
 import CryptoJS from 'crypto-js';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import toast from 'react-hot-toast';
 
 // Secret key for encryption (keep it secure!)
 const secretKey = 'the_key_is_in_the_hands_of_the_king'; // Make sure to use a secure key
@@ -49,6 +50,7 @@ export const AuthProvider = ({ children }) => {
     setUserId(null); // Clear the userId on logout
     localStorage.removeItem('userData'); // Clear encrypted user data from localStorage
     navigate('/'); // Redirect to homepage after logout
+    toast.success('You are now Logged out!')
   };
 
   // Encrypt the data

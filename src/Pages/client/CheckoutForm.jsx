@@ -83,7 +83,7 @@ const CheckoutForm = () => {
     if (name === 'deliveryMethod') {
       const { id, label, deliveryPrice } = selectedMethod;
   
-      let adjustedDeliveryPrice = totalWithoutDelivery > 75 ? 0 : parseFloat(deliveryPrice); // Set delivery price to 0 if totalWithoutDelivery > 75
+      let adjustedDeliveryPrice = totalWithoutDelivery > 60 ? 0 : parseFloat(deliveryPrice); // Set delivery price to 0 if totalWithoutDelivery > 75
   
       // Dispatch the delivery method with the adjusted delivery price
       dispatch(updateCheckoutData({
@@ -104,7 +104,6 @@ const CheckoutForm = () => {
     }
   };
   
-
   const handleGiftCheckboxChange = (e) => {
     const { checked } = e.target;
     setFormData((prevState) => ({
@@ -178,21 +177,23 @@ const CheckoutForm = () => {
                 if (field.type === 'select') {
                   return (
                     <div key={field.id}>
-                      <label htmlFor={field.id} className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">{field.label}</label>
-                      <select
+                      <label htmlFor={field.id} className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
+                        {field.label}
+                      </label>
+                      <input
                         id={field.id}
                         value={formData[field.id]}
                         onChange={handleChange}
                         required={field.required}
-                        className="block w-full rounded-lg border border-gray-300 bg-white p-2.5 text-sm focus:border-primary-500 focus:ring-primary-500"
-                      >
-                        <option value="" className='text-grey-200'>{field.placeholder}</option>
+                        list={`${field.id}-options`}
+                        placeholder='Enter your City name'
+                        className={`block w-full rounded-lg border border-gray-300 bg-white p-2.5 text-sm focus:border-primary-500 focus:ring-primary-500 ${formData[field.id] ? 'text-black' : 'text-gray-500'}`}
+                      />
+                      <datalist id={`${field.id}-options`}>
                         {field.options.map((option, idx) => (
-                          <option key={idx} value={option.title}>
-                            {option.title}
-                          </option>
+                          <option key={idx} value={option.title} />
                         ))}
-                      </select>
+                      </datalist>
                       {errors[field.id] && <p className="text-xs text-red-600">{errors[field.id]}</p>}
                     </div>
                   );
@@ -237,7 +238,7 @@ const CheckoutForm = () => {
             <h3 className="text-xl font-semibold text-gray-900 dark:text-white">Payment Methods</h3>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
               {paymentMethods.map((paymentMethod) => (
-                <div key={paymentMethod.id} className="rounded-lg border border-gray-200 bg-white p-4 ps-4 dark:border-gray-700 dark:bg-gray-800">
+                <div key={paymentMethod.formId} className="rounded-lg border border-gray-200 bg-white p-4 ps-4 dark:border-gray-700 dark:bg-gray-800">
                   <div className="flex items-start">
                     <input
                       id={paymentMethod.id}
@@ -250,7 +251,7 @@ const CheckoutForm = () => {
                       required
                     />
                     <div className="ms-4 text-sm">
-                      <label htmlFor={paymentMethod.id} className="font-medium leading-none text-gray-900 dark:text-white">{paymentMethod.label}</label>
+                      <label className="font-medium leading-none text-gray-900 dark:text-white">{paymentMethod.label}</label>
                     </div>
                   </div>
                 </div>
@@ -263,7 +264,7 @@ const CheckoutForm = () => {
             <h3 className="text-xl font-semibold text-gray-900 dark:text-white">Delivery Methods</h3>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
               {deliveryMethods.map((deliveryMethod) => (
-                <div key={deliveryMethod.id} className="rounded-lg border border-gray-200 bg-white p-4 ps-4 dark:border-gray-700 dark:bg-gray-800">
+                <div key={deliveryMethod.formId} className="rounded-lg border border-gray-200 bg-white p-4 ps-4 dark:border-gray-700 dark:bg-gray-800">
                   <div className="flex items-start">
                     <div className="flex h-5 items-center">
                       <input
@@ -278,7 +279,7 @@ const CheckoutForm = () => {
                       />
                     </div>
                     <div className="ms-4 text-sm">
-                      <label htmlFor={deliveryMethod.id} className="font-medium leading-none text-gray-900 dark:text-white">{deliveryMethod.label}</label>
+                      <label className="font-medium leading-none text-gray-900 dark:text-white">{deliveryMethod.label}</label>
                       <p className="mt-1 text-xs font-normal text-gray-500 dark:text-gray-400">{deliveryMethod.description}</p>
                     </div>
                   </div>

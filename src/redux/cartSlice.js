@@ -30,6 +30,7 @@ const initialState = {
     noteForDriver: '',
     totalWithoutDelivery: 0,
     totalWithDelivery: 0, // Added to store the total with delivery
+    discount: 0,
   }
 };
 
@@ -56,8 +57,10 @@ const cartSlice = createSlice({
 
     // Remove product from the cart
     removeFromCart: (state, action) => {
-      const productId = action.payload;
-      state.cart = state.cart.filter((item) => item.productId !== productId);
+      const { id, scentID } = action.payload;
+      state.cart = state.cart.filter(
+        (item) => item.scentID !== scentID
+      );
     },
 
     // Update product quantity in the cart

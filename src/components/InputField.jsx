@@ -1,9 +1,5 @@
 import React, { useState } from 'react';
-import PhoneInput, {
-	formatPhoneNumber,
-	formatPhoneNumberIntl,
-	isPossiblePhoneNumber
-} from 'react-phone-number-input';
+import PhoneInput, { formatPhoneNumber, formatPhoneNumberIntl, isPossiblePhoneNumber } from 'react-phone-number-input';
 import 'react-phone-number-input/style.css';
 
 const InputField = ({
@@ -17,9 +13,15 @@ const InputField = ({
   options = [],
   rows,
 }) => {
-  // State to toggle password visibility
+  // State to toggle password visibility and for search functionality
   const [showPassword, setShowPassword] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');  // State for search input
 
+  // Handle filtering the options based on search query
+  const filteredOptions = options.filter(option =>
+    option.title.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+  
   // Handle different input types
   switch (type) {
     case 'text':
@@ -103,24 +105,34 @@ const InputField = ({
           <label htmlFor={id} className="text-sm font-medium">
             {title}
           </label>
-          <select
-            id={id}
-            value={value}
-            onChange={onChange}
-            required={required}
-            className="w-full px-3 py-2 border rounded"
-          >
-            <option value="">{placeholder}</option>
-            {Array.isArray(options) && options.length > 0 ? (
-              options.map((option, idx) => (
-                <option key={idx} value={option.title}>
-                  {option.title}
-                </option>
-              ))
-            ) : (
-              <option disabled>No options available</option>
-            )}
-          </select>
+          <div className="relative">
+            <input
+              type="text"
+              id={`${id}-search`}
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Search..."
+              className="w-full px-3 py-2 border rounded mb-2"
+            />
+            <select
+              id={id}
+              value={value}
+              onChange={onChange}
+              required={required}
+              className="w-full px-3 py-2 border rounded"
+            >
+              <option value="">{placeholder}</option>
+              {Array.isArray(filteredOptions) && filteredOptions.length > 0 ? (
+                filteredOptions.map((option, idx) => (
+                  <option key={idx} value={option.title}>
+                    {option.title}
+                  </option>
+                ))
+              ) : (
+                <option disabled>No options available</option>
+              )}
+            </select>
+          </div>
         </div>
       );
 

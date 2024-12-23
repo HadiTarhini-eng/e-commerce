@@ -5,7 +5,7 @@ import BadgeCell from './BadgeCell';
 import ActionButtonCell from './ActionButtonCell';
 import toast from 'react-hot-toast';
 
-const GenericTable = ({ columns, data }) => {
+const GenericTable = ({ columns, data, rowClickable, actionClick, editAction }) => {
   const navigate = useNavigate();
   
   // State to hold the search query
@@ -25,7 +25,7 @@ const GenericTable = ({ columns, data }) => {
   });
 
   // Dynamically render cells based on the column configuration
-  const renderCell = (cell, column) => {
+  const renderCell = (cell, column, row) => {
     if (column.Cell === "ProductImageCell") {
       return <ProductImageCell value={cell.value} />;
     } else if (column.Cell === "BadgeCell") {
@@ -33,9 +33,12 @@ const GenericTable = ({ columns, data }) => {
     } else if (column.Cell === "ActionButtonCell") {
       return (
         <ActionButtonCell 
+          value={`${editAction ? 'Edit' : 'More'}`}
           onClick={(e) => {
             e.stopPropagation(); // Prevent navigation when clicking the action button
-            toast.error("Row has been deleted!"); // Perform action
+            if(actionClick) {
+              actionClick(row);
+            }
           }} 
         />
       );
@@ -50,6 +53,13 @@ const GenericTable = ({ columns, data }) => {
       return `/productAdmin/${rowData.id}`;
     }
     return `/default/${rowData.id}`;
+  };
+
+  // Handle row click logic based on rowClickable prop
+  const handleRowClick = (row) => {
+    if (rowClickable) {
+      navigate(renderDestination(row));
+    }
   };
 
   return (
@@ -82,12 +92,12 @@ const GenericTable = ({ columns, data }) => {
           {filteredData.map((row) => (
             <tr
               key={row.id}
-              onClick={() => navigate(renderDestination(row))}
-              className="cursor-pointer hover:bg-gray-100"
+              onClick={() => handleRowClick(row)}
+              className={`${rowClickable ? 'hover:bg-gray-100 cursor-pointer' : ''}`}
             >
               {columns.map((column) => (
                 <td key={column.id} className="border px-4 py-2">
-                  {renderCell({ value: row[column.accessor] }, column)}
+                  {renderCell({ value: row[column.accessor] }, column, row)}
                 </td>
               ))}
             </tr>

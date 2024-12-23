@@ -4,7 +4,7 @@ import CategoryCardHolder from '../../components/client/home/holders/CategoryCar
 import ProductCardHolder from '../../components/client/home/holders/ProductCardHolder';
 import Ads from '../../components/client/home/Ads';
 import SearchBar from '../../components/client/home/SearchBar';
-import { fetchCarouselData } from '../../api/ClientApi';
+import { fetchCarouselData } from '../../api/clientApi';
 import BottomDrawer from '../../components/client/home/BottomDrawer';
 
 const Home = () => {

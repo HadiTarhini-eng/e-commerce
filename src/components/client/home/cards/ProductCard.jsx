@@ -64,6 +64,11 @@ const ProductCard = ({
     }
   };
 
+  const formatPrice = (price) => {
+    const formattedPrice = parseFloat(price).toFixed(2);
+    return formattedPrice.endsWith('.00') ? parseFloat(formattedPrice).toFixed(0) : formattedPrice;
+  };
+
   return (
     <div
       className={`relative bg-white shadow-lg rounded-lg p-4 w-full cursor-pointer ${outOfStock ? 'cursor-not-allowed' : ''
@@ -125,10 +130,10 @@ const ProductCard = ({
 
         {/* Prices */}
         <div className="flex justify-left items-center flex-row space-x-1">
-          <span className="font-bold text-black font-['Roboto']">${newPrice}</span>
+          <span className="font-bold text-black font-['Roboto']">${formatPrice(newPrice)}</span>
           {oldPrice !== null && (
             <span className="line-through text-gray-500 text-sm font-['Roboto']">
-              ${oldPrice}
+              ${formatPrice(oldPrice)}
             </span>
           )}
 

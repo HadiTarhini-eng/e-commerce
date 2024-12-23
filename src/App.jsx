@@ -15,6 +15,11 @@ import OrderTrack from './Pages/client/OrderTrack';
 import OrderHistory from './Pages/client/OrderHistory';
 import OrderDetails from './Pages/client/OrderDetails';
 import Favorites from './Pages/client/Favorites';
+import OrdersPage from './Pages/admin/OrdersPage';
+import OrderSummaryPage from './Pages/admin/OrderSummary';
+import ClientsTablePage from './Pages/admin/ClientsTablePage';
+import ScentsTablePage from './Pages/admin/ScentsTablePage';
+import CategoryTablePage from './Pages/admin/CategoryTablePage';
 
 const App = () => {
   return (
@@ -38,6 +43,11 @@ const App = () => {
         <Route element={<AdminLayout />}>
           <Route path="/dashboard" element={<AdminDashboard />} />
           <Route path="/productTable" element={<ProductTablePage />} />
+          <Route path="/ordersTable" element={<OrdersPage />} />
+          <Route path="/orderSummary" element={<OrderSummaryPage />} />
+          <Route path="/clientsTable" element={<ClientsTablePage />} />
+          <Route path="/scentsTable" element={<ScentsTablePage />} />
+          <Route path="/categoryTable" element={<CategoryTablePage />} />
         </Route>
 
         {/* 404 Page */}

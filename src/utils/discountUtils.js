@@ -22,7 +22,7 @@ export const calculateDiscount = (product) => {
   }
 
   // Case when discount exists
-  if (discount !== null) {
+  if (discount !== null && discount !== 0) {
     const discountAmount = (oldPrice * (discount / 100)).toFixed(1);  // Calculate discount amount
     const newPrice = (oldPrice - discountAmount).toFixed(1);  // Calculate new price after discount
     const chipText = `-${discount}%`;  // Text for chip

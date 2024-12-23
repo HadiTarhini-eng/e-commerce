@@ -1,0 +1,25 @@
+[
+    {
+      "id": 1,
+      "Header": "Scent ID",
+      "accessor": "id",
+      "width": "10%",
+      "canFilter": true
+    },
+    {
+      "id": 2,
+      "Header": "Scent Name",
+      "accessor": "name",
+      "canFilter": true,
+      "width": "20%"
+    },
+    {
+      "id": 3,
+      "Header": "Action",
+      "accessor": "action",
+      "Cell": "ActionButtonCell",
+      "width": "10%",
+      "value": "Edit"
+    }
+  ]
+  

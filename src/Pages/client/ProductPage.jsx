@@ -52,7 +52,7 @@ const ProductPage = () => {
   };
 
   // Filter out scents that are out of stock
-  const availableScents = product.scents.filter(scent => scent.scentStock > 0);
+  const availableScents = product.scents;
   const hasScents = availableScents.length > 0;
 
   // Get the selected scent's data (images) if a scent is selected

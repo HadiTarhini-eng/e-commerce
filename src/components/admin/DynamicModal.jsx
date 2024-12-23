@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import InputField from '../InputField';
 
-const DynamicModal = ({ isOpen, closeModal, onProductAdd, inputFields, modalTitle, buttonText }) => {
+const DynamicModal = ({ isOpen, closeModal, handleFucntion, inputFields, modalTitle, buttonText }) => {
   const [formData, setFormData] = useState({});
 
   useEffect(() => {
@@ -12,31 +12,19 @@ const DynamicModal = ({ isOpen, closeModal, onProductAdd, inputFields, modalTitl
     setFormData(initialData);
   }, [inputFields]);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
+  const handleChange = (e, id) => {
+    const { value } = e.target;
+    console.log(id)
+    console.log(`Changing to ${value}`);  // Log input changes
     setFormData((prevData) => ({
       ...prevData,
-      [name]: value,
+      [id]: value,
     }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    // const newProductId = getNextId();
-
-    // Prepare the new product data for submission
-    const newProduct = {
-      title: 'Product',
-      image: `/src/assets/image/products/${formData.name}`,
-      name: formData.name,
-      category: formData.category,
-      price: parseInt(formData.price, 10),
-      discount: 'No Discount',
-      discountAmount: null,
-    };
-
-    onProductAdd(newProduct);
+    handleFucntion(formData);
   };
 
   return isOpen ? (
@@ -64,7 +52,8 @@ const DynamicModal = ({ isOpen, closeModal, onProductAdd, inputFields, modalTitl
               placeholder={field.placeholder}
               id={field.id}
               name={field.id}
-              onChange={handleChange}
+              value={formData[field.id] || ''}
+              onChange={(e) => handleChange(e,field.id)}
               options={field.options}
               required={field.required}
             />

@@ -106,7 +106,7 @@ const ProductTablePage = () => {
           </button>
         </div>
 
-        <GenericTable data={data} columns={columns} />
+        <GenericTable data={data} columns={columns} rowClickable={true} />
 
         <DynamicModal
           isOpen={isModalOpen}

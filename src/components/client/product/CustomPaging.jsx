@@ -48,7 +48,7 @@ const CustomPaging = forwardRef(({ images, isInBottomDrawer }, ref) => {
             <img
               src={image.image}
               alt={image.name}
-              className={`bg-palette-white border-2 border-palette-white object-cover ${isInBottomDrawer ? 'w-[200px] h-[200px]' : 'rounded-full'}`}
+              className={`bg-palette-white border-2 border-palette-white object-contain ${isInBottomDrawer ? 'w-[200px] h-[200px]' : 'w-[330px] h-[330px] rounded-full'}`}
             />
           </div>
         ))}

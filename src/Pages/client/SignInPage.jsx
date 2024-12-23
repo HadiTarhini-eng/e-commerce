@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast'; // Importing react-hot-toast for notifications
 import { useAuth } from '../../components/client/AuthContext';
 import { postSignInData, postSignUpData } from '../../api/clientApi';
+import { isPossiblePhoneNumber } from 'react-phone-number-input';
 
 const SignIn = () => {
   const [fullName, setFullName] = useState('');
@@ -30,8 +31,16 @@ const SignIn = () => {
     if (isSignUp && !fullName) errors.fullName = 'Full Name is required';
     if (isSignUp && password !== confirmPassword) errors.confirmPassword = 'Passwords do not match';
     if (isSignUp && !phoneNumber) errors.phoneNumber = 'Phone number is required'; // Validate phone number during sign-up
+    if (isSignUp && phoneNumber && !isPossiblePhoneNumber(phoneNumber)) {
+      errors.phoneNumber = 'Please enter a valid phone number'; // Additional validation for phone number format
+    }
     return errors;
   };
+
+  const handlePhoneNumberChange = (e) => {
+    const value = e.target || e;
+    setPhoneNumber(value);
+  }
 
   // Handle Submit for Sign In and Sign Up
   const handleSubmit = async (e) => {
@@ -136,12 +145,12 @@ const SignIn = () => {
             />
             {isSignUp && (
               <InputField
-                type="text"
+                type="phoneNumber"
                 id="phoneNumber"
                 title="Phone Number"
                 value={phoneNumber}
-                onChange={(e) => setPhoneNumber(e.target.value)}
-                placeholder="(123) 456-7890"
+                onChange={(value) => handlePhoneNumberChange({ target: value })}
+                placeholder="Enter phone number"
                 required
                 error={validationErrors.phoneNumber}
                 className={getInputClass('phoneNumber')}
@@ -202,7 +211,7 @@ const SignIn = () => {
                       e.preventDefault();
                       toggleForm(); // Switch to Sign Up
                     }}
-                    className="font-medium text-primary-600 hover:underline dark:text-primary-500"
+                    className="font-medium text-palette-button hover:underline dark:text-primary-500"
                   >
                     Sign up
                   </a>

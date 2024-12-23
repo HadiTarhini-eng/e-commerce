@@ -56,6 +56,11 @@ const PaymentPage = () => {
     }
   };
 
+  const formatPrice = (price) => {
+    const formattedPrice = parseFloat(price).toFixed(2);
+    return formattedPrice.endsWith('.00') ? parseFloat(formattedPrice).toFixed(0) : formattedPrice;
+  };
+
   return (
     <div className="w-full max-w-7xl px-4 md:px-5 lg-6 mx-auto no-scrollbar mb-20 mt-4">
       <div className="flex items-start flex-col gap-6 xl:flex-row">
@@ -87,7 +92,7 @@ const PaymentPage = () => {
               </div>
               <div className="flex items-center justify-between gap-4 mb-5">
                 <p className="font-normal text-lg leading-8 text-gray-400">Total</p>
-                <p className="font-medium text-lg leading-8 text-gray-900">${checkoutData.totalWithDelivery}</p>
+                <p className="font-medium text-lg leading-8 text-gray-900">$${formatPrice(checkoutData.totalWithDelivery)}</p>
               </div>
               <button
                 className="px-4 py-2 rounded-lg font-semibold text-white bg-palette-button hover:bg-green-700 cursor-pointer"
@@ -125,7 +130,7 @@ const PaymentPage = () => {
                     <div className="flex items-center gap-3">
                       <p className="font-medium text-lg leading-8 text-palette-button">Quantity: {product.quantity}</p>
                     </div>
-                    <h6 className="font-medium text-xl leading-8 text-palette-button">Price: ${product.newPrice}</h6>
+                    <h6 className="font-medium text-xl leading-8 text-palette-button">Price: ${formatPrice(product.newPrice)}</h6>
                   </div>
                 </div>
               </div>

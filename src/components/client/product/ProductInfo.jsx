@@ -10,19 +10,24 @@ const ProductInfo = ({ images, dominant, title, newPrice, oldPrice, chipText, ch
   const sliderRef = useRef(null);
   const [activeIndex, setActiveIndex] = useState(null); // Use null for no scent selected initially
 
-  const handleButtonClick = (index) => {
-    const selectedScent = scents[index]; // Get the selected scent object
-
-    if (selectedScent.scentStock === "0") {
-      toast.error(`This scent for this item is out of stock!`);
+  const handleButtonClick = (index, scentStock) => {
+    if(scentStock === 0) {
+      toast.error('Scent is out of stock at the moment!');
     } else {
-      setActiveIndex(index); // Set the selected scent index
-      setSelectedScent(selectedScent); // Update the parent state with the selected scent
-      setIsScentSelected(true); // Update the parent state to indicate a scent is selected
-      if (sliderRef.current) {
-        sliderRef.current.slickGoTo(index); // Scroll to the selected scent image
+      const selectedScent = scents[index]; // Get the selected scent object
+
+      if (selectedScent.scentStock === "0") {
+        toast.error(`This scent for this item is out of stock!`);
+      } else {
+        setActiveIndex(index); // Set the selected scent index
+        setSelectedScent(selectedScent); // Update the parent state with the selected scent
+        setIsScentSelected(true); // Update the parent state to indicate a scent is selected
+        if (sliderRef.current) {
+          sliderRef.current.slickGoTo(index); // Scroll to the selected scent image
+        }
       }
     }
+    
   };
 
   const isScentSelected = () => {
@@ -32,6 +37,11 @@ const ProductInfo = ({ images, dominant, title, newPrice, oldPrice, chipText, ch
   if (isLoading) {
     return <SkeletonLoader />;
   }
+
+  const formatPrice = (price) => {
+    const formattedPrice = parseFloat(price).toFixed(2);
+    return formattedPrice.endsWith('.00') ? parseFloat(formattedPrice).toFixed(0) : formattedPrice;
+  };
 
   return (
     <div className="w-full max-w-2xl mx-auto bg-palette-body-3 overflow-hidden">
@@ -50,7 +60,7 @@ const ProductInfo = ({ images, dominant, title, newPrice, oldPrice, chipText, ch
             <img
               src={dominant}
               alt="Dominant Image"
-              className={`bg-palette-white border-2 border-palette-white object-cover ${isInBottomDrawer ? 'w-[180px] h-[180px]' : 'w-full h-full rounded-full'}`}
+              className={`bg-palette-white border-2 border-palette-white object-contain ${isInBottomDrawer ? 'max-w-[180px] max-h-[180px]' : 'max-w-[330px] max-h-[330px] rounded-full'}`}
             />
           </div>
         )}
@@ -62,9 +72,9 @@ const ProductInfo = ({ images, dominant, title, newPrice, oldPrice, chipText, ch
             <div className="flex flex-col text-left">
               <h2 className={`text-3xl font-semibold text-gray-800 ${isInBottomDrawer ? 'mt-0' : 'mt-4'}`}>{title}</h2>
               <div className="flex flex-row gap-2 items-center">
-                <p className="text-lg font-bold text-palette-chip-red">${newPrice}</p>
+                <p className="text-lg font-bold text-palette-chip-red">${formatPrice(newPrice)}</p>
                 {oldPrice && (
-                  <p className="text-lg text-gray-500 line-through">${oldPrice}</p>
+                  <p className="text-lg text-gray-500 line-through">${formatPrice(oldPrice)}</p>
                 )}
               </div>
             </div>
@@ -103,12 +113,8 @@ const ProductInfo = ({ images, dominant, title, newPrice, oldPrice, chipText, ch
 
               {chipText && (
                 <div
-                  className={`inline-block px-3 py-1 rounded-full text-sm font-semibold text-white ${chipColor === 'green' ? 'bg-green-500' :
-                    chipColor === 'blue' ? 'bg-blue-500' :
-                      chipColor === 'red' ? 'bg-palette-chip-red' :
-                        chipColor === 'yellow' ? 'bg-yellow-500' :
-                          chipColor === 'purple' ? 'bg-purple-500' :
-                            chipColor === 'orange' ? 'bg-orange-500' : 'bg-gray-500'}`}
+                  className={`inline-block px-3 py-1 rounded-full text-sm font-semibold text-white`}
+                  style={{ backgroundColor: chipColor }}
                 >
                   {chipText}
                 </div>
@@ -125,15 +131,14 @@ const ProductInfo = ({ images, dominant, title, newPrice, oldPrice, chipText, ch
               {scents.map((scent, index) => (
                 <button
                   key={scent.scentID}
-                  onClick={() => handleButtonClick(index)}
+                  onClick={() => handleButtonClick(index, scent.scentStock)}
                   className={`px-2 py-0 text-sm text-palette-complement-3 rounded-full transition-colors duration-300 ${
-                    scent.scentStock === "0"
+                    scent.scentStock === 0
                       ? "bg-gray-400 cursor-not-allowed"
                       : isScentSelected() && activeIndex === index
                       ? "border-2 border-palette-mimi-pink-2" // Only show the border when scent is selected
                       : "border-2 border-grey"
                   }`}
-                  disabled={scent.scentStock === "0"} // Disable button if out of stock
                 >
                   {scent.scentName}
                 </button>
