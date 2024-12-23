@@ -62,10 +62,18 @@ console.log(cartItems)
 
   // Remove item from cart
   const handleRemoveItem = (id, scentId) => {
-    console.log(id, scentId);
-    dispatch(removeFromCart(id, scentId));
+    // Parse scentId to integer
+    const parsedScentId = parseInt(scentId, 10); // The second argument (10) ensures it's parsed as a decimal number
+    
+    console.log(id, parsedScentId); // Log the parsed values
+  
+    // Dispatch the action with the parsed scentId
+    dispatch(removeFromCart(id, parsedScentId));
+    
+    // Show a toast notification for item removal
     toast.error('Item removed from cart!');
   };
+  
 
   // Handle Continue to Payment button click
   const handleContinueToPayment = () => {
