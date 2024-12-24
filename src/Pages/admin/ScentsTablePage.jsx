@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { fetchScentsColumnData, fetchScentsTableData, postScentUpdates, addScent } from '../../api/adminApi'; 
 import GenericTable from '../../components/admin/table/GenericTable';
 import DynamicModal from '../../components/admin/DynamicModal';
+import toast from 'react-hot-toast';
 
 const ScentsTablePage = () => {
   const [columns, setColumns] = useState([]);
@@ -34,9 +35,11 @@ const ScentsTablePage = () => {
     if (scent) {
       setSelectedScent(scent);
       setIsEditing(true);  // Edit mode
+      toast.success('Updated scent successfully!')
     } else {
       setSelectedScent(null);  // Reset to add new scent
       setIsEditing(false);  // Add mode
+      toast.success('Added new scent successfully!')
     }
     setIsModalOpen(true);
   }

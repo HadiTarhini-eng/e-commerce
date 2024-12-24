@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { fetchOrdersColumnData, fetchOrdersTableData, fetchStatusOptions, postOrderStatus } from '../../api/adminApi'; 
 import GenericTable from '../../components/admin/table/GenericTable';
 import DynamicModal from '../../components/admin/DynamicModal';
+import toast from 'react-hot-toast';
 
 const OrdersPage = () => {
   const [columns, setColumns] = useState([]);
@@ -68,8 +69,10 @@ const OrdersPage = () => {
 
       // Optionally, close the modal after the update
       closeModal();
+      toast.success('Updated status successully');
     } catch (error) {
       console.error('Error updating status:', error);
+      toast.success('Error updating status');
     }
   };
 

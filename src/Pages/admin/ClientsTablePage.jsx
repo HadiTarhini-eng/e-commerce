@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { fetchClientsColumnData, fetchClientsTableData, postClientDelete } from '../../api/adminApi'; 
 import GenericTable from '../../components/admin/table/GenericTable';
 import ConfirmationModal from '../../components/admin/ConfirmationModal';
+import toast from 'react-hot-toast';
 
 const ClientsTablePage = () => {
   const [columns, setColumns] = useState([]);
@@ -37,8 +38,10 @@ const ClientsTablePage = () => {
 
       // Close the confirmation modal
       setIsConfirmationModalOpen(false);
+      toast.success('Deleted client successfully!')
     } catch (error) {
       console.error('Error deleting client:', error);
+      toast.error('Error deleting client')
     }
   };
 
