@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { fetchCategoryColumnData, fetchCategoryTableData, postCategoryUpdates, addCategory } from '../../api/adminApi'; 
 import GenericTable from '../../components/admin/table/GenericTable';
 import DynamicModal from '../../components/admin/DynamicModal';
+import toast from 'react-hot-toast';
 
 const CategoryTablePage = () => {
   const [columns, setColumns] = useState([]);
@@ -50,15 +51,18 @@ const CategoryTablePage = () => {
         setData((prevData) =>
           prevData.map((item) => item.id === updatedCategory.id ? updatedData : item)
         );
+        toast.success('Updated category successfully!')
       } else {
         // Add new category logic here
         const newCategoryData = await addCategory(updatedCategory);  // Call the API to add a new category
         setData((prevData) => [...prevData, newCategoryData]);
+        toast.success('Added new category successfully!')
       }
 
       closeModal(); // Close the modal after action
     } catch (error) {
       console.error('Error handling category data:', error);
+      toast.error('Error handling category data')
     }
   };
 

@@ -45,7 +45,7 @@ const CarouselEditor = () => {
 
   // Handle adding a new carousel
   const handleAddCarousel = () => {
-    setCarousels([
+    setCarousels([  // Adding a new carousel to the list
       ...carousels,
       {
         id: carousels.length + 1,
@@ -55,7 +55,7 @@ const CarouselEditor = () => {
         showHeader: true,
         showParagraph: true,
         showButton: true,
-        buttonText: "Click Me",
+        buttonText: "Click Me",  // Default button text
         buttonColor: "#000000", // Default button color
         buttonPath: "/new/page"
       }
@@ -182,6 +182,16 @@ const CarouselEditor = () => {
                     value={carousel.buttonColor}
                     onChange={(e) => handleCarouselChange(carousel.id, 'buttonColor', e.target.value)}
                     className="w-full p-2 border border-gray-300 rounded"
+                  />
+                </div>
+
+                <div className="mt-4">
+                  <label className="block text-sm">Button Text</label>
+                  <input
+                    type="text"
+                    value={carousel.buttonText}
+                    onChange={(e) => handleCarouselChange(carousel.id, 'buttonText', e.target.value)}
+                    className="p-2 w-full border border-gray-300 rounded"
                   />
                 </div>
 
