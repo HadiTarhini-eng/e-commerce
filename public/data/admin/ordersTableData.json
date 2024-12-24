@@ -4,22 +4,26 @@
       "title": "Order",
       "name": "Tarhini",
       "email": "hadi@email.com",
-      "price": "70$",
-      "discount": "None",
+      "price": 70,
+      "discount": 0,
       "delivery": "Pick Up",
-      "total": "70$",
-      "status": "Confirming"
+      "deliveryCost": 0,
+      "total": 70,
+      "status": "Confirming",
+      "statusId": "1"
     },
     {
       "id": 34,
       "title": "Order",
       "name": "Dalli",
       "email": "example@email.com",
-      "price": "100$",
-      "discount": "10%",
+      "price": 100,
+      "discount": 10,
       "delivery": "Delivery Saida",
-      "total": "90$",
-      "status": "Canceled"
+      "deliveryCost": 2,
+      "total": 90,
+      "status": "Canceled",
+      "statusId": "6"
     }
   ]
   

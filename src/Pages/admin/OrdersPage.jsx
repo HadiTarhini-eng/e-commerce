@@ -10,18 +10,19 @@ const OrdersPage = () => {
   const [statusOptions, setStatusOptions] = useState([]);
   const [selectedOrder, setSelectedOrder] = useState(null);
 
+  // Fetch columns, status options, and table data on page load
   useEffect(() => {
     const fetchColumnsAndData = async () => {
       try {
-        // Fetch columns and table data
+        // Fetch columns and status options
         const columnsResponse = await fetchOrdersColumnData();
         setColumns(columnsResponse);
-
         const statusResponse = await fetchStatusOptions();
         setStatusOptions(statusResponse);
-        
+
+        // Fetch orders data and modify rows to include disableButton
         const dataResponse = await fetchOrdersTableData();
-        setData(dataResponse);
+        updateDisableButtonFlag(dataResponse);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -30,37 +31,68 @@ const OrdersPage = () => {
     fetchColumnsAndData();
   }, []);
 
+  // Update the disableButton flag for each row based on the status
+  const updateDisableButtonFlag = (updatedData) => {
+    const modifiedData = updatedData.map((order) => ({
+      ...order,
+      disableButton: order.status === 'Canceled' || order.status === 'Delivered'
+    }));
+    setData(modifiedData);
+  };
+
+  // Close modal
   const closeModal = () => setIsModalOpen(false);
 
+  // Open modal to edit order status
   const handleOpenModal = (order) => {
     setSelectedOrder(order);
     setIsModalOpen(true);
-  }
+  };
 
-  // Handle new status change
+  // Handle the status change and update the data accordingly
   const handleStatusChange = async (formData) => {
     try {
-      const { status } = formData; 
+      const { status } = formData;
 
-      // const updatedStatus = await postOrderStatus(status);
-      // console.log('Status updated:', updatedStatus);
+      // Call the API to update the status
+      const updatedStatus = await postOrderStatus(status);
+      console.log('Status updated:', updatedStatus);
 
-      // Update the table data after successful POST request
-      setData((prevData) =>
-      prevData.map((item) =>
-        item.id === selectedOrder.id ? { ...item, status  } : item
-      )
-    );
+      // Update the row's status and recalculate the disableButton flag
+      const updatedData = data.map((item) =>
+        item.id === selectedOrder.id ? { ...item, status } : item
+      );
+      
+      // After status update, reapply the disableButton check
+      updateDisableButtonFlag(updatedData);
 
-      // Optionally, handle success (e.g., close the modal)
+      // Optionally, close the modal after the update
       closeModal();
     } catch (error) {
       console.error('Error updating status:', error);
-      // Optionally, handle error (e.g., show an error message)
     }
   };
 
-  // Define the input fields dynamically
+  // Filter the status options to include only the next option and the last option
+  const getFilteredStatusOptions = () => {
+    if (!selectedOrder || !statusOptions.length) return [];
+
+    // Find the current status in the statusOptions array
+    const currentStatusIndex = statusOptions.findIndex(
+      (option) => option.status === selectedOrder.status
+    );
+
+    if (currentStatusIndex === -1) return []; // If status not found, return empty array
+
+    // Get the next status (if available) and the last status
+    const nextStatus = statusOptions[currentStatusIndex + 1];
+    const lastStatus = statusOptions[statusOptions.length - 1];
+
+    // Return an array with the next status and the last status
+    return [nextStatus, lastStatus].filter(Boolean); // Remove undefined values if no next status exists
+  };
+
+  // Define input fields for the modal
   const inputFields = [
     {
       type: 'text',
@@ -84,7 +116,7 @@ const OrdersPage = () => {
           status: e.target.value,
         }));
       },
-      options: statusOptions,
+      options: getFilteredStatusOptions(),
       required: false,
       disabled: false,
     },
@@ -99,7 +131,12 @@ const OrdersPage = () => {
           <h2 className="text-xl font-medium text-gray-700">Orders List</h2>
         </div>
 
-        <GenericTable data={data} columns={columns} rowClickable={true} actionClick={handleOpenModal} />
+        <GenericTable 
+          data={data} 
+          columns={columns} 
+          rowClickable={true} 
+          actionClick={handleOpenModal} 
+        />
 
         <DynamicModal
           isOpen={isModalOpen}
