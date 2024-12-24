@@ -192,7 +192,7 @@ export const fetchScentsTableData = async () => {
 // Post scent data updates
 export const postScentUpdates = async (updatedScent) => {
   try {
-    const response = await fetch(`/api/scents/${updatedScent.id}`, {
+    const response = await fetch(`http://localhost/e-commerce/src/backend/admin/updateScent.php/${updatedScent.id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
