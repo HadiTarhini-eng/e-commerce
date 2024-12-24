@@ -43,13 +43,20 @@
     },
     {
       "id": 7,
+      "Header": "Delivery Cost",
+      "accessor": "deliveryCost",
+      "canFilter": true,
+      "width": "10%"
+    },
+    {
+      "id": 8,
       "Header": "Total Price",
       "accessor": "total",
       "canFilter": true,
       "width": "10%"
     },
     {
-      "id": 8,
+      "id": 9,
       "Header": "Status",
       "accessor": "status",
       "canFilter": true,
@@ -57,7 +64,7 @@
       "width": "10%"
     },
     {
-      "id": 9,
+      "id": 10,
       "Header": "Action",
       "accessor": "action",
       "Cell": "ActionButtonCell",

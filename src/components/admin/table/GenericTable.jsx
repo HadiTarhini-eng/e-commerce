@@ -5,7 +5,7 @@ import BadgeCell from './BadgeCell';
 import ActionButtonCell from './ActionButtonCell';
 import toast from 'react-hot-toast';
 
-const GenericTable = ({ columns, data, rowClickable, actionClick, deleteAction, showSelection }) => {
+const GenericTable = ({ columns, data, rowClickable, actionClick, deleteAction, showSelection, disableButton  }) => {
   const navigate = useNavigate();
 
   // State to hold the search query
@@ -33,6 +33,10 @@ const GenericTable = ({ columns, data, rowClickable, actionClick, deleteAction, 
     } else if (column.Cell === "BadgeCell") {
       return <BadgeCell value={cell.value} />;
     } else if (column.Cell === "ActionButtonCell") {
+      // If `disableButton` is true, don't render the button
+      if (row.disableButton) {
+        return null; // No button shown if status is "Canceled" or "Delivered"
+      }
       return (
         <ActionButtonCell 
           value={`${deleteAction ? 'Delete' : 'Edit'}`}

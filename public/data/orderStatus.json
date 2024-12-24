@@ -13,27 +13,27 @@
     },
     {
       "id": 3,
-      "status": "Canceled",
-      "color": "#FF0000",
-      "comment": "The order has been cancelled."
-    },
-    {
-      "id": 4,
       "status": "In Preparation",
       "color": "#FFCC00",
       "comment": "The order is being prepared."
     },
     {
-      "id": 5,
+      "id": 4,
       "status": "Shipped",
       "color": "#00CC66",
       "comment": "The order has been shipped."
     },
     {
-      "id": 6,
+      "id": 5,
       "status": "Delivered",
       "color": "#19bcff",
       "comment": "The order has been delivered."
+    },
+    {
+      "id": 6,
+      "status": "Canceled",
+      "color": "#FF0000",
+      "comment": "The order has been cancelled."
     }
   ]
   
