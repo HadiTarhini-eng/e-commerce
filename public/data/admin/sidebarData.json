@@ -5,6 +5,8 @@
     { "id": 4, "label": "Products", "icon": "../../../src/assets/image/sidebar/products.png", "destination": "/productTable" },
     { "id": 5, "label": "Scents", "icon": "../../../src/assets/image/sidebar/products.png", "destination": "/scentsTable" },
     { "id": 6, "label": "Orders", "icon": "../../../src/assets/image/sidebar/products.png", "destination": "/ordersTable" },
-    { "id": 7, "label": "Sign In", "icon": "../../../src/assets/image/sidebar/signin.png", "destination": "#" }
+    { "id": 7, "label": "Discount Settings", "icon": "../../../src/assets/image/sidebar/products.png", "destination": "/discountSettings" },
+    { "id": 8, "label": "Carousel Editor", "icon": "../../../src/assets/image/sidebar/products.png", "destination": "/carouselEditor" },
+    { "id": 9, "label": "Sign In", "icon": "../../../src/assets/image/sidebar/signin.png", "destination": "#" }
   ]
   

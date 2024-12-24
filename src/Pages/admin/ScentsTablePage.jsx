@@ -7,6 +7,7 @@ const ScentsTablePage = () => {
   const [columns, setColumns] = useState([]);
   const [data, setData] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedScent, setSelectedScent] = useState(null);
 
   useEffect(() => {
     const fetchColumnsAndData = async () => {
@@ -27,23 +28,27 @@ const ScentsTablePage = () => {
 
   const closeModal = () => setIsModalOpen(false);
 
-  const handleOpenModal = () => {
+  const handleOpenModal = (scent) => {
+    setSelectedScent(scent);
     setIsModalOpen(true);
   }
 
   // Handle scent update
-  const handleScentEdit = async (scent) => {
+  const handleScentUpdate = async (updatedScent) => {
     try {
-      const newData = await postScentUpdates(scent); 
-      console.log('Scent updated:', newData);
+      // POST updated scent data to the backend
+      // const newScentData = await postScentUpdates(updatedScent); 
+      // console.log('Scent updated:', newScentData);
 
       // Update the table data after successful POST request
-      setData((prevData) => [...prevData, newData]);
+      setData((prevData) => 
+        prevData.map((item) => item.id === updatedScent.id ? updatedScent : item)
+      );
 
       // Optionally, handle success (e.g., close the modal)
       closeModal();
     } catch (error) {
-      console.error('Error editing scent data:', error);
+      console.error('Error updating scent data:', error);
       // Optionally, handle error (e.g., show an error message)
     }
   };
@@ -52,12 +57,26 @@ const ScentsTablePage = () => {
   const inputFields = [
     {
       type: 'text',
+      title: 'Scent ID',
+      placeholder: '',
+      id: 'id',
+      value: selectedScent ? selectedScent.id : '',
+      required: false,
+      onChange: () => {},
+    },
+    {
+      type: 'text',
       title: 'Scent Name',
       placeholder: 'Enter Scent Name',
       id: 'name',
-      value: '', // This value will be handled dynamically via formData
-      onChange: () => {},
-      required: true,
+      value: selectedScent ? selectedScent.name : '',
+      onChange: (e) => {
+        setSelectedScent((prevScent) => ({
+          ...prevScent,
+          name: e.target.value,
+        }));
+      },
+      required: false,
     },
   ];
 
@@ -75,7 +94,7 @@ const ScentsTablePage = () => {
         <DynamicModal
           isOpen={isModalOpen}
           closeModal={closeModal}
-          onProductAdd={handleScentEdit}
+          handleFucntion={handleScentUpdate}
           inputFields={inputFields}
           modalTitle="Update Scent"
           buttonText="Update"

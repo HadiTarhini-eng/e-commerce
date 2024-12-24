@@ -104,6 +104,16 @@ export const fetchOrdersTableData = async () => {
   }
 };
 
+// Fetch Orders Table Data
+export const fetchStatusOptions = async () => {
+  try {
+    const response = await axios.get('/data/orderStatus.json'); 
+    return response.data;
+  } catch (error) {
+    throw new Error('Error fetching order table data');
+  }
+};
+
 
 ///////////// POST ///////////////////// Orders TABLE ///////////// POST /////////////////////
 
@@ -144,12 +154,12 @@ export const fetchClientsTableData = async () => {
 ///////////// POST ///////////////////// Client TABLE ///////////// POST /////////////////////
 
 // Post client data updates
-export const postClientUpdates = async (newdata) => {
+export const postClientDelete = async (clientId) => {
   try {
-    const response = await axios.post('/api/clientUpdates', newdata); 
+    const response = await axios.post('/api/clientClient', clientId); 
     return response.data;
   } catch (error) {
-    throw new Error('Error adding new client updates');
+    throw new Error('Error deleting client');
   }
 };
 
@@ -224,3 +234,92 @@ export const postCategoryUpdates = async (newdata) => {
     throw new Error('Error adding new category updates');
   }
 };
+
+
+///////////// FETCH ///////////////////// Discount Settings ///////////// FETCH /////////////////////
+
+// Fetch Discount Settings
+export const fetchDiscountSettings = async () => {
+  try {
+    const response = await axios.get('/data/admin/discountSettings.json'); // Replace with actual API URL
+    return response.data; // Assume data structure { firstOrderDiscount, freeDelivery, deliveryThreshold }
+  } catch (error) {
+    throw new Error('Error fetching discount settings');
+  }
+};
+
+
+///////////// POST ///////////////////// Discount Settings ///////////// POST /////////////////////
+
+// Post Discount Settings
+export const postDiscountSettings = async (settings) => {
+  try {
+    const response = await axios.post('/path-to-save-settings', settings); // Replace with actual API URL
+    return response.data;
+  } catch (error) {
+    throw new Error('Error saving discount settings');
+  }
+};
+
+
+///////////// FETCH ///////////////////// Carousel Data ///////////// FETCH /////////////////////
+
+// Fetch Carousel Data
+export const fetchCarouselData = async () => {
+  try {
+    const response = await axios.get('/data/admin/carouselData.json');
+    return response.data;
+  } catch (error) {
+    throw new Error('Error fetching carousel data');
+  }
+};
+
+// Fetch Product Data
+export const fetchProducts = async () => {
+  try {
+    const response = await axios.get('/data/admin/productsData.json'); // Assuming this returns product list with id and name
+    return response.data;
+  } catch (error) {
+    throw new Error('Error fetching product data');
+  }
+};
+
+
+///////////// POST ///////////////////// Carousel Data ///////////// POST /////////////////////
+
+// Save Carousel Data
+export const saveCarouselData = async (carouselData) => {
+  try {
+    const response = await axios.post('/api/save-carousel', carouselData);
+    return response.data;
+  } catch (error) {
+    throw new Error('Error saving carousel data');
+  }
+};
+
+
+///////////// FETCH ///////////////////// Order Summary ///////////// FETCH /////////////////////
+
+// Fetch Order Summary Data
+export const fetchOrderSummaryData = async () => {
+  try {
+    const response = await axios.get('/data/admin/orderSummary.json');
+    return response.data;
+  } catch (error) {
+    throw new Error('Error fetching order summary data');
+  }
+};
+
+
+///////////// FETCH ///////////////////// BADGE ///////////// FETCH /////////////////////
+
+// Fetch Order Status Data
+export const fetchStatusData = async () => {
+  try {
+    const response = await axios.get('/data/orderStatus.json'); // Use axios to fetch the status data
+    return response.data; // Return the fetched data
+  } catch (error) {
+    throw new Error('Error fetching status data'); // Handle error
+  }
+};
+

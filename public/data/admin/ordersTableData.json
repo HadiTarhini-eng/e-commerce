@@ -1,25 +1,25 @@
 [
     {
       "id": 33,
+      "title": "Order",
       "name": "Tarhini",
       "email": "hadi@email.com",
       "price": "70$",
       "discount": "None",
       "delivery": "Pick Up",
       "total": "70$",
-      "status": "Confirming",
-      "action": "More"
+      "status": "Confirming"
     },
     {
       "id": 34,
+      "title": "Order",
       "name": "Dalli",
       "email": "example@email.com",
       "price": "100$",
       "discount": "10%",
       "delivery": "Delivery Saida",
       "total": "90$",
-      "status": "Canceled",
-      "action": "More"
+      "status": "Canceled"
     }
   ]
   

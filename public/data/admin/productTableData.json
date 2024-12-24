@@ -2,22 +2,24 @@
     {
       "id": 1,
       "title": "Product",
-      "image": "https://via.placeholder.com/150",
+      "image": "/product1.png",
       "name": "Apple iPhone",
       "category": "Mobile Phones",
       "price": 999,
-      "discount": "Discounted",
-      "discountAmount": 10
+      "stock": 0,
+      "discountAmount": 10,
+      "specification": "This product is really good"
     },
     {
       "id": 2,
       "title": "Product",
-      "image": "https://via.placeholder.com/150",
+      "image": "/product2.png",
       "name": "Samsung Galaxy",
       "category": "Mobile Phones",
       "price": 899,
-      "discount": "No Discount",
-      "discountAmount": null
+      "stock": 10,
+      "discountAmount": 0,
+      "specification": "Very Nice"
     }
   ]
   

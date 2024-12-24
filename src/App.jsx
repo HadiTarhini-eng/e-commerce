@@ -20,6 +20,9 @@ import OrderSummaryPage from './Pages/admin/OrderSummary';
 import ClientsTablePage from './Pages/admin/ClientsTablePage';
 import ScentsTablePage from './Pages/admin/ScentsTablePage';
 import CategoryTablePage from './Pages/admin/CategoryTablePage';
+import ProductDetailsPage from './Pages/admin/ProductDetailsPage';
+import DiscountSettings from './Pages/admin/DiscountSettings';
+import CarouselEditor from './Pages/admin/CarouselEditor';
 
 const App = () => {
   return (
@@ -44,10 +47,13 @@ const App = () => {
           <Route path="/dashboard" element={<AdminDashboard />} />
           <Route path="/productTable" element={<ProductTablePage />} />
           <Route path="/ordersTable" element={<OrdersPage />} />
-          <Route path="/orderSummary" element={<OrderSummaryPage />} />
+          <Route path="/orderSummary/:id" element={<OrderSummaryPage />} />
           <Route path="/clientsTable" element={<ClientsTablePage />} />
           <Route path="/scentsTable" element={<ScentsTablePage />} />
           <Route path="/categoryTable" element={<CategoryTablePage />} />
+          <Route path="/productDetailsPage/:id" element={<ProductDetailsPage />} />
+          <Route path="/discountSettings" element={<DiscountSettings />} />
+          <Route path="/carouselEditor" element={<CarouselEditor />} />
         </Route>
 
         {/* 404 Page */}

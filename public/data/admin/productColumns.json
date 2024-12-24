@@ -10,7 +10,7 @@
       "id": 2,
       "Header": "Product Image",
       "accessor": "image",
-      "Cell": "ProductImageCell",
+      "Cell": "ImageCell",
       "width": "15%"
     },
     {
@@ -35,9 +35,9 @@
     },
     {
       "id": 6,
-      "Header": "Discount",
-      "accessor": "discount",
-      "Cell": "BadgeCell",
+      "Header": "Amount",
+      "accessor": "stock",
+      "Cell": "stockCell",
       "width": "10%"
     },
     {

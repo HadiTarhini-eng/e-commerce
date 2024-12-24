@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { fetchStatusData } from "../../../api/adminApi";
 
 const BadgeCell = ({ value }) => {
   const [badgeColor, setBadgeColor] = useState('');
@@ -6,10 +7,8 @@ const BadgeCell = ({ value }) => {
   // Function to fetch status data and get the color based on the status
   const getStatusColor = async (status) => {
     try {
-      const response = await fetch('/data/orderStatus.json');
-      const data = await response.json();
-      
-      // Find the status object based on the value and return the corresponding color
+      const data = await fetchStatusData(); // Call the fetchStatusData function
+      // Find the status object based on the status value
       const statusObj = data.find(item => item.status === status);
       return statusObj ? statusObj.color : "#6B7280"; // Default to gray if no match found
     } catch (error) {

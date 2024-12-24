@@ -15,6 +15,14 @@
     },
     {
       "id": 3,
+      "Header": "Image",
+      "accessor": "image",
+      "canFilter": true,
+      "Cell": "ImageCell",
+      "width": "20%"
+    },
+    {
+      "id": 3,
       "Header": "Action",
       "accessor": "action",
       "Cell": "ActionButtonCell",

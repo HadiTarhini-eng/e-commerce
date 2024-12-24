@@ -1,0 +1,39 @@
+[
+    {
+      "id": 1,
+      "image": "image1.jpg",
+      "header": "First Slide Label",
+      "paragraph": "Some representative placeholder content for the first slide.",
+      "showHeader": true,
+      "showParagraph": true,
+      "showButton": true,
+      "buttonText": "Click Me",
+      "buttonColor": "#4CAF50",
+      "buttonPath": "/path/to/page"
+    },
+    {
+      "id": 2,
+      "image": "image2.jpg",
+      "header": "Second Slide Label",
+      "paragraph": "Some representative placeholder content for the second slide.",
+      "showHeader": true,
+      "showParagraph": true,
+      "showButton": true,
+      "buttonText": "Click Me",
+      "buttonColor": "#FF5733",
+      "buttonPath": "/another/page"
+    },
+    {
+      "id": 3,
+      "image": "image3.jpg",
+      "header": "Third Slide Label",
+      "paragraph": "Some representative placeholder content for the third slide.",
+      "showHeader": true,
+      "showParagraph": true,
+      "showButton": true,
+      "buttonText": "Click Me",
+      "buttonColor": "#008CBA",
+      "buttonPath": "/final/page"
+    }
+  ]
+  

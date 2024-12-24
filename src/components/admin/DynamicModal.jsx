@@ -12,14 +12,32 @@ const DynamicModal = ({ isOpen, closeModal, handleFucntion, inputFields, modalTi
     setFormData(initialData);
   }, [inputFields]);
 
-  const handleChange = (e, id) => {
-    const { value } = e.target;
-    console.log(id)
-    console.log(`Changing to ${value}`);  // Log input changes
-    setFormData((prevData) => ({
-      ...prevData,
-      [id]: value,
-    }));
+  const handleChange = (e, id, type) => {
+    if (type === 'file') {
+      handleFileChange(e, id);
+    } else {
+      const { value } = e.target;
+      console.log(id)
+      console.log(`Changing to ${value}`);  // Log input changes
+      setFormData((prevData) => ({
+        ...prevData,
+        [id]: value,
+      }));
+    }
+    
+  };
+
+  // Handle file input changes separately
+  const handleFileChange = (e, id) => {
+    const file = e.target.files ? e.target.files[0] : null;
+    if (file) {
+      const fileName = file.name;  // Get the file name
+      console.log(`File selected: ${fileName}`);
+      setFormData((prevData) => ({
+        ...prevData,
+        [id]: `/${fileName}`,  // Save the file path to state
+      }));
+    }
   };
 
   const handleSubmit = (e) => {
@@ -53,7 +71,7 @@ const DynamicModal = ({ isOpen, closeModal, handleFucntion, inputFields, modalTi
               id={field.id}
               name={field.id}
               value={formData[field.id] || ''}
-              onChange={(e) => handleChange(e,field.id)}
+              onChange={(e) => handleChange(e, field.id, field.type)}
               options={field.options}
               required={field.required}
             />

@@ -3,17 +3,15 @@
       "id": 1,
       "name": "Tarhini",
       "email": "hadi@email.com",
-      "phoneNumber": "78916479",
-      "password": "123",
-      "action": "Edit"
+      "phoneNumber": "+96178916479",
+      "password": "123"
     },
     {
       "id": 2,
       "name": "Dalli",
       "email": "example@email.com",
-      "phoneNumber": "12345678",
-      "password": "123",
-      "action": "Edit"
+      "phoneNumber": "+96112345678",
+      "password": "123"
     }
   ]
   

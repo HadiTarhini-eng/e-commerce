@@ -1,13 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { fetchCategoryOptions, fetchProductColumnData, fetchProductTableData } from '../../api/adminApi'; 
-import GenericTable from '../../components/admin/table/GenericTable';
 import DynamicModal from '../../components/admin/DynamicModal';
+import { useNavigate } from 'react-router-dom';
+import GenericTable from '../../components/admin/table/GenericTable';
+import toast from 'react-hot-toast';
 
 const ProductTablePage = () => {
   const [columns, setColumns] = useState([]);
   const [data, setData] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [categoryOptions, setCategoryOptions] = useState([]);
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [selectedRows, setSelectedRows] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchColumnsAndData = async () => {
@@ -30,7 +35,26 @@ const ProductTablePage = () => {
     fetchColumnsAndData();
   }, []);
 
+  // Pass selected rows data back to parent component via this function
+  const handleSelectionChange = (selectedRows) => {
+    setSelectedRows(selectedRows);
+  };
+
   const closeModal = () => setIsModalOpen(false);
+
+  const handleOpenPage = (row) => {
+    const productId = row.id;
+    navigate(`../productDetailsPage/${productId}`);
+  };
+
+  const handleDiscount = () => {
+    if (selectedRows.length === 0) {
+      toast.error("You must select at least one product.");
+    } else {
+      // Proceed with discount logic for selected rows
+      console.log("Applying discount to selected products", selectedRows);
+    }
+  };
 
   // Handle new product addition
   const handleProductAdd = async (product) => {
@@ -56,7 +80,7 @@ const ProductTablePage = () => {
       title: 'Product Name',
       placeholder: 'Enter product name',
       id: 'name',
-      value: '', // This value will be handled dynamically via formData
+      value: selectedProduct ? selectedProduct.name : '',
       onChange: () => {},
       required: true,
     },
@@ -65,7 +89,7 @@ const ProductTablePage = () => {
       title: 'Price',
       placeholder: '$2999',
       id: 'price',
-      value: '',
+      value: selectedProduct ? selectedProduct.price : '',
       onChange: () => {},
       required: true,
     },
@@ -74,18 +98,18 @@ const ProductTablePage = () => {
       title: 'Category',
       placeholder: 'Select category',
       id: 'category',
-      value: '',
+      value: selectedProduct ? selectedProduct.category : '',
       onChange: () => {},
       options: categoryOptions,
       required: true,
     },
     {
       type: 'textarea',
-      title: 'Product Description',
+      title: 'Product Specifications',
       placeholder: 'Write product description here',
-      id: 'description',
+      id: 'specification',
       rows: '4',
-      value: '',
+      value: selectedProduct ? selectedProduct.specifications : '',
       onChange: () => {},
       required: true,
     },
@@ -98,15 +122,31 @@ const ProductTablePage = () => {
       <div className="bg-white p-6 rounded-lg shadow-lg">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-medium text-gray-700">Product List</h2>
-          <button
-            onClick={() => setIsModalOpen(true)}
-            className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
-          >
-            Add New Product
-          </button>
+          <div className='flex flex-col gap-4'>
+            <button
+              onClick={() => setIsModalOpen(true)}
+              className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
+            >
+              Add New Product
+            </button>
+            <button
+              onClick={handleDiscount}
+              className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
+            >
+              Add Discount
+            </button>
+          </div>
         </div>
 
-        <GenericTable data={data} columns={columns} rowClickable={true} />
+        <GenericTable 
+          showSelection={true} 
+          data={data} 
+          columns={columns} 
+          rowClickable={false} 
+          actionClick={handleOpenPage} 
+          deleteAction={false} 
+          onSelectionChange={handleSelectionChange} 
+        />
 
         <DynamicModal
           isOpen={isModalOpen}

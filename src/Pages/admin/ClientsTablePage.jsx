@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { fetchClientsColumnData, fetchClientsTableData, postClientUpdates } from '../../api/adminApi'; 
+import { fetchClientsColumnData, fetchClientsTableData, postClientDelete } from '../../api/adminApi'; 
 import GenericTable from '../../components/admin/table/GenericTable';
-import DynamicModal from '../../components/admin/DynamicModal';
+import ConfirmationModal from '../../components/admin/ConfirmationModal';
 
 const ClientsTablePage = () => {
   const [columns, setColumns] = useState([]);
   const [data, setData] = useState([]);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
+  const [selectedClientId, setSelectedClientId] = useState(null);
 
   useEffect(() => {
     const fetchColumnsAndData = async () => {
@@ -25,69 +26,34 @@ const ClientsTablePage = () => {
     fetchColumnsAndData();
   }, []);
 
-  const closeModal = () => setIsModalOpen(false);
-
-  const handleOpenModal = () => {
-    setIsModalOpen(true);
-  }
-
-  // Handle client data edit
-  const handleClientEdit = async (clientData) => {
+  // Handle client delete
+  const handleClientDelete = async (clientId) => {
     try {
-      const newData = await postClientUpdates(clientData); 
-      console.log('Update:', newData);
+      const response = await postClientDelete({ id: clientId });
+      console.log('Client deleted:', response);
 
-      // Update the table data after successful POST request
-      setData((prevData) => [...prevData, newData]);
+      // Update the table data after successful delete
+      setData((prevData) => prevData.filter(client => client.id !== clientId));
 
-      // Optionally, handle success (e.g., close the modal)
-      closeModal();
+      // Close the confirmation modal
+      setIsConfirmationModalOpen(false);
     } catch (error) {
-      console.error('Error editing client data:', error);
-      // Optionally, handle error (e.g., show an error message)
+      console.error('Error deleting client:', error);
     }
   };
 
-  // Define the input fields dynamically
-  const inputFields = [
-    {
-      type: 'text',
-      title: 'Client Name',
-      placeholder: 'Enter product name',
-      id: 'name',
-      value: '', // This value will be handled dynamically via formData
-      onChange: () => {},
-      required: true,
-    },
-    {
-      type: 'phoneNumber',
-      title: 'Phone Number',
-      placeholder: 'Input phone number',
-      id: 'phoneNumber',
-      value: '',
-      onChange: () => {},
-      required: true,
-    },
-    {
-      type: 'text',
-      title: 'text',
-      placeholder: 'Email',
-      id: 'email',
-      value: '',
-      onChange: () => {},
-      required: true,
-    },
-    {
-      type: 'password',
-      title: 'Password',
-      placeholder: 'Enter password',
-      id: 'password',
-      rows: '4',
-      value: '',
-      onChange: () => {},
-      required: true,
-    },
-  ];
+  // Open the confirmation modal
+  const openConfirmationModal = (client) => {
+    const clientId = client.id;
+    setSelectedClientId(clientId);
+    setIsConfirmationModalOpen(true);
+  };
+
+  // Close the confirmation modal
+  const closeConfirmationModal = () => {
+    setIsConfirmationModalOpen(false);
+    setSelectedClientId(null);
+  };
 
   return (
     <div className="min-h-screen bg-gray-100 p-6">
@@ -98,17 +64,22 @@ const ClientsTablePage = () => {
           <h2 className="text-xl font-medium text-gray-700">Clients List</h2>
         </div>
 
-        <GenericTable data={data} columns={columns} rowClickable={false} actionClick={handleOpenModal} />
-
-        <DynamicModal
-          isOpen={isModalOpen}
-          closeModal={closeModal}
-          onProductAdd={handleClientEdit}
-          inputFields={inputFields}
-          modalTitle="Update User Information"
-          buttonText="Update"
+        <GenericTable 
+          data={data} 
+          columns={columns} 
+          rowClickable={false} 
+          actionClick={openConfirmationModal} // Open the confirmation modal on delete action
+          deleteAction={true} 
         />
       </div>
+
+      {/* Use the ConfirmationModal component */}
+      <ConfirmationModal
+        isOpen={isConfirmationModalOpen}
+        onClose={closeConfirmationModal}
+        onConfirm={handleClientDelete}
+        clientId={selectedClientId}
+      />
     </div>
   );
 };

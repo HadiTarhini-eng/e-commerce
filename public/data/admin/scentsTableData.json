@@ -1,13 +1,11 @@
 [
     {
       "id": 1,
-      "name": "Pink",
-      "action": "Edit"
+      "name": "Pink"
     },
     {
       "id": 2,
-      "name": "Black",
-      "action": "Edit"
+      "name": "Black"
     }
   ]
   

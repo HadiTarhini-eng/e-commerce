@@ -1,15 +1,17 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import ProductImageCell from './ProductImageCell';
+import ImageCell from './ImageCell';
 import BadgeCell from './BadgeCell';
 import ActionButtonCell from './ActionButtonCell';
 import toast from 'react-hot-toast';
 
-const GenericTable = ({ columns, data, rowClickable, actionClick, editAction }) => {
+const GenericTable = ({ columns, data, rowClickable, actionClick, deleteAction, showSelection }) => {
   const navigate = useNavigate();
-  
+
   // State to hold the search query
   const [searchQuery, setSearchQuery] = useState('');
+  // State to hold selected rows
+  const [selectedRows, setSelectedRows] = useState([]);
 
   // Handle search query change
   const handleSearchChange = (e) => {
@@ -26,14 +28,14 @@ const GenericTable = ({ columns, data, rowClickable, actionClick, editAction }) 
 
   // Dynamically render cells based on the column configuration
   const renderCell = (cell, column, row) => {
-    if (column.Cell === "ProductImageCell") {
-      return <ProductImageCell value={cell.value} />;
+    if (column.Cell === "ImageCell") {
+      return <ImageCell value={cell.value} />;
     } else if (column.Cell === "BadgeCell") {
       return <BadgeCell value={cell.value} />;
     } else if (column.Cell === "ActionButtonCell") {
       return (
         <ActionButtonCell 
-          value={`${editAction ? 'Edit' : 'More'}`}
+          value={`${deleteAction ? 'Delete' : 'Edit'}`}
           onClick={(e) => {
             e.stopPropagation(); // Prevent navigation when clicking the action button
             if(actionClick) {
@@ -42,7 +44,11 @@ const GenericTable = ({ columns, data, rowClickable, actionClick, editAction }) 
           }} 
         />
       );
+    } else if (column.Cell === "stockCell" && cell.value === 0) {
+      // Check if the column is 'stock' and value is 0, apply red color
+      return <span style={{ color: 'red' }}>{cell.value}</span>;
     }
+
     // Handle case where there is no specific cell renderer
     return cell.value; // This will just render the value of the cell directly if no special renderer is specified
   };
@@ -51,6 +57,8 @@ const GenericTable = ({ columns, data, rowClickable, actionClick, editAction }) 
   const renderDestination = (rowData) => {
     if (rowData.title === "Product") {
       return `/productAdmin/${rowData.id}`;
+    } else if(rowData.title === "Order") {
+      return `/orderSummary/${rowData.id}`
     }
     return `/default/${rowData.id}`;
   };
@@ -59,6 +67,25 @@ const GenericTable = ({ columns, data, rowClickable, actionClick, editAction }) 
   const handleRowClick = (row) => {
     if (rowClickable) {
       navigate(renderDestination(row));
+    }
+  };
+
+  // Handle checkbox click for selecting/deselecting a row
+  const handleCheckboxChange = (e, rowId) => {
+    if (e.target.checked) {
+      setSelectedRows(prev => [...prev, rowId]);
+    } else {
+      setSelectedRows(prev => prev.filter(id => id !== rowId));
+    }
+  };
+
+  // Handle select/deselect all rows
+  const handleSelectAllChange = (e) => {
+    if (e.target.checked) {
+      const allRowIds = filteredData.map(row => row.id);
+      setSelectedRows(allRowIds);
+    } else {
+      setSelectedRows([]);
     }
   };
 
@@ -78,8 +105,18 @@ const GenericTable = ({ columns, data, rowClickable, actionClick, editAction }) 
       <table className="table-auto w-full">
         <thead>
           <tr>
-            {columns.map((column) => (
-              <th key={column.id} className="px-4 py-2" style={{ width: column.width }}>
+            {/* Conditionally render header checkbox based on showSelection prop */}
+            {showSelection && (
+              <th className="px-4 py-2">
+                <input
+                  type="checkbox"
+                  checked={selectedRows.length === filteredData.length}
+                  onChange={handleSelectAllChange}
+                />
+              </th>
+            )}
+            {columns.map((column, index) => (
+              <th key={index} className="px-4 py-2" style={{ width: column.width }}>
                 <span className="flex items-center">
                   {column.Header}
                 </span>
@@ -89,14 +126,24 @@ const GenericTable = ({ columns, data, rowClickable, actionClick, editAction }) 
         </thead>
         
         <tbody>
-          {filteredData.map((row) => (
+          {filteredData.map((row, index) => (
             <tr
-              key={row.id}
+              key={index}
               onClick={() => handleRowClick(row)}
               className={`${rowClickable ? 'hover:bg-gray-100 cursor-pointer' : ''}`}
             >
-              {columns.map((column) => (
-                <td key={column.id} className="border px-4 py-2">
+              {/* Conditionally render row checkbox based on showSelection prop */}
+              {showSelection && (
+                <td className="border px-4 py-2">
+                  <input
+                    type="checkbox"
+                    checked={selectedRows.includes(row.id)}
+                    onChange={(e) => handleCheckboxChange(e, row.id)}
+                  />
+                </td>
+              )}
+              {columns.map((column, index) => (
+                <td key={index} className="border px-4 py-2">
                   {renderCell({ value: row[column.accessor] }, column, row)}
                 </td>
               ))}

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { fetchCategoryColumnData, fetchCategoryTableData, fetchScentsColumnData, fetchScentsTableData, postCategoryUpdates, postScentUpdates } from '../../api/adminApi'; 
+import { fetchCategoryColumnData, fetchCategoryTableData, postCategoryUpdates } from '../../api/adminApi'; 
 import GenericTable from '../../components/admin/table/GenericTable';
 import DynamicModal from '../../components/admin/DynamicModal';
 
@@ -38,12 +38,12 @@ const CategoryTablePage = () => {
     console.log(updatedCategory);
     // set categroy name to new category here
     try {
-      const newCategoryData = await postCategoryUpdates(updatedCategory); 
-      console.log('Category updated:', newCategoryData);
+      // const newCategoryData = await postCategoryUpdates(updatedCategory); 
+      // console.log('Category updated:', newCategoryData);
 
       // Update the table data after successful POST request
       setData((prevData) => 
-        prevData.map((item) => item.id === newCategoryData.id ? newCategoryData : item)  // Replace the updated category
+        prevData.map((item) => item.id === updatedCategory.id ? updatedCategory : item)  // Replace the updated category
       );
 
       // Optionally, handle success (e.g., close the modal)
@@ -62,7 +62,7 @@ const CategoryTablePage = () => {
       placeholder: '',
       id: 'id',
       value: selectedCategory ? selectedCategory.id : '',
-      required: true,
+      required: false,
       onChange: () => {},
     },
     {
@@ -77,7 +77,16 @@ const CategoryTablePage = () => {
           name: e.target.value,
         }));
       },
-      required: true,
+      required: false,
+    },
+    {
+      type: 'file',
+      title: 'Category Image',
+      placeholder: 'Drag or upload image',
+      id: 'image',
+      value: selectedCategory && selectedCategory.image ? selectedCategory.image : '',
+      onChange: (filePath) => setSelectedCategory(prev => ({ ...prev, image: filePath })),
+      required: false,
     },
   ];
   
@@ -90,7 +99,7 @@ const CategoryTablePage = () => {
           <h2 className="text-xl font-medium text-gray-700">Category List</h2>
         </div>
 
-        <GenericTable data={data} columns={columns} rowClickable={false} actionClick={handleOpenModal} editAction={true} />
+        <GenericTable data={data} columns={columns} rowClickable={false} actionClick={handleOpenModal} />
 
         <DynamicModal
           isOpen={isModalOpen}

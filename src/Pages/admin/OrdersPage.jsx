@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { fetchOrdersColumnData, fetchOrdersTableData, postOrderStatus } from '../../api/adminApi'; 
+import { fetchOrdersColumnData, fetchOrdersTableData, fetchStatusOptions, postOrderStatus } from '../../api/adminApi'; 
 import GenericTable from '../../components/admin/table/GenericTable';
 import DynamicModal from '../../components/admin/DynamicModal';
 
@@ -8,6 +8,7 @@ const OrdersPage = () => {
   const [data, setData] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [statusOptions, setStatusOptions] = useState([]);
+  const [selectedOrder, setSelectedOrder] = useState(null);
 
   useEffect(() => {
     const fetchColumnsAndData = async () => {
@@ -15,6 +16,9 @@ const OrdersPage = () => {
         // Fetch columns and table data
         const columnsResponse = await fetchOrdersColumnData();
         setColumns(columnsResponse);
+
+        const statusResponse = await fetchStatusOptions();
+        setStatusOptions(statusResponse);
         
         const dataResponse = await fetchOrdersTableData();
         setData(dataResponse);
@@ -28,14 +32,25 @@ const OrdersPage = () => {
 
   const closeModal = () => setIsModalOpen(false);
 
+  const handleOpenModal = (order) => {
+    setSelectedOrder(order);
+    setIsModalOpen(true);
+  }
+
   // Handle new status change
-  const handleStatusChange = async (newStatus) => {
+  const handleStatusChange = async (formData) => {
     try {
-      const updatedStatus = await postOrderStatus(newStatus);
-      console.log('Status updated:', updatedStatus);
+      const { status } = formData; 
+
+      // const updatedStatus = await postOrderStatus(status);
+      // console.log('Status updated:', updatedStatus);
 
       // Update the table data after successful POST request
-      setData((prevData) => [...prevData, updatedStatus]);
+      setData((prevData) =>
+      prevData.map((item) =>
+        item.id === selectedOrder.id ? { ...item, status  } : item
+      )
+    );
 
       // Optionally, handle success (e.g., close the modal)
       closeModal();
@@ -49,10 +64,10 @@ const OrdersPage = () => {
   const inputFields = [
     {
       type: 'text',
-      title: 'Current Status',
-      placeholder: 'Current Status',
-      id: 'currentStatus',
-      value: '',
+      title: 'Order ID',
+      placeholder: 'Enter order ID',
+      id: 'orderID',
+      value: selectedOrder ? selectedOrder.id : '',
       onChange: () => {},
       required: false,
       disabled: true,
@@ -61,11 +76,16 @@ const OrdersPage = () => {
       type: 'select',
       title: 'New Status',
       placeholder: 'Select new status',
-      id: 'newStatus',
-      value: '',
-      onChange: () => {},
+      id: 'status',
+      value: selectedOrder ? selectedOrder.status : '',
+      onChange: (e) => {
+        setSelectedOrder((prevOrder) => ({
+          ...prevOrder,
+          status: e.target.value,
+        }));
+      },
       options: statusOptions,
-      required: true,
+      required: false,
       disabled: false,
     },
   ];
@@ -79,12 +99,12 @@ const OrdersPage = () => {
           <h2 className="text-xl font-medium text-gray-700">Orders List</h2>
         </div>
 
-        <GenericTable data={data} columns={columns} rowClickable={false} />
+        <GenericTable data={data} columns={columns} rowClickable={true} actionClick={handleOpenModal} />
 
         <DynamicModal
           isOpen={isModalOpen}
           closeModal={closeModal}
-          onProductAdd={handleStatusChange}
+          handleFucntion={handleStatusChange}
           inputFields={inputFields}
           modalTitle="Update Status"
           buttonText="Save"

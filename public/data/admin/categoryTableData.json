@@ -1,11 +1,13 @@
 [
     {
       "id": 1,
-      "name": "Candle"
+      "name": "Candle",
+      "image":"/product1.png"
     },
     {
       "id": 2,
-      "name": "Makeup"
+      "name": "Makeup",
+      "image":"/product2.png"
     }
   ]
   
