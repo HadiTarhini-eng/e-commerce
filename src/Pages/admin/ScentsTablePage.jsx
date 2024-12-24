@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { fetchScentsColumnData, fetchScentsTableData, postScentUpdates } from '../../api/adminApi'; 
+import { fetchScentsColumnData, fetchScentsTableData, postScentUpdates, addScent } from '../../api/adminApi'; 
 import GenericTable from '../../components/admin/table/GenericTable';
 import DynamicModal from '../../components/admin/DynamicModal';
 
@@ -8,6 +8,7 @@ const ScentsTablePage = () => {
   const [data, setData] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedScent, setSelectedScent] = useState(null);
+  const [isEditing, setIsEditing] = useState(false); // Track if it's edit or add
 
   useEffect(() => {
     const fetchColumnsAndData = async () => {
@@ -28,42 +29,41 @@ const ScentsTablePage = () => {
 
   const closeModal = () => setIsModalOpen(false);
 
-  const handleOpenModal = (scent) => {
-    setSelectedScent(scent);
+  // This function will open the modal either for editing or adding a new scent
+  const handleOpenModal = (scent = null) => {
+    if (scent) {
+      setSelectedScent(scent);
+      setIsEditing(true);  // Edit mode
+    } else {
+      setSelectedScent(null);  // Reset to add new scent
+      setIsEditing(false);  // Add mode
+    }
     setIsModalOpen(true);
   }
 
-  // Handle scent update
+  // Handle Scent Update or Add
   const handleScentUpdate = async (updatedScent) => {
     try {
-      // POST updated scent data to the backend
-      // const newScentData = await postScentUpdates(updatedScent); 
-      // console.log('Scent updated:', newScentData);
+      if (isEditing) {
+        // Update the scent if in edit mode
+        const updatedData = await postScentUpdates(updatedScent);  // Call the API to update scent
+        setData((prevData) =>
+          prevData.map((item) => item.id === updatedScent.id ? updatedData : item)
+        );
+      } else {
+        // Add new scent logic here
+        const newScentData = await addScent(updatedScent);  // Call the API to add a new scent
+        setData((prevData) => [...prevData, newScentData]);
+      }
 
-      // Update the table data after successful POST request
-      setData((prevData) => 
-        prevData.map((item) => item.id === updatedScent.id ? updatedScent : item)
-      );
-
-      // Optionally, handle success (e.g., close the modal)
-      closeModal();
+      closeModal(); // Close the modal after action
     } catch (error) {
-      console.error('Error updating scent data:', error);
-      // Optionally, handle error (e.g., show an error message)
+      console.error('Error handling scent data:', error);
     }
   };
 
   // Define the input fields dynamically
   const inputFields = [
-    {
-      type: 'text',
-      title: 'Scent ID',
-      placeholder: '',
-      id: 'id',
-      value: selectedScent ? selectedScent.id : '',
-      required: false,
-      onChange: () => {},
-    },
     {
       type: 'text',
       title: 'Scent Name',
@@ -87,6 +87,14 @@ const ScentsTablePage = () => {
       <div className="bg-white p-6 rounded-lg shadow-lg">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-medium text-gray-700">Scents List</h2>
+          <div className="flex flex-col gap-4">
+            <button
+              onClick={() => handleOpenModal()} // Open modal to add new scent
+              className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
+            >
+              Add New Scent
+            </button>
+          </div>
         </div>
 
         <GenericTable data={data} columns={columns} rowClickable={false} actionClick={handleOpenModal} />
@@ -96,8 +104,8 @@ const ScentsTablePage = () => {
           closeModal={closeModal}
           handleFucntion={handleScentUpdate}
           inputFields={inputFields}
-          modalTitle="Update Scent"
-          buttonText="Update"
+          modalTitle={isEditing ? "Edit Scent" : "Add New Scent"} // Dynamic title
+          buttonText={isEditing ? "Update" : "Add"} // Dynamic button text
         />
       </div>
     </div>

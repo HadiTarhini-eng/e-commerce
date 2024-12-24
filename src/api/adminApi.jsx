@@ -190,12 +190,38 @@ export const fetchScentsTableData = async () => {
 ///////////// POST ///////////////////// Scent TABLE ///////////// POST /////////////////////
 
 // Post scent data updates
-export const postScentUpdates = async (newdata) => {
+export const postScentUpdates = async (updatedScent) => {
   try {
-    const response = await axios.post('http://localhost/e-commerce/src/backend/admin/updateScent.php', newdata); 
-    return response.data;
+    const response = await fetch(`/api/scents/${updatedScent.id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(updatedScent),
+    });
+    const data = await response.json();
+    return data;
   } catch (error) {
-    throw new Error('Error adding new scent updates');
+    console.error('Error updating scent:', error);
+    throw error;
+  }
+};
+
+// Post add new scent
+export const addScent = async (newScent) => {
+  try {
+    const response = await fetch('/api/scents', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(newScent),
+    });
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error adding scent:', error);
+    throw error;
   }
 };
 
@@ -232,6 +258,16 @@ export const postCategoryUpdates = async (newdata) => {
     return response.data;
   } catch (error) {
     throw new Error('Error adding new category updates');
+  }
+};
+
+// Post add category
+export const addCategory = async (newdata) => {
+  try {
+    const response = await axios.post('/api/categoryUpdates', newdata); 
+    return response.data;
+  } catch (error) {
+    throw new Error('Error adding new category');
   }
 };
 

@@ -2,9 +2,9 @@ import React from "react";
 
 const ActionButtonCell = ({ onClick, value }) => {
   let buttonColor = 'blue'; // default
-  if(value === 'Delete') {
-    buttonColor = 'indigo';
-  }
+  // if(value === 'Delete') {
+  //   buttonColor = 'indigo';
+  // }
 
   return (
     <button

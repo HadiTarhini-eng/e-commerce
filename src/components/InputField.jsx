@@ -12,6 +12,7 @@ const InputField = ({
   required = false,
   options = [],
   rows,
+  disabled = false, // Added disabled prop
 }) => {
   // State to toggle password visibility and for search functionality
   const [showPassword, setShowPassword] = useState(false);
@@ -32,6 +33,7 @@ const InputField = ({
             onChange={onChange}
             placeholder={placeholder}
             required={required}
+            disabled={disabled} // Disable input when disabled is true
             className="w-full px-3 py-2 border rounded"
           />
         </div>
@@ -51,6 +53,7 @@ const InputField = ({
               onChange={onChange}
               placeholder={placeholder}
               required={required}
+              disabled={disabled} // Disable input when disabled is true
               className="w-full px-3 py-2 border rounded"
             />
             {/* Toggle password visibility */}
@@ -58,6 +61,7 @@ const InputField = ({
               type="button"
               onClick={() => setShowPassword(!showPassword)}
               className="absolute right-3 top-2 text-sm text-gray-500 dark:text-gray-300"
+              disabled={disabled} // Disable the button when input is disabled
             >
               {showPassword ? 'Hide' : 'Show'}
             </button>
@@ -77,6 +81,7 @@ const InputField = ({
             value={value}
             onChange={onChange}
             required={required}
+            disabled={disabled} // Disable PhoneInput when disabled is true
             className="w-full px-3 py-2 border rounded bg-white"
           />
           {/* Phone number validation */}
@@ -105,6 +110,7 @@ const InputField = ({
               value={value}
               onChange={onChange}
               required={required}
+              disabled={disabled} // Disable select input when disabled is true
               className="w-full px-3 py-2 border rounded"
             >
               <option value="">{placeholder}</option>
@@ -135,6 +141,7 @@ const InputField = ({
             placeholder={placeholder}
             rows={rows}
             required={required}
+            disabled={disabled} // Disable textarea when disabled is true
             className="w-full px-3 py-2 border rounded"
           />
         </div>
@@ -151,6 +158,7 @@ const InputField = ({
             id={id}
             onChange={onChange}
             required={required}
+            disabled={disabled} // Disable file input when disabled is true
             className="w-full px-3 py-2 border rounded"
           />
           {value && (
