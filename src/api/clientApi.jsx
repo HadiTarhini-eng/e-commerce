@@ -14,9 +14,9 @@ export const fetchCategoriesData = async (page) => {
     let url = '';
 
     if (page === 'Home') {
-        url = 'http://localhost/e-commerce/src/backend/categoryData.php';
+        url = 'http://localhost/e-commerce/src/backend/client/categoryData.php';
     } else if (page === 'Payment') {
-        url = 'http://localhost/e-commerce/src/backend/paymentTypeData.php';
+        url = 'http://localhost/e-commerce/src/backend/client/paymentTypeData.php';
     }
 
     try {
@@ -32,7 +32,7 @@ export const fetchCategoriesData = async (page) => {
 
 // Fetch Products Data
 export const fetchProductsData = async (userId) => {
-    const response = await axios.get('http://localhost/e-commerce/src/backend/productCardData.php', {
+    const response = await axios.get('http://localhost/e-commerce/src/backend/client/productCardData.php', {
       params: { userId }
     }); // Fetch the product data
     if (response.status !== 200) {
@@ -55,7 +55,7 @@ export const fetchAdsData = async () => {
 
 // Fetch Product by ID with userId
 export const fetchProductById = async (id, userId) => {
-  const response = await axios.get('http://localhost/e-commerce/src/backend/productCardData.php', {
+  const response = await axios.get('http://localhost/e-commerce/src/backend/client/productCardData.php', {
     params: { id, userId }
   });
 
@@ -77,7 +77,7 @@ export const fetchProductById = async (id, userId) => {
 // Fetch Order Details by ID
 export const fetchOrderDetailsById = async (orderID) => {
   try {
-    const response = await axios.get('http://localhost/e-commerce/src/backend/orderDetails.php',{
+    const response = await axios.get('http://localhost/e-commerce/src/backend/client/orderDetails.php',{
       params: { orderID }
     });
     const order = response.data.find(order => order.orderID === orderID);
@@ -91,7 +91,7 @@ export const fetchOrderDetailsById = async (orderID) => {
 // Fetch Order History Data with userId
 export const fetchOrderHistory = async (userId) => {
   try {
-    const response = await axios.get('http://localhost/e-commerce/src/backend/orders.php', {
+    const response = await axios.get('http://localhost/e-commerce/src/backend/client/orders.php', {
       params: { userId }
     });
     return response.data;
@@ -115,7 +115,7 @@ export const fetchOrderTrackSteps = async () => {
 // Fetch Order Track by ID
 export const fetchOrderTrackById = async (orderID) => {
   try {
-    const response = await axios.get('http://localhost/e-commerce/src/backend/orderHistory.php',{
+    const response = await axios.get('http://localhost/e-commerce/src/backend/client/orderHistory.php',{
       params: { orderID }
     });
     const order = response.data.find(order => order.orderID === orderID);
@@ -169,7 +169,7 @@ export const fetchDeliveryMethods = async () => {
 export const submitOrder = async (payload) => {
   console.log(payload);  // Debugging: check the payload
   try {
-    const response = await axios.post('http://localhost/e-commerce/src/backend/submitOrder.php', payload);
+    const response = await axios.post('http://localhost/e-commerce/src/backend/client/submitOrder.php', payload);
     if (response.status !== 200) {
       throw new Error('Failed to submit order');
     }
@@ -186,7 +186,7 @@ export const submitOrder = async (payload) => {
 // Updated postSignInData function
 export const postSignInData = async (credentials) => {
   try {
-    const response = await axios.post('http://localhost/e-commerce/src/backend/signIn.php', credentials);
+    const response = await axios.post('http://localhost/e-commerce/src/backend/client/signIn.php', credentials);
     if (response.status !== 200) {
       throw new Error('Failed to sign in');
     }
@@ -205,7 +205,7 @@ export const postSignInData = async (credentials) => {
 // Post Signup Data (simulating an API call to sign up a user)
 export const postSignUpData = async (userData) => {
   try {
-    const response = await axios.post('http://localhost/e-commerce/src/backend/signUp.php', userData); //edit this as you like
+    const response = await axios.post('http://localhost/e-commerce/src/backend/client/signUp.php', userData); //edit this as you like
     if (response.status !== 200) {
       throw new Error('Failed to sign up');
     }
@@ -222,7 +222,7 @@ export const postSignUpData = async (userData) => {
 // Post Favorite Status Data (send product id and favorite status to backend)
 export const toggleFavoriteStatus = async (userId, productId, favoriteStatus) => {
   try {
-    const response = await axios.post('http://localhost/e-commerce/src/backend/favoriteStatus.php', {
+    const response = await axios.post('http://localhost/e-commerce/src/backend/client/favoriteStatus.php', {
       userId, // Send userId along with productId and favoriteStatus
       productId,
       favoriteStatus,
@@ -246,7 +246,7 @@ export const toggleFavoriteStatus = async (userId, productId, favoriteStatus) =>
 export const submitReview = async (productId, reviewData) => {
   try {
     // Send the productId, review data, and userId to the backend
-    const response = await axios.post('http://localhost/e-commerce/src/backend/submitReview.php', {
+    const response = await axios.post('http://localhost/e-commerce/src/backend/client/submitReview.php', {
       productId,
       comment: reviewData.comment,
       date: reviewData.date,
@@ -269,7 +269,7 @@ export const submitReview = async (productId, reviewData) => {
 
 // Fetch Product by ID with userId
 export const fetchOrderNumber = async (userId) => {
-  const response = await axios.get('http://localhost/e-commerce/src/backend/nbOfOrders.php', {
+  const response = await axios.get('http://localhost/e-commerce/src/backend/client/nbOfOrders.php', {
     params: { userId }
   });
 

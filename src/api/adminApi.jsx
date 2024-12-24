@@ -51,7 +51,7 @@ export const fetchProductColumnData = async () => {
 // Fetch Product Table Data
 export const fetchProductTableData = async () => {
   try {
-    const response = await axios.get('/data/admin/productTableData.json'); 
+    const response = await axios.get('http://localhost/e-commerce/src/backend/admin/productTableData.php'); 
     return response.data;
   } catch (error) {
     throw new Error('Error fetching product table data');
@@ -143,7 +143,7 @@ export const fetchClientsColumnData = async () => {
 // Fetch Clients Table Data
 export const fetchClientsTableData = async () => {
   try {
-    const response = await axios.get('/data/admin/clientsTableData.json'); 
+    const response = await axios.get('http://localhost/e-commerce/src/backend/admin/clientsTableData.php'); 
     return response.data;
   } catch (error) {
     throw new Error('Error fetching client table data');
@@ -156,7 +156,7 @@ export const fetchClientsTableData = async () => {
 // Post client data updates
 export const postClientDelete = async (clientId) => {
   try {
-    const response = await axios.post('/api/clientClient', clientId); 
+    const response = await axios.post('http://localhost/e-commerce/src/backend/admin/deleteClient.php', clientId); 
     return response.data;
   } catch (error) {
     throw new Error('Error deleting client');
@@ -179,7 +179,7 @@ export const fetchScentsColumnData = async () => {
 // Fetch Scents Table Data
 export const fetchScentsTableData = async () => {
   try {
-    const response = await axios.get('/data/admin/scentsTableData.json'); 
+    const response = await axios.get('http://localhost/e-commerce/src/backend/admin/scentsTableData.php'); 
     return response.data;
   } catch (error) {
     throw new Error('Error fetching scent table data');
@@ -192,7 +192,7 @@ export const fetchScentsTableData = async () => {
 // Post scent data updates
 export const postScentUpdates = async (newdata) => {
   try {
-    const response = await axios.post('/api/scentUpdates', newdata); 
+    const response = await axios.post('http://localhost/e-commerce/src/backend/admin/updateScent.php', newdata); 
     return response.data;
   } catch (error) {
     throw new Error('Error adding new scent updates');
@@ -215,7 +215,7 @@ export const fetchCategoryColumnData = async () => {
 // Fetch Category Table Data
 export const fetchCategoryTableData = async () => {
   try {
-    const response = await axios.get('/data/admin/categoryTableData.json'); 
+    const response = await axios.get('http://localhost/e-commerce/src/backend/admin/categoryTableData.php'); 
     return response.data;
   } catch (error) {
     throw new Error('Error fetching category table data');
@@ -228,7 +228,7 @@ export const fetchCategoryTableData = async () => {
 // Post category data updates
 export const postCategoryUpdates = async (newdata) => {
   try {
-    const response = await axios.post('/api/categoryUpdates', newdata); 
+    const response = await axios.post('http://localhost/e-commerce/src/backend/admin/updateCategory.php', newdata); 
     return response.data;
   } catch (error) {
     throw new Error('Error adding new category updates');
@@ -241,7 +241,7 @@ export const postCategoryUpdates = async (newdata) => {
 // Fetch Discount Settings
 export const fetchDiscountSettings = async () => {
   try {
-    const response = await axios.get('/data/admin/discountSettings.json'); // Replace with actual API URL
+    const response = await axios.get('http://localhost/e-commerce/src/backend/admin/discountSettings.php'); // Replace with actual API URL
     return response.data; // Assume data structure { firstOrderDiscount, freeDelivery, deliveryThreshold }
   } catch (error) {
     throw new Error('Error fetching discount settings');
@@ -254,7 +254,7 @@ export const fetchDiscountSettings = async () => {
 // Post Discount Settings
 export const postDiscountSettings = async (settings) => {
   try {
-    const response = await axios.post('/path-to-save-settings', settings); // Replace with actual API URL
+    const response = await axios.post('http://localhost/e-commerce/src/backend/admin/updateDiscountSettings.php', settings); // Replace with actual API URL
     return response.data;
   } catch (error) {
     throw new Error('Error saving discount settings');
@@ -277,7 +277,7 @@ export const fetchCarouselData = async () => {
 // Fetch Product Data
 export const fetchProducts = async () => {
   try {
-    const response = await axios.get('/data/admin/productsData.json'); // Assuming this returns product list with id and name
+    const response = await axios.get('http://localhost/e-commerce/src/backend/admin/productsData.php'); // Assuming this returns product list with id and name
     return response.data;
   } catch (error) {
     throw new Error('Error fetching product data');
