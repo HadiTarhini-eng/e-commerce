@@ -3,11 +3,9 @@ include 'connection.php';
 
 header('Content-Type: application/json');
 
-$input = file_get_contents('php://input');
-$data = json_decode($input, true);
 
-$categoryId = (int)$data['id'];
-$categoryName = $data['name'];
+$categoryId = (int)$_POST['id'];
+$categoryName = $_POST['name'];
 $image = $_FILES['image'];
 
 $imageDir = '../../images/category/';

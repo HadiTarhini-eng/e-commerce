@@ -97,7 +97,7 @@ export const fetchOrdersColumnData = async () => {
 // Fetch Orders Table Data
 export const fetchOrdersTableData = async () => {
   try {
-    const response = await axios.get('/data/admin/ordersTableData.json'); 
+    const response = await axios.get('http://localhost/e-commerce/src/backend/admin/ordersTableData.php'); 
     return response.data;
   } catch (error) {
     throw new Error('Error fetching order table data');
