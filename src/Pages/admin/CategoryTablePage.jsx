@@ -66,6 +66,16 @@ const CategoryTablePage = () => {
   const inputFields = [
     {
       type: 'text',
+      title: 'Catgeory ID',
+      placeholder: '',
+      id: 'id',
+      value: selectedCategory ? selectedCategory.id : '',
+      required: false,
+      onChange: () => {}, // Disable editing the ID
+      disabled: true
+    },
+    {
+      type: 'text',
       title: 'Category Name',
       placeholder: 'Enter Category Name',
       id: 'name',
@@ -88,6 +98,11 @@ const CategoryTablePage = () => {
       required: false,
     },
   ];
+
+  // Remove the 'Category ID' input field for adding new categories
+  const dynamicInputFields = isEditing
+    ? inputFields  // Keep all fields if editing
+    : inputFields.filter(field => field.id !== 'id'); // Remove 'id' field when adding new catgeory
 
   return (
     <div className="min-h-screen bg-gray-100 p-6">
@@ -112,7 +127,7 @@ const CategoryTablePage = () => {
           isOpen={isModalOpen}
           closeModal={closeModal}
           handleFucntion={handleCategoryEdit}
-          inputFields={inputFields}
+          inputFields={dynamicInputFields}
           modalTitle={isEditing ? "Edit Category" : "Add New Category"} // Dynamic title
           buttonText={isEditing ? "Update" : "Add"} // Dynamic button text
         />

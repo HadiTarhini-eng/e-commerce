@@ -52,8 +52,9 @@ const ScentsTablePage = () => {
         );
       } else {
         // Add new scent logic here
-        const newScentData = await addScent(updatedScent);  // Call the API to add a new scent
-        setData((prevData) => [...prevData, newScentData]);
+        const { id, ...newScentData } = updatedScent; // Exclude `id` when adding
+        const addedScentData = await addScent(newScentData);  // Call the API to add a new scent
+        setData((prevData) => [...prevData, addedScentData]);
       }
 
       closeModal(); // Close the modal after action
@@ -66,6 +67,16 @@ const ScentsTablePage = () => {
   const inputFields = [
     {
       type: 'text',
+      title: 'Scent ID',
+      placeholder: '',
+      id: 'id',
+      value: selectedScent ? selectedScent.id : '',
+      required: false,
+      onChange: () => {}, // Disable editing the ID
+      disabled: true
+    },
+    {
+      type: 'text',
       title: 'Scent Name',
       placeholder: 'Enter Scent Name',
       id: 'name',
@@ -76,9 +87,14 @@ const ScentsTablePage = () => {
           name: e.target.value,
         }));
       },
-      required: false,
+      required: true,
     },
   ];
+
+  // Remove the 'Scent ID' input field for adding new scents
+  const dynamicInputFields = isEditing
+    ? inputFields  // Keep all fields if editing
+    : inputFields.filter(field => field.id !== 'id'); // Remove 'id' field when adding new scent
 
   return (
     <div className="min-h-screen bg-gray-100 p-6">
@@ -103,7 +119,7 @@ const ScentsTablePage = () => {
           isOpen={isModalOpen}
           closeModal={closeModal}
           handleFucntion={handleScentUpdate}
-          inputFields={inputFields}
+          inputFields={dynamicInputFields} // Pass dynamic input fields
           modalTitle={isEditing ? "Edit Scent" : "Add New Scent"} // Dynamic title
           buttonText={isEditing ? "Update" : "Add"} // Dynamic button text
         />
