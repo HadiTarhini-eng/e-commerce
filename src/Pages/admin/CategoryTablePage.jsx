@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { fetchCategoryColumnData, fetchCategoryTableData, postCategoryUpdates } from '../../api/adminApi'; 
+import { fetchCategoryColumnData, fetchCategoryTableData, postCategoryUpdates, addCategory } from '../../api/adminApi'; 
 import GenericTable from '../../components/admin/table/GenericTable';
 import DynamicModal from '../../components/admin/DynamicModal';
 
@@ -8,7 +8,8 @@ const CategoryTablePage = () => {
   const [data, setData] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(null);
-  
+  const [isEditing, setIsEditing] = useState(false); // Track if it's edit or add
+
   useEffect(() => {
     const fetchColumnsAndData = async () => {
       try {
@@ -28,43 +29,41 @@ const CategoryTablePage = () => {
 
   const closeModal = () => setIsModalOpen(false);
 
-  const handleOpenModal = (category) => {
-    setSelectedCategory(category);
+  // This function will determine if we're adding or editing
+  const handleOpenModal = (category = null) => {
+    if (category) {
+      setSelectedCategory(category);
+      setIsEditing(true);  // Edit mode
+    } else {
+      setSelectedCategory(null);  // Reset to add new category
+      setIsEditing(false);  // Add mode
+    }
     setIsModalOpen(true);
   }
 
-  // Handle Category Update
+  // Handle Category Update or Add
   const handleCategoryEdit = async (updatedCategory) => {
-    console.log(updatedCategory);
-    // set categroy name to new category here
     try {
-      // const newCategoryData = await postCategoryUpdates(updatedCategory); 
-      // console.log('Category updated:', newCategoryData);
+      if (isEditing) {
+        // Update the category if in edit mode
+        const updatedData = await postCategoryUpdates(updatedCategory);  // Call the API to update category
+        setData((prevData) =>
+          prevData.map((item) => item.id === updatedCategory.id ? updatedData : item)
+        );
+      } else {
+        // Add new category logic here
+        const newCategoryData = await addCategory(updatedCategory);  // Call the API to add a new category
+        setData((prevData) => [...prevData, newCategoryData]);
+      }
 
-      // Update the table data after successful POST request
-      setData((prevData) => 
-        prevData.map((item) => item.id === updatedCategory.id ? updatedCategory : item)  // Replace the updated category
-      );
-
-      // Optionally, handle success (e.g., close the modal)
-      closeModal();
+      closeModal(); // Close the modal after action
     } catch (error) {
-      console.error('Error editing category data:', error);
-      // Optionally, handle error (e.g., show an error message)
+      console.error('Error handling category data:', error);
     }
   };
 
   // Define the input fields dynamically
   const inputFields = [
-    {
-      type: 'text',
-      title: 'Category ID',
-      placeholder: '',
-      id: 'id',
-      value: selectedCategory ? selectedCategory.id : '',
-      required: false,
-      onChange: () => {},
-    },
     {
       type: 'text',
       title: 'Category Name',
@@ -89,7 +88,7 @@ const CategoryTablePage = () => {
       required: false,
     },
   ];
-  
+
   return (
     <div className="min-h-screen bg-gray-100 p-6">
       <h1 className="text-3xl font-semibold text-gray-800 mb-4">Category Management</h1>
@@ -97,6 +96,14 @@ const CategoryTablePage = () => {
       <div className="bg-white p-6 rounded-lg shadow-lg">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-medium text-gray-700">Category List</h2>
+          <div className='flex flex-col gap-4'>
+            <button
+              onClick={() => handleOpenModal()} // Open modal to add new category
+              className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
+            >
+              Add New Category
+            </button>
+          </div>
         </div>
 
         <GenericTable data={data} columns={columns} rowClickable={false} actionClick={handleOpenModal} />
@@ -106,8 +113,8 @@ const CategoryTablePage = () => {
           closeModal={closeModal}
           handleFucntion={handleCategoryEdit}
           inputFields={inputFields}
-          modalTitle="Update Category"
-          buttonText="Update"
+          modalTitle={isEditing ? "Edit Category" : "Add New Category"} // Dynamic title
+          buttonText={isEditing ? "Update" : "Add"} // Dynamic button text
         />
       </div>
     </div>
