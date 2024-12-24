@@ -120,7 +120,7 @@ export const fetchStatusOptions = async () => {
 // Post a new order Status
 export const postOrderStatus = async (newOrderStatus) => {
   try {
-    const response = await axios.post('/api/orderStatus', newOrderStatus); 
+    const response = await axios.post('http://localhost/e-commerce/src/backend/admin/updateStatus.php', newOrderStatus); 
     return response.data;
   } catch (error) {
     throw new Error('Error adding new order status');
@@ -192,7 +192,7 @@ export const fetchScentsTableData = async () => {
 // Post scent updates
 export const postScentUpdates = async (updatedScent) => {
   try {
-    const response = await axios.put('http://localhost/e-commerce/src/backend/admin/updateScent.php', updatedScent);
+    const response = await axios.post('http://localhost/e-commerce/src/backend/admin/updateScent.php', updatedScent);
     return response.data;
   } catch (error) {
     throw new Error('Error updating scent');
@@ -202,7 +202,7 @@ export const postScentUpdates = async (updatedScent) => {
 // Post add new scent
 export const addScent = async (newScent) => {
   try {
-    const response = await fetch('/api/scents', {
+    const response = await fetch('http://localhost/e-commerce/src/backend/admin/addScent.php', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
