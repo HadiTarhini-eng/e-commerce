@@ -35,7 +35,7 @@ const DynamicModal = ({ isOpen, closeModal, handleFucntion, inputFields, modalTi
       console.log(`File selected: ${fileName}`);
       setFormData((prevData) => ({
         ...prevData,
-        [id]: `/${fileName}`,  // Save the file path to state
+        [id]: `${fileName}`,  // Save the file path to state
       }));
     }
   };
