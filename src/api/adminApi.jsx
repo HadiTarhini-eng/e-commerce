@@ -189,21 +189,13 @@ export const fetchScentsTableData = async () => {
 
 ///////////// POST ///////////////////// Scent TABLE ///////////// POST /////////////////////
 
-// Post scent data updates
+// Post scent updates
 export const postScentUpdates = async (updatedScent) => {
   try {
-    const response = await fetch(`http://localhost/e-commerce/src/backend/admin/updateScent.php/${updatedScent.id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(updatedScent),
-    });
-    const data = await response.json();
-    return data;
+    const response = await axios.put('http://localhost/e-commerce/src/backend/admin/updateScent.php', updatedScent);
+    return response.data;
   } catch (error) {
-    console.error('Error updating scent:', error);
-    throw error;
+    throw new Error('Error updating scent');
   }
 };
 
