@@ -35,19 +35,25 @@
     },
     {
       "id": 6,
-      "Header": "Amount",
+      "Header": "Discount",
+      "accessor": "discountAmount",
+      "width": "10%"
+    },
+    {
+      "id": 7,
+      "Header": "Discounted Price",
+      "accessor": "discountedPrice",
+      "width": "10%"
+    },
+    {
+      "id": 8,
+      "Header": "Stock",
       "accessor": "stock",
       "Cell": "stockCell",
       "width": "10%"
     },
     {
-      "id": 7,
-      "Header": "Discount Amount",
-      "accessor": "discountAmount",
-      "width": "10%"
-    },
-    {
-      "id": 8,
+      "id": 9,
       "Header": "Action",
       "accessor": "id",
       "Cell": "ActionButtonCell",

@@ -8,6 +8,7 @@
       "price": 999,
       "stock": 0,
       "discountAmount": 10,
+      "discountedPrice": 900,
       "specification": "This product is really good"
     },
     {
@@ -19,6 +20,7 @@
       "price": 899,
       "stock": 10,
       "discountAmount": 0,
+      "discountedPrice": 899,
       "specification": "Very Nice"
     }
   ]
