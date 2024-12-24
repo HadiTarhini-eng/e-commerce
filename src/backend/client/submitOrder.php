@@ -15,7 +15,7 @@ $sql = "INSERT INTO orders (userID,name, email, phone, address,city,
         VALUES (?,?, ?, ?, ?, ?,?, ?, ?, ?,?,?,?,?,?,?)";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param(
-    "isssssiisssiiiii", 
+    "isssssiisssididi", 
     $userID,
     $checkoutData['name'], 
     $checkoutData['email'], 
@@ -54,7 +54,7 @@ foreach ($cartData as $item) {
                  VALUES (?, ?, ?, ?, ?,?)";
     $stmt_item = $conn->prepare($sql_item);
     $stmt_item->bind_param(
-        "iiiiii", 
+        "iiiidi", 
         $orderID, 
         $item['productId'], 
         $item['scentId'], 
