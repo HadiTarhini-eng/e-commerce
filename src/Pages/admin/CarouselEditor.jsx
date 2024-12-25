@@ -7,7 +7,7 @@ const CarouselEditor = () => {
   const [carousels, setCarousels] = useState([]);
   const [products, setProducts] = useState([]); // State to hold product data
   const [loading, setLoading] = useState(true);
-
+console.log(carousels)
   // Fetch carousel data and products
   useEffect(() => {
     const fetchData = async () => {

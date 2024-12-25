@@ -380,39 +380,39 @@ export const fetchProducts = async () => {
 ///////////// POST ///////////////////// Carousel Data ///////////// POST /////////////////////
 
 // Save Carousel Data
-export const saveCarouselData = async (carouselData) => {
+export const saveCarouselData = async (carousels) => {
   try {
     const formData = new FormData();
-    
-    // Append the regular data fields to FormData
-    formData.append('buttonColor', carouselData.buttonColor);
-    formData.append('buttonPath', carouselData.buttonPath);
-    formData.append('buttonText', carouselData.buttonText);
-    formData.append('header', carouselData.header);
-    formData.append('id', carouselData.id);
-    formData.append('image', carouselData.image);  // This assumes image is a File object
-    formData.append('paragraph', carouselData.paragraph);
-    formData.append('showButton', carouselData.showButton);
-    formData.append('showHeader', carouselData.showHeader);
-    formData.append('showParagraph', carouselData.showParagraph);
 
-    // If there are additional images, append them similarly
-    if (carouselData.additionalImages && Array.isArray(carouselData.additionalImages)) {
-      carouselData.additionalImages.forEach((file, index) => {
-        formData.append(`additionalImages[${index}]`, file);  // Append multiple files, if needed
-      });
-    }
+    carousels.forEach((carousel, index) => {
+      formData.append(`carousels[${index}][id]`, carousel.id);
+      formData.append(`carousels[${index}][header]`, carousel.header || '');
+      formData.append(`carousels[${index}][paragraph]`, carousel.paragraph || '');
+      formData.append(`carousels[${index}][showHeader]`, carousel.showHeader);
+      formData.append(`carousels[${index}][showParagraph]`, carousel.showParagraph);
+      formData.append(`carousels[${index}][showButton]`, carousel.showButton);
+      formData.append(`carousels[${index}][buttonText]`, carousel.buttonText || '');
+      formData.append(`carousels[${index}][buttonColor]`, carousel.buttonColor || '');
+      formData.append(`carousels[${index}][buttonPath]`, carousel.buttonPath || '');
 
-    // Send the request with the FormData
-    const response = await axios.post('http://localhost/e-commerce/src/backend/admin/addCarousel.php', formData, {
+      // Check if the image is a File object before appending
+      if (carousel.image instanceof File) {
+        formData.append(`carousels[${index}][image]`, carousel.image);
+      } else {
+        formData.append(`carousels[${index}][image]`, carousel.image || '');
+      }
+    });
+
+    const response = await axios.post('/api/saveCarouselData', formData, {
       headers: {
-        'Content-Type': 'multipart/form-data', // Explicitly set the content type for file uploads
+        'Content-Type': 'multipart/form-data',
       },
     });
 
     return response.data;
   } catch (error) {
-    throw new Error('Error saving carousel data: ' + error.message);
+    console.error('Error saving carousel data:', error);
+    throw error;
   }
 };
 
