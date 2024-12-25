@@ -4,7 +4,7 @@ import axios from "axios";
 
 // Fetch Carousel Data
 export const fetchCarouselData = async () => {
-    const carouselResponse = await axios.get('/data/client/carouselData.json');
+    const carouselResponse = await axios.get('http://localhost/e-commerce/src/backend/client/carousel.php');
     const carouselJson = carouselResponse.data.carousels;
     return carouselJson;
 };
