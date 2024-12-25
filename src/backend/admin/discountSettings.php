@@ -3,7 +3,7 @@ include 'connection.php';
 
 header('Content-Type: application/json');
 
-$query = "SELECT firstOrderDiscount, freeDelivery, deliveryThreshold, discountNumber FROM offers LIMIT 1";
+$query = "SELECT firstOrderDiscount, freeDelivery, deliveryThreshold, discountNumber as firstOrderDiscountAmount FROM offers LIMIT 1";
 
 $result = $conn->query($query);
 
