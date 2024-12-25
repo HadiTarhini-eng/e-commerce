@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { fetchScentsColumnData, fetchScentsTableData, postScentUpdates, addScent } from '../../api/adminApi'; 
+import { fetchScentsColumnData, fetchScentsTableData, postScentUpdates, addScent, deleteScent } from '../../api/adminApi'; 
 import GenericTable from '../../components/admin/table/GenericTable';
 import DynamicModal from '../../components/admin/DynamicModal';
+import ConfirmationModal from '../../components/admin/ConfirmationModal'; // Import the confirmation modal
 import toast from 'react-hot-toast';
 
 const ScentsTablePage = () => {
   const [columns, setColumns] = useState([]);
   const [data, setData] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false); // Confirmation modal state
   const [selectedScent, setSelectedScent] = useState(null);
+  const [selectedScentIdToDelete, setSelectedScentIdToDelete] = useState(null); // Track scent to delete
   const [isEditing, setIsEditing] = useState(false); // Track if it's edit or add
 
   useEffect(() => {
@@ -29,17 +32,16 @@ const ScentsTablePage = () => {
   }, []);
 
   const closeModal = () => setIsModalOpen(false);
+  const closeConfirmationModal = () => setIsConfirmationModalOpen(false); // Close confirmation modal
 
   // This function will open the modal either for editing or adding a new scent
   const handleOpenModal = (scent = null) => {
     if (scent) {
       setSelectedScent(scent);
       setIsEditing(true);  // Edit mode
-      toast.success('Updated scent successfully!')
     } else {
       setSelectedScent(null);  // Reset to add new scent
       setIsEditing(false);  // Add mode
-      toast.success('Added new scent successfully!')
     }
     setIsModalOpen(true);
   }
@@ -50,20 +52,45 @@ const ScentsTablePage = () => {
       if (isEditing) {
         // Update the scent if in edit mode
         const updatedData = await postScentUpdates(updatedScent);  // Call the API to update scent
+        console.log(updatedData)
         setData((prevData) =>
-          prevData.map((item) => item.id === updatedScent.id ? updatedData : item)
+          prevData.map((item) => item.id === updatedScent.id ? updatedScent : item)
         );
+        console.log(data)
+        toast.success('Updated scent successfully!');
       } else {
         // Add new scent logic here
         const { id, ...newScentData } = updatedScent; // Exclude `id` when adding
         const addedScentData = await addScent(newScentData);  // Call the API to add a new scent
         setData((prevData) => [...prevData, addedScentData]);
+        toast.success('Added new scent successfully!');
       }
 
       closeModal(); // Close the modal after action
     } catch (error) {
       console.error('Error handling scent data:', error);
+      toast.error('Error handling scent data');
     }
+  };
+
+  // Handle the delete action
+  const handleScentDelete = async () => {
+    try {
+      await deleteScent(selectedScentIdToDelete); // Call the deleteScent API
+      setData((prevData) => prevData.filter(scent => scent.id !== selectedScentIdToDelete)); // Remove deleted scent from state
+      toast.success('Scent deleted successfully!');
+      closeConfirmationModal();
+    } catch (error) {
+      console.error('Error deleting scent:', error);
+      toast.error('Error deleting scent');
+    }
+  };
+
+  // Open confirmation modal for delete
+  const openConfirmationModalForDelete = (scent) => {
+    console.log(scent)
+    setSelectedScentIdToDelete(scent);
+    setIsConfirmationModalOpen(true);
   };
 
   // Define the input fields dynamically
@@ -106,14 +133,12 @@ const ScentsTablePage = () => {
       <div className="bg-white p-6 rounded-lg shadow-lg">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-medium text-gray-700">Scents List</h2>
-          <div className="flex flex-col gap-4">
-            <button
-              onClick={() => handleOpenModal()} // Open modal to add new scent
-              className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
-            >
-              Add New Scent
-            </button>
-          </div>
+          <button
+            onClick={() => handleOpenModal()} // Open modal to add new scent
+            className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
+          >
+            Add New Scent
+          </button>
         </div>
 
         <GenericTable
@@ -122,6 +147,9 @@ const ScentsTablePage = () => {
           columns={columns} 
           rowClickable={false} 
           actionClick={handleOpenModal} 
+          deleteAction={true}
+          editAction={true}
+          actionDelete={openConfirmationModalForDelete} // Pass delete action to table
         />
 
         <DynamicModal
@@ -131,6 +159,14 @@ const ScentsTablePage = () => {
           inputFields={dynamicInputFields} // Pass dynamic input fields
           modalTitle={isEditing ? "Edit Scent" : "Add New Scent"} // Dynamic title
           buttonText={isEditing ? "Update" : "Add"} // Dynamic button text
+        />
+
+        {/* Confirmation Modal for Delete */}
+        <ConfirmationModal
+          isOpen={isConfirmationModalOpen}
+          onClose={closeConfirmationModal}
+          onConfirm={handleScentDelete}
+          deleteId={selectedScentIdToDelete}
         />
       </div>
     </div>

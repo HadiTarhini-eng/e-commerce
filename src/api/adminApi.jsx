@@ -81,6 +81,16 @@ export const postProduct = async (newProduct) => {
   }
 };
 
+// Deleet product
+export const deleteProduct = async (productId) => {
+  try {
+    const response = await axios.delete('/api/product/', productId );
+    return response.data; // Handle success response (optional)
+  } catch (error) {
+    throw new Error('Error deleting productId');
+  }
+};
+
 
 ///////////// FETCH ///////////////////// Orders TABLE ///////////// FETCH /////////////////////
   
@@ -214,6 +224,16 @@ export const addScent = async (newScent) => {
   } catch (error) {
     console.error('Error adding scent:', error);
     throw error;
+  }
+};
+
+// Post delete scent
+export const deleteScent = async (scentId) => {
+  try {
+    const response = await axios.delete('/api/scents/', scentId );
+    return response.data; // Handle success response (optional)
+  } catch (error) {
+    throw new Error('Error deleting scent');
   }
 };
 

@@ -50,7 +50,7 @@ const CategoryTablePage = () => {
       if (isEditing) {
         const updatedData = await postCategoryUpdates(updatedCategory);
         setData((prevData) =>
-          prevData.map((item) => item.id === updatedCategory.id ? updatedData : item)
+          prevData.map((item) => item.id === updatedCategory.id ? updatedCategory : item)
         );
         
         toast.success('Updated category successfully!');
@@ -156,7 +156,7 @@ const CategoryTablePage = () => {
           columns={columns} 
           rowClickable={false} 
           actionClick={handleOpenModal} // Open modal for edit/add
-          deleteAction={true} // Show delete action
+          deleteAction={true}
           editAction={true}
           actionDelete={openConfirmationModal} // Pass the delete handler
         />
@@ -176,6 +176,7 @@ const CategoryTablePage = () => {
           onClose={closeConfirmationModal}
           onConfirm={handleCategoryDelete}
           message="Are you sure you want to delete this category?"
+          deleteId={selectedCategoryIdToDelete}
         />
       </div>
     </div>
