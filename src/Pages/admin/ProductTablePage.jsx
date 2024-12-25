@@ -4,7 +4,7 @@ import DynamicModal from '../../components/admin/DynamicModal';
 import { useNavigate } from 'react-router-dom';
 import GenericTable from '../../components/admin/table/GenericTable';
 import toast from 'react-hot-toast';
-import ConfirmationModal from '../../components/admin/ConfirmationModal'; // Import the confirmation modal
+import ConfirmationModal from '../../components/admin/ConfirmationModal'; 
 
 const ProductTablePage = () => {
   const [columns, setColumns] = useState([]);
@@ -13,21 +13,22 @@ const ProductTablePage = () => {
   const [categoryOptions, setCategoryOptions] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [selectedRows, setSelectedRows] = useState([]);
-  const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false); // Confirmation modal state
-  const [selectedProductIdToDelete, setSelectedProductIdToDelete] = useState(null); // Track product to delete
+  const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
+  const [selectedProductIdToDelete, setSelectedProductIdToDelete] = useState(null);
+  const [isDiscountModalOpen, setIsDiscountModalOpen] = useState(false);
+  const [discountValue, setDiscountValue] = useState(''); // Track discount value
   const navigate = useNavigate();
-
+console.log(data)
+  // Fetch columns and data on page load
   useEffect(() => {
     const fetchColumnsAndData = async () => {
       try {
-        // Fetch columns and table data
         const columnsResponse = await fetchProductColumnData();
         setColumns(columnsResponse);
         
         const dataResponse = await fetchProductTableData();
         setData(dataResponse);
         
-        // Fetch category options
         const optionsResponse = await fetchCategoryOptions();
         setCategoryOptions(optionsResponse);
       } catch (error) {
@@ -38,26 +39,54 @@ const ProductTablePage = () => {
     fetchColumnsAndData();
   }, []);
 
-  // Pass selected rows data back to parent component via this function
+  // Handle row selection
   const handleSelectionChange = (selectedRows) => {
     setSelectedRows(selectedRows);
   };
 
   const closeModal = () => setIsModalOpen(false);
-  const closeConfirmationModal = () => setIsConfirmationModalOpen(false); // Close confirmation modal
+  const closeConfirmationModal = () => setIsConfirmationModalOpen(false);
 
   const handleOpenPage = (row) => {
     const productId = row.id;
     navigate(`../productDetailsPage/${productId}`);
   };
 
+  // Handle Add Discount Button click
   const handleDiscount = () => {
     if (selectedRows.length === 0) {
       toast.error("You must select at least one product.");
     } else {
-      // Proceed with discount logic for selected rows
-      console.log("Applying discount to selected products", selectedRows);
+      setIsDiscountModalOpen(true); // Open the discount modal
     }
+  };
+
+  // Handle Save Discount
+  const handleSaveDiscount = async (returnedDiscount) => {
+ 
+    // Apply discount to selected rows locally first
+    const updatedData = data.map((product) => {
+      if (selectedRows.includes(product.id)) {
+        return { ...product, discountAmount: parseFloat(returnedDiscount.discount) }; // Update discountAmount
+      }
+      return product;
+    });
+  
+    // Update the local state with the new data
+    setData(updatedData);
+  
+    // Send the updated discount values to the backend via API
+    try {
+      const productIds = selectedRows; // Get the IDs of the selected products
+
+      await applyDiscountToProducts(returnedDiscount, productIds); // Call the POST API to apply the discount
+      toast.success('Discount applied successfully!');
+    } catch (error) {
+      toast.error('Error applying discount.');
+      console.error('API Error:', error);
+    }
+  
+    setIsModalOpen(false); // Close the modal after saving the discount
   };
 
   // Handle new product addition
@@ -96,7 +125,7 @@ const ProductTablePage = () => {
     setIsConfirmationModalOpen(true);
   };
 
-  // Define the input fields dynamically
+  // Define the input fields dynamically for the product modal
   const inputFields = [
     {
       type: 'text',
@@ -145,7 +174,7 @@ const ProductTablePage = () => {
       <div className="bg-white p-6 rounded-lg shadow-lg">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-medium text-gray-700">Product List</h2>
-          <div className='flex flex-col gap-4'>
+          <div className="flex flex-col gap-4">
             <button
               onClick={() => setIsModalOpen(true)}
               className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
@@ -171,16 +200,43 @@ const ProductTablePage = () => {
           deleteAction={true} 
           onSelectionChange={handleSelectionChange} 
           editAction={true}
-          actionDelete={openConfirmationModalForDelete} // Pass delete action to table
+          actionDelete={openConfirmationModalForDelete}
         />
 
+        {/* Add New Product Modal */}
         <DynamicModal
           isOpen={isModalOpen}
           closeModal={closeModal}
-          onProductAdd={handleProductAdd}
+          handleFucntion={handleProductAdd}
           inputFields={inputFields}
           modalTitle="Create New Product"
           buttonText="Add Product"
+        />
+
+        {/* Discount Modal */}
+        <DynamicModal
+          isOpen={isDiscountModalOpen}
+          closeModal={() => setIsDiscountModalOpen(false)}
+          handleFucntion={handleSaveDiscount}
+          inputFields={[
+            {
+              type: 'number',
+              title: 'Discount Amount (%)',
+              placeholder: 'Enter discount percentage',
+              id: 'discount',
+              value: discountValue,
+              onChange: (e) => {
+                setDiscountValue((prevDiscount) => ({
+                  ...prevDiscount,
+                  discountValue: e.target.value,
+                }));
+                console.log(e.target.value)
+              },
+              required: true,
+            },
+          ]}
+          modalTitle="Apply Discount to Selected Products"
+          buttonText="Apply Discount"
         />
 
         {/* Confirmation Modal for Delete */}

@@ -5,7 +5,19 @@ import BadgeCell from './BadgeCell';
 import ActionButtonCell from './ActionButtonCell';
 import toast from 'react-hot-toast';
 
-const GenericTable = ({ columns, data, rowClickable, actionClick, actionDelete, editAction, deleteAction, showSelection, disableButton, showSearch  }) => {
+const GenericTable = ({
+  columns,
+  data,
+  rowClickable,
+  actionClick,
+  actionDelete,
+  editAction,
+  deleteAction,
+  showSelection,
+  disableButton,
+  showSearch,
+  onSelectionChange // Add the new onSelectionChange prop
+}) => {
   const navigate = useNavigate();
 
   // State to hold the search query
@@ -74,7 +86,7 @@ const GenericTable = ({ columns, data, rowClickable, actionClick, actionDelete, 
     if (rowData.title === "Product") {
       return `/productAdmin/${rowData.id}`;
     } else if(rowData.title === "Order") {
-      return `/orderSummary/${rowData.id}`
+      return `/orderSummary/${rowData.id}`;
     }
     return `/default/${rowData.id}`;
   };
@@ -88,20 +100,33 @@ const GenericTable = ({ columns, data, rowClickable, actionClick, actionDelete, 
 
   // Handle checkbox click for selecting/deselecting a row
   const handleCheckboxChange = (e, rowId) => {
+    let newSelectedRows;
     if (e.target.checked) {
-      setSelectedRows(prev => [...prev, rowId]);
+      newSelectedRows = [...selectedRows, rowId];
     } else {
-      setSelectedRows(prev => prev.filter(id => id !== rowId));
+      newSelectedRows = selectedRows.filter(id => id !== rowId);
+    }
+    setSelectedRows(newSelectedRows);
+
+    // Notify parent component about the selection change
+    if (onSelectionChange) {
+      onSelectionChange(newSelectedRows);
     }
   };
 
   // Handle select/deselect all rows
   const handleSelectAllChange = (e) => {
+    let newSelectedRows;
     if (e.target.checked) {
-      const allRowIds = filteredData.map(row => row.id);
-      setSelectedRows(allRowIds);
+      newSelectedRows = filteredData.map(row => row.id);
     } else {
-      setSelectedRows([]);
+      newSelectedRows = [];
+    }
+    setSelectedRows(newSelectedRows);
+
+    // Notify parent component about the selection change
+    if (onSelectionChange) {
+      onSelectionChange(newSelectedRows);
     }
   };
 
