@@ -3,7 +3,7 @@ import InputField from '../InputField';
 
 const DynamicModal = ({ isOpen, closeModal, handleFucntion, inputFields, modalTitle, buttonText }) => {
   const [formData, setFormData] = useState({});
-
+  
   useEffect(() => {
     const initialData = {};
     inputFields.forEach((field) => {
@@ -35,7 +35,7 @@ const DynamicModal = ({ isOpen, closeModal, handleFucntion, inputFields, modalTi
       console.log(`File selected: ${fileName}`);
       setFormData((prevData) => ({
         ...prevData,
-        [id]: `${fileName}`,  // Save the file path to state
+        [id]: file,  // Save the file to state
       }));
     }
   };

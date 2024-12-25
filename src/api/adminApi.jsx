@@ -246,10 +246,27 @@ export const fetchCategoryTableData = async () => {
 // Post category data updates
 export const postCategoryUpdates = async (newdata) => {
   try {
-    const response = await axios.post('http://localhost/e-commerce/src/backend/admin/updateCategory.php', newdata); 
+    const formData = new FormData();
+    
+    // Append the regular data to the FormData object
+    formData.append('id', newdata.id);
+    formData.append('name', newdata.name);
+
+    // Append the file to FormData, ensure you're appending the file object correctly
+    if (newdata.image) {
+      formData.append('image', newdata.image);  // image is the File object
+    }
+
+    // Send the request with the FormData
+    const response = await axios.post('http://localhost/e-commerce/src/backend/admin/updateCategory.php', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data', // Ensure the request is treated as a file upload
+      },
+    });
+    
     return response.data;
   } catch (error) {
-    throw new Error('Error adding new category updates');
+    throw new Error('Error adding new category updates: ' + error.message);
   }
 };
 
@@ -260,6 +277,25 @@ export const addCategory = async (newdata) => {
     return response.data;
   } catch (error) {
     throw new Error('Error adding new category');
+  }
+};
+
+// Post delete category
+export const deleteCategory = async (categoryId) => {
+  try {
+    const response = await fetch(`/api/categories/${categoryId}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    if (!response.ok) {
+      throw new Error('Failed to delete category');
+    }
+    return await response.json(); // You can handle success response here (e.g., confirmation)
+  } catch (error) {
+    console.error('Error deleting category:', error);
+    throw error; // Propagate error
   }
 };
 
@@ -354,11 +390,19 @@ export const fetchStatusData = async () => {
 
 ///////////// FETCH ///////////////////// Product Details ///////////// FETCH /////////////////////
 
-// New fetch function for fetching product data
 export const fetchProductData = async (productId) => {
   try {
-    const response = await axios.get(`/api/products/${productId}`);
-    return response.data; // Return the product data
+    const response = await axios.get('/data/admin/productDetails.json');  // Adjust the path based on your project setup
+    const products = response.data; // The products from the JSON file
+
+    // Find the product based on the productId
+    const product = products.find(p => p.id === productId);
+
+    if (!product) {
+      throw new Error('Product not found');
+    }
+
+    return product; // Return the found product data
   } catch (error) {
     console.error('Error fetching product data', error);
     throw new Error('Error fetching product data');
