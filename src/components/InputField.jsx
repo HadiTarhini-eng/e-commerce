@@ -107,13 +107,17 @@ const InputField = ({
           <div className="relative">
             <select
               id={id}
-              value={value}
+              value={value} // Controls the currently selected value
               onChange={onChange}
               required={required}
               disabled={disabled} // Disable select input when disabled is true
               className="w-full px-3 py-2 border rounded"
             >
-              <option disabled value="">{placeholder}</option>
+              {/* Placeholder option */}
+              <option value="" disabled>
+                {placeholder}
+              </option>
+              {/* Map options */}
               {Array.isArray(options) && options.length > 0 ? (
                 options.map((option, idx) => (
                   <option key={idx} value={option.status}>
