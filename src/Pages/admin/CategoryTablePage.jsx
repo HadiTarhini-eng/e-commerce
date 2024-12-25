@@ -125,7 +125,13 @@ const CategoryTablePage = () => {
           </div>
         </div>
 
-        <GenericTable data={data} columns={columns} rowClickable={false} actionClick={handleOpenModal} />
+        <GenericTable
+          showSearch={true} 
+          data={data} 
+          columns={columns} 
+          rowClickable={false} 
+          actionClick={handleOpenModal} 
+        />
 
         <DynamicModal
           isOpen={isModalOpen}

@@ -67,7 +67,8 @@ const ClientsTablePage = () => {
           <h2 className="text-xl font-medium text-gray-700">Clients List</h2>
         </div>
 
-        <GenericTable 
+        <GenericTable
+          showSearch={true} 
           data={data} 
           columns={columns} 
           rowClickable={false} 

@@ -54,27 +54,46 @@ const OrdersPage = () => {
   const handleStatusChange = async (formData) => {
     try {
       const { status } = formData;
-
-      // Call the API to update the status
-      const updatedStatus = await postOrderStatus(status);
+  
+      // Find the status ID from statusOptions based on the selected status name
+      const selectedStatusOption = statusOptions.find(
+        (option) => option.status === status
+      );
+  
+      // If the status is not found, show an error
+      if (!selectedStatusOption) {
+        toast.error('Selected status not found!');
+        return;
+      }
+  
+      const statusId = selectedStatusOption.id; // Get the status ID
+      
+      // Call the API to update the status with both the status name and its ID
+      const updatedStatus = await postOrderStatus({
+        id: selectedOrder.id,  // Pass the order ID
+        status: status,        // Pass the status name
+        statusId: statusId     // Pass the status ID
+      });
+  
       console.log('Status updated:', updatedStatus);
-
+  
       // Update the row's status and recalculate the disableButton flag
       const updatedData = data.map((item) =>
         item.id === selectedOrder.id ? { ...item, status } : item
       );
-      
+  
       // After status update, reapply the disableButton check
       updateDisableButtonFlag(updatedData);
-
+  
       // Optionally, close the modal after the update
       closeModal();
-      toast.success('Updated status successully');
+      toast.success('Updated status successfully');
     } catch (error) {
       console.error('Error updating status:', error);
-      toast.success('Error updating status');
+      toast.error('Error updating status');
     }
   };
+  
 
   // Filter the status options to include only the next option and the last option
   const getFilteredStatusOptions = () => {
@@ -134,7 +153,8 @@ const OrdersPage = () => {
           <h2 className="text-xl font-medium text-gray-700">Orders List</h2>
         </div>
 
-        <GenericTable 
+        <GenericTable
+          showSearch={true} 
           data={data} 
           columns={columns} 
           rowClickable={true} 

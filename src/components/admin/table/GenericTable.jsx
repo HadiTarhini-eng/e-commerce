@@ -5,7 +5,7 @@ import BadgeCell from './BadgeCell';
 import ActionButtonCell from './ActionButtonCell';
 import toast from 'react-hot-toast';
 
-const GenericTable = ({ columns, data, rowClickable, actionClick, deleteAction, showSelection, disableButton  }) => {
+const GenericTable = ({ columns, data, rowClickable, actionClick, deleteAction, showSelection, disableButton, showSearch  }) => {
   const navigate = useNavigate();
 
   // State to hold the search query
@@ -95,17 +95,18 @@ const GenericTable = ({ columns, data, rowClickable, actionClick, deleteAction, 
 
   return (
     <div className="overflow-x-auto">
-      {/* Search Bar */}
-      <div className="mb-4">
-        <input
-          type="text"
-          value={searchQuery}
-          onChange={handleSearchChange}
-          placeholder="Search in table..."
-          className="w-full p-3 border rounded-md"
-        />
-      </div>
-
+      {showSearch && (
+        // Search Bar
+        <div className="mb-4">
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={handleSearchChange}
+            placeholder="Search in table..."
+            className="w-full p-3 border rounded-md"
+          />
+        </div>
+      )}
       <table className="table-auto w-full">
         <thead>
           <tr>

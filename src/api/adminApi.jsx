@@ -351,3 +351,16 @@ export const fetchStatusData = async () => {
   }
 };
 
+
+///////////// FETCH ///////////////////// Product Details ///////////// FETCH /////////////////////
+
+// New fetch function for fetching product data
+export const fetchProductData = async (productId) => {
+  try {
+    const response = await axios.get(`/api/products/${productId}`);
+    return response.data; // Return the product data
+  } catch (error) {
+    console.error('Error fetching product data', error);
+    throw new Error('Error fetching product data');
+  }
+};

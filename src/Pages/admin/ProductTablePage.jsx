@@ -139,6 +139,7 @@ const ProductTablePage = () => {
         </div>
 
         <GenericTable 
+          showSearch={true}
           showSelection={true} 
           data={data} 
           columns={columns} 
