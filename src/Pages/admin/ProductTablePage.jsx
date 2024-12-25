@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { fetchCategoryOptions, fetchProductColumnData, fetchProductTableData, deleteProduct } from '../../api/adminApi'; 
+import { fetchCategoryOptions, fetchProductColumnData, fetchProductTableData, deleteProduct, applyDiscountToProducts } from '../../api/adminApi'; 
 import DynamicModal from '../../components/admin/DynamicModal';
 import { useNavigate } from 'react-router-dom';
 import GenericTable from '../../components/admin/table/GenericTable';
