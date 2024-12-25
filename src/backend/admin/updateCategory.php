@@ -1,55 +1,87 @@
 <?php
-include 'connection.php';
+include 'connection.php'; 
 
 header('Content-Type: application/json');
 
-
+// Retrieve data from the form
 $categoryId = (int)$_POST['id'];
 $categoryName = $_POST['name'];
-$image = $_FILES['image'];
+$image = isset($_FILES['image']) ? $_FILES['image'] : null;
 
-$imageDir = '../../images/category/';
-$imageName = basename($image['name']);
+$imageDir = realpath('../../../public/images/categories'); 
 
-if ($image['error'] === UPLOAD_ERR_OK) {
+if (!$imageDir) {
+    echo json_encode(["error" => "Failed to locate the images directory."]);
+    exit();
+}
+
+$imageName = null;
+$targetPath = null;
+
+// Check if the category exists
+$checkCategoryQuery = $conn->prepare("SELECT id FROM categories WHERE id = ?");
+$checkCategoryQuery->bind_param("i", $categoryId);
+$checkCategoryQuery->execute();
+$checkCategoryQuery->store_result();
+
+if ($checkCategoryQuery->num_rows === 0) {
+    http_response_code(404);
+    echo json_encode(["error" => "No category found with id $categoryId."]);
+    exit();
+}
+
+$checkCategoryQuery->close();
+
+// Process image if uploaded
+if ($image && $image['error'] === UPLOAD_ERR_OK) {
+
     $tmpName = $image['tmp_name'];
-
     $imageType = exif_imagetype($tmpName);
+
     if ($imageType !== IMAGETYPE_PNG) {
         http_response_code(400);
         echo json_encode(["error" => "Only PNG images are allowed."]);
         exit();
     }
 
-    $targetPath = $imageDir . $imageName;
-    if (file_exists($targetPath)) {
-        $imageName = time() . '_' . $imageName;
-        $targetPath = $imageDir . $imageName;
-    }
-
-    if (!move_uploaded_file($tmpName, $targetPath)) {
-        http_response_code(500); 
-        echo json_encode(["error" => "Failed to move the uploaded image."]);
+    if (!is_writable($imageDir)) {
+        http_response_code(500);
+        echo json_encode(["error" => "Directory is not writable."]);
         exit();
     }
-} else {
-    http_response_code(400); 
-    echo json_encode(["error" => "Failed to upload image."]);
-    exit();
+
+    $imageName = preg_replace("/[^a-zA-Z0-9\-_\.]/", "_", basename($image['name'])); 
+    $targetPath = $imageDir . DIRECTORY_SEPARATOR . $imageName;
+
+    if (!move_uploaded_file($tmpName, $targetPath)) {
+        http_response_code(500);
+        echo json_encode(["error" => "Failed to move the uploaded image to the target path."]);
+        exit();
+    }
 }
 
-$query = $conn->prepare("UPDATE categories SET categoryName = ?, image = ? WHERE id = ?");
-$query->bind_param("ssi", $categoryName, $imageName, $categoryId);
+$queryStr = "UPDATE categories SET categoryName = ?";
+$params = [$categoryName];
+
+if ($imageName) {
+    $queryStr .= ", image = ?";
+    $params[] = $imageName;
+}
+
+$queryStr .= " WHERE id = ?";
+$params[] = $categoryId;
+
+$query = $conn->prepare($queryStr);
+$query->bind_param(str_repeat("s", count($params) - 1) . "i", ...$params);
 
 if ($query->execute()) {
     if ($query->affected_rows > 0) {
         echo json_encode(["success" => "Category updated successfully."]);
     } else {
-        http_response_code(404); 
-        echo json_encode(["error" => "No category found with id $categoryId."]);
+        echo json_encode(["success" => "Category updated, but no changes detected."]);
     }
 } else {
-    http_response_code(500); 
+    http_response_code(500);
     echo json_encode(["error" => "Failed to update category."]);
 }
 

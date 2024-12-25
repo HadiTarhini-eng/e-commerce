@@ -283,8 +283,8 @@ export const addCategory = async (newdata) => {
 // Post delete category
 export const deleteCategory = async (categoryId) => {
   try {
-    const response = await axios.delete('/api/categories/', categoryId );
-    return response.data; // Handle success response (optional)
+    const response = await axios.post('http://localhost/e-commerce/src/backend/admin/deleteCategory.php', categoryId );
+    return response.data; 
   } catch (error) {
     throw new Error('Error deleting category');
   }
