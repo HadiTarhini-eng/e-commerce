@@ -27,7 +27,7 @@ const ProductDetailsPage = () => {
         };
 
         fetchProduct();
-    }, []);
+    }, [id]);
 
     // Handle input changes and calculate new price automatically
     const handleInputChange = (e, id) => {

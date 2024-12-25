@@ -20,7 +20,7 @@ const CategoryCard = ({ image, title, onClick }) => {
       <div className="flex justify-center mb-2">
         <img
           className="w-full h-full object-cover rounded-full"
-          src={image}
+          src={`/images/categories/${image}`}
           alt={title}
         />
       </div>

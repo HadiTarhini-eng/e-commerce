@@ -450,8 +450,8 @@ export const fetchProductData = async (productId) => {
     const response = await axios.get('/data/admin/productDetails.json');  // Adjust the path based on your project setup
     const products = response.data; // The products from the JSON file
 
-    // Find the product based on the productId
-    const product = products.find(p => p.id === productId);
+    // Ensure the productId is a number (since your product ids are numbers)
+    const product = products.find(p => p.id === Number(productId));
 
     if (!product) {
       throw new Error('Product not found');

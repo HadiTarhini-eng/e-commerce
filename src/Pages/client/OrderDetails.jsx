@@ -90,7 +90,7 @@ const OrderDetails = () => {
                                 <div className="grid grid-cols-3 md:grid-cols-3 w-full gap-3 md:gap-8">
                                     <div className="img-box">
                                         <img
-                                            src={product.image || 'https://via.placeholder.com/122'}
+                                            src={`/images/products/${product.image}` || 'https://via.placeholder.com/122'}
                                             alt={`${product.name} image`}
                                             className="w-[80px] sm:w-[120px] rounded-xl object-cover"
                                         />

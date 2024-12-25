@@ -2,7 +2,7 @@
     "carousels" : [
         {
           "id" : 1,
-          "image": "https://tecdn.b-cdn.net/img/Photos/Slides/img%20(15).jpg",
+          "image": "/images/carousel/gg.jpg",
           "header": "First Slide Label",
           "paragraph": "Some representative placeholder content for the first slide."
         },

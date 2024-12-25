@@ -128,7 +128,7 @@ const PaymentPage = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 w-full gap-3 md:gap-8">
                   <div className="flex items-center justify-between gap-8">
                     <div className="flex items-center gap-3">
-                      <p className="font-medium text-lg leading-8 text-palette-button">Quantity: {product.quantity}</p>
+                      <p className="font-medium text-lg leading-8 text-gray-700">Quantity: {product.quantity}</p>
                     </div>
                     <h6 className="font-medium text-xl leading-8 text-palette-button">Price: ${formatPrice(product.newPrice * product.quantity)}</h6>
                   </div>

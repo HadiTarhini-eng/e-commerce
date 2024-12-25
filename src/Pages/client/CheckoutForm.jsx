@@ -3,7 +3,7 @@ import toast from 'react-hot-toast';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateCheckoutData } from '../../redux/cartSlice';
 import { useNavigate } from 'react-router-dom';
-import { fetchDeliveryMethods, fetchFormFields, fetchPaymentMethods } from '../../api/clientApi';
+import { fetchDeliveryMethods, fetchFormFields, fetchPaymentMethods, fetchDeliveryThreshold } from '../../api/clientApi';
 import InputField from '../../components/InputField';
 import { isPossiblePhoneNumber } from 'react-phone-number-input';
 
@@ -33,19 +33,24 @@ const CheckoutForm = () => {
   const [formFields, setFormFields] = useState([]);
   const [paymentMethods, setPaymentMethods] = useState([]);
   const [deliveryMethods, setDeliveryMethods] = useState([]);
+  const [deliveryThreshold, setDeliveryThreshold] = useState([]);
+  const [freeDelivery, setIsDeliveryOffer] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [formFieldsData, paymentMethodsData, deliveryMethodsData] = await Promise.all([
+        const [formFieldsData, paymentMethodsData, deliveryMethodsData, deliveryThresholdData] = await Promise.all([
           fetchFormFields(),
           fetchPaymentMethods(),
           fetchDeliveryMethods(),
+          fetchDeliveryThreshold(),
         ]);
 
         setFormFields(formFieldsData.fields);
         setPaymentMethods(paymentMethodsData.paymentMethods);
         setDeliveryMethods(deliveryMethodsData.deliveryMethods);
+        setDeliveryThreshold(deliveryThresholdData.deliveryThreshold);
+        setIsDeliveryOffer(deliveryThresholdData.freeDelivery);
       } catch (error) {
         console.error('Error fetching data', error);
       }
@@ -82,8 +87,8 @@ const CheckoutForm = () => {
   
     if (name === 'deliveryMethod') {
       const { id, label, deliveryPrice } = selectedMethod;
-  
-      let adjustedDeliveryPrice = totalWithoutDelivery > 60 ? 0 : parseFloat(deliveryPrice); // Set delivery price to 0 if totalWithoutDelivery > 75
+      
+      let adjustedDeliveryPrice = totalWithoutDelivery > deliveryThreshold ? 0 : parseFloat(deliveryPrice); // Set delivery price to 0 if totalWithoutDelivery > 75
 
       // Dispatch the delivery method with the adjusted delivery price
       dispatch(updateCheckoutData({

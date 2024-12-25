@@ -58,7 +58,7 @@ const ProductInfo = ({ images, dominant, title, newPrice, oldPrice, chipText, ch
             className={`p-2 relative !flex justify-center items-center ${isInBottomDrawer ? 'bg-palette-white' : 'bg-palette-body-4'}`}
           >
             <img
-              src={dominant}
+              src={`/images/products/${dominant}`}
               alt="Dominant Image"
               className={`bg-palette-white border-2 border-palette-white object-contain ${isInBottomDrawer ? 'max-w-[180px] max-h-[180px]' : 'max-w-[330px] max-h-[330px] rounded-full'}`}
             />

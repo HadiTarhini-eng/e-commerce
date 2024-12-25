@@ -123,7 +123,7 @@ const ProductCard = ({
         </div>
 
         {/* Image */}
-        <img src={image} alt={title} className="w-full h-fit object-cover rounded-md mt-3" />
+        <img src={`/images/products/${image}`} alt={title} className="w-full h-fit object-cover rounded-md mt-3" />
 
         {/* Title */}
         <h3 className="font-bold text-black text-left text-xl">{title}</h3>

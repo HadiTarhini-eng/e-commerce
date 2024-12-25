@@ -20,7 +20,7 @@ const Carousel = ({ slides, settings }) => {
           <div key={slide.id} className="relative">
             <div className="relative w-full h-48">
               <img
-                src={slide.image}
+                src={`/images/carousel/${slide.image}`}
                 alt={slide.header}
                 className="w-full h-full object-cover rounded-lg"
               />

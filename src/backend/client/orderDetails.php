@@ -42,9 +42,9 @@ if ($result->num_rows > 0) {
         if (!isset($orderDetails[$orderID])) {
             $orderDetails[$orderID] = array(
                 "orderID" => (string)$row['orderID'],
-                "total" => (int)$row['total'],
+                "total" => $row['total'],
                 "shipping" => (int)$row['shipping'],
-                "subtotal" => (int)$row['subtotal'],
+                "subtotal" => $row['subtotal'],
                 "status" => (string)$row['status'],
                 "products" => array()
             );

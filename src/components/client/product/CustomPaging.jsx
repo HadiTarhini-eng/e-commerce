@@ -46,7 +46,7 @@ const CustomPaging = forwardRef(({ images, isInBottomDrawer }, ref) => {
         {images.map((image, index) => (
           <div key={image.id || index} className={`p-2 relative !flex justify-center items-center ${isInBottomDrawer ? 'bg-palette-white' : 'bg-palette-body-4'}`}>
             <img
-              src={image.image}
+              src={`/images/products/${image.image}`}
               alt={image.name}
               className={`bg-palette-white border-2 border-palette-white object-contain ${isInBottomDrawer ? 'w-[200px] h-[200px]' : 'w-[330px] h-[330px] rounded-full'}`}
             />
