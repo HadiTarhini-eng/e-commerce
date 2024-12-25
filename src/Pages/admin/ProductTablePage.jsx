@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { fetchCategoryOptions, fetchProductColumnData, fetchProductTableData } from '../../api/adminApi'; 
+import { fetchCategoryOptions, fetchProductColumnData, fetchProductTableData, deleteProduct } from '../../api/adminApi'; 
 import DynamicModal from '../../components/admin/DynamicModal';
 import { useNavigate } from 'react-router-dom';
 import GenericTable from '../../components/admin/table/GenericTable';
 import toast from 'react-hot-toast';
+import ConfirmationModal from '../../components/admin/ConfirmationModal'; // Import the confirmation modal
 
 const ProductTablePage = () => {
   const [columns, setColumns] = useState([]);
@@ -12,6 +13,8 @@ const ProductTablePage = () => {
   const [categoryOptions, setCategoryOptions] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [selectedRows, setSelectedRows] = useState([]);
+  const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false); // Confirmation modal state
+  const [selectedProductIdToDelete, setSelectedProductIdToDelete] = useState(null); // Track product to delete
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -41,6 +44,7 @@ const ProductTablePage = () => {
   };
 
   const closeModal = () => setIsModalOpen(false);
+  const closeConfirmationModal = () => setIsConfirmationModalOpen(false); // Close confirmation modal
 
   const handleOpenPage = (row) => {
     const productId = row.id;
@@ -71,6 +75,25 @@ const ProductTablePage = () => {
       console.error('Error adding product:', error);
       // Optionally, handle error (e.g., show an error message)
     }
+  };
+
+  // Handle Product Deletion
+  const handleProductDelete = async () => {
+    try {
+      await deleteProduct(selectedProductIdToDelete); // Call the deleteProduct API
+      setData((prevData) => prevData.filter(product => product.id !== selectedProductIdToDelete)); // Remove deleted product from state
+      toast.success('Product deleted successfully!');
+      closeConfirmationModal();
+    } catch (error) {
+      console.error('Error deleting product:', error);
+      toast.error('Error deleting product');
+    }
+  };
+
+  // Open confirmation modal for delete
+  const openConfirmationModalForDelete = (product) => {
+    setSelectedProductIdToDelete(product);
+    setIsConfirmationModalOpen(true);
   };
 
   // Define the input fields dynamically
@@ -145,8 +168,10 @@ const ProductTablePage = () => {
           columns={columns} 
           rowClickable={false} 
           actionClick={handleOpenPage} 
-          deleteAction={false} 
+          deleteAction={true} 
           onSelectionChange={handleSelectionChange} 
+          editAction={true}
+          actionDelete={openConfirmationModalForDelete} // Pass delete action to table
         />
 
         <DynamicModal
@@ -156,6 +181,14 @@ const ProductTablePage = () => {
           inputFields={inputFields}
           modalTitle="Create New Product"
           buttonText="Add Product"
+        />
+
+        {/* Confirmation Modal for Delete */}
+        <ConfirmationModal
+          isOpen={isConfirmationModalOpen}
+          onClose={closeConfirmationModal}
+          onConfirm={handleProductDelete}
+          deleteId={selectedProductIdToDelete}
         />
       </div>
     </div>

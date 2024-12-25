@@ -159,6 +159,7 @@ const OrdersPage = () => {
           columns={columns} 
           rowClickable={true} 
           actionClick={handleOpenModal} 
+          editAction={true}
         />
 
         <DynamicModal

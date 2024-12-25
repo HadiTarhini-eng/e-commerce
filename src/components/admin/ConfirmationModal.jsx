@@ -1,6 +1,6 @@
 import React from 'react';
 
-const ConfirmationModal = ({ isOpen, onClose, onConfirm, clientId }) => {
+const ConfirmationModal = ({ isOpen, onClose, onConfirm, deleteId }) => {
   if (!isOpen) return null;
 
   return (
@@ -20,7 +20,7 @@ const ConfirmationModal = ({ isOpen, onClose, onConfirm, clientId }) => {
         </div>
 
         <div className="space-y-4 mt-4 text-center">
-          <p>Are you sure you want to delete the user with ID: "{clientId}"?</p>
+          <p>Are you sure you want to delete the user with ID: "{deleteId}"?</p>
           <div className="flex justify-between space-x-4">
             <button
               className="w-full bg-gray-300 text-black py-2 rounded"
@@ -30,7 +30,7 @@ const ConfirmationModal = ({ isOpen, onClose, onConfirm, clientId }) => {
             </button>
             <button
               className="w-full bg-red-500 text-white py-2 rounded"
-              onClick={() => onConfirm(clientId)}
+              onClick={() => onConfirm(deleteId)}
             >
               Yes
             </button>
