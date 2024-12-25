@@ -283,19 +283,10 @@ export const addCategory = async (newdata) => {
 // Post delete category
 export const deleteCategory = async (categoryId) => {
   try {
-    const response = await fetch(`/api/categories/${categoryId}`, {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-    if (!response.ok) {
-      throw new Error('Failed to delete category');
-    }
-    return await response.json(); // You can handle success response here (e.g., confirmation)
+    const response = await axios.delete('/api/categories/', categoryId );
+    return response.data; // Handle success response (optional)
   } catch (error) {
-    console.error('Error deleting category:', error);
-    throw error; // Propagate error
+    throw new Error('Error deleting category');
   }
 };
 
