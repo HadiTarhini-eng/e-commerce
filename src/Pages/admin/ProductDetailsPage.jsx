@@ -3,8 +3,10 @@ import axios from 'axios';
 import { fetchProductData } from '../../api/adminApi';
 import InputField from '../../components/InputField';
 import { calculateDiscount } from '../../utils/discountUtils';
+import { useParams } from 'react-router-dom';
 
 const ProductDetailsPage = () => {
+    const { id } = useParams();
     const [product, setProduct] = useState(null);
     const [mainImage, setMainImage] = useState('');
     const [selectedScent, setSelectedScent] = useState(null);
@@ -13,13 +15,12 @@ const ProductDetailsPage = () => {
     useEffect(() => {
         const fetchProduct = async () => {
             try {
-                const productId = 1; // Replace this with dynamic ID if needed
-                const productData = await fetchProductData(productId); 
+                const productData = await fetchProductData(id);
                 setProduct({
                     ...productData,
-                    discount: 0, // Default discount value set to 0
                 });
                 setMainImage(productData.image);
+                console.log(productData);
             } catch (error) {
                 console.error('Error fetching product data', error);
             }
@@ -31,7 +32,7 @@ const ProductDetailsPage = () => {
     // Handle input changes and calculate new price automatically
     const handleInputChange = (e, id) => {
         const { value } = e.target;
-        
+
         // Make sure that number inputs can't go below 0
         const newValue = Math.max(0, value); // Ensures values don't go below 0
 
@@ -187,6 +188,13 @@ const ProductDetailsPage = () => {
                             <h3 className="text-lg font-semibold mb-2">Scents:</h3>
                             {product.scents.map((scent, idx) => (
                                 <div key={scent.scentID} className="flex items-center space-x-2 mb-2">
+                                    <button
+                                        type="button"
+                                        onClick={() => setSelectedScent(scent.scentID)}
+                                        className={`px-4 py-2 rounded ${selectedScent === scent.scentID ? 'bg-blue-500 text-white' : 'bg-gray-200 text-black'}`}
+                                    >
+                                        Select
+                                    </button>
                                     <InputField
                                         type="text"
                                         title={`Scent ${idx + 1}`}
