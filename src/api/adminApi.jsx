@@ -322,7 +322,7 @@ export const postDiscountSettings = async (settings) => {
 // Fetch Carousel Data
 export const fetchCarouselData = async () => {
   try {
-    const response = await axios.get('/data/admin/carouselData.json');
+    const response = await axios.get('http://localhost/e-commerce/src/backend/admin/carouselData.php');
     return response.data;
   } catch (error) {
     throw new Error('Error fetching carousel data');
@@ -358,7 +358,7 @@ export const saveCarouselData = async (carouselData) => {
 // Fetch Order Summary Data
 export const fetchOrderSummaryData = async () => {
   try {
-    const response = await axios.get('/data/admin/orderSummary.json');
+    const response = await axios.get('http://localhost/e-commerce/src/backend/admin/orderSummary.php');
     return response.data;
   } catch (error) {
     throw new Error('Error fetching order summary data');

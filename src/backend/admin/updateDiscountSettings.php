@@ -10,7 +10,7 @@ $data = json_decode($input, true);
         $firstOrderDiscount = (bool)$data['firstOrderDiscount'];  
         $freeDelivery = (bool)$data['freeDelivery'];             
         $deliveryThreshold = (int)$data['deliveryThreshold']; 
-        $discountNumber = (int)$data['discountNumber'];          
+        $discountNumber = (int)$data['firstOrderDiscountAmount'];          
 
         $query = $conn->prepare("UPDATE offers SET firstOrderDiscount = ?, freeDelivery = ?, deliveryThreshold = ?, discountNumber = ? WHERE id = 1");
 
