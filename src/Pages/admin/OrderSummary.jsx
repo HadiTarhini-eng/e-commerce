@@ -27,71 +27,62 @@ const OrderDetails = () => {
   const order = orderData[0];
 
   // Helper function to calculate total after discount
-  const totalAfterDiscount = order.totalPrice - order.discount;
+  const totalAfterDiscount = (order.totalPrice - order.orderDiscount).toFixed(2);
 
-  // Product Data (Mapped from order)
+  // Product Data (Mapped from order.orderData)
   const productColumns = [
     { Header: 'Product Name', accessor: 'name' },
     { Header: 'Scent', accessor: 'scent' },
     { Header: 'Quantity', accessor: 'quantity' },
     { Header: 'Price', accessor: 'price' },
-    { Header: 'Total', accessor: 'total' }
+    { Header: 'Total', accessor: 'total' },
   ];
 
-  const products = [
-    {
-      name: order.productName1,
-      scent: order.productScent1,
-      quantity: order.productQuantity1,
-      price: order.productPrice1,
-      total: (order.productPrice1 * order.productQuantity1).toFixed(2),
-    },
-    {
-      name: order.productName2,
-      scent: order.productScent2,
-      quantity: order.productQuantity2,
-      price: order.productPrice2,
-      total: (order.productPrice2 * order.productQuantity2).toFixed(2),
-    }
-  ];
+  const products = order.orderData.map((product) => ({
+    name: product.productName || "N/A", // Default to "N/A" if null
+    scent: product.scentName || "N/A",
+    quantity: product.quantity,
+    price: parseFloat(product.price).toFixed(2),
+    total: (parseFloat(product.price) * parseInt(product.quantity)).toFixed(2),
+  }));
 
   // Client Info Table Data
   const clientInfoColumns = [
     { Header: 'Field', accessor: 'field' },
-    { Header: 'Value', accessor: 'value' }
+    { Header: 'Value', accessor: 'value' },
   ];
 
   const clientInfo = [
-    { field: 'Name', value: order.billingName },
-    { field: 'Phone', value: order.billingPhone },
-    { field: 'Address', value: order.billingAddress },
+    { field: 'Name', value: order.name },
+    { field: 'Phone', value: order.phone },
+    { field: 'Address', value: order.address },
     { field: 'City', value: order.city },
   ];
 
   // Checkout Info Table Data
   const checkoutInfoColumns = [
     { Header: 'Field', accessor: 'field' },
-    { Header: 'Value', accessor: 'value' }
+    { Header: 'Value', accessor: 'value' },
   ];
 
   const checkoutInfo = [
-    { field: 'Shipping Method', value: order.deliveryMethod },
-    { field: 'Shipping Price', value: `$${order.deliveryPrice}` },
-    { field: 'Note', value: order.note },
-    { field: 'Payment Method', value: order.paymentMethod },
+    { field: 'Shipping Method', value: order.deliveryName },
+    { field: 'Shipping Price', value: `$${order.deliveryCost}` },
+    { field: 'Note', value: order.note || "N/A" },
+    { field: 'Payment Method', value: order.paymentName },
   ];
 
   // Order Summary Data
   const orderSummaryColumns = [
     { Header: 'Field', accessor: 'field' },
-    { Header: 'Value', accessor: 'value' }
+    { Header: 'Value', accessor: 'value' },
   ];
 
   const orderSummary = [
-    { field: 'Order ID', value: order.id },
-    { field: 'Date Ordered', value: order.dateOrdered },
+    { field: 'Order ID', value: order.orderId },
+    { field: 'Date Ordered', value: order.Date },
     { field: 'Total Price', value: `$${order.totalPrice}` },
-    { field: 'Discount', value: `-${order.discount}` },
+    { field: 'Discount', value: `-$${order.orderDiscount}` },
     { field: 'Total After Discount', value: `$${totalAfterDiscount}` },
   ];
 
