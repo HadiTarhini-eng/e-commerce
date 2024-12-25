@@ -1,0 +1,67 @@
+[
+    {
+      "id": 1,
+      "name": "Vanilla Candle",
+      "price": 19.99,
+      "oldPrice": 24.99,
+      "stock": 50,
+      "scents": [
+        {
+          "scentID": "1",
+          "scentName": "Vanilla",
+          "ScentImages": [
+            {
+              "id": 1,
+              "path": "/images/vanilla1.jpg"
+            }
+          ],
+          "scentStock": 30
+        },
+        {
+          "scentID": "2",
+          "scentName": "Lavender",
+          "ScentImages": [
+            {
+              "id": 2,
+              "path": "/images/lavender1.jpg"
+            }
+          ],
+          "scentStock": 20
+        }
+      ],
+      "image": "/images/vanilla-candle.jpg"
+    },
+    {
+      "id": 2,
+      "name": "Rose Candle",
+      "price": 15.99,
+      "oldPrice": 19.99,
+      "stock": 100,
+      "scents": [
+        {
+          "scentID": "3",
+          "scentName": "Rose",
+          "ScentImages": [
+            {
+              "id": 3,
+              "path": "/images/rose1.jpg"
+            }
+          ],
+          "scentStock": 70
+        },
+        {
+          "scentID": "4",
+          "scentName": "Jasmine",
+          "ScentImages": [
+            {
+              "id": 4,
+              "path": "/images/jasmine1.jpg"
+            }
+          ],
+          "scentStock": 30
+        }
+      ],
+      "image": "/images/rose-candle.jpg"
+    }
+  ]
+  

@@ -5,7 +5,7 @@ import BadgeCell from './BadgeCell';
 import ActionButtonCell from './ActionButtonCell';
 import toast from 'react-hot-toast';
 
-const GenericTable = ({ columns, data, rowClickable, actionClick, deleteAction, showSelection, disableButton, showSearch  }) => {
+const GenericTable = ({ columns, data, rowClickable, actionClick, actionDelete, editAction, deleteAction, showSelection, disableButton, showSearch  }) => {
   const navigate = useNavigate();
 
   // State to hold the search query
@@ -33,29 +33,41 @@ const GenericTable = ({ columns, data, rowClickable, actionClick, deleteAction, 
     } else if (column.Cell === "BadgeCell") {
       return <BadgeCell value={cell.value} />;
     } else if (column.Cell === "ActionButtonCell") {
-      // If `disableButton` is true, don't render the button
+      // If `disableButton` is true, don't render the buttons
       if (row.disableButton) {
         return null; // No button shown if status is "Canceled" or "Delivered"
       }
+  
       return (
-        <ActionButtonCell 
-          value={`${deleteAction ? 'Delete' : 'Edit'}`}
-          onClick={(e) => {
-            e.stopPropagation(); // Prevent navigation when clicking the action button
-            if(actionClick) {
-              actionClick(row);
-            }
-          }} 
-        />
+        <div className="flex space-x-2">
+          {editAction && (
+            <ActionButtonCell 
+              value="Edit" 
+              onClick={(e) => {
+                e.stopPropagation();
+                actionClick && actionClick(row, 'edit'); // Pass action type here
+              }}
+            />
+          )}
+          {deleteAction && (
+            <ActionButtonCell 
+              value="Delete" 
+              onClick={(e) => {
+                e.stopPropagation();
+                actionDelete && actionDelete(row.id); // Call the delete action handler with row ID
+              }}
+            />          
+          )}
+        </div>
       );
     } else if (column.Cell === "stockCell" && cell.value === 0) {
       // Check if the column is 'stock' and value is 0, apply red color
       return <span style={{ color: 'red' }}>{cell.value}</span>;
     }
-
+  
     // Handle case where there is no specific cell renderer
     return cell.value; // This will just render the value of the cell directly if no special renderer is specified
-  };
+  };  
 
   // Dynamically render destination based on the row title
   const renderDestination = (rowData) => {

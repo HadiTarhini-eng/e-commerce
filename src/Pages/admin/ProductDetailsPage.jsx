@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { fetchProductData } from '../../api/adminApi';
+import InputField from '../../components/InputField';
+import { calculateDiscount } from '../../utils/discountUtils';
 
 const ProductDetailsPage = () => {
     const [product, setProduct] = useState(null);
@@ -11,42 +13,63 @@ const ProductDetailsPage = () => {
     useEffect(() => {
         const fetchProduct = async () => {
             try {
-                const productId = 1; // Replace this with the actual productId as needed (e.g., from route params)
-                const productData = await fetchProductData(productId); // Use the new fetch function
-                setProduct(productData);
+                const productId = 1; // Replace this with dynamic ID if needed
+                const productData = await fetchProductData(productId); 
+                setProduct({
+                    ...productData,
+                    discount: 0, // Default discount value set to 0
+                });
                 setMainImage(productData.image);
             } catch (error) {
                 console.error('Error fetching product data', error);
             }
         };
 
-        fetchProduct(); // Call the fetch function
-    }, []); // Empty dependency array means this runs once when the component mounts
+        fetchProduct();
+    }, []);
 
-    // Handle input changes
+    // Handle input changes and calculate new price automatically
     const handleInputChange = (e, id) => {
         const { value } = e.target;
-        setProduct(prev => ({
-            ...prev,
-            [id]: value
-        }));
+        
+        // Make sure that number inputs can't go below 0
+        const newValue = Math.max(0, value); // Ensures values don't go below 0
+
+        setProduct(prev => {
+            const updatedProduct = { ...prev, [id]: newValue };
+            if (id === 'price' || id === 'discount') {
+                const discountData = calculateDiscount(updatedProduct); // Calculate new price
+                updatedProduct.newPrice = discountData.newPrice;
+                updatedProduct.discountValue = discountData.discountValue;
+            }
+            return updatedProduct;
+        });
     };
 
-    // Handle scent input changes
-    const handleScentChange = (scentID, field, value) => {
+    // Handle scent name changes (Editable)
+    const handleScentNameChange = (scentID, name) => {
         setProduct(prev => ({
             ...prev,
             scents: prev.scents.map(scent =>
-                scent.scentID === scentID ? { ...scent, [field]: value } : scent
+                scent.scentID === scentID ? { ...scent, scentName: name } : scent
             )
         }));
     };
 
-    // Handle file input (image changes)
+    // Handle scent input changes (for each scent's stock)
+    const handleScentChange = (scentID, field, value) => {
+        const newValue = Math.max(0, value); // Ensure scent stock can't go below 0
+        setProduct(prev => ({
+            ...prev,
+            scents: prev.scents.map(scent =>
+                scent.scentID === scentID ? { ...scent, [field]: newValue } : scent
+            )
+        }));
+    };
+
+    // Handle file input (image changes for scents)
     const handleFileChange = (e, scentID) => {
         const file = e.target.files[0];
-        // Assume the file upload is handled with some upload logic
-        // For now, we just update the image path in state
         const newImagePath = URL.createObjectURL(file);
         setProduct(prev => ({
             ...prev,
@@ -89,7 +112,7 @@ const ProductDetailsPage = () => {
     // Save changes
     const handleSaveChanges = async () => {
         try {
-            const productId = 1; // Replace with dynamic productId
+            const productId = 1; // Replace with dynamic productId if needed
             await axios.put(`/api/products/${productId}`, product); // Adjust URL and method as needed
             alert("Product updated successfully!");
         } catch (error) {
@@ -132,9 +155,13 @@ const ProductDetailsPage = () => {
 
                         {/* Price, Discount */}
                         <div>
-                            <span className="text-2xl font-bold mr-2">${product.price.toFixed(2)}</span>
+                            <span className="text-2xl font-bold mr-2">
+                                {/* ${product.newPrice.toFixed(2)} */}
+                            </span>
                             {product.oldPrice && (
-                                <span className="text-gray-500 line-through">${product.oldPrice.toFixed(2)}</span>
+                                <span className="text-gray-500 line-through">
+                                    ${product.oldPrice.toFixed(2)}
+                                </span>
                             )}
                         </div>
                         <InputField
@@ -152,16 +179,7 @@ const ProductDetailsPage = () => {
                             id="discount"
                             value={product.discount}
                             onChange={handleInputChange}
-                        />
-
-                        {/* Stock */}
-                        <InputField
-                            type="number"
-                            title="Stock"
-                            placeholder="Stock"
-                            id="stock"
-                            value={product.stock}
-                            onChange={handleInputChange}
+                            min="0" // Ensure it can't go below 0
                         />
 
                         {/* Scents */}
@@ -169,13 +187,13 @@ const ProductDetailsPage = () => {
                             <h3 className="text-lg font-semibold mb-2">Scents:</h3>
                             {product.scents.map((scent, idx) => (
                                 <div key={scent.scentID} className="flex items-center space-x-2 mb-2">
-                                    <button
-                                        type="button"
-                                        onClick={() => setSelectedScent(scent.scentID)}
-                                        className="px-4 py-2 border rounded"
-                                    >
-                                        {scent.scentName || `Scent ${idx + 1}`}
-                                    </button>
+                                    <InputField
+                                        type="text"
+                                        title={`Scent ${idx + 1}`}
+                                        value={scent.scentName}
+                                        onChange={(e) => handleScentNameChange(scent.scentID, e.target.value)}
+                                        placeholder="Scent Name"
+                                    />
                                     <button
                                         type="button"
                                         onClick={() => handleRemoveScent(scent.scentID)}
@@ -216,6 +234,19 @@ const ProductDetailsPage = () => {
                                         id="scentImage"
                                         onChange={(e) => handleFileChange(e, selectedScent)}
                                     />
+
+                                    {/* Stock Input for Scent */}
+                                    <div className="mt-4">
+                                        <InputField
+                                            type="number"
+                                            title="Scent Stock"
+                                            placeholder="Stock"
+                                            id="scentStock"
+                                            value={product.scents.find(scent => scent.scentID === selectedScent).scentStock}
+                                            onChange={(e) => handleScentChange(selectedScent, 'scentStock', e.target.value)}
+                                            min="0" // Ensure stock can't go below 0
+                                        />
+                                    </div>
                                 </div>
                             )}
                         </div>

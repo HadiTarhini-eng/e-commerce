@@ -161,11 +161,6 @@ const InputField = ({
             disabled={disabled} // Disable file input when disabled is true
             className="w-full px-3 py-2 border rounded"
           />
-          {value && (
-            <p className="text-xs text-gray-500 mt-2">
-              Selected file: {value.split('/').pop()}
-            </p>
-          )}
         </div>
       );
 
