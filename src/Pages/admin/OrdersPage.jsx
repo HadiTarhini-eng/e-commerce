@@ -129,7 +129,7 @@ const OrdersPage = () => {
     {
       type: 'select',
       title: 'New Status',
-      placeholder: 'Select new status',
+      placeholder: selectedOrder ? selectedOrder.status : '',
       id: 'status',
       value: selectedOrder ? selectedOrder.status : '',
       onChange: (e) => {

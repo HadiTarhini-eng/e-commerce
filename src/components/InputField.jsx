@@ -113,7 +113,7 @@ const InputField = ({
               disabled={disabled} // Disable select input when disabled is true
               className="w-full px-3 py-2 border rounded"
             >
-              <option value="">{placeholder}</option>
+              <option disabled value="">{placeholder}</option>
               {Array.isArray(options) && options.length > 0 ? (
                 options.map((option, idx) => (
                   <option key={idx} value={option.status}>

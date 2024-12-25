@@ -38,9 +38,7 @@ const CarouselEditor = () => {
 
   // Handle image path change (strip out the file name)
   const handleImageChange = (id, file) => {
-    const fileName = file.name;
-    const newImagePath = `/images/carousel/${fileName}`;
-    handleCarouselChange(id, 'image', newImagePath);
+    handleCarouselChange(id, 'image', file);
   };
 
   // Handle adding a new carousel

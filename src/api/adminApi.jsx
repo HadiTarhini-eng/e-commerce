@@ -293,10 +293,27 @@ export const postCategoryUpdates = async (newdata) => {
 // Post add category
 export const addCategory = async (newdata) => {
   try {
-    const response = await axios.post('/api/categoryUpdates', newdata); 
+    const formData = new FormData();
+    
+    // Append the regular data to the FormData object
+    formData.append('id', newdata.id);
+    formData.append('name', newdata.name);
+
+    // Append the image file to the FormData object, if it exists
+    if (newdata.image) {
+      formData.append('image', newdata.image);  // newdata.image should be the File object
+    }
+
+    // Send the request with the FormData
+    const response = await axios.post('/api/categoryUpdates', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data', // Ensure the request is treated as a file upload
+      },
+    });
+    
     return response.data;
   } catch (error) {
-    throw new Error('Error adding new category');
+    throw new Error('Error adding new category: ' + error.message);
   }
 };
 
@@ -365,10 +382,34 @@ export const fetchProducts = async () => {
 // Save Carousel Data
 export const saveCarouselData = async (carouselData) => {
   try {
-    const response = await axios.post('/api/save-carousel', carouselData);
+    const formData = new FormData();
+    
+    // Append the regular data to the FormData object
+    formData.append('title', carouselData.title);
+    formData.append('description', carouselData.description);
+
+    // Check if there are any images or files to be uploaded
+    if (carouselData.image) {
+      formData.append('image', carouselData.image);  // Ensure image is a File object
+    }
+
+    // If there are other files or data, append them similarly
+    if (carouselData.additionalImages) {
+      carouselData.additionalImages.forEach((file, index) => {
+        formData.append(`additionalImages[${index}]`, file);  // Append multiple files, if needed
+      });
+    }
+
+    // Send the request with the FormData
+    const response = await axios.post('/api/save-carousel', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data', // Explicitly set the content type for file uploads
+      },
+    });
+
     return response.data;
   } catch (error) {
-    throw new Error('Error saving carousel data');
+    throw new Error('Error saving carousel data: ' + error.message);
   }
 };
 
