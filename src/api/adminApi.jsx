@@ -403,7 +403,7 @@ export const saveCarouselData = async (carousels) => {
       }
     });
 
-    const response = await axios.post('/api/saveCarouselData', formData, {
+    const response = await axios.post('http://localhost/e-commerce/src/backend/admin/addCarousel.php', formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },

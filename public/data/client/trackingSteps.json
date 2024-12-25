@@ -1,9 +1,9 @@
 [
     {
       "id": 1,
-      "type": "confirming",
+      "type": "Confirming",
       "description": "Your order is being confirmed.",
-      "status": "confirming",
+      "status": "Confirming",
       "date": ""
     },
     {
