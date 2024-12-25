@@ -19,7 +19,7 @@ if ($result->num_rows > 0) {
 
     echo json_encode($products);
 } else {
-    echo json_encode(array("products" => []));
+    echo json_encode([]);
 }
 
 $conn->close();

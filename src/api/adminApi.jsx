@@ -84,7 +84,7 @@ export const postProduct = async (newProduct) => {
 // Deleet product
 export const deleteProduct = async (productId) => {
   try {
-    const response = await axios.delete('/api/product/', productId );
+    const response = await axios.post('http://localhost/e-commerce/src/backend/admin/deleteProduct.php', productId );
     return response.data; // Handle success response (optional)
   } catch (error) {
     throw new Error('Error deleting productId');
@@ -230,7 +230,7 @@ export const addScent = async (newScent) => {
 // Post delete scent
 export const deleteScent = async (scentId) => {
   try {
-    const response = await axios.delete('/api/scents/', scentId );
+    const response = await axios.post('http://localhost/e-commerce/src/backend/admin/deleteScent.php', scentId );
     return response.data; // Handle success response (optional)
   } catch (error) {
     throw new Error('Error deleting scent');

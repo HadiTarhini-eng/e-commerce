@@ -19,7 +19,7 @@ if ($result->num_rows > 0) {
 
     echo json_encode($scents);
 } else {
-    echo json_encode(array("scents" => []));
+    echo json_encode([]);
 }
 
 $conn->close();
