@@ -467,7 +467,7 @@ export const fetchProductData = async (productId) => {
 // post disocunt to selected rows
 export const applyDiscountToProducts = async (discountValue, productIds) => {
   try {
-    const response = await axios.post('/api/products/apply-discount', {
+    const response = await axios.post('http://localhost/e-commerce/src/backend/admin/bulkDiscount.php', {
       discount: discountValue,
       productIds: productIds,
     });
