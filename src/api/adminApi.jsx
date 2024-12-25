@@ -460,3 +460,20 @@ export const fetchProductData = async (productId) => {
     throw new Error('Error fetching product data');
   }
 };
+
+
+///////////// POST ///////////////////// DISCOUNT ///////////// POST /////////////////////
+
+// post disocunt to selected rows
+export const applyDiscountToProducts = async (discountValue, productIds) => {
+  try {
+    const response = await axios.post('/api/products/apply-discount', {
+      discount: discountValue,
+      productIds: productIds,
+    });
+    return response.data; // return the response if needed
+  } catch (error) {
+    console.error('Error applying discount:', error);
+    throw new Error('Failed to apply discount');
+  }
+};
