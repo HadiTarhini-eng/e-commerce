@@ -305,7 +305,7 @@ export const addCategory = async (newdata) => {
     }
 
     // Send the request with the FormData
-    const response = await axios.post('/api/categoryUpdates', formData, {
+    const response = await axios.post('http://localhost/e-commerce/src/backend/admin/addCategory.php', formData, {
       headers: {
         'Content-Type': 'multipart/form-data', // Ensure the request is treated as a file upload
       },
@@ -402,7 +402,7 @@ export const saveCarouselData = async (carouselData) => {
     }
 
     // Send the request with the FormData
-    const response = await axios.post('/api/save-carousel', formData, {
+    const response = await axios.post('http://localhost/e-commerce/src/backend/admin/addCarousel.php', formData, {
       headers: {
         'Content-Type': 'multipart/form-data', // Explicitly set the content type for file uploads
       },
@@ -468,7 +468,7 @@ export const fetchProductData = async (productId) => {
 // post disocunt to selected rows
 export const applyDiscountToProducts = async (discountValue, productIds) => {
   try {
-    const response = await axios.post('/api/products/apply-discount', {
+    const response = await axios.post('http://localhost/e-commerce/src/backend/admin/bulkDiscount.php', {
       discount: discountValue,
       productIds: productIds,
     });
