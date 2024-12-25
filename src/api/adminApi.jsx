@@ -381,21 +381,23 @@ export const fetchProducts = async () => {
 
 // Save Carousel Data
 export const saveCarouselData = async (carouselData) => {
-  
   try {
     const formData = new FormData();
     
-    // Append the regular data to the FormData object
-    formData.append('title', carouselData.title);
-    formData.append('description', carouselData.description);
+    // Append the regular data fields to FormData
+    formData.append('buttonColor', carouselData.buttonColor);
+    formData.append('buttonPath', carouselData.buttonPath);
+    formData.append('buttonText', carouselData.buttonText);
+    formData.append('header', carouselData.header);
+    formData.append('id', carouselData.id);
+    formData.append('image', carouselData.image);  // This assumes image is a File object
+    formData.append('paragraph', carouselData.paragraph);
+    formData.append('showButton', carouselData.showButton);
+    formData.append('showHeader', carouselData.showHeader);
+    formData.append('showParagraph', carouselData.showParagraph);
 
-    // Check if there are any images or files to be uploaded
-    if (carouselData.image) {
-      formData.append('image', carouselData.image);  // Ensure image is a File object
-    }
-
-    // If there are other files or data, append them similarly
-    if (carouselData.additionalImages) {
+    // If there are additional images, append them similarly
+    if (carouselData.additionalImages && Array.isArray(carouselData.additionalImages)) {
       carouselData.additionalImages.forEach((file, index) => {
         formData.append(`additionalImages[${index}]`, file);  // Append multiple files, if needed
       });
