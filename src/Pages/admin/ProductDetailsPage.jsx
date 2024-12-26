@@ -14,10 +14,11 @@ const ProductDetailsPage = () => {
         discount: 0,
         image: null,
         imageURL: '',
+        category: '',
         scents: [],
     });
     const navigate = useNavigate();
-    console.log(product)
+    console.log(scentOptions)
 
     // Fetch the product data
     useEffect(() => {
@@ -61,11 +62,10 @@ const ProductDetailsPage = () => {
     };
 
     // Handle category change
-    const handleCategoryChange = (categoryId) => {
-        const selectedCategory = categoryOptions.find(category => category.id === parseInt(categoryId));
+    const handleCategoryChange = (categoryName) => {
         setProduct(prev => ({
             ...prev,
-            category: selectedCategory ? selectedCategory.title : '', // Update the category field
+            category: categoryName.title, // Update the category field
         }));
     };
 
@@ -208,20 +208,19 @@ const ProductDetailsPage = () => {
                     />
 
                     {/* Category Select Input */}
-                    <h2 className="text-lg font-bold text-gray-800 pb-2 mt-8">Category:</h2>
+                    <h2 className="text-lg font-bold text-gray-800 pb-2 mt-8">Category:  {product.category}</h2>
                     <div>
-                        <label htmlFor="categorySelect" className="block text-sm font-medium text-gray-700">Select Category</label>
+                        <label htmlFor="categorySelect" className="block text-sm font-medium text-gray-700">Select Category:</label>
                         <select
                             id="categorySelect"
                             name="category"
-                            placeholder-={product.category}
                             value={product.category} // Use product state for category
                             onChange={(e) => handleCategoryChange(e.target.value)} // Call the handleCategoryChange function
                             className="mt-1 w-fit block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                         >
-                            <option disabled value="">Select a category</option>
-                            {categoryOptions.map((category) => (
-                                <option key={category.id} value={category.id}>
+                            <option value="">Select a category</option>
+                            {categoryOptions.map((category, index) => (
+                                <option key={index} value={category.title}>
                                     {category.title}
                                 </option>
                             ))}
@@ -262,15 +261,15 @@ const ProductDetailsPage = () => {
                     {/* Scents */}
                     <div className='mt-4'>
                         {product.scents.map((scent, idx) => (
-                            <div key={scent.scentID} className="flex flex-col mb-4">
+                            <div key={idx} className="flex flex-col mb-4">
                                 <div>
-                                    <label htmlFor={`scent-select-${scent.scentID}`} className="text-sm font-medium">
+                                    <label htmlFor={`scent-select-${scent.id}`} className="text-sm font-medium">
                                         {`Scent ${idx + 1}`}
                                     </label>
                                     <select
-                                        id={`scent-select-${scent.scentID}`}
-                                        value={scent.scentName} // Controls the currently selected value
-                                        onChange={(e) => handleScentNameChange(scent.scentID, e.target.value)}
+                                        id={`scent-select-${scent.id}`}
+                                        value={scent.name} // Controls the currently selected value
+                                        onChange={(e) => handleScentNameChange(scent.id, e.target.value)}
                                         className="w-full px-3 py-2 border rounded"
                                         placeholder="Scent Name"
                                     >
@@ -280,8 +279,8 @@ const ProductDetailsPage = () => {
                                         </option>
                                         {/* Map options */}
                                         {scentOptions.map((option, idx) => (
-                                            <option key={idx} value={option.scentName}>
-                                                {option.scentName}
+                                            <option key={idx} value={option.name}>
+                                                {option.name}
                                             </option>
                                         ))}
                                     </select>
