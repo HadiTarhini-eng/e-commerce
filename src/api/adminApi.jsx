@@ -61,7 +61,7 @@ export const fetchProductTableData = async () => {
 // Fetch category options Data
 export const fetchCategoryOptions = async () => {
   try {
-    const response = await axios.get('/data/categoryData.json'); 
+    const response = await axios.get('http://localhost/e-commerce/src/backend/admin/categoryTableData.php'); 
     return response.data;
   } catch (error) {
     throw new Error('Error fetching category options data');
@@ -71,7 +71,7 @@ export const fetchCategoryOptions = async () => {
 // Fetch Scent options Data
 export const fetchScentOptions = async () => {
   try {
-    const response = await axios.get('/data/admin/scentData.json'); 
+    const response = await axios.get('http://localhost/e-commerce/src/backend/admin/scentsTableData.php'); 
     return response.data;
   } catch (error) {
     throw new Error('Error fetching scent options data');
