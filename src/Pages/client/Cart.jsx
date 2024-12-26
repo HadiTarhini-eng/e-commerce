@@ -131,11 +131,11 @@ const Cart = () => {
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-4 w-full max-xl:max-w-xl max-xl:mx-auto">
                   {/* Left side - Image and Product Name */}
                   <div className="flex items-center gap-2 w-full">
-                    <div className="img-box w-[200px] sm:w-[250px]">
+                    <div className="img-box min-w-[100px] max-w-[100px] sm:w-[250px]">
                       <img
                         src={`/images/products/${product.image}`}
                         alt={product.title}
-                        className="w-full h-full rounded-xl object-cover"
+                        className="w-[100px] rounded-xl object-cover"
                       />
                     </div>
                     <div className="pro-data w-full">
