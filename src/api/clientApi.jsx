@@ -154,7 +154,7 @@ export const fetchPaymentMethods = async () => {
 // Fetch Delivery Methods Data
 export const fetchDeliveryMethods = async () => {
   try {
-    const response = await axios.get('/data/client/deliveryMethods.json');
+    const response = await axios.get('http://localhost/e-commerce/src/backend/client/deliveryMethods.json');
     return response.data; // Return the delivery methods data
   } catch (error) {
     console.error('Error fetching delivery methods:', error);
@@ -165,7 +165,7 @@ export const fetchDeliveryMethods = async () => {
 // Fetch delivery threshold
 export const fetchDeliveryThreshold = async () => {
   try {
-    const response = await axios.get('/data/client/deliveryThreshold.json');
+    const response = await axios.get('http://localhost/e-commerce/src/backend/client/deliveryThreshold.php');
     return response.data; // Return the delivery threshold data
   } catch (error) {
     console.error('Error fetching delivery threshold:', error);
@@ -294,7 +294,7 @@ export const fetchOrderNumber = async (userId) => {
 // fetch first offer data
 export const fetchFirstOrderOffer = async () => {
   try {
-    const response = await axios.get('/data/client/firstOffer.json');
+    const response = await axios.get('http://localhost/e-commerce/src/backend/client/firstOffer.php');
     return response.data; // Return the first offer data
   } catch (error) {
     console.error('Error fetching first offer:', error);
