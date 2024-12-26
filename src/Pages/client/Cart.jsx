@@ -87,7 +87,7 @@ const Cart = () => {
       toast.error('Your cart is still empty!');
     } else {
       // Dispatch total without delivery and total with delivery to Redux
-      if (orderNumber === 0) {
+      if (orderNumber === 0 && isFirstOffer) {
         dispatch(updateCheckoutData({ field: 'totalWithoutDelivery', value: totalWithoutDelivery.newPrice }));
         dispatch(updateCheckoutData({ field: 'discount', value: 10 }));
       } else {
@@ -198,7 +198,7 @@ const Cart = () => {
           <div className="flex flex-col items-center justify-between w-full py-4 sm:py-6">
             <p className="font-manrope font-medium text-lg sm:text-2xl leading-9 text-gray-900">Total (Without Delivery)</p>
             <h6 className="font-manrope font-medium text-xl sm:text-2xl leading-9 text-palette-button mx-2">
-              {orderNumber === 0 ? (
+              {(orderNumber === 0 && isFirstOffer) ? (
                 <>
                   ${formatPrice(totalWithoutDelivery.newPrice)}
                   <span className="line-through text-gray-500 text-lg font-['Roboto'] mx-1">
