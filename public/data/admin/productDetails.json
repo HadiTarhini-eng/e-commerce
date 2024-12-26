@@ -3,8 +3,8 @@
       "id": 5,
       "name": "Vanilla Candle",
       "price": 19.99,
-      "oldPrice": 24.99,
-      "stock": 50,
+      "discount": 10,
+      "category": "cars",
       "scents": [
         {
           "scentID": "1",
@@ -15,6 +15,10 @@
               "path": "/images/vanilla1.jpg"
             }
           ],
+          "scentFirstImage": [{
+            "id": 1,
+            "path": "/images/vanilla1.jpg"
+          }],
           "scentStock": 30
         },
         {
@@ -26,6 +30,10 @@
               "path": "/images/lavender1.jpg"
             }
           ],
+          "scentFirstImage": [{
+            "id": 2,
+            "path": "/images/lavender1.jpg"
+          }],
           "scentStock": 20
         }
       ],
@@ -35,8 +43,8 @@
       "id": 2,
       "name": "Rose Candle",
       "price": 15.99,
-      "oldPrice": 19.99,
-      "stock": 100,
+      "discount": 10,
+      "category": "cars",
       "scents": [
         {
           "scentID": "3",
@@ -47,6 +55,10 @@
               "path": "/images/rose1.jpg"
             }
           ],
+          "scentFirstImage": [{
+            "id": 3,
+            "path": "/images/rose1.jpg"
+          }],
           "scentStock": 70
         },
         {
@@ -58,6 +70,10 @@
               "path": "/images/jasmine1.jpg"
             }
           ],
+          "scentFirstImage": [{
+            "id": 4,
+            "path": "/images/jasmine1.jpg"
+          }],
           "scentStock": 30
         }
       ],

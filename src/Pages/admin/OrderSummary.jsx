@@ -89,24 +89,31 @@ const OrderDetails = () => {
   return (
     <div className="py-14 px-4 md:px-6 2xl:px-20 2xl:container 2xl:mx-auto">
       <div className="flex flex-col space-y-14">
-        <div className='flex flex-row gap-4 justify-between'>
-          {/* Client Info Table */}
+        {/* Client Info Table */}
+        <div>
+          <h2 className="text-2xl font-bold text-gray-800 border-b-2 border-gray-300 pb-2 mb-4">Client Info</h2>
           <GenericTable
             showSearch={false}
             columns={clientInfoColumns}
             data={clientInfo}
             rowClickable={false}  // No row click for client info
           />
+        </div>
 
+        <div>
           {/* Checkout Info Table */}
+          <h2 className="text-2xl font-bold text-gray-800 border-b-2 border-gray-300 pb-2 mb-4">Checkout Info</h2>
           <GenericTable
             showSearch={false}
             columns={checkoutInfoColumns}
             data={checkoutInfo}
             rowClickable={false}  // No row click for checkout info
           />
+        </div>
 
+        <div>
           {/* Order Summary Table */}
+          <h2 className="text-2xl font-bold text-gray-800 border-b-2 border-gray-300 pb-2 mb-4">Order Summary</h2>
           <GenericTable
             showSearch={false}
             columns={orderSummaryColumns}
@@ -115,13 +122,16 @@ const OrderDetails = () => {
           />  
         </div>
 
-        {/* Product Table */}
-        <GenericTable
-          showSearch={true}
-          columns={productColumns}
-          data={products}
-          rowClickable={false}  // No row click for products
-        />      
+        <div>
+          {/* Product Table */}
+          <h2 className="text-2xl font-bold text-gray-800 border-b-2 border-gray-300 pb-2 mb-4">Products</h2>
+          <GenericTable
+            showSearch={true}
+            columns={productColumns}
+            data={products}
+            rowClickable={false}  // No row click for products
+          /> 
+        </div>     
       </div>
     </div>
   );

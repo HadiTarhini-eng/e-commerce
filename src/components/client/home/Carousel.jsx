@@ -1,7 +1,7 @@
 import React from 'react';
 import Slider from 'react-slick';
 
-const Carousel = ({ slides, settings }) => {
+const Carousel = ({ slides, settings, isAdmin }) => {
   const defaultSettings = {
     infinite: true,
     speed: 500,
@@ -19,11 +19,11 @@ const Carousel = ({ slides, settings }) => {
         {slides.map((slide) => (
           <div key={slide.id} className="relative">
             <div className="relative w-full h-48">
-              <img
-                src={`/images/carousel/${slide.image}`}
-                alt={slide.header}
-                className="w-full h-full object-cover rounded-lg"
-              />
+            <img
+              src={isAdmin ? `/images/carousel/${slide.image.name}` : `/images/carousel/${slide.image}`}
+              alt={slide.header}
+              className="w-full h-full object-cover rounded-lg"
+            />
             </div>
 
             {/* Header positioned at top-left with background opacity */}

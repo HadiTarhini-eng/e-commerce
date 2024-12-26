@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { fetchCategoryOptions, fetchProductColumnData, fetchProductTableData, deleteProduct, applyDiscountToProducts } from '../../api/adminApi'; 
+import { fetchProductColumnData, fetchProductTableData, deleteProduct, applyDiscountToProducts } from '../../api/adminApi'; 
 import DynamicModal from '../../components/admin/DynamicModal';
 import { useNavigate } from 'react-router-dom';
 import GenericTable from '../../components/admin/table/GenericTable';
@@ -9,9 +9,6 @@ import ConfirmationModal from '../../components/admin/ConfirmationModal';
 const ProductTablePage = () => {
   const [columns, setColumns] = useState([]);
   const [data, setData] = useState([]);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [categoryOptions, setCategoryOptions] = useState([]);
-  const [selectedProduct, setSelectedProduct] = useState(null);
   const [selectedRows, setSelectedRows] = useState([]);
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
   const [selectedProductIdToDelete, setSelectedProductIdToDelete] = useState(null);
@@ -28,9 +25,6 @@ console.log(data)
         
         const dataResponse = await fetchProductTableData();
         setData(dataResponse);
-        
-        const optionsResponse = await fetchCategoryOptions();
-        setCategoryOptions(optionsResponse);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -44,12 +38,15 @@ console.log(data)
     setSelectedRows(selectedRows);
   };
 
-  const closeModal = () => setIsModalOpen(false);
   const closeConfirmationModal = () => setIsConfirmationModalOpen(false);
 
-  const handleOpenPage = (row) => {
+  const handleOpenEditPage = (row) => {
     const productId = row.id;
     navigate(`../productDetailsPage/${productId}`);
+  };
+
+  const handleOpenAddPage = () => {
+    navigate('../productDetailsPage/add');
   };
 
   // Handle Add Discount Button click
@@ -89,23 +86,6 @@ console.log(data)
     setIsModalOpen(false); // Close the modal after saving the discount
   };
 
-  // Handle new product addition
-  const handleProductAdd = async (product) => {
-    try {
-      const addedProduct = await postProduct(product); // Call the postProduct API to add the new product
-      console.log('Product added:', addedProduct);
-
-      // Update the table data after successful POST request
-      setData((prevData) => [...prevData, addedProduct]);
-
-      // Optionally, handle success (e.g., close the modal)
-      closeModal();
-    } catch (error) {
-      console.error('Error adding product:', error);
-      // Optionally, handle error (e.g., show an error message)
-    }
-  };
-
   // Handle Product Deletion
   const handleProductDelete = async () => {
     try {
@@ -128,41 +108,18 @@ console.log(data)
   // Define the input fields dynamically for the product modal
   const inputFields = [
     {
-      type: 'text',
-      title: 'Product Name',
-      placeholder: 'Enter product name',
-      id: 'name',
-      value: selectedProduct ? selectedProduct.name : '',
-      onChange: () => {},
-      required: true,
-    },
-    {
       type: 'number',
-      title: 'Price',
-      placeholder: '$2999',
-      id: 'price',
-      value: selectedProduct ? selectedProduct.price : '',
-      onChange: () => {},
-      required: true,
-    },
-    {
-      type: 'select',
-      title: 'Category',
-      placeholder: 'Select category',
-      id: 'category',
-      value: selectedProduct ? selectedProduct.category : '',
-      onChange: () => {},
-      options: categoryOptions,
-      required: true,
-    },
-    {
-      type: 'textarea',
-      title: 'Product Specifications',
-      placeholder: 'Write product description here',
-      id: 'specification',
-      rows: '4',
-      value: selectedProduct ? selectedProduct.specifications : '',
-      onChange: () => {},
+      title: 'Discount Amount (%)',
+      placeholder: 'Enter discount percentage',
+      id: 'discount',
+      value: discountValue,
+      onChange: (e) => {
+        setDiscountValue((prevDiscount) => ({
+          ...prevDiscount,
+          discountValue: e.target.value,
+        }));
+        console.log(e.target.value)
+      },
       required: true,
     },
   ];
@@ -176,7 +133,7 @@ console.log(data)
           <h2 className="text-xl font-medium text-gray-700">Product List</h2>
           <div className="flex flex-col gap-4">
             <button
-              onClick={() => setIsModalOpen(true)}
+              onClick={() => handleOpenAddPage('add')}
               className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
             >
               Add New Product
@@ -196,21 +153,11 @@ console.log(data)
           data={data} 
           columns={columns} 
           rowClickable={false} 
-          actionClick={handleOpenPage} 
+          actionClick={handleOpenEditPage} 
           deleteAction={true} 
           onSelectionChange={handleSelectionChange} 
           editAction={true}
           actionDelete={openConfirmationModalForDelete}
-        />
-
-        {/* Add New Product Modal */}
-        <DynamicModal
-          isOpen={isModalOpen}
-          closeModal={closeModal}
-          handleFucntion={handleProductAdd}
-          inputFields={inputFields}
-          modalTitle="Create New Product"
-          buttonText="Add Product"
         />
 
         {/* Discount Modal */}
@@ -218,23 +165,7 @@ console.log(data)
           isOpen={isDiscountModalOpen}
           closeModal={() => setIsDiscountModalOpen(false)}
           handleFucntion={handleSaveDiscount}
-          inputFields={[
-            {
-              type: 'number',
-              title: 'Discount Amount (%)',
-              placeholder: 'Enter discount percentage',
-              id: 'discount',
-              value: discountValue,
-              onChange: (e) => {
-                setDiscountValue((prevDiscount) => ({
-                  ...prevDiscount,
-                  discountValue: e.target.value,
-                }));
-                console.log(e.target.value)
-              },
-              required: true,
-            },
-          ]}
+          inputFields={inputFields}
           modalTitle="Apply Discount to Selected Products"
           buttonText="Apply Discount"
         />

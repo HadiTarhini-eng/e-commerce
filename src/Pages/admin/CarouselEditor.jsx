@@ -7,6 +7,7 @@ const CarouselEditor = () => {
   const [carousels, setCarousels] = useState([]);
   const [products, setProducts] = useState([]); // State to hold product data
   const [loading, setLoading] = useState(true);
+  const [imagePreview, setImagePreview] = useState({}); 
 console.log(carousels)
   // Fetch carousel data and products
   useEffect(() => {
@@ -36,8 +37,10 @@ console.log(carousels)
     );
   };
 
-  // Handle image path change (strip out the file name)
+  // Handle image change with preview
   const handleImageChange = (id, file) => {
+    const previewUrl = file ? URL.createObjectURL(file) : null;
+    setImagePreview(prev => ({ ...prev, [id]: previewUrl }));
     handleCarouselChange(id, 'image', file);
   };
 
@@ -94,7 +97,7 @@ console.log(carousels)
     <div className="space-y-6">
       {/* Live Preview */}
       <div className="mt-6">
-        <Carousel slides={carousels} settings={{}} />
+        <Carousel slides={carousels} settings={{}} isAdmin={true} />
       </div>
 
       <div className="space-y-4">
@@ -110,6 +113,17 @@ console.log(carousels)
                 id={`image-upload-${carousel.id}`}
                 onChange={(e) => handleImageChange(carousel.id, e.target.files[0])}
               />
+              
+              {/* Display Image Preview */}
+              {imagePreview[carousel.id] && (
+                <div className="mt-2">
+                  <img
+                    src={imagePreview[carousel.id]}
+                    alt="Image Preview"
+                    className="w-full h-auto rounded-md"
+                  />
+                </div>
+              )}
             </div>
 
             {/* Visibility Toggles */}

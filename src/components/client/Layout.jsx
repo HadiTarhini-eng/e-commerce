@@ -35,21 +35,23 @@ const Layout = () => {
   }
 
   return (
-    <div className="min-h-screen flex flex-col items-center w-full">
-      {/* Toast */}
-      <Toaster />
+    <div className='sm:flex sm:justify-center'>
+      <div className="min-h-screen flex flex-col sm:max-w-[80%] md:max-w-[60%] lg:max-w-[50%] xl:max-w-[35%]">
+        {/* Toast */}
+        <Toaster />
 
-      {/* Navbar */}
-      <div className="sticky top-0 w-full max-w-lg z-50">
-        <Navbar title={pageTitle} />
-      </div>
+        {/* Navbar */}
+        <div className="sticky top-0 w-full max-w-lg z-50">
+          <Navbar title={pageTitle} />
+        </div>
+        
+        {/* Main Content */}
+        <Outlet />
 
-      {/* Main Content */}
-      <Outlet />
-
-      {/* Footer Navigation */}
-      <div className="w-full max-w-lg px-4 mt-4">
-        <FooterNav />
+        {/* Footer Navigation */}
+        <div className="w-full max-w-lg px-4 mt-4">
+          <FooterNav />
+        </div>
       </div>
     </div>
   );

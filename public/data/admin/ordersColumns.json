@@ -25,7 +25,7 @@
       "Header": "Price",
       "accessor": "price",
       "canFilter": true,
-      "width": "15%"
+      "width": "10%"
     },
     {
       "id": 5,
@@ -61,7 +61,7 @@
       "accessor": "status",
       "canFilter": true,
       "Cell": "BadgeCell",
-      "width": "10%"
+      "width": "20%"
     },
     {
       "id": 10,

@@ -1,32 +1,42 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { fetchProductData } from '../../api/adminApi';
+import { fetchCategoryOptions, fetchProductData, postProductData, updateProductData } from '../../api/adminApi';
 import InputField from '../../components/InputField';
-import { calculateDiscount } from '../../utils/discountUtils';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import toast from 'react-hot-toast';
 
 const ProductDetailsPage = () => {
     const { id } = useParams();
-    const [product, setProduct] = useState(null);
-    const [mainImage, setMainImage] = useState('');
-    const [selectedScent, setSelectedScent] = useState(null);
+    const [categoryOptions, setCategoryOptions] = useState([]);
+    const [product, setProduct] = useState({
+        name: '',
+        price: 0,
+        discount: 0,
+        image: null,
+        imageURL: '',
+        scents: [],
+    });
+    const navigate = useNavigate();
+    console.log(product)
 
     // Fetch the product data
     useEffect(() => {
-        const fetchProduct = async () => {
-            try {
-                const productData = await fetchProductData(id);
-                setProduct({
-                    ...productData,
-                });
-                setMainImage(productData.image);
-                console.log(productData);
-            } catch (error) {
-                console.error('Error fetching product data', error);
-            }
-        };
+        if (id !== 'add') {
+            const fetchProduct = async () => {
+                try {
+                    const productData = await fetchProductData(id);
+                    setProduct({
+                        ...productData,
+                    });
+        
+                    const optionsResponse = await fetchCategoryOptions();
+                    setCategoryOptions(optionsResponse);
+                } catch (error) {
+                    console.error('Error fetching product data', error);
+                }
+            };
 
-        fetchProduct();
+            fetchProduct();
+        }
     }, [id]);
 
     // Handle input changes and calculate new price automatically
@@ -34,17 +44,26 @@ const ProductDetailsPage = () => {
         const { value } = e.target;
 
         // Make sure that number inputs can't go below 0
-        const newValue = Math.max(0, value); // Ensures values don't go below 0
+        const newValue = id === 'name' ? value : Math.max(0, value); // Ensure values don't go below 0 for non-name fields
 
-        setProduct(prev => {
-            const updatedProduct = { ...prev, [id]: newValue };
-            if (id === 'price' || id === 'discount') {
-                const discountData = calculateDiscount(updatedProduct); // Calculate new price
-                updatedProduct.newPrice = discountData.newPrice;
-                updatedProduct.discountValue = discountData.discountValue;
-            }
-            return updatedProduct;
-        });
+        setProduct(prev => ({
+            ...prev,
+            [id]: newValue
+        }));
+    };
+
+    const calculateDiscountedPrice = (price, discount) => {
+        const discountedPrice = price - (price * (discount / 100));
+        return discountedPrice % 1 === 0 ? discountedPrice.toFixed(0) : discountedPrice.toFixed(2);
+    };
+
+    // Handle category change
+    const handleCategoryChange = (categoryId) => {
+        const selectedCategory = categoryOptions.find(category => category.id === parseInt(categoryId));
+        setProduct(prev => ({
+            ...prev,
+            category: selectedCategory ? selectedCategory.title : '', // Update the category field
+        }));
     };
 
     // Handle scent name changes (Editable)
@@ -68,18 +87,26 @@ const ProductDetailsPage = () => {
         }));
     };
 
-    // Handle file input (image changes for scents)
     const handleFileChange = (e, scentID) => {
         const file = e.target.files[0];
-        const newImagePath = URL.createObjectURL(file);
-        setProduct(prev => ({
-            ...prev,
-            scents: prev.scents.map(scent =>
-                scent.scentID === scentID
-                    ? { ...scent, ScentImages: [...scent.ScentImages, { id: Date.now(), path: newImagePath }] }
-                    : scent
-            )
-        }));
+        const newImagePath = URL.createObjectURL(file); // Create temporary URL for display
+
+        if (scentID === 'mainImage') {
+            setProduct(prev => ({
+                ...prev,
+                image: file, // Save the actual file object in the 'image' field of the product
+                imageURL: newImagePath // Save the temporary URL for display purposes
+            }));
+        } else {
+            setProduct(prev => ({
+                ...prev,
+                scents: prev.scents.map(scent =>
+                    scent.scentID === scentID
+                        ? { ...scent, ScentImages: [...scent.ScentImages, { id: Date.now(), file: file, imageURL: newImagePath }] }
+                        : scent
+                )
+            }));
+        }
     };
 
     // Remove scent image
@@ -110,14 +137,34 @@ const ProductDetailsPage = () => {
         }));
     };
 
-    // Save changes
+    // Handle scent first image selection
+    const handleScentFirstImageChange = (scentID, image) => {
+        setProduct(prev => ({
+            ...prev,
+            scents: prev.scents.map(scent =>
+                scent.scentID === scentID
+                    ? { ...scent, scentFirstImage: image } // Set the selected image as the first image
+                    : scent
+            )
+        }));
+    };
+
+    // Function to save changes
     const handleSaveChanges = async () => {
         try {
-            const productId = 1; // Replace with dynamic productId if needed
-            await axios.put(`/api/products/${productId}`, product); // Adjust URL and method as needed
-            alert("Product updated successfully!");
+            let result;
+            if (id === 'add') {
+                result = await postProductData(product); // Create a new product
+                toast.success("Product created successfully!");
+                navigate('/productTable'); // Redirect to products list after successful addition
+            } else {
+                result = await updateProductData(product); // Update an existing product
+                toast.success("Product updated successfully!");
+                navigate('/productTable');
+            }
         } catch (error) {
             console.error("Error saving product data", error);
+            toast.error("There was an error saving the product data.");
         }
     };
 
@@ -131,7 +178,7 @@ const ProductDetailsPage = () => {
                     {/* Product Image */}
                     <div className="w-full md:w-1/2 px-4 mb-8">
                         <img
-                            src={mainImage}
+                            src={product.imageURL}
                             alt="Product"
                             className="w-full h-auto rounded-lg shadow-md mb-4"
                         />
@@ -139,7 +186,7 @@ const ProductDetailsPage = () => {
                             type="file"
                             title="Change Product Image"
                             id="image"
-                            onChange={(e) => handleFileChange(e, null)}
+                            onChange={(e) => handleFileChange(e, 'mainImage')}
                         />
                     </div>
 
@@ -151,17 +198,36 @@ const ProductDetailsPage = () => {
                             placeholder="Product Name"
                             id="name"
                             value={product.name}
-                            onChange={handleInputChange}
+                            onChange={(e) => handleInputChange(e, 'name')}
                         />
+
+                        {/* Category Select Input */}
+                        <div>
+                            <label htmlFor="categorySelect" className="block text-sm font-medium text-gray-700">Select Category</label>
+                            <select
+                                id="categorySelect"
+                                name="category"
+                                value={product.category} // Use product state for category
+                                onChange={(e) => handleCategoryChange(e.target.value)} // Call the handleCategoryChange function
+                                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                            >
+                                <option disabled value="">Select a category</option>
+                                {categoryOptions.map((category) => (
+                                    <option key={category.id} value={category.id}>
+                                        {category.title}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
 
                         {/* Price, Discount */}
                         <div>
                             <span className="text-2xl font-bold mr-2">
-                                {/* ${product.newPrice.toFixed(2)} */}
+                                ${calculateDiscountedPrice(product.price, product.discount)}
                             </span>
-                            {product.oldPrice && (
+                            {product.price && (
                                 <span className="text-gray-500 line-through">
-                                    ${product.oldPrice.toFixed(2)}
+                                    ${product.price.toFixed(2)}
                                 </span>
                             )}
                         </div>
@@ -171,7 +237,7 @@ const ProductDetailsPage = () => {
                             placeholder="Price"
                             id="price"
                             value={product.price}
-                            onChange={handleInputChange}
+                            onChange={(e) => handleInputChange(e, 'price')}
                         />
                         <InputField
                             type="number"
@@ -179,22 +245,15 @@ const ProductDetailsPage = () => {
                             placeholder="Discount"
                             id="discount"
                             value={product.discount}
-                            onChange={handleInputChange}
-                            min="0" // Ensure it can't go below 0
+                            onChange={(e) => handleInputChange(e, 'discount')}
+                            min="0"
                         />
 
                         {/* Scents */}
                         <div>
                             <h3 className="text-lg font-semibold mb-2">Scents:</h3>
                             {product.scents.map((scent, idx) => (
-                                <div key={scent.scentID} className="flex items-center space-x-2 mb-2">
-                                    <button
-                                        type="button"
-                                        onClick={() => setSelectedScent(scent.scentID)}
-                                        className={`px-4 py-2 rounded ${selectedScent === scent.scentID ? 'bg-blue-500 text-white' : 'bg-gray-200 text-black'}`}
-                                    >
-                                        Select
-                                    </button>
+                                <div key={scent.scentID} className="flex flex-col mb-4">
                                     <InputField
                                         type="text"
                                         title={`Scent ${idx + 1}`}
@@ -202,12 +261,59 @@ const ProductDetailsPage = () => {
                                         onChange={(e) => handleScentNameChange(scent.scentID, e.target.value)}
                                         placeholder="Scent Name"
                                     />
+
+                                    {/* Displaying scent images with border on select */}
+                                    <div className="flex flex-wrap gap-4 mt-2">
+                                        {scent.ScentImages.map((image) => (
+                                            <div
+                                                key={image.id}
+                                                className={`relative cursor-pointer p-1 border-2 rounded-lg ${scent.scentFirstImage?.id === image.id ? 'border-blue-500' : 'border-gray-300'}`}
+                                                onClick={() => handleScentFirstImageChange(scent.scentID, image)}
+                                            >
+                                                <img
+                                                    src={image.imageURL}
+                                                    alt="Scent"
+                                                    className="w-24 h-24 object-cover rounded-md"
+                                                />
+                                                <button
+                                                    type="button"
+                                                    onClick={() => handleRemoveImage(scent.scentID, image.id)}
+                                                    className="absolute top-0 right-0 bg-red-500 text-white rounded-full w-4 h-4 text-xs"
+                                                >
+                                                    X
+                                                </button>
+                                            </div>
+                                        ))}
+                                    </div>
+
+                                    {/* Stock Input for Scent */}
+                                    <div className="mt-4">
+                                        <InputField
+                                            type="number"
+                                            title="Scent Stock"
+                                            placeholder="Stock"
+                                            id="scentStock"
+                                            value={scent.scentStock}
+                                            onChange={(e) => handleScentChange(scent.scentID, 'scentStock', e.target.value)}
+                                            min="0" // Ensure stock can't go below 0
+                                        />
+                                    </div>
+
+                                    {/* Add First Image for Scent */}
+                                    <InputField
+                                        type="file"
+                                        title="Add Image"
+                                        id={`scentImage-${scent.scentID}`}
+                                        onChange={(e) => handleFileChange(e, scent.scentID)}
+                                    />
+
+                                    {/* Remove Scent */}
                                     <button
                                         type="button"
                                         onClick={() => handleRemoveScent(scent.scentID)}
-                                        className="px-4 py-2 bg-red-500 text-white rounded"
+                                        className="mt-2 px-4 py-2 bg-red-500 text-white rounded"
                                     >
-                                        Remove
+                                        Remove Scent
                                     </button>
                                 </div>
                             ))}
@@ -218,45 +324,6 @@ const ProductDetailsPage = () => {
                             >
                                 Add Scent
                             </button>
-
-                            {/* Scent Image Thumbnails */}
-                            {selectedScent && (
-                                <div>
-                                    {product.scents
-                                        .find(scent => scent.scentID === selectedScent)
-                                        .ScentImages.map((image, idx) => (
-                                            <div key={image.id} className="flex items-center space-x-2">
-                                                <img src={image.path} alt={`Scent Image ${idx + 1}`} className="w-16 h-16 object-cover rounded" />
-                                                <button
-                                                    type="button"
-                                                    onClick={() => handleRemoveImage(selectedScent, image.id)}
-                                                    className="px-2 py-1 bg-red-500 text-white rounded"
-                                                >
-                                                    Remove
-                                                </button>
-                                            </div>
-                                        ))}
-                                    <InputField
-                                        type="file"
-                                        title="Add Scent Image"
-                                        id="scentImage"
-                                        onChange={(e) => handleFileChange(e, selectedScent)}
-                                    />
-
-                                    {/* Stock Input for Scent */}
-                                    <div className="mt-4">
-                                        <InputField
-                                            type="number"
-                                            title="Scent Stock"
-                                            placeholder="Stock"
-                                            id="scentStock"
-                                            value={product.scents.find(scent => scent.scentID === selectedScent).scentStock}
-                                            onChange={(e) => handleScentChange(selectedScent, 'scentStock', e.target.value)}
-                                            min="0" // Ensure stock can't go below 0
-                                        />
-                                    </div>
-                                </div>
-                            )}
                         </div>
 
                         <button

@@ -87,19 +87,32 @@ const CheckoutForm = () => {
   
     if (name === 'deliveryMethod') {
       const { id, label, deliveryPrice } = selectedMethod;
-      
-      let adjustedDeliveryPrice = totalWithoutDelivery > deliveryThreshold ? 0 : parseFloat(deliveryPrice); // Set delivery price to 0 if totalWithoutDelivery > 75
 
-      // Dispatch the delivery method with the adjusted delivery price
-      dispatch(updateCheckoutData({
-        field: name,
-        value: { id, label, deliveryPrice: adjustedDeliveryPrice },
-      }));
-  
-      const totalWithDelivery = totalWithoutDelivery + adjustedDeliveryPrice;
+      if(freeDelivery) {
+        let adjustedDeliveryPrice = totalWithoutDelivery > deliveryThreshold ? 0 : parseFloat(deliveryPrice); // Set delivery price to 0 if totalWithoutDelivery > 75
 
-      // Dispatch the total with delivery
-      dispatch(updateCheckoutData({ field: 'totalWithDelivery', value: totalWithDelivery }));
+        // Dispatch the delivery method with the adjusted delivery price
+        dispatch(updateCheckoutData({
+          field: name,
+          value: { id, label, deliveryPrice: adjustedDeliveryPrice },
+        }));
+    
+        const totalWithDelivery = totalWithoutDelivery + adjustedDeliveryPrice;
+
+        // Dispatch the total with delivery
+        dispatch(updateCheckoutData({ field: 'totalWithDelivery', value: totalWithDelivery }));
+      } else {
+        // Dispatch the delivery method with the adjusted delivery price
+        dispatch(updateCheckoutData({
+          field: name,
+          value: { id, label, deliveryPrice: parseFloat(deliveryPrice) },
+        }));
+    
+        const totalWithDelivery = totalWithoutDelivery + parseFloat(deliveryPrice);
+
+        // Dispatch the total with delivery
+        dispatch(updateCheckoutData({ field: 'totalWithDelivery', value: totalWithDelivery }));
+      }
     } else {
       // Dispatch paymentMethod id and label for payment method
       dispatch(updateCheckoutData({

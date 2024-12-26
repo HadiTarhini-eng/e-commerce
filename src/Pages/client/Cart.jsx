@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import { useDispatch, useSelector } from 'react-redux'; // Import Redux hooks
 import { removeFromCart, updateQuantity, updateCheckoutData } from '../../redux/cartSlice'; // Import actions from cartSlice
 import { useAuth } from '../../../src/components/client/AuthContext';
-import { fetchOrderNumber } from '../../api/clientApi';
+import { fetchOrderNumber, fetchFirstOrderOffer } from '../../api/clientApi';
 import { format } from 'crypto-js';
 
 const Cart = () => {
@@ -13,6 +13,8 @@ const Cart = () => {
   const cartItems = useSelector(state => state.cart.cart); // Get cart items from Redux store
   const { userId } = useAuth();
   const [orderNumber, setOrderNumber] = useState(null);
+  const [isFirstOffer, setIsFirstOffer] = useState([]);
+  const [firstOfferAmount, setFirstOfferAmount] = useState([]);
   const [error, setError] = useState(null);
   console.log(cartItems)
   // Scroll to top when the component is mounted
@@ -38,14 +40,28 @@ const Cart = () => {
     fetchData();
   }, [userId]);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const firstOrderOffer = await fetchFirstOrderOffer();
+        setIsFirstOffer(firstOrderOffer.isFirstOffer);
+        setFirstOfferAmount(firstOrderOffer.firstOfferAmount);
+      } catch (err) {
+        setError(err.message);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   // Calculate subtotal and total (fixed delivery charge)
   const calculateTotals = () => {
     const subtotal = cartItems.reduce((acc, product) => acc + product.newPrice * product.quantity, 0);
     let result = {};
-    if (orderNumber === 0) {
+    if (orderNumber === 0 && isFirstOffer) {
       result = {
         originalPrice: subtotal,
-        newPrice: (subtotal - (subtotal * 0.1)).toFixed(1)
+        newPrice: (subtotal - (subtotal * (firstOfferAmount/100))).toFixed(2)
       }
       return result;
     }

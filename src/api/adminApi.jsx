@@ -445,6 +445,7 @@ export const fetchStatusData = async () => {
 
 ///////////// FETCH ///////////////////// Product Details ///////////// FETCH /////////////////////
 
+// fetch product data
 export const fetchProductData = async (productId) => {
   try {
     const response = await axios.get('/data/admin/productDetails.json');  // Adjust the path based on your project setup
@@ -461,6 +462,28 @@ export const fetchProductData = async (productId) => {
   } catch (error) {
     console.error('Error fetching product data', error);
     throw new Error('Error fetching product data');
+  }
+};
+
+// Function to update product data
+export const updateProductData = async (product) => {
+  try {
+      const response = await axios.post('/api/products', product); // Adjust URL as needed
+      return response.data; // Return response data if needed
+  } catch (error) {
+      console.error("Error saving product data", error);
+      throw new Error("Error saving product data");
+  }
+};
+
+// Function to post product data
+export const postProductData = async (product) => {
+  try {
+      const response = await axios.post('/api/products', product); // Adjust URL as needed
+      return response.data; // Return response data if needed
+  } catch (error) {
+      console.error("Error saving product data", error);
+      throw new Error("Error saving product data");
   }
 };
 
