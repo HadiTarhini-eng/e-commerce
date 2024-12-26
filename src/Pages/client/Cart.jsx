@@ -212,8 +212,8 @@ const Cart = () => {
               )}
             </h6>
           </div>
-          {orderNumber === 0 && (
-            <p className="font-manrope font-medium text-md text-center sm:text-2xl text-red-600">10% Discount on your first order!</p>
+          {orderNumber === 0 && isFirstOffer && (
+            <p className="font-manrope font-medium text-md text-center sm:text-2xl text-red-600">{firstOfferAmount}% Discount on your first order!</p>
           )}
 
           {/* Continue to Payment Button */}
