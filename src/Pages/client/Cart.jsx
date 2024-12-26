@@ -128,7 +128,7 @@ const Cart = () => {
           ) : (
             cartItems.map((product, index) => (
               <div key={index} className="bg-white w-[90%] grid grid-cols-1 lg:grid-cols-2 shadow-md border-2 border-gray-200 rounded-lg m-2 py-3">
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-4 w-full max-xl:max-w-xl max-xl:mx-auto">
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-20 w-full max-xl:max-w-xl max-xl:mx-auto">
                   {/* Left side - Image and Product Name */}
                   <div className="flex items-center gap-2 w-full">
                     <div className="img-box min-w-[100px] max-w-[100px] sm:w-[250px]">
@@ -146,7 +146,7 @@ const Cart = () => {
                   </div>
 
                   {/* Right side - Quantity controls and Remove button */}
-                  <div className="flex flex-col items-center w-full max-w-[220px] sm:max-w-[250px]">
+                  <div className="flex flex-col items-center justify-center w-full max-w-[220px] sm:max-w-[250px]">
                     <div className="flex items-center gap-2">
                       {/* Decrement Button */}
                       <button
