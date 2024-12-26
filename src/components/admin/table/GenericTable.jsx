@@ -158,8 +158,8 @@ const GenericTable = ({
               </th>
             )}
             {columns.map((column, index) => (
-              <th key={index} className="px-4 py-2" style={{ width: column.width }}>
-                <span className="flex items-center">
+              <th key={index} className=" px-8 py-2" style={{ width: column.width }}>
+                <span className="flex items-center justify-center">
                   {column.Header}
                 </span>
               </th>
@@ -185,7 +185,7 @@ const GenericTable = ({
                 </td>
               )}
               {columns.map((column, index) => (
-                <td key={index} className="border px-4 py-2">
+                <td key={index} className="text-center border px-4 py-2">
                   {renderCell({ value: row[column.accessor] }, column, row)}
                 </td>
               ))}

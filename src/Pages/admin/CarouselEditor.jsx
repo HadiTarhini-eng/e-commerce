@@ -104,6 +104,16 @@ console.log(carousels)
         {carousels.map((carousel) => (
           <div key={carousel.id} className="border p-4 rounded-lg">
             <h3 className="text-xl font-semibold mb-2">Slide {carousel.id}</h3>
+            {/* Display Image Preview */}
+            {imagePreview[carousel.id] && (
+              <div className="mt-2">
+                <img
+                  src={imagePreview[carousel.id]}
+                  alt="Image Preview"
+                  className="w-full h-auto rounded-md max-w-[200px]"
+                />
+              </div>
+            )}
 
             {/* Image Upload for Background */}
             <div className="mb-4">
@@ -113,17 +123,6 @@ console.log(carousels)
                 id={`image-upload-${carousel.id}`}
                 onChange={(e) => handleImageChange(carousel.id, e.target.files[0])}
               />
-              
-              {/* Display Image Preview */}
-              {imagePreview[carousel.id] && (
-                <div className="mt-2">
-                  <img
-                    src={imagePreview[carousel.id]}
-                    alt="Image Preview"
-                    className="w-full h-auto rounded-md"
-                  />
-                </div>
-              )}
             </div>
 
             {/* Visibility Toggles */}

@@ -96,7 +96,7 @@ const DynamicModal = ({ isOpen, closeModal, handleFucntion, inputFields, modalTi
               <img
                 src={imagePreview}
                 alt="File preview"
-                className="max-w-full h-auto rounded"
+                className="max-w-[200px] h-auto rounded"
               />
             </div>
           )}

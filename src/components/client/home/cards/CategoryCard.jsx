@@ -13,13 +13,13 @@ const CategoryCard = ({ image, title, onClick }) => {
   return (
     <div
       onClick={handleCardClick}
-      className={`relative p-2 max-w-[16rem] rounded-lg shadow-sm 
-        cursor-pointer transition-all duration-300 ease-in-out transform bg-palette-white
-        ${isActive ? 'border-2 border-palette-mimi-pink-2' : 'border-2 border-grey-700'}`} // Background and text color based on active state
+      className={`relative p-2 sm:p-3 md:p-4 max-w-[16rem] sm:max-w-[18rem] md:max-w-[20rem] lg:max-w-[24rem] w-[70px] sm:w-[100px] md:w-[140px] lg:w-[180px] rounded-lg shadow-sm 
+    cursor-pointer transition-all duration-300 ease-in-out transform bg-palette-white
+    ${isActive ? 'border-2 border-palette-mimi-pink-2' : 'border-2 border-grey-700'}`}
     >
       <div className="flex justify-center mb-2">
         <img
-          className="w-full h-full object-cover rounded-full"
+          className="w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 lg:w-24 lg:h-24 object-cover rounded-full"
           src={`/images/categories/${image}`}
           alt={title}
         />
@@ -27,9 +27,9 @@ const CategoryCard = ({ image, title, onClick }) => {
 
       {/* Title with responsive font size and text truncation */}
       <h3
-        className='text-center font-semibold transition-colors duration-300'
+        className="text-center font-semibold transition-colors duration-300 truncate"
         style={{
-          fontSize: 'clamp(0.875rem, 2.5vw, 1rem)', // Responsive font size
+          fontSize: 'clamp(0.875rem, 2.5vw, 1.25rem)', // Adjusted responsive font size
         }}
       >
         {title}

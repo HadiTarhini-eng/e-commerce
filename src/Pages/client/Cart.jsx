@@ -127,7 +127,7 @@ const Cart = () => {
             <div className="text-center text-3xl font-bold text-gray-600 mt-10">Your cart is empty!</div>
           ) : (
             cartItems.map((product, index) => (
-              <div key={index} className="bg-white w-[80%] grid grid-cols-1 lg:grid-cols-2 shadow-md border-2 border-gray-200 rounded-lg m-2 py-3">
+              <div key={index} className="bg-white w-[90%] grid grid-cols-1 lg:grid-cols-2 shadow-md border-2 border-gray-200 rounded-lg m-2 py-3">
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-4 w-full max-xl:max-w-xl max-xl:mx-auto">
                   {/* Left side - Image and Product Name */}
                   <div className="flex items-center gap-2 w-full">

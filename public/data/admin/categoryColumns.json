@@ -1,7 +1,7 @@
 [
     {
       "id": 1,
-      "Header": "Category ID",
+      "Header": "ID",
       "accessor": "id",
       "width": "10%",
       "canFilter": true

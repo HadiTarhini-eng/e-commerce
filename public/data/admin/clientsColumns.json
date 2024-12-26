@@ -1,7 +1,7 @@
 [
     {
       "id": 1,
-      "Header": "Client ID",
+      "Header": "ID",
       "accessor": "id",
       "width": "10%",
       "canFilter": true
@@ -22,17 +22,17 @@
     },
     {
       "id": 4,
-      "Header": "Phone Number",
+      "Header": "Phone",
       "accessor": "phoneNumber",
       "canFilter": true,
-      "width": "15%"
+      "width": "20%"
     },
     {
       "id": 5,
       "Header": "Password",
       "accessor": "password",
       "canFilter": true,
-      "width": "10%"
+      "width": "20%"
     },
     {
       "id": 6,

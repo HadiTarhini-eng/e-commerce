@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { fetchCategoryOptions, fetchProductData, postProductData, updateProductData } from '../../api/adminApi';
+import { fetchCategoryOptions, fetchProductData, postProductData, updateProductData, fetchScentOptions } from '../../api/adminApi';
 import InputField from '../../components/InputField';
 import { useNavigate, useParams } from 'react-router-dom';
 import toast from 'react-hot-toast';
@@ -7,6 +7,7 @@ import toast from 'react-hot-toast';
 const ProductDetailsPage = () => {
     const { id } = useParams();
     const [categoryOptions, setCategoryOptions] = useState([]);
+    const [scentOptions, setScentOptions] = useState([]);
     const [product, setProduct] = useState({
         name: '',
         price: 0,
@@ -27,9 +28,12 @@ const ProductDetailsPage = () => {
                     setProduct({
                         ...productData,
                     });
-        
-                    const optionsResponse = await fetchCategoryOptions();
-                    setCategoryOptions(optionsResponse);
+
+                    const categoryOptionsResponse = await fetchCategoryOptions();
+                    setCategoryOptions(categoryOptionsResponse);
+
+                    const scentOptionsResponse = await fetchScentOptions();
+                    setScentOptions(scentOptionsResponse);
                 } catch (error) {
                     console.error('Error fetching product data', error);
                 }
@@ -66,12 +70,12 @@ const ProductDetailsPage = () => {
         }));
     };
 
-    // Handle scent name changes (Editable)
-    const handleScentNameChange = (scentID, name) => {
+    // Handle scent name changes
+    const handleScentNameChange = (scentID, selectedName) => {
         setProduct(prev => ({
             ...prev,
             scents: prev.scents.map(scent =>
-                scent.scentID === scentID ? { ...scent, scentName: name } : scent
+                scent.scentID === scentID ? { ...scent, scentName: selectedName } : scent
             )
         }));
     };
@@ -175,7 +179,10 @@ const ProductDetailsPage = () => {
             <div className="container mx-auto px-4 py-8">
                 <div className="flex flex-col -mx-4">
 
+                    {/* Product Details */}
+                    <h2 className="text-2xl font-bold text-gray-800 border-b-2 border-gray-300 pb-2 mb-4">Product Details</h2>
                     {/* Product Image */}
+                    <h2 className="text-lg font-bold text-gray-800 pb-2 mb-4">Image:</h2>
                     <div className="w-full md:w-1/2 px-4 mb-8">
                         <img
                             src={product.imageURL}
@@ -191,148 +198,167 @@ const ProductDetailsPage = () => {
                     </div>
 
                     {/* Product Details */}
-                    <div className="w-full md:w-1/2 px-4">
-                        <InputField
-                            type="text"
-                            title="Product Name"
-                            placeholder="Product Name"
-                            id="name"
-                            value={product.name}
-                            onChange={(e) => handleInputChange(e, 'name')}
-                        />
+                    <h2 className="text-lg font-bold text-gray-800 pb-2">Name:</h2>
+                    <InputField
+                        type="text"
+                        title="Product Name"
+                        placeholder="Product Name"
+                        id="name"
+                        value={product.name}
+                        onChange={(e) => handleInputChange(e, 'name')}
+                    />
 
-                        {/* Category Select Input */}
-                        <div>
-                            <label htmlFor="categorySelect" className="block text-sm font-medium text-gray-700">Select Category</label>
-                            <select
-                                id="categorySelect"
-                                name="category"
-                                value={product.category} // Use product state for category
-                                onChange={(e) => handleCategoryChange(e.target.value)} // Call the handleCategoryChange function
-                                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                            >
-                                <option disabled value="">Select a category</option>
-                                {categoryOptions.map((category) => (
-                                    <option key={category.id} value={category.id}>
-                                        {category.title}
-                                    </option>
-                                ))}
-                            </select>
-                        </div>
-
-                        {/* Price, Discount */}
-                        <div>
-                            <span className="text-2xl font-bold mr-2">
-                                ${calculateDiscountedPrice(product.price, product.discount)}
-                            </span>
-                            {product.price && (
-                                <span className="text-gray-500 line-through">
-                                    ${product.price.toFixed(2)}
-                                </span>
-                            )}
-                        </div>
-                        <InputField
-                            type="number"
-                            title="Price"
-                            placeholder="Price"
-                            id="price"
-                            value={product.price}
-                            onChange={(e) => handleInputChange(e, 'price')}
-                        />
-                        <InputField
-                            type="number"
-                            title="Discount"
-                            placeholder="Discount"
-                            id="discount"
-                            value={product.discount}
-                            onChange={(e) => handleInputChange(e, 'discount')}
-                            min="0"
-                        />
-
-                        {/* Scents */}
-                        <div>
-                            <h3 className="text-lg font-semibold mb-2">Scents:</h3>
-                            {product.scents.map((scent, idx) => (
-                                <div key={scent.scentID} className="flex flex-col mb-4">
-                                    <InputField
-                                        type="text"
-                                        title={`Scent ${idx + 1}`}
-                                        value={scent.scentName}
-                                        onChange={(e) => handleScentNameChange(scent.scentID, e.target.value)}
-                                        placeholder="Scent Name"
-                                    />
-
-                                    {/* Displaying scent images with border on select */}
-                                    <div className="flex flex-wrap gap-4 mt-2">
-                                        {scent.ScentImages.map((image) => (
-                                            <div
-                                                key={image.id}
-                                                className={`relative cursor-pointer p-1 border-2 rounded-lg ${scent.scentFirstImage?.id === image.id ? 'border-blue-500' : 'border-gray-300'}`}
-                                                onClick={() => handleScentFirstImageChange(scent.scentID, image)}
-                                            >
-                                                <img
-                                                    src={image.imageURL}
-                                                    alt="Scent"
-                                                    className="w-24 h-24 object-cover rounded-md"
-                                                />
-                                                <button
-                                                    type="button"
-                                                    onClick={() => handleRemoveImage(scent.scentID, image.id)}
-                                                    className="absolute top-0 right-0 bg-red-500 text-white rounded-full w-4 h-4 text-xs"
-                                                >
-                                                    X
-                                                </button>
-                                            </div>
-                                        ))}
-                                    </div>
-
-                                    {/* Stock Input for Scent */}
-                                    <div className="mt-4">
-                                        <InputField
-                                            type="number"
-                                            title="Scent Stock"
-                                            placeholder="Stock"
-                                            id="scentStock"
-                                            value={scent.scentStock}
-                                            onChange={(e) => handleScentChange(scent.scentID, 'scentStock', e.target.value)}
-                                            min="0" // Ensure stock can't go below 0
-                                        />
-                                    </div>
-
-                                    {/* Add First Image for Scent */}
-                                    <InputField
-                                        type="file"
-                                        title="Add Image"
-                                        id={`scentImage-${scent.scentID}`}
-                                        onChange={(e) => handleFileChange(e, scent.scentID)}
-                                    />
-
-                                    {/* Remove Scent */}
-                                    <button
-                                        type="button"
-                                        onClick={() => handleRemoveScent(scent.scentID)}
-                                        className="mt-2 px-4 py-2 bg-red-500 text-white rounded"
-                                    >
-                                        Remove Scent
-                                    </button>
-                                </div>
-                            ))}
-                            <button
-                                type="button"
-                                onClick={handleAddScent}
-                                className="px-4 py-2 bg-green-500 text-white rounded"
-                            >
-                                Add Scent
-                            </button>
-                        </div>
-
-                        <button
-                            onClick={handleSaveChanges}
-                            className="mt-4 bg-blue-500 text-white px-4 py-2 rounded"
+                    {/* Category Select Input */}
+                    <h2 className="text-lg font-bold text-gray-800 pb-2 mt-8">Category:</h2>
+                    <div>
+                        <label htmlFor="categorySelect" className="block text-sm font-medium text-gray-700">Select Category</label>
+                        <select
+                            id="categorySelect"
+                            name="category"
+                            placeholder-={product.category}
+                            value={product.category} // Use product state for category
+                            onChange={(e) => handleCategoryChange(e.target.value)} // Call the handleCategoryChange function
+                            className="mt-1 w-fit block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                         >
-                            Save Changes
+                            <option disabled value="">Select a category</option>
+                            {categoryOptions.map((category) => (
+                                <option key={category.id} value={category.id}>
+                                    {category.title}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+
+                    {/* Price, Discount */}
+                    <h2 className="text-lg font-bold text-gray-800 pb-2 mt-8">Price:</h2>
+                    <div>
+                        <span className="text-2xl font-bold mr-2">
+                            ${calculateDiscountedPrice(product.price, product.discount)}
+                        </span>
+                        {product.price && (
+                            <span className="text-gray-500 line-through">
+                                ${product.price.toFixed(2)}
+                            </span>
+                        )}
+                    </div>
+                    <InputField
+                        type="number"
+                        title="Price"
+                        placeholder="Price"
+                        id="price"
+                        value={product.price}
+                        onChange={(e) => handleInputChange(e, 'price')}
+                    />
+                    <InputField
+                        type="number"
+                        title="Discount"
+                        placeholder="Discount"
+                        id="discount"
+                        value={product.discount}
+                        onChange={(e) => handleInputChange(e, 'discount')}
+                        min="0"
+                    />
+
+                    <h2 className="text-2xl font-bold text-gray-800 border-b-2 border-gray-300 pb-2 mt-12">Scents</h2>
+                    {/* Scents */}
+                    <div className='mt-4'>
+                        {product.scents.map((scent, idx) => (
+                            <div key={scent.scentID} className="flex flex-col mb-4">
+                                <div>
+                                    <label htmlFor={`scent-select-${scent.scentID}`} className="text-sm font-medium">
+                                        {`Scent ${idx + 1}`}
+                                    </label>
+                                    <select
+                                        id={`scent-select-${scent.scentID}`}
+                                        value={scent.scentName} // Controls the currently selected value
+                                        onChange={(e) => handleScentNameChange(scent.scentID, e.target.value)}
+                                        className="w-full px-3 py-2 border rounded"
+                                        placeholder="Scent Name"
+                                    >
+                                        {/* Placeholder option */}
+                                        <option value="" disabled>
+                                            Scent Name
+                                        </option>
+                                        {/* Map options */}
+                                        {scentOptions.map((option, idx) => (
+                                            <option key={idx} value={option.scentName}>
+                                                {option.scentName}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </div>
+
+                                {/* Displaying scent images with border on select */}
+                                <div className="flex flex-wrap gap-4 mt-2">
+                                    {scent.ScentImages.map((image) => (
+                                        <div
+                                            key={image.id}
+                                            className={`relative cursor-pointer p-1 border-2 rounded-lg ${scent.scentFirstImage?.id === image.id ? 'border-blue-500' : 'border-gray-300'}`}
+                                            onClick={() => handleScentFirstImageChange(scent.scentID, image)}
+                                        >
+                                            <img
+                                                src={image.imageURL}
+                                                alt="Scent"
+                                                className="w-24 h-24 object-cover rounded-md"
+                                            />
+                                            <button
+                                                type="button"
+                                                onClick={() => handleRemoveImage(scent.scentID, image.id)}
+                                                className="absolute top-0 right-0 bg-red-500 text-white rounded-full w-4 h-4 text-xs"
+                                            >
+                                                X
+                                            </button>
+                                        </div>
+                                    ))}
+                                </div>
+
+                                {/* Add First Image for Scent */}
+                                <InputField
+                                    type="file"
+                                    title="Add Image"
+                                    id={`scentImage-${scent.scentID}`}
+                                    onChange={(e) => handleFileChange(e, scent.scentID)}
+                                />
+
+                                {/* Stock Input for Scent */}
+                                <div className="mt-4">
+                                    <InputField
+                                        type="number"
+                                        title="Scent Stock"
+                                        placeholder="Stock"
+                                        id="scentStock"
+                                        value={scent.scentStock}
+                                        className="w-fit"
+                                        onChange={(e) => handleScentChange(scent.scentID, 'scentStock', e.target.value)}
+                                        min="0" // Ensure stock can't go below 0
+                                    />
+                                </div>
+
+                                {/* Remove Scent */}
+                                <button
+                                    type="button"
+                                    onClick={() => handleRemoveScent(scent.scentID)}
+                                    className="mt-2 px-4 py-2 bg-red-500 text-white rounded max-w-[140px]"
+                                >
+                                    Remove Scent
+                                </button>
+                            </div>
+                        ))}
+                        <button
+                            type="button"
+                            onClick={handleAddScent}
+                            className="px-4 py-2 bg-green-500 text-white rounded"
+                        >
+                            Add Scent
                         </button>
                     </div>
+
+                    <button
+                        onClick={handleSaveChanges}
+                        className="mt-4 bg-blue-500 text-white px-4 py-2 rounded max-w-[150px]"
+                    >
+                        Save Changes
+                    </button>
                 </div>
             </div>
         </div>

@@ -8,14 +8,14 @@
     },
     {
       "id": 2,
-      "Header": "Product Image",
+      "Header": "Image",
       "accessor": "image",
       "Cell": "ImageCell",
       "width": "15%"
     },
     {
       "id": 3,
-      "Header": "Product Name",
+      "Header": "Name",
       "accessor": "name",
       "canFilter": true,
       "width": "20%"
