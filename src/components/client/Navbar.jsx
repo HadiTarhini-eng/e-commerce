@@ -58,7 +58,7 @@ const Navbar = ({ title }) => {
             <div className="relative">
               <button onClick={toggleMenu} className="flex items-center">
                 <img
-                  src="https://randomuser.me/api/portraits/men/42.jpg"
+                  src="../../src/assets/image/icons/user.png"
                   alt="User Avatar"
                   className="w-8 h-8 rounded-full object-cover"
                 />
