@@ -154,7 +154,7 @@ export const fetchPaymentMethods = async () => {
 // Fetch Delivery Methods Data
 export const fetchDeliveryMethods = async () => {
   try {
-    const response = await axios.get('http://localhost/e-commerce/src/backend/client/deliveryMethods.json');
+    const response = await axios.get('data/client/deliveryMethods.json');
     return response.data; // Return the delivery methods data
   } catch (error) {
     console.error('Error fetching delivery methods:', error);

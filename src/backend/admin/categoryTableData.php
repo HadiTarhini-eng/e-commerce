@@ -18,7 +18,7 @@ if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         $categories[] = [
             "id" => (int) $row['id'],
-            "name" => $row['name'],
+            "title" => $row['name'],
             "image" => $row['image'],
         ];
     }
