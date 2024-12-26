@@ -21,26 +21,25 @@ const ProductDetailsPage = () => {
 
     // Fetch the product data
     useEffect(() => {
-        if (id !== 'add') {
-            const fetchProduct = async () => {
-                try {
+        const fetchProduct = async () => {
+            try {
+                if (id !== 'add') {
                     const productData = await fetchProductData(id);
                     setProduct({
                         ...productData,
                     });
-
-                    const categoryOptionsResponse = await fetchCategoryOptions();
-                    setCategoryOptions(categoryOptionsResponse);
-
-                    const scentOptionsResponse = await fetchScentOptions();
-                    setScentOptions(scentOptionsResponse);
-                } catch (error) {
-                    console.error('Error fetching product data', error);
                 }
-            };
+                const categoryOptionsResponse = await fetchCategoryOptions();
+                setCategoryOptions(categoryOptionsResponse);
 
-            fetchProduct();
-        }
+                const scentOptionsResponse = await fetchScentOptions();
+                setScentOptions(scentOptionsResponse);
+            } catch (error) {
+                console.error('Error fetching product data', error);
+            }
+        };
+
+        fetchProduct();
     }, [id]);
 
     // Handle input changes and calculate new price automatically
