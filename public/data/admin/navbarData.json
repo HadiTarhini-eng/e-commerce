@@ -1,8 +1,8 @@
 {
     "logo": {
-      "image": "https://flowbite.com/docs/images/logo.svg",
-      "link": "https://flowbite.com",
-      "text": "Flowbite",
+      "image": "../../../src/assets/image/icons/blushe.png",
+      "link": "../../../src/assets/image/icons/blushe.png",
+      "text": "",
       "userImage": "https://flowbite.com/docs/images/people/profile-picture-5.jpg"
     },
     "navItems": [
