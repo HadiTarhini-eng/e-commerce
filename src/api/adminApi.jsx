@@ -524,7 +524,7 @@ export const updateProductData = async (product) => {
           });
       }
 
-      const response = await axios.post('/api/products', formData, {
+      const response = await axios.post('http://localhost/e-commerce/src/backend/admin/updateProduct.php', formData, {
           headers: {
               'Content-Type': 'multipart/form-data',
           },
