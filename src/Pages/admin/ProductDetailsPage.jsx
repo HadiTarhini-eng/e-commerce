@@ -78,13 +78,13 @@ const ProductDetailsPage = () => {
         setProduct(prev => ({
             ...prev,
             scents: prev.scents.map(scent =>
-                scent.scentID === scentID 
-                    ? { ...scent, scentID: selectedScentID } 
+                scent.scentID === scentID
+                    ? { ...scent, scentID: selectedScentID }
                     : scent
             ),
         }));
     };
-    
+
 
     // Handle scent input changes (for each scent's stock)
     const handleScentChange = (scentID, field, value) => {
@@ -157,9 +157,19 @@ const ProductDetailsPage = () => {
 
     // Add new scent
     const handleAddScent = () => {
+        // Check if the last scent in the array has an empty scentID
+        const lastScent = product.scents[product.scents.length - 1];
+        if (lastScent && lastScent.scentID === "" && lastScent.scentStock === 0 && lastScent.scentName === "") {
+            toast.error("Please select a name for the previous scent before adding a new one.");
+            return; // Stop if the previous scent has an empty scentID
+        }
+    
         setProduct(prev => ({
             ...prev,
-            scents: [...prev.scents, { scentID: '', scentName: '', ScentImages: [], scentStock: 0 }]
+            scents: [
+                ...prev.scents,
+                { scentID: '', scentName: '', ScentImages: [], scentStock: 0 }
+            ]
         }));
     };
 
@@ -183,12 +193,63 @@ const ProductDetailsPage = () => {
         }));
     };
 
-    // Function to save changes
+    // Function to validate product details
+    const validateProduct = () => {
+        // General validation
+        if (!product.name) {
+            toast.error("Product name is required!");
+            return false;
+        }
+        if (!product.category) {
+            toast.error("Category is required!");
+            return false;
+        }
+        if (product.price < 0) {
+            toast.error("Price cannot be less than 0!");
+            return false;
+        }
+        if (product.discount < 0) {
+            toast.error("Discount cannot be less than 0!");
+            return false;
+        }
+        if (!product.specifications) {
+            toast.error("Specifications are required!");
+            return false;
+        }
+
+        // Validate product image
+        if (!product.image) {
+            toast.error("Product image is required!");
+            return false;
+        }
+
+        // Validate that at least one scent image is selected
+        if (product.scents.some(scent => scent.ScentImages.length === 0)) {
+            toast.error("Each scent must have at least one image!");
+            return false;
+        }
+
+        // Validate scent selection
+        for (const scent of product.scents) {
+            if (!scent.scentID) {
+                toast.error("Each scent must have a valid scent name!");
+                return false;
+            }
+        }
+
+        return true;
+    };
+
+    // Handle Save Changes
     const handleSaveChanges = async () => {
+        const isValid = validateProduct();
+        if (!isValid) return; // Stop if validation fails
+
         setProductSubmit({
             ...product,
             imageURL: undefined,
-        });        
+        });
+
         try {
             let result;
             if (id === 'add') {
@@ -205,6 +266,7 @@ const ProductDetailsPage = () => {
             toast.error("There was an error saving the product data.");
         }
     };
+
 
     if (!product) return <div>Loading...</div>;
 
@@ -313,7 +375,7 @@ const ProductDetailsPage = () => {
                                     </label>
                                     <select
                                         id={`scent-select-${scent.scentID}`}
-                                        value={scent.scentID} 
+                                        value={scent.scentID}
                                         onChange={(e) => handleScentNameChange(scent.scentID, e.target.value)}
                                         className="w-full px-3 py-2 border rounded"
                                     >
