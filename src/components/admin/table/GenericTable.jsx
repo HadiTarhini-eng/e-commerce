@@ -8,7 +8,9 @@ const GenericTable = ({
   columns,
   data,
   rowClickable,
-  actionClick,
+  actionClickEdit,
+  actionClickAdd,
+  actionClickDiscount,
   actionDelete,
   editAction,
   deleteAction,
@@ -16,6 +18,7 @@ const GenericTable = ({
   disableButton,
   showSearch,
   showAdd,
+  showDiscount,
   addName,
   onSelectionChange // Add the new onSelectionChange prop
 }) => {
@@ -58,7 +61,7 @@ const GenericTable = ({
               value="Edit" 
               onClick={(e) => {
                 e.stopPropagation();
-                actionClick && actionClick(row, 'edit'); // Pass action type here
+                actionClickEdit && actionClickEdit(row, 'edit'); // Pass action type here
               }}
             />
           )}
@@ -166,13 +169,27 @@ const GenericTable = ({
           //show add
           <div className='flex flex-col gap-4'>
           <button
-            onClick={() => actionClick()} 
+            onClick={() => actionClickAdd()} 
             className="min-w-[160px] bg-palette-button flex items-center justify-center gap-2 flex-row font-bold text-white px-3 py-2 rounded-xl hover:bg-palette-mimi-pink-2"
           >
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={3} stroke="currentColor" className="size-5">
               <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
             </svg>
             Add {addName}
+          </button>
+        </div>
+        )}
+        {showDiscount && (
+          //show add
+          <div className='flex flex-col gap-4'>
+          <button
+            onClick={() => actionClickDiscount()} 
+            className="min-w-[160px] bg-palette-button flex items-center justify-center gap-2 flex-row font-bold text-white px-3 py-2 rounded-xl hover:bg-palette-mimi-pink-2"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={3} stroke="currentColor" className="size-5">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+            </svg>
+            Add Discount
           </button>
         </div>
         )}

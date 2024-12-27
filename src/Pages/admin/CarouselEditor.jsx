@@ -101,8 +101,8 @@ console.log(carousels)
       </div>
 
       <div className="space-y-4">
-        {carousels.map((carousel) => (
-          <div key={carousel.id} className="border p-4 rounded-lg">
+        {carousels.map((carousel, index) => (
+          <div key={index} className="border p-4 rounded-lg">
             <h3 className="text-xl font-semibold mb-2">Slide {carousel.id}</h3>
             {/* Display Image Preview */}
             {imagePreview[carousel.id] && (
@@ -115,12 +115,24 @@ console.log(carousels)
               </div>
             )}
 
+            {/* Display fetched image */}
+            {carousel.image && (
+              <div className="mt-2">
+                <img
+                  src={`/images/carousel/${carousel.image}`}
+                  alt=""
+                  className="w-full h-auto rounded-md max-w-[200px]"
+                />
+              </div>
+            )}
+
             {/* Image Upload for Background */}
             <div className="mb-4">
               <InputField
                 type="file"
                 title="Upload Background Image"
                 id={`image-upload-${carousel.id}`}
+                placeholder={'PNG, JPG, JPEG'}
                 onChange={(e) => handleImageChange(carousel.id, e.target.files[0])}
               />
             </div>
