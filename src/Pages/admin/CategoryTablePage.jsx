@@ -155,7 +155,8 @@ const CategoryTablePage = () => {
           data={data} 
           columns={columns} 
           rowClickable={false} 
-          actionClick={handleOpenModal} // Open modal for edit/add
+          actionClickEdit={handleOpenModal} // Open modal for edit/add
+          actionClickAdd={handleOpenModal}
           deleteAction={true}
           editAction={true}
           actionDelete={openConfirmationModal} // Pass the delete handler

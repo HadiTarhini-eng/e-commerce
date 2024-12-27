@@ -143,7 +143,8 @@ const ScentsTablePage = () => {
           data={data} 
           columns={columns} 
           rowClickable={false} 
-          actionClick={handleOpenModal} 
+          actionClickEdit={handleOpenModal} 
+          actionClickAdd={handleOpenModal} 
           deleteAction={true}
           editAction={true}
           actionDelete={openConfirmationModalForDelete} // Pass delete action to table
