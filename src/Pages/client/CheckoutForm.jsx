@@ -92,12 +92,12 @@ const CheckoutForm = () => {
 
   const handleChange = (e) => {
     const { id, value } = e.target || e; // Added fallback in case e.target is undefined
-  
+
     setFormData((prevState) => ({
       ...prevState,
       [id]: value,
     }));
-  
+
     // Dispatch to Redux store
     dispatch(updateCheckoutData({ field: id, value }));
   };
@@ -114,22 +114,22 @@ const CheckoutForm = () => {
 
   const handleRadioChange = (e) => {
     const { name, value } = e.target;
-  
+
     // Update formData state to reflect the selected radio button
     setFormData((prevState) => ({
       ...prevState,
       [name]: value, // Set the formData's paymentMethod or deliveryMethod value
     }));
-  
+
     // Find the method by matching the value
     const selectedMethod = (name === 'paymentMethod' ? paymentMethods : deliveryMethods).find(
       (method) => method.value === value
     );
-  
+
     if (name === 'deliveryMethod') {
       const { id, label, deliveryPrice } = selectedMethod;
 
-      if(freeDelivery) {
+      if (freeDelivery) {
         let adjustedDeliveryPrice = totalWithoutDelivery > deliveryThreshold ? 0 : parseFloat(deliveryPrice); // Set delivery price to 0 if totalWithoutDelivery > 75
 
         // Dispatch the delivery method with the adjusted delivery price
@@ -137,7 +137,7 @@ const CheckoutForm = () => {
           field: name,
           value: { id, label, deliveryPrice: adjustedDeliveryPrice },
         }));
-    
+
         const totalWithDelivery = totalWithoutDelivery + adjustedDeliveryPrice;
 
         // Dispatch the total with delivery
@@ -148,7 +148,7 @@ const CheckoutForm = () => {
           field: name,
           value: { id, label, deliveryPrice: parseFloat(deliveryPrice) },
         }));
-    
+
         const totalWithDelivery = totalWithoutDelivery + parseFloat(deliveryPrice);
 
         // Dispatch the total with delivery
@@ -162,7 +162,7 @@ const CheckoutForm = () => {
       }));
     }
   };
-  
+
   const handleGiftCheckboxChange = (e) => {
     const { checked } = e.target;
     setFormData((prevState) => ({
@@ -256,7 +256,7 @@ const CheckoutForm = () => {
                       {errors[field.id] && <p className="text-xs text-red-600">{errors[field.id]}</p>}
                     </div>
                   );
-                } else if(field.type === 'phoneNumber') {
+                } else if (field.type === 'phoneNumber') {
                   return (
                     <div key={field.id}>
                       <InputField
@@ -296,25 +296,27 @@ const CheckoutForm = () => {
           <div className="space-y-4">
             <h3 className="text-xl font-semibold text-gray-900 dark:text-white">Payment Methods</h3>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-              {paymentMethods.map((paymentMethod) => (
-                <div key={paymentMethod.formId} className="rounded-lg border border-gray-200 bg-white p-4 ps-4 dark:border-gray-700 dark:bg-gray-800">
-                  <div className="flex items-start">
-                    <input
-                      id={paymentMethod.id}
-                      type="radio"
-                      name="paymentMethod" // This remains 'paymentMethod' to differentiate in handleRadioChange
-                      value={paymentMethod.value}
-                      checked={formData.paymentMethod === paymentMethod.value}
-                      onChange={handleRadioChange}
-                      className="h-4 w-4 border-gray-300 bg-white text-palette-button"
-                      required
-                    />
-                    <div className="ms-4 text-sm">
-                      <label className="font-medium leading-none text-gray-900 dark:text-white">{paymentMethod.label}</label>
+              {paymentMethods
+                .filter((paymentMethod) => paymentMethod.display !== false) // Filter out paymentMethods where display is false
+                .map((paymentMethod) => (
+                  <div key={paymentMethod.formId} className="rounded-lg border border-gray-200 bg-white p-4 ps-4 dark:border-gray-700 dark:bg-gray-800">
+                    <div className="flex items-start">
+                      <input
+                        id={paymentMethod.id}
+                        type="radio"
+                        name="paymentMethod" // This remains 'paymentMethod' to differentiate in handleRadioChange
+                        value={paymentMethod.value}
+                        checked={formData.paymentMethod === paymentMethod.value}
+                        onChange={handleRadioChange}
+                        className="h-4 w-4 border-gray-300 bg-white text-palette-button"
+                        required
+                      />
+                      <div className="ms-4 text-sm">
+                        <label className="font-medium leading-none text-gray-900 dark:text-white">{paymentMethod.label}</label>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                ))}
             </div>
           </div>
 

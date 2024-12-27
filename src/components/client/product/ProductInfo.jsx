@@ -134,7 +134,7 @@ const ProductInfo = ({ images, dominant, title, newPrice, oldPrice, chipText, ch
                   onClick={() => handleButtonClick(index, scent.scentStock)}
                   className={`px-2 py-0 text-sm text-palette-complement-3 rounded-full transition-colors duration-300 ${
                     scent.scentStock === 0
-                      ? "bg-gray-400 cursor-not-allowed"
+                      ? "bg-gray-200 cursor-not-allowed"
                       : isScentSelected() && activeIndex === index
                       ? "border-2 border-palette-mimi-pink-2" // Only show the border when scent is selected
                       : "border-2 border-grey"

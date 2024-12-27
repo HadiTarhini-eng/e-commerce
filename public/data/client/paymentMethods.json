@@ -5,21 +5,21 @@
         "id": "1",
         "label": "Visa Card",
         "value": "visa-card",
-        "display": true
+        "display": false
       },
       {
         "formId": "5",
         "id": "2",
         "label": "Cash on delivery",
         "value": "pay-on-delivery",
-        "display": false
+        "display": true
       },
       {
         "formId": "6",
         "id": "3",
         "label": "Cash on pickup",
         "value": "cashOnPickup",
-        "display": false
+        "display": true
       }
     ]
   }

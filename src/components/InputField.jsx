@@ -83,7 +83,7 @@ const InputField = ({
             required={required}
             disabled={disabled}
             className={`w-full px-3 py-2 border-2 border-gray rounded-lg 
-              ${value ? 'bg-palette-light-blue' : 'bg-white'} 
+              ${value ? 'bg-white' : 'bg-white'} 
               focus:outline-none focus:ring-2 focus:ring-blue-500`}
           />
           {/* Phone number validation */}
