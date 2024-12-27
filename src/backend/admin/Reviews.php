@@ -3,31 +3,18 @@ include 'connection.php';
 
 header('Content-Type: application/json');
 
-$productID = isset($_GET['productID']) ? $_GET['productID'] : null;
+$input = file_get_contents('php://input');
+$data = json_decode($input, true);
+$id=(int)$data['id'];
 
-if (!$productID) {
-    http_response_code(400);
-    echo json_encode(["error" => "Product ID is required."]);
-    $conn->close();
-    exit();
-}
-
-$query = "SELECT r.id, u.fullName, r.description 
+$query = "SELECT r.id as id , u.fullName as fullName, r.description as description ,r.date as date
           FROM reviews r 
           LEFT JOIN users u ON u.id = r.userID
-          WHERE productID = ?";
+          WHERE r.productID = ?";
 $stmt = $conn->prepare($query);
-$stmt->bind_param("i", $productID);
+$stmt->bind_param("i", $id);
 $stmt->execute();
 $result = $stmt->get_result();
-
-if (!$result) {
-    http_response_code(500); 
-    echo json_encode(["error" => "Failed to execute query."]);
-    $stmt->close();
-    $conn->close();
-    exit();
-}
 
 $reviews = [];
 if ($result->num_rows > 0) {
@@ -36,6 +23,7 @@ if ($result->num_rows > 0) {
             "id" => (int) $row['id'],
             "name" => $row['fullName'],
             "review" => $row['description'],
+            "date"=> $row['date'],
         ];
     }
 }

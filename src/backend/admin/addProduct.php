@@ -59,7 +59,8 @@ foreach ($scents as $scentIndex => $scent) {
     if (isset($_FILES['scents']['name'][$scentIndex]['ScentImages'])) {
         foreach ($_FILES['scents']['name'][$scentIndex]['ScentImages'] as $index => $imageName) {
             if ($_FILES['scents']['error'][$scentIndex]['ScentImages'][$index] === UPLOAD_ERR_OK) {
-                $scentFirstImage=  $_FILES['scents']['name'][$scentIndex]['scentFirstImage'];
+
+                var_dump( $scentFirstImage);
                 $tmpName = $_FILES['scents']['tmp_name'][$scentIndex]['ScentImages'][$index];
                 $imageType = exif_imagetype($tmpName);
                 if ($imageType !== IMAGETYPE_PNG) {
@@ -69,14 +70,15 @@ foreach ($scents as $scentIndex => $scent) {
                 if (!is_writable($uploadDir)) {
                     die("Directory is not writable for scent images.");
                 }
-
+                $scentFirstImage=  $_FILES['scents']['name'][$scentIndex]['scentFirstImage'];
+                $scentImageNamenew = preg_replace("/[^a-zA-Z0-9\-_\.]/", "_", basename($scentFirstImage));
                 $scentImageName = preg_replace("/[^a-zA-Z0-9\-_\.]/", "_", basename($imageName));
                 $scentTargetPath = $uploadDir . DIRECTORY_SEPARATOR . $scentImageName;
                 if (!move_uploaded_file($tmpName, $scentTargetPath)) {
                     die("Failed to move scent image to the target path.");
                 }
 
-                $dominant = ($scentImageName  == $scentFirstImage) ? 1 : 0;
+                $dominant = ($scentImageName  == $scentImageNamenew) ? 1 : 0;
 
                 $stmt = $conn->prepare("INSERT INTO scentImages (productDataID, image, $dominantColumn) VALUES (?, ?, ?)");
                 $stmt->bind_param("isi", $productDataID, $scentImageName, $dominant);

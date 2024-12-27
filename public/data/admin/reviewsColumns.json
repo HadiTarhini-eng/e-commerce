@@ -21,6 +21,13 @@
       "width": "20%"
     },
     {
+      "id": 3,
+      "Header": "Date",
+      "accessor": "date",
+      "canFilter": true,
+      "width": "20%"
+    },
+    {
       "id": 4,
       "Header": "Action",
       "accessor": "action",

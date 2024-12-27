@@ -612,7 +612,7 @@ export const fetchReviewsColumnData = async () => {
 // Fetch REVIEWS Table Data
 export const fetchReviewsTableData = async (productId) => {
   try {
-    const response = await axios.get('http://localhost/e-commerce/src/backend/admin/Reviews.php'); 
+    const response = await axios.post('http://localhost/e-commerce/src/backend/admin/Reviews.php',productId); 
     return response.data;
   } catch (error) {
     throw new Error('Error fetching REVIEWS table data');
