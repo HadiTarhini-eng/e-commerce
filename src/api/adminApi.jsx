@@ -556,6 +556,7 @@ export const postProductData = async (product) => {
       if (product.scents) {
           product.scents.forEach((scent, index) => {
               formData.append(`scents[${index}][scentID]`, scent.scentID);
+              formData.append(`scents[${index}][scentFirstImageID]`, scent.scentFirstImage.id)
               scent.ScentImages.forEach((img, imgIndex) => {
                   formData.append(`scents[${index}][ScentImages][${imgIndex}]`, img.file);
               });

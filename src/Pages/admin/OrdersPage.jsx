@@ -111,7 +111,7 @@ const OrdersPage = () => {
     const lastStatus = statusOptions[statusOptions.length - 1];
 
     // Return an array with the next status and the last status
-    return [currentStatus, nextStatus, lastStatus].filter(Boolean); // Remove undefined values if no next status exists
+    return [nextStatus, lastStatus].filter(Boolean); // Remove undefined values if no next status exists
   };
 
   // Define input fields for the modal
