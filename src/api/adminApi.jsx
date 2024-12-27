@@ -612,7 +612,7 @@ export const fetchReviewsColumnData = async () => {
 // Fetch REVIEWS Table Data
 export const fetchReviewsTableData = async (productId) => {
   try {
-    const response = await axios.get('/data/admin/reviewsData.json'); 
+    const response = await axios.get('http://localhost/e-commerce/src/backend/admin/Reviews.php'); 
     return response.data;
   } catch (error) {
     throw new Error('Error fetching REVIEWS table data');
@@ -625,7 +625,7 @@ export const fetchReviewsTableData = async (productId) => {
 // Post review delete
 export const postReviewDelete = async (reviewId) => {
   try {
-    const response = await axios.post('', reviewId); 
+    const response = await axios.post('http://localhost/e-commerce/src/backend/admin/deleteReview.php', reviewId); 
     return response.data;
   } catch (error) {
     throw new Error('Error deleting review');
