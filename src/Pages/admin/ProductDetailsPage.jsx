@@ -20,8 +20,9 @@ const ProductDetailsPage = () => {
         scents: [],
     });
     const [productSubmit, setProductSubmit] = useState({});
+    const [scentFirstImage, setscentFirstImage] = useState({});
     const navigate = useNavigate();
-    // console.log(product)
+    console.log(product)
 
     // Fetch the product data
     useEffect(() => {
@@ -32,6 +33,16 @@ const ProductDetailsPage = () => {
                     setProduct({
                         ...productData,
                     });
+                    
+                    const scentFirstImageMap = {};
+                    if (productData.scents && Array.isArray(productData.scents)) {
+                        productData.scents.forEach((scent) => {
+                            if (scent.scentID && scent.scentFirstImage) {
+                            scentFirstImageMap[scent.scentID] = scent.scentFirstImage; // Map scent ID to scentFirstImage ID
+                            }
+                            setscentFirstImage(scentFirstImageMap);
+                        });
+                    }
                 }
                 const categoryOptionsResponse = await fetchCategoryOptions();
                 setCategoryOptions(categoryOptionsResponse);
@@ -257,7 +268,7 @@ const ProductDetailsPage = () => {
                 toast.success("Product created successfully!");
                 navigate('/productTable'); // Redirect to products list after successful addition
             } else {
-                result = await updateProductData(product); // Update an existing product
+                result = await updateProductData(product, id); // Update an existing product
                 toast.success("Product updated successfully!");
                 navigate('/productTable');
             }

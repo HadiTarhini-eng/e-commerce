@@ -496,7 +496,7 @@ export const fetchProductData = async (productId) => {
 };
 
 // Function to update product data
-export const updateProductData = async (product) => {
+export const updateProductData = async (product, productId) => {
   try {
       const formData = new FormData();
 
