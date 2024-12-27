@@ -23,6 +23,7 @@ import CategoryTablePage from './Pages/admin/CategoryTablePage';
 import ProductDetailsPage from './Pages/admin/ProductDetailsPage';
 import DiscountSettings from './Pages/admin/DiscountSettings';
 import CarouselEditor from './Pages/admin/CarouselEditor';
+import ProductReviewsPage from './Pages/admin/ProductReviewsPage';
 
 const App = () => {
   return (
@@ -52,6 +53,7 @@ const App = () => {
           <Route path="/scentsTable" element={<ScentsTablePage />} />
           <Route path="/categoryTable" element={<CategoryTablePage />} />
           <Route path="/productDetailsPage/:id" element={<ProductDetailsPage />} />
+          <Route path="/productReviews/:id" element={<ProductReviewsPage />} />
           <Route path="/discountSettings" element={<DiscountSettings />} />
           <Route path="/carouselEditor" element={<CarouselEditor />} />
         </Route>

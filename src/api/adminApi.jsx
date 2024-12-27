@@ -515,7 +515,9 @@ export const updateProductData = async (product) => {
       // Append scents and their images
       if (product.scents) {
           product.scents.forEach((scent, index) => {
-              formData.append(`scents[${index}][scentID]`, scent.scentID);
+            formData.append(`scents[${index}][scentID]`, scent.scentID);
+            formData.append(`scents[${index}][scentStock]`, scent.scentStock);
+            formData.append(`scents[${index}][scentFirstImage]`, scent.scentFirstImage.file)
               scent.ScentImages.forEach((img, imgIndex) => {
                   formData.append(`scents[${index}][ScentImages][${imgIndex}]`, img.file);
               });
@@ -556,7 +558,8 @@ export const postProductData = async (product) => {
       if (product.scents) {
           product.scents.forEach((scent, index) => {
               formData.append(`scents[${index}][scentID]`, scent.scentID);
-              formData.append(`scents[${index}][scentFirstImageID]`, scent.scentFirstImage.id)
+              formData.append(`scents[${index}][scentStock]`, scent.scentStock);
+              formData.append(`scents[${index}][scentFirstImage]`, scent.scentFirstImage.file)
               scent.ScentImages.forEach((img, imgIndex) => {
                   formData.append(`scents[${index}][ScentImages][${imgIndex}]`, img.file);
               });
@@ -590,5 +593,41 @@ export const applyDiscountToProducts = async (discountValue, productIds) => {
   } catch (error) {
     console.error('Error applying discount:', error);
     throw new Error('Failed to apply discount');
+  }
+};
+
+
+///////////// FETCH ///////////////////// REVIEWS TABLE ///////////// FETCH /////////////////////
+  
+// Fetch REVIEWS Table Data
+export const fetchReviewsColumnData = async () => {
+  try {
+    const response = await axios.get('/data/admin/reviewsColumns.json'); 
+    return response.data;
+  } catch (error) {
+    throw new Error('Error fetching REVIEWS columns');
+  }
+};  
+
+// Fetch REVIEWS Table Data
+export const fetchReviewsTableData = async () => {
+  try {
+    const response = await axios.get('/data/admin/reviewsData.json'); 
+    return response.data;
+  } catch (error) {
+    throw new Error('Error fetching REVIEWS table data');
+  }
+};
+
+
+///////////// POST ///////////////////// REVIEWS TABLE ///////////// POST /////////////////////
+
+// Post review delete
+export const postReviewDelete = async (reviewId) => {
+  try {
+    const response = await axios.post('', reviewId); 
+    return response.data;
+  } catch (error) {
+    throw new Error('Error deleting review');
   }
 };

@@ -49,6 +49,10 @@ console.log(data)
     navigate('../productDetailsPage/add');
   };
 
+  const handleOpenReviewPage = (id) => {
+    navigate(`../productReviews/${id}`);
+  };
+
   // Handle Add Discount Button click
   const handleDiscount = () => {
     if (selectedRows.length === 0) {
@@ -141,6 +145,8 @@ console.log(data)
           addName={'Product'}
           showDiscount={true}
           showSelection={true} 
+          showReview={true}
+          reviewAction={handleOpenReviewPage}
           data={data} 
           columns={columns} 
           rowClickable={false} 

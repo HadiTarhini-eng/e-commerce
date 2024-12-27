@@ -47,7 +47,7 @@ const ClientsTablePage = () => {
 
   // Open the confirmation modal
   const openConfirmationModal = (client) => {
-    const clientId = client.id;
+    const clientId = client;
     setSelectedClientId(clientId);
     setIsConfirmationModalOpen(true);
   };
@@ -73,7 +73,7 @@ const ClientsTablePage = () => {
           data={data} 
           columns={columns} 
           rowClickable={false} 
-          actionClick={openConfirmationModal} // Open the confirmation modal on delete action
+          actionDelete={openConfirmationModal} // Open the confirmation modal on delete action
           deleteAction={true} 
         />
       </div>
@@ -83,7 +83,7 @@ const ClientsTablePage = () => {
         isOpen={isConfirmationModalOpen}
         onClose={closeConfirmationModal}
         onConfirm={handleClientDelete}
-        clientId={selectedClientId}
+        deleteId={selectedClientId}
       />
     </div>
   );

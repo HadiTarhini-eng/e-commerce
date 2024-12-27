@@ -15,11 +15,13 @@ const ProductDetailsPage = () => {
         image: null,
         imageURL: '',
         category: '',
+        specifications: '',
+        reviews: [],
         scents: [],
     });
     const [productSubmit, setProductSubmit] = useState({});
     const navigate = useNavigate();
-    console.log(product)
+    // console.log(product)
 
     // Fetch the product data
     useEffect(() => {
@@ -49,7 +51,7 @@ const ProductDetailsPage = () => {
         const { value } = e.target;
 
         // Make sure that number inputs can't go below 0
-        const newValue = id === 'name' ? value : Math.max(0, value); // Ensure values don't go below 0 for non-name fields
+        const newValue = id === 'name' || 'specifications' ? value : Math.max(0, value); // Ensure values don't go below 0 for non-name fields
 
         setProduct(prev => ({
             ...prev,
@@ -187,11 +189,11 @@ const ProductDetailsPage = () => {
         try {
             let result;
             if (id === 'add') {
-                result = await postProductData(productSubmit); // Create a new product
+                result = await postProductData(product); // Create a new product
                 toast.success("Product created successfully!");
                 navigate('/productTable'); // Redirect to products list after successful addition
             } else {
-                result = await updateProductData(productSubmit); // Update an existing product
+                result = await updateProductData(product); // Update an existing product
                 toast.success("Product updated successfully!");
                 navigate('/productTable');
             }
@@ -265,7 +267,7 @@ const ProductDetailsPage = () => {
                         </span>
                         {product.price && (
                             <span className="text-gray-500 line-through">
-                                ${product.price.toFixed(2)}
+                                {/* ${product.price.toFixed(2)} */}
                             </span>
                         )}
                     </div>
@@ -285,6 +287,17 @@ const ProductDetailsPage = () => {
                         value={product.discount}
                         onChange={(e) => handleInputChange(e, 'discount')}
                         min="0"
+                    />
+
+                    {/* Specifications */}
+                    <h2 className="text-lg font-bold text-gray-800 pb-2 mt-8">Specifications:</h2>
+                    <InputField
+                        type="textarea"
+                        title=""
+                        placeholder="Write..."
+                        id="price"
+                        value={product.specifications}
+                        onChange={(e) => handleInputChange(e, 'specifications')}
                     />
 
                     <h2 className="text-2xl font-bold text-gray-800 border-b-2 border-gray-300 pb-2 mt-12">Scents</h2>

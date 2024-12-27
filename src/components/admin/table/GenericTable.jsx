@@ -20,6 +20,8 @@ const GenericTable = ({
   showAdd,
   showDiscount,
   addName,
+  showReview,
+  reviewAction,
   onSelectionChange // Add the new onSelectionChange prop
 }) => {
   const navigate = useNavigate();
@@ -44,6 +46,7 @@ const GenericTable = ({
 
   // Dynamically render cells based on the column configuration
   const renderCell = (cell, column, row) => {
+    
     if (column.Cell === "ImageCell") {
       return <ImageCell value={cell.value} />;
     } else if (column.Cell === "BadgeCell") {
@@ -71,6 +74,15 @@ const GenericTable = ({
               onClick={(e) => {
                 e.stopPropagation();
                 actionDelete && actionDelete(row.id); // Call the delete action handler with row ID
+              }}
+            />          
+          )}
+          {showReview && (
+            <ActionButtonCell 
+              value="Review" 
+              onClick={(e) => {
+                e.stopPropagation();
+                reviewAction && reviewAction(row.id);
               }}
             />          
           )}
