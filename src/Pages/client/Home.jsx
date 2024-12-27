@@ -61,7 +61,7 @@ const Home = () => {
   };
 
   return (
-    <div className="min-h-screen bg-palette-body-3 flex flex-col items-center w-full">
+    <div className="min-h-screen bg-palette-body-3 flex flex-col items-center w-full md:w-[710px]">
       {/* Search Bar */}
       <div className="w-full max-w-screen-lg px-4 mt-4">
         <SearchBar placeholder="Search in Blush&eacute;" onSearchChange={setSearchTerm} />

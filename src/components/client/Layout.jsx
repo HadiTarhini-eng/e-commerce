@@ -35,13 +35,13 @@ const Layout = () => {
   }
 
   return (
-    <div className='sm:flex sm:justify-center'>
-      <div className="min-h-screen flex flex-col sm:max-w-[80%] md:max-w-[60%] lg:max-w-[50%] xl:max-w-[35%]">
+    <div className='sm:flex sm:justify-center h-full'>
+      <div className="min-h-screen h-full flex flex-col md:max-w-[710px]">
         {/* Toast */}
         <Toaster />
 
         {/* Navbar */}
-        <div className="sticky top-0 w-full max-w-lg z-50">
+        <div className="sticky top-0 w-full max-w-[710px] z-50">
           <Navbar title={pageTitle} />
         </div>
         
@@ -49,7 +49,7 @@ const Layout = () => {
         <Outlet />
 
         {/* Footer Navigation */}
-        <div className="w-full max-w-lg px-4 mt-4">
+        <div className="sticky w-full max-w-[710px] px-4 mt-4">
           <FooterNav />
         </div>
       </div>

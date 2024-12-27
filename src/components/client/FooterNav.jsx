@@ -54,7 +54,7 @@ const FooterNav = () => {
   }, []); // Run only once on mount
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-10">
+    <div className="fixed w-full bottom-0 left-1/2 transform -translate-x-1/2 max-w-[710px] z-10">
       <div className="flex justify-around items-center bg-palette-white shadow-top">
         {/* Dynamically Render Menu Items */}
         {menuItems.map((item) => (

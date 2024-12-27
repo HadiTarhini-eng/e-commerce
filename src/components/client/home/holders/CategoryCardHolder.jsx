@@ -39,7 +39,7 @@ const CategoryCardHolder = ({ page, title, onCategorySelection }) => {
       {/* <h2 className="text-2xl font-semibold text-taupe-brown mb-6">{title}</h2> */}
 
       {/* Category Grid */}
-      <div className="w-full grid grid-cols-3 xs:grid-cols-5 md:grid-cols-8 lg:grid-cols-4 gap-2">
+      <div className="w-full grid grid-cols-4 sm:grid-cols-6 gap-2">
         {isLoading
           ? // If loading, display skeletons
             Array.from({ length: 8 }).map((_, index) => (

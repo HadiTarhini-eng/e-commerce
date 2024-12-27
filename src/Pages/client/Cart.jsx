@@ -109,7 +109,7 @@ const Cart = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center w-full h-full bg-palette-body-3">
+    <div className="min-h-screen flex flex-col items-center w-full h-full bg-palette-body-3 sm:w-[710px]">
       <div className="flex items-center flex-col w-full h-full max-w-7xl px-1 md:px-5 lg-6 mx-auto">
         {/* Show loading spinner while fetching data */}
         {loading ? (
@@ -128,7 +128,7 @@ const Cart = () => {
           ) : (
             cartItems.map((product, index) => (
               <div key={index} className="bg-white w-[90%] grid grid-cols-1 lg:grid-cols-2 shadow-md border-2 border-gray-200 rounded-lg m-2 py-3">
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-20 w-full max-xl:max-w-xl max-xl:mx-auto">
+                <div className="flex justify-between w-full max-xl:max-w-xl max-xl:mx-auto">
                   {/* Left side - Image and Product Name */}
                   <div className="flex items-center gap-2 w-full">
                     <div className="img-box min-w-[100px] max-w-[100px] sm:w-[250px]">
@@ -194,7 +194,7 @@ const Cart = () => {
         )}
 
         {/* Fixed Total Summary */}
-        <div className="bg-white rounded-xl mt-6 p-4 sm:p-6 w-full mb-2 max-lg:max-w-xl max-lg:mx-auto fixed bottom-0 left-0 z-1 pb-1">
+        <div className="bg-white rounded-xl mt-6 p-4 sm:p-6 w-full mb-2 max-lg:max-w-xl max-lg:mx-auto fixed w-full bottom-0 left-1/2 transform -translate-x-1/2 max-w-[710px] z-1 pb-1">
           <div className="flex flex-col items-center justify-between w-full py-4 sm:py-6">
             <p className="font-manrope font-medium text-lg sm:text-2xl leading-9 text-gray-900">Total (Without Delivery)</p>
             <h6 className="font-manrope font-medium text-xl sm:text-2xl leading-9 text-palette-button mx-2">

@@ -86,8 +86,8 @@ const OrderTrack = () => {
   const mostRecentStepIndex = reversedSteps.findIndex(step => step.isActive);
 
   return (
-    <section className="bg-white py-4 antialiased dark:bg-gray-900 md:py-16">
-      <div className="mx-auto max-w-screen-xl px-4 2xl:px-0">
+    <section className="bg-white py-4 antialiased dark:bg-gray-900 sm:w-[710px]">
+      <div className="mx-auto px-4 2xl:px-0">
         <div className="lg:flex lg:gap-8">
           <div className="grow">
             <div className="space-y-6 rounded-lg border border-gray-200 bg-white p-6 px py-2 shadow-sm dark:border-gray-700 dark:bg-gray-800">

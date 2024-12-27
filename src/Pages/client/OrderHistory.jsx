@@ -88,7 +88,7 @@ const OrderHistory = () => {
   }
 
   return (
-    <div className="relative flex flex-col my-6 bg-white shadow-sm border border-slate-200 rounded-lg w-full">
+    <div className="relative flex flex-col my-6 bg-white shadow-sm border border-slate-200 rounded-lg sm:w-[710px]">
       <div className="p-4">
         <div className="divide-y divide-slate-200">
           {orders.length === 0 ? (

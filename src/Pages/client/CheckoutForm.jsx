@@ -225,8 +225,8 @@ const CheckoutForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="mx-auto w-full px-4 2xl:px-0 mb-16 bg-palette-body-3">
-      <div className="mt-6 sm:mt-8 lg:flex lg:items-start lg:gap-12 xl:gap-16">
+    <form onSubmit={handleSubmit} className="mx-auto w-full h-full px-4 2xl:px-0 mb-16 bg-palette-body-3">
+      <div className="mt-6 sm:mt-8 lg:flex lg:items-start lg:gap-12 xl:gap-16 md:p-10">
         <div className="min-w-0 flex-1 space-y-8">
           {/* Personal Details */}
           <div className="space-y-4">
@@ -389,7 +389,7 @@ const CheckoutForm = () => {
           <div className="mt-6 w-full space-y-6 sm:mt-8 lg:mt-0 lg:max-w-xs xl:max-w-md">
             <button
               type="submit"
-              className="flex w-full items-center justify-center rounded-lg bg-palette-button px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+              className="flex w-full items-center justify-center rounded-lg bg-palette-button px-2 py-2.5 text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
             >
               Proceed to Payment
             </button>

@@ -13,13 +13,13 @@ const CategoryCard = ({ image, title, onClick }) => {
   return (
     <div
       onClick={handleCardClick}
-      className={`relative p-2 sm:p-3 md:p-4 max-w-[16rem] sm:max-w-[18rem] md:max-w-[20rem] lg:max-w-[24rem] w-[70px] sm:w-[100px] md:w-[140px] lg:w-[180px] rounded-lg shadow-sm 
+      className={`relative p-2 sm:p-3 md:p-4 max-w-[16rem] sm:max-w-[18rem] rounded-lg shadow-sm 
     cursor-pointer transition-all duration-300 ease-in-out transform bg-palette-white
     ${isActive ? 'border-2 border-palette-mimi-pink-2' : 'border-2 border-grey-700'}`}
     >
       <div className="flex justify-center">
         <img
-          className="max-w-10 max-h-11 min-w-10 min-h-11 sm:w-16 sm:h-16 md:w-20 md:h-20 lg:w-24 lg:h-24 object-cover rounded-full"
+          className="max-w-10 max-h-11 min-w-10 min-h-11 sm:min-w-16 object-cover rounded-full"
           src={`/images/categories/${image}`}
           alt={title}
         />
