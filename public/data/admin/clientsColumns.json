@@ -29,13 +29,6 @@
     },
     {
       "id": 5,
-      "Header": "Password",
-      "accessor": "password",
-      "canFilter": true,
-      "width": "20%"
-    },
-    {
-      "id": 6,
       "Header": "Action",
       "accessor": "action",
       "Cell": "ActionButtonCell",

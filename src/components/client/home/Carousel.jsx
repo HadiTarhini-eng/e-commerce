@@ -20,7 +20,7 @@ const Carousel = ({ slides, settings, isAdmin }) => {
           <div key={slide.id} className="relative">
             <div className="relative w-full h-48">
             <img
-              src={isAdmin ? `/images/carousel/${slide.image.name}` : `/images/carousel/${slide.image}`}
+              src={isAdmin ? `/images/carousel/${slide.image}` : `/images/carousel/${slide.image}`}
               alt={slide.header}
               className="w-full h-full object-cover rounded-lg"
             />

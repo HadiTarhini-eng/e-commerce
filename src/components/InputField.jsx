@@ -164,7 +164,7 @@ const InputField = ({
               </g>
             </svg>
             <h2 className="text-center text-gray-400 text-xs leading-4">
-              PNG Only
+              {placeholder}
             </h2>
           </div>
           <div className="grid gap-2">
