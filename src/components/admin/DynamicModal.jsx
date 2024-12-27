@@ -103,7 +103,7 @@ const DynamicModal = ({ isOpen, closeModal, handleFucntion, inputFields, modalTi
 
           <button
             type="submit"
-            className="w-full bg-blue-700 text-white py-2 rounded"
+            className="w-full bg-palette-button text-white py-2 rounded"
             disabled={disabled} // Disable submit button when modal is disabled
           >
             {buttonText}

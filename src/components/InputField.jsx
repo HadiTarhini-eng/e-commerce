@@ -114,7 +114,6 @@ const InputField = ({
               required={required}
               disabled={disabled} // Disable select input when disabled is true
               className="w-fit px-3 py-2 border rounded"
-              style={{ width: 'fit-content' }}
             >
               {/* Placeholder option */}
               <option value="" disabled>
