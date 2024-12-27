@@ -3,12 +3,14 @@ import { fetchReviewsColumnData, fetchReviewsTableData, postReviewDelete } from 
 import GenericTable from '../../components/admin/table/GenericTable';
 import ConfirmationModal from '../../components/admin/ConfirmationModal';
 import toast from 'react-hot-toast';
+import { useParams } from 'react-router-dom';
 
 const ProductReviewsPage = () => {
   const [columns, setColumns] = useState([]);
   const [data, setData] = useState([]);
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
   const [selectedReviewId, setSelectedReviewId] = useState(null);
+  const productId = useParams();
 
   useEffect(() => {
     const fetchColumnsAndData = async () => {
@@ -17,7 +19,7 @@ const ProductReviewsPage = () => {
         const columnsResponse = await fetchReviewsColumnData();
         setColumns(columnsResponse);
         
-        const dataResponse = await fetchReviewsTableData();
+        const dataResponse = await fetchReviewsTableData(productId);
         setData(dataResponse);
       } catch (error) {
         console.error('Error fetching data:', error);
