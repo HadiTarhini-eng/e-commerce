@@ -8,6 +8,7 @@ SELECT
     p.id, 
     'Product' AS title, 
     p.image, 
+    p.createdAt as date,
     p.productName as name, 
     c.categoryName, 
     p.price, 
@@ -28,18 +29,22 @@ $result = $conn->query($query);
 
 if ($result->num_rows > 0) {
     $products = array();
-
     while ($row = $result->fetch_assoc()) {
+        $price = (float)$row['price'];
+        $discount = (float)$row['discount'];
+        $discountedPrice = $price - ($price * $discount / 100); 
         $products[] = array(
             "id" => (int)$row['id'],
             "title" => $row['title'],
             "image" => $row['image'],
             "name" => $row['name'],
             "category" => $row['categoryName'],
-            "price" => (float)$row['price'],
+            "price" => $price,
             "stock" => (int)$row['stock'],
-            "discountAmount" => (float)$row['discount'],
-            "specification" => $row['description']
+            "discountAmount" => $discount,
+            "discountedPrice"=>round($discountedPrice, 2),
+            "specification" => $row['description'],
+            "date" => $row['date']
         );
     }
 

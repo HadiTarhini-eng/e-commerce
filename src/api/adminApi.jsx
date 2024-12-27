@@ -478,7 +478,7 @@ export const fetchStatusData = async () => {
 // fetch product data
 export const fetchProductData = async (productId) => {
   try {
-    const response = await axios.get('/data/admin/productDetails.json');  // Adjust the path based on your project setup
+    const response = await axios.post('http://localhost/e-commerce/src/backend/admin/productDetails.php',productId);  // Adjust the path based on your project setup
     const products = response.data; // The products from the JSON file
 
     // Ensure the productId is a number (since your product ids are numbers)

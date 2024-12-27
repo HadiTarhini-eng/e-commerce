@@ -3,7 +3,7 @@
       "id": 1,
       "Header": "ID",
       "accessor": "id",
-      "width": "10%",
+      "width": "5%",
       "canFilter": true
     },
     {

@@ -3,7 +3,7 @@
       "id": 1,
       "Header": "ID",
       "accessor": "id",
-      "width": "10%",
+      "width": "5%",
       "canFilter": true
     },
     {
@@ -31,26 +31,33 @@
       "id": 5,
       "Header": "Price",
       "accessor": "price",
-      "width": "10%"
+      "width": "5%"
     },
     {
       "id": 6,
       "Header": "Discount",
       "accessor": "discountAmount",
-      "width": "10%"
+      "width": "5%"
     },
     {
       "id": 7,
       "Header": "Discounted Price",
       "accessor": "discountedPrice",
-      "width": "10%"
+      "width": "5%"
     },
     {
       "id": 8,
       "Header": "Stock",
       "accessor": "stock",
       "Cell": "stockCell",
-      "width": "10%"
+      "width": "5%"
+    },
+    {
+      "id": 8,
+      "Header": "Date",
+      "accessor": "date",
+      "Cell": "stockCell",
+      "width": "20%"
     },
     {
       "id": 9,
