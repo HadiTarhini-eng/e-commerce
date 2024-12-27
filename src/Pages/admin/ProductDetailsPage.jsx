@@ -289,7 +289,6 @@ const ProductDetailsPage = () => {
                         id="discount"
                         value={product.discount}
                         onChange={(e) => handleInputChange(e, 'discount')}
-                        min="0"
                     />
 
                     {/* Specifications */}
@@ -373,7 +372,6 @@ const ProductDetailsPage = () => {
                                         value={scent.scentStock}
                                         className="w-fit"
                                         onChange={(e) => handleScentChange(scent.scentID, 'scentStock', e.target.value)}
-                                        min="0" // Ensure stock can't go below 0
                                     />
                                 </div>
 
