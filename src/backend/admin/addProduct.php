@@ -12,7 +12,7 @@ $categoryID = $_POST['category'];
 $image = $_FILES['image'];
 $scents = $_POST['scents'];
 $date = date("d-m-Y");
-$description = $_POST['description']; 
+$description = $_POST['specifications']; 
 
 if ($image && $image['error'] === UPLOAD_ERR_OK) {
     $tmpName = $image['tmp_name'];
@@ -47,8 +47,7 @@ $productID = $stmt->insert_id;
 
 foreach ($scents as $scentIndex => $scent) {
     $scentID = $scent['scentID'];
-    $stock = $scent['stock'];
-    $scentFirstImageID = $scent['scentFirstImageID'];
+    $stock = $scent['scentStock'];
 
     $stmt = $conn->prepare("INSERT INTO productData (productID, scentID, stock) VALUES (?, ?, ?)");
     $stmt->bind_param("iii", $productID, $scentID, $stock);
@@ -60,6 +59,7 @@ foreach ($scents as $scentIndex => $scent) {
     if (isset($_FILES['scents']['name'][$scentIndex]['ScentImages'])) {
         foreach ($_FILES['scents']['name'][$scentIndex]['ScentImages'] as $index => $imageName) {
             if ($_FILES['scents']['error'][$scentIndex]['ScentImages'][$index] === UPLOAD_ERR_OK) {
+                $scentFirstImage=  $_FILES['scents']['name'][$scentIndex]['scentFirstImage'];
                 $tmpName = $_FILES['scents']['tmp_name'][$scentIndex]['ScentImages'][$index];
                 $imageType = exif_imagetype($tmpName);
                 if ($imageType !== IMAGETYPE_PNG) {
@@ -76,7 +76,7 @@ foreach ($scents as $scentIndex => $scent) {
                     die("Failed to move scent image to the target path.");
                 }
 
-                $dominant = ($scentImageName  == $scentFirstImageID) ? 1 : 0;
+                $dominant = ($scentImageName  == $scentFirstImage) ? 1 : 0;
 
                 $stmt = $conn->prepare("INSERT INTO scentImages (productDataID, image, $dominantColumn) VALUES (?, ?, ?)");
                 $stmt->bind_param("isi", $productDataID, $scentImageName, $dominant);
