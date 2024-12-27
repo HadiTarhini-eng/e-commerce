@@ -15,7 +15,6 @@ const CheckoutForm = () => {
   const [activeVisaCard, setActiveVisaCard] = useState(false);
   const totalWithoutDelivery = parseFloat(useSelector(state => state.cart.checkoutData.totalWithoutDelivery), 10);
   const { userId } = useAuth();
-
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -69,7 +68,7 @@ const CheckoutForm = () => {
         setDeliveryMethods(deliveryMethodsData.deliveryMethods);
         setDeliveryThreshold(deliveryThresholdData.deliveryThreshold);
         setIsDeliveryOffer(deliveryThresholdData.freeDelivery);
-        setActiveVisaCard(visaCardsStatus);
+        setActiveVisaCard(visaCardsStatus.visaStatus);
 
         // Set user details data
         setUserDetailsData(userDetails);
