@@ -160,7 +160,7 @@ const OrdersPage = () => {
           data={data} 
           columns={columns} 
           rowClickable={true} 
-          actionClick={handleOpenModal} 
+          actionClickEdit={handleOpenModal} 
           editAction={true}
         />
 
