@@ -19,13 +19,13 @@ if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
 }
 
 // Check if the email already exists in the database
-$query = $conn->prepare("SELECT email FROM users WHERE email = ?");
-$query->bind_param("s", $email);
+$query = $conn->prepare("SELECT email FROM users WHERE email = ? or phone=?");
+$query->bind_param("ss", $email,$phone);
 $query->execute();
 $result = $query->get_result();
 
 if ($result->num_rows > 0) {
-    echo json_encode(["success" => false, "message" => "Email already registered"]);
+    echo json_encode(["success" => false, "message" => "Email or Phone already registered"]);
     exit;
 }
 

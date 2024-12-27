@@ -102,14 +102,14 @@ export const fetchScentOptions = async () => {
 ///////////// POST ///////////////////// PRODUCTS TABLE ///////////// POST /////////////////////
 
 // Post a new product
-export const postProduct = async (newProduct) => {
-  try {
-    const response = await axios.post('/api/products', newProduct); 
-    return response.data;
-  } catch (error) {
-    throw new Error('Error adding new product');
-  }
-};
+// export const postProduct = async (newProduct) => {
+//   try {
+//     const response = await axios.post('/api/products', newProduct); 
+//     return response.data;
+//   } catch (error) {
+//     throw new Error('Error adding new product');
+//   }
+// };
 
 // Deleet product
 export const deleteProduct = async (productId) => {
@@ -563,7 +563,7 @@ export const postProductData = async (product) => {
           });
       }
 
-      const response = await axios.post('/api/products', formData, {
+      const response = await axios.post('http://localhost/e-commerce/src/backend/admin/addProduct.php', formData, {
           headers: {
               'Content-Type': 'multipart/form-data',
           },

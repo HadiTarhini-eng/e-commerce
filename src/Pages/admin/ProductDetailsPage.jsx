@@ -72,14 +72,17 @@ const ProductDetailsPage = () => {
     };
 
     // Handle scent name changes
-    const handleScentNameChange = (scentID, selectedName) => {
+    const handleScentNameChange = (scentID, selectedScentID) => {
         setProduct(prev => ({
             ...prev,
             scents: prev.scents.map(scent =>
-                scent.scentID === scentID ? { ...scent, scentName: selectedName } : scent
-            )
+                scent.scentID === scentID 
+                    ? { ...scent, scentID: selectedScentID } 
+                    : scent
+            ),
         }));
     };
+    
 
     // Handle scent input changes (for each scent's stock)
     const handleScentChange = (scentID, field, value) => {
@@ -154,7 +157,7 @@ const ProductDetailsPage = () => {
     const handleAddScent = () => {
         setProduct(prev => ({
             ...prev,
-            scents: [...prev.scents, { scentID: Date.now().toString(), scentName: '', ScentImages: [], scentStock: 0 }]
+            scents: [...prev.scents, { scentID: '', scentName: '', ScentImages: [], scentStock: 0 }]
         }));
     };
 
@@ -297,19 +300,18 @@ const ProductDetailsPage = () => {
                                         {`Scent ${idx + 1}`}
                                     </label>
                                     <select
-                                        id={`scent-select-${scent.id}`}
-                                        value={scent.name} // Controls the currently selected value
-                                        onChange={(e) => handleScentNameChange(scent.id, e.target.value)}
+                                        id={`scent-select-${scent.scentID}`}
+                                        value={scent.scentID} 
+                                        onChange={(e) => handleScentNameChange(scent.scentID, e.target.value)}
                                         className="w-full px-3 py-2 border rounded"
-                                        placeholder="Scent Name"
                                     >
                                         {/* Placeholder option */}
                                         <option value="" disabled>
                                             Scent Name
                                         </option>
                                         {/* Map options */}
-                                        {scentOptions.map((option, idx) => (
-                                            <option key={idx} value={option.name}>
+                                        {scentOptions.map((option) => (
+                                            <option key={option.id} value={option.id}>
                                                 {option.name}
                                             </option>
                                         ))}
