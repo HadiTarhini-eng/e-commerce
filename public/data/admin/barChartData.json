@@ -1,0 +1,12 @@
+{
+    "dataSource": [
+      { "day": "Monday", "oranges": 10 },
+      { "day": "Tuesday", "oranges": 15 },
+      { "day": "Wednesday", "oranges": 12 },
+      { "day": "Thursday", "oranges": 17 },
+      { "day": "Friday", "oranges": 25 },
+      { "day": "Saturday", "oranges": 22 },
+      { "day": "Sunday", "oranges": 18 }
+    ]
+  }
+  

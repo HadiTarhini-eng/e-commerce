@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import ImageCell from './ImageCell';
 import BadgeCell from './BadgeCell';
 import ActionButtonCell from './ActionButtonCell';
-import toast from 'react-hot-toast';
 
 const GenericTable = ({
   columns,
@@ -16,6 +15,8 @@ const GenericTable = ({
   showSelection,
   disableButton,
   showSearch,
+  showAdd,
+  addName,
   onSelectionChange // Add the new onSelectionChange prop
 }) => {
   const navigate = useNavigate();
@@ -132,18 +133,51 @@ const GenericTable = ({
 
   return (
     <div className="overflow-x-auto">
-      {showSearch && (
+      <div className='flex flex-row gap-2'>
+        {showSearch && (
         // Search Bar
-        <div className="mb-4">
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={handleSearchChange}
-            placeholder="Search in table..."
-            className="w-full p-3 border rounded-md"
-          />
+        <div className="mb-4 w-full flex justify-end">
+          <div className="w-[40%] min-w-[200px] px-2 flex items-center border rounded-xl">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="w-6 h-6 text-gray-500 mr-2"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
+              />
+            </svg>
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={handleSearchChange}
+              placeholder="Search in table..."
+              className="w-full p-3 py-2 outline-none"
+            />
+          </div>
         </div>
-      )}
+        )}
+        {showAdd && (
+          //show add
+          <div className='flex flex-col gap-4'>
+          <button
+            onClick={() => actionClick()} 
+            className="min-w-[160px] bg-palette-button flex items-center justify-center gap-2 flex-row font-bold text-white px-3 py-2 rounded-xl hover:bg-palette-mimi-pink-2"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={3} stroke="currentColor" className="size-5">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+            </svg>
+            Add {addName}
+          </button>
+        </div>
+        )}
+      </div>
+    
       <table className="table-auto w-full">
         <thead>
           <tr>
@@ -158,7 +192,7 @@ const GenericTable = ({
               </th>
             )}
             {columns.map((column, index) => (
-              <th key={index} className=" px-8 py-2" style={{ width: column.width }}>
+              <th key={index} className={`border bg-gray-200 px-8 py-2 w-${column.width}`}>
                 <span className="flex items-center justify-center">
                   {column.Header}
                 </span>
@@ -185,7 +219,7 @@ const GenericTable = ({
                 </td>
               )}
               {columns.map((column, index) => (
-                <td key={index} className="text-center border px-4 py-2">
+                <td key={index} className="text-center justify-items-center border px-4 py-2">
                   {renderCell({ value: row[column.accessor] }, column, row)}
                 </td>
               ))}

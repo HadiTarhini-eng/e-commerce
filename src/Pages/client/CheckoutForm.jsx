@@ -3,14 +3,18 @@ import toast from 'react-hot-toast';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateCheckoutData } from '../../redux/cartSlice';
 import { useNavigate } from 'react-router-dom';
-import { fetchDeliveryMethods, fetchFormFields, fetchPaymentMethods, fetchDeliveryThreshold } from '../../api/clientApi';
+import { fetchVisaCardStatus, fetchDeliveryMethods, fetchFormFields, fetchPaymentMethods, fetchDeliveryThreshold, fetchUserDetails } from '../../api/clientApi';
 import InputField from '../../components/InputField';
 import { isPossiblePhoneNumber } from 'react-phone-number-input';
+import { useAuth } from '../../components/client/AuthContext';
+import VisaCardForm from '../../components/client/VisaCardForm';
 
 const CheckoutForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate(); // Initialize navigate
+  const [activeVisaCard, setActiveVisaCard] = useState(false);
   const totalWithoutDelivery = parseFloat(useSelector(state => state.cart.checkoutData.totalWithoutDelivery), 10);
+  const { userId } = useAuth();
 
   const [formData, setFormData] = useState({
     name: '',
@@ -22,6 +26,10 @@ const CheckoutForm = () => {
     deliveryMethod: '',
     sendAsGift: false,
     noteForDriver: '',
+    visaFullName: '',
+    cardNumber: '',
+    expiration: '',
+    cvv: '',
   });
 
   const [errors, setErrors] = useState({
@@ -35,15 +43,25 @@ const CheckoutForm = () => {
   const [deliveryMethods, setDeliveryMethods] = useState([]);
   const [deliveryThreshold, setDeliveryThreshold] = useState([]);
   const [freeDelivery, setIsDeliveryOffer] = useState([]);
+  const [userDetailsData, setUserDetailsData] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [formFieldsData, paymentMethodsData, deliveryMethodsData, deliveryThresholdData] = await Promise.all([
+        const [
+          formFieldsData,
+          paymentMethodsData,
+          deliveryMethodsData,
+          deliveryThresholdData,
+          userDetails,
+          visaCardsStatus,
+        ] = await Promise.all([
           fetchFormFields(),
           fetchPaymentMethods(),
           fetchDeliveryMethods(),
           fetchDeliveryThreshold(),
+          fetchUserDetails(userId),
+          fetchVisaCardStatus(),
         ]);
 
         setFormFields(formFieldsData.fields);
@@ -51,6 +69,20 @@ const CheckoutForm = () => {
         setDeliveryMethods(deliveryMethodsData.deliveryMethods);
         setDeliveryThreshold(deliveryThresholdData.deliveryThreshold);
         setIsDeliveryOffer(deliveryThresholdData.freeDelivery);
+        setActiveVisaCard(visaCardsStatus);
+
+        // Set user details data
+        setUserDetailsData(userDetails);
+
+        // Update formData based on userDetails
+        setFormData((prevFormData) => ({
+          ...prevFormData,
+          name: userDetails.name || prevFormData.name,
+          email: userDetails.email || prevFormData.email,
+          phoneNumber: userDetails.phoneNumber || prevFormData.phoneNumber,
+          city: userDetails.city || prevFormData.city,
+          address: userDetails.address || prevFormData.address,
+        }));
       } catch (error) {
         console.error('Error fetching data', error);
       }
@@ -70,6 +102,16 @@ const CheckoutForm = () => {
     // Dispatch to Redux store
     dispatch(updateCheckoutData({ field: id, value }));
   };
+
+  const handleVisaInput = (formVisaData) => {
+    setFormData((prevState) => ({
+      ...prevState,
+      visaFullName: formVisaData.visaFullName,
+      cardNumber: formVisaData.cardNumber,
+      expiration: formVisaData.expiration,
+      cvv: formVisaData.cvv,
+    }));
+  }
 
   const handleRadioChange = (e) => {
     const { name, value } = e.target;
@@ -221,7 +263,7 @@ const CheckoutForm = () => {
                       <InputField
                         type="phoneNumber"
                         title={field.label}
-                        placeholder={'Enter phone number'}
+                        placeholder={field.placeholder}
                         id={'phoneNumber'}
                         value={formData.phoneNumber}
                         onChange={(value) => handleChange({ target: { id: 'phoneNumber', value } })}
@@ -276,6 +318,9 @@ const CheckoutForm = () => {
               ))}
             </div>
           </div>
+
+          {/* VISA CARD (OPTIONAL) */}
+          {formData.paymentMethod === 'visa-card' && activeVisaCard && <VisaCardForm handleVisaInput={handleVisaInput} />}
 
           {/* Delivery Methods */}
           <div className="space-y-4">

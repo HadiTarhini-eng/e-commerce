@@ -35,6 +35,26 @@ export const fetchCardData = async () => {
   }
 };
 
+// Fetch Line chart Data
+export const fetchLineChartData = async () => {
+  try {
+    const response = await axios.get('/data/admin/lineChartData.json'); 
+    return response.data;
+  } catch (error) {
+    throw new Error('Error fetching line chart data');
+  }
+};
+
+// Fetch bar chart Data
+export const fetchBarChartData = async () => {
+  try {
+    const response = await axios.get('/data/admin/barChartData.json'); 
+    return response.data;
+  } catch (error) {
+    throw new Error('Error fetching bar chart data');
+  }
+};
+
 
 ///////////// FETCH ///////////////////// PRODUCTS TABLE ///////////// FETCH /////////////////////
   
@@ -478,7 +498,36 @@ export const fetchProductData = async (productId) => {
 // Function to update product data
 export const updateProductData = async (product) => {
   try {
-      const response = await axios.post('/api/products', product); // Adjust URL as needed
+      const formData = new FormData();
+
+      // Append main image if it exists
+      if (product.image) {
+          formData.append('image', product.image);
+      }
+
+      // Append other product fields
+      Object.keys(product).forEach((key) => {
+          if (key !== 'image' && key !== 'scents') {
+              formData.append(key, product[key]);
+          }
+      });
+
+      // Append scents and their images
+      if (product.scents) {
+          product.scents.forEach((scent, index) => {
+              formData.append(`scents[${index}][scentID]`, scent.scentID);
+              scent.ScentImages.forEach((img, imgIndex) => {
+                  formData.append(`scents[${index}][ScentImages][${imgIndex}]`, img.file);
+              });
+          });
+      }
+
+      const response = await axios.post('/api/products', formData, {
+          headers: {
+              'Content-Type': 'multipart/form-data',
+          },
+      });
+
       return response.data; // Return response data if needed
   } catch (error) {
       console.error("Error saving product data", error);
@@ -489,7 +538,36 @@ export const updateProductData = async (product) => {
 // Function to post product data
 export const postProductData = async (product) => {
   try {
-      const response = await axios.post('/api/products', product); // Adjust URL as needed
+      const formData = new FormData();
+
+      // Append main image if it exists
+      if (product.image) {
+          formData.append('image', product.image);
+      }
+
+      // Append other product fields
+      Object.keys(product).forEach((key) => {
+          if (key !== 'image' && key !== 'scents') {
+              formData.append(key, product[key]);
+          }
+      });
+
+      // Append scents and their images
+      if (product.scents) {
+          product.scents.forEach((scent, index) => {
+              formData.append(`scents[${index}][scentID]`, scent.scentID);
+              scent.ScentImages.forEach((img, imgIndex) => {
+                  formData.append(`scents[${index}][ScentImages][${imgIndex}]`, img.file);
+              });
+          });
+      }
+
+      const response = await axios.post('/api/products', formData, {
+          headers: {
+              'Content-Type': 'multipart/form-data',
+          },
+      });
+
       return response.data; // Return response data if needed
   } catch (error) {
       console.error("Error saving product data", error);

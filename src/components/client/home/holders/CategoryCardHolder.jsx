@@ -34,12 +34,12 @@ const CategoryCardHolder = ({ page, title, onCategorySelection }) => {
   );
 
   return (
-    <div className="w-full max-w-2xl mx-auto bg-palette-body-3 rounded-lg overflow-hidden p-2 mt-2">
+    <div className="w-full max-w-2xl mx-auto bg-palette-body-3 rounded-lg overflow-hidden mt-2">
       {/* Categories Heading */}
       {/* <h2 className="text-2xl font-semibold text-taupe-brown mb-6">{title}</h2> */}
 
       {/* Category Grid */}
-      <div className="w-full grid grid-cols-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
+      <div className="w-full grid grid-cols-3 xs:grid-cols-5 md:grid-cols-8 lg:grid-cols-4 gap-2">
         {isLoading
           ? // If loading, display skeletons
             Array.from({ length: 8 }).map((_, index) => (

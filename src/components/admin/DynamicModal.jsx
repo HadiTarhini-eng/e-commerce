@@ -87,7 +87,7 @@ const DynamicModal = ({ isOpen, closeModal, handleFucntion, inputFields, modalTi
               onChange={(e) => handleChange(e, field.id, field.type)}
               options={field.options}
               required={field.required}
-              disabled={disabled} // Pass the disabled prop to InputField
+              disabled={field.disabled}
             />
           ))}
 

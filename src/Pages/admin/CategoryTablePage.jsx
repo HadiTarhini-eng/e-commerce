@@ -22,6 +22,7 @@ const CategoryTablePage = () => {
         
         const dataResponse = await fetchCategoryTableData();
         setData(dataResponse);
+        console.log(data)
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -37,6 +38,7 @@ const CategoryTablePage = () => {
     if (category) {
       setSelectedCategory(category);
       setIsEditing(true);
+      console.log(category)
     } else {
       setSelectedCategory(null);
       setIsEditing(false);
@@ -109,7 +111,7 @@ const CategoryTablePage = () => {
       title: 'Category Name',
       placeholder: 'Enter Category Name',
       id: 'name',
-      value: selectedCategory ? selectedCategory.name : '',
+      value: selectedCategory ? selectedCategory.title : '',
       onChange: (e) => {
         setSelectedCategory((prevCategory) => ({
           ...prevCategory,
@@ -134,24 +136,22 @@ const CategoryTablePage = () => {
     : inputFields.filter(field => field.id !== 'id');
 
   return (
-    <div className="min-h-screen bg-gray-100 p-6">
-      <h1 className="text-3xl font-semibold text-gray-800 mb-4">Category Management</h1>
+    <div className="min-h-screen bg-white p-6">
+      <h1 className="flex items-center flex-row gap-2 text-3xl font-bold text-gray-700 mb-8">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-10">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M6.429 9.75 2.25 12l4.179 2.25m0-4.5 5.571 3 5.571-3m-11.142 0L2.25 7.5 12 2.25l9.75 5.25-4.179 2.25m0 0L21.75 12l-4.179 2.25m0 0 4.179 2.25L12 21.75 2.25 16.5l4.179-2.25m11.142 0-5.571 3-5.571-3" />
+        </svg>
+        Category List
+      </h1>
       
-      <div className="bg-white p-6 rounded-lg shadow-lg">
+      <div className="bg-white p-6 rounded-lg shadow-top-lg">
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl font-medium text-gray-700">Category List</h2>
-          <div className='flex flex-col gap-4'>
-            <button
-              onClick={() => handleOpenModal()} 
-              className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
-            >
-              Add New Category
-            </button>
-          </div>
         </div>
 
         <GenericTable
           showSearch={true} 
+          showAdd={true}
+          addName="Category"
           data={data} 
           columns={columns} 
           rowClickable={false} 

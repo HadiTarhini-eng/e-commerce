@@ -17,9 +17,9 @@ const CategoryCard = ({ image, title, onClick }) => {
     cursor-pointer transition-all duration-300 ease-in-out transform bg-palette-white
     ${isActive ? 'border-2 border-palette-mimi-pink-2' : 'border-2 border-grey-700'}`}
     >
-      <div className="flex justify-center mb-2">
+      <div className="flex justify-center">
         <img
-          className="w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 lg:w-24 lg:h-24 object-cover rounded-full"
+          className="max-w-10 max-h-11 min-w-10 min-h-11 sm:w-16 sm:h-16 md:w-20 md:h-20 lg:w-24 lg:h-24 object-cover rounded-full"
           src={`/images/categories/${image}`}
           alt={title}
         />

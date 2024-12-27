@@ -54,6 +54,7 @@ module.exports = {
           // 'body-4': '#ea4c62',
           'chip-red': '#ea4c62',
           'button': '#19bcff',
+          'light-blue': 'rgb(232, 240, 253)',
 
           // If you want to add additional custom gradients or complementary colors
           'soft-gradient': 'linear-gradient(45deg, #FAD3DD, #FFFFFF, #FBD3DA, #F8D8DE, #FDD2DC)', // A gradient using the new palette
@@ -107,6 +108,8 @@ module.exports = {
       boxShadow: {
         'custom': '0px 4px 8px rgba(0, 0, 0, 0.1)', // Subtle shadow for cards, etc.
         'top': '0 -4px 6px rgba(0, 0, 0, 0.1)',
+        'all': '0 4px 6px rgba(0, 0, 0, 0.02), 0 -4px 6px rgba(0, 0, 0, 0.02), 4px 0 6px rgba(0, 0, 0, 0.02), -4px 0 6px rgba(0, 0, 0, 0.02)',
+        'top-lg': '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 -10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05), 0 -4px 6px -2px rgba(0, 0, 0, 0.05)',
       },
       screens: {
         'xs': '375px',  // Target small mobile devices (e.g., iPhone 6, 7, 8)

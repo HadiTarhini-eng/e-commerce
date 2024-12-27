@@ -29,7 +29,7 @@ const BadgeCell = ({ value }) => {
 
   return (
     <div
-      className={`rounded-xl text-center py-0.5 px-2.5 font-bold border border-transparent text-sm text-white transition-all shadow-sm`}
+      className={`min-w-[120px] w-fit rounded-xl text-center py-0.5 px-2.5 font-bold border border-transparent text-sm text-white transition-all shadow-sm`}
       style={{ backgroundColor: badgeColor }}
     >
       {value}

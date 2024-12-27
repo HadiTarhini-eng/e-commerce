@@ -17,8 +17,9 @@ const ProductDetailsPage = () => {
         category: '',
         scents: [],
     });
+    const [productSubmit, setProductSubmit] = useState({});
     const navigate = useNavigate();
-    console.log(scentOptions)
+    console.log(product)
 
     // Fetch the product data
     useEffect(() => {
@@ -62,10 +63,11 @@ const ProductDetailsPage = () => {
     };
 
     // Handle category change
-    const handleCategoryChange = (categoryName) => {
+    const handleCategoryChange = (categoryId) => {
+        console.log(categoryId)
         setProduct(prev => ({
             ...prev,
-            category: categoryName.title, // Update the category field
+            category: categoryId, // Update the category field
         }));
     };
 
@@ -90,25 +92,49 @@ const ProductDetailsPage = () => {
         }));
     };
 
-    const handleFileChange = (e, scentID) => {
-        const file = e.target.files[0];
-        const newImagePath = URL.createObjectURL(file); // Create temporary URL for display
+    // Handle file input changes separately
+    const handleFileChange = (e, id) => {
+        console.log(id)
+        const file = e.target.files ? e.target.files[0] : null;
+        if (file) {
+            const fileName = file.name; // Get the file name
 
-        if (scentID === 'mainImage') {
-            setProduct(prev => ({
-                ...prev,
-                image: file, // Save the actual file object in the 'image' field of the product
-                imageURL: newImagePath // Save the temporary URL for display purposes
-            }));
-        } else {
-            setProduct(prev => ({
-                ...prev,
-                scents: prev.scents.map(scent =>
-                    scent.scentID === scentID
-                        ? { ...scent, ScentImages: [...scent.ScentImages, { id: Date.now(), file: file, imageURL: newImagePath }] }
-                        : scent
-                )
-            }));
+            // Read the file as a Data URL (for preview purposes) and as binary (for database storage)
+            const reader = new FileReader();
+
+            reader.onloadend = () => {
+                const imagePreviewURL = reader.result; // Data URL for preview purposes
+
+                if (id === 'mainImage') {
+                    setProduct((prev) => ({
+                        ...prev,
+                        image: file, // Save the actual file object
+                        imageURL: imagePreviewURL // Save Data URL for preview
+                    }));
+                } else {
+                    setProduct((prev) => ({
+                        ...prev,
+                        scents: prev.scents.map((scent) =>
+                            scent.scentID === id
+                                ? {
+                                    ...scent,
+                                    ScentImages: [
+                                        ...scent.ScentImages,
+                                        {
+                                            id: Date.now(),
+                                            file: file, // Save the actual file object
+                                            imageURL: imagePreviewURL // Save Data URL for preview
+                                        }
+                                    ]
+                                }
+                                : scent
+                        )
+                    }));
+                }
+            };
+
+            // Read the file as a Data URL for preview
+            reader.readAsDataURL(file);
         }
     };
 
@@ -154,14 +180,18 @@ const ProductDetailsPage = () => {
 
     // Function to save changes
     const handleSaveChanges = async () => {
+        setProductSubmit({
+            ...product,
+            imageURL: undefined,
+        });        
         try {
             let result;
             if (id === 'add') {
-                result = await postProductData(product); // Create a new product
+                result = await postProductData(productSubmit); // Create a new product
                 toast.success("Product created successfully!");
                 navigate('/productTable'); // Redirect to products list after successful addition
             } else {
-                result = await updateProductData(product); // Update an existing product
+                result = await updateProductData(productSubmit); // Update an existing product
                 toast.success("Product updated successfully!");
                 navigate('/productTable');
             }
@@ -219,8 +249,8 @@ const ProductDetailsPage = () => {
                             className="mt-1 w-fit block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                         >
                             <option value="">Select a category</option>
-                            {categoryOptions.map((category, index) => (
-                                <option key={index} value={category.title}>
+                            {categoryOptions.map((category) => (
+                                <option key={category.id} value={category.id}>
                                     {category.title}
                                 </option>
                             ))}

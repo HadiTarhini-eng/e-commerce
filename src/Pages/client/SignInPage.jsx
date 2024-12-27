@@ -40,7 +40,7 @@ const SignIn = () => {
   const handlePhoneNumberChange = (e) => {
     const value = e.target || e;
     setPhoneNumber(value);
-  }
+  };
 
   // Handle Submit for Sign In and Sign Up
   const handleSubmit = async (e) => {
@@ -51,6 +51,12 @@ const SignIn = () => {
     setValidationErrors(validationErrors);
   
     if (Object.keys(validationErrors).length > 0) {
+      // Display toast for each error
+      Object.values(validationErrors).forEach((errorMsg) => {
+        if (errorMsg) {
+          toast.error(errorMsg); // Show error toast message
+        }
+      });
       return;
     }
   
@@ -69,8 +75,7 @@ const SignIn = () => {
           setIsSignUp(false);
           setValidationErrors({}); // Reset validation errors on success
         } else {
-          setError('Error during sign-up. Please try again.');
-          toast.error('Error during sign-up. Please try again.');
+          toast.error(response.message);
         }
       } catch (error) {
         setError('Error during sign-up. Please try again.');

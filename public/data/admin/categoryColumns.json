@@ -9,7 +9,7 @@
     {
       "id": 2,
       "Header": "Name",
-      "accessor": "name",
+      "accessor": "title",
       "canFilter": true,
       "width": "20%"
     },

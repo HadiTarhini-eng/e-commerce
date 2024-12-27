@@ -173,6 +173,27 @@ export const fetchDeliveryThreshold = async () => {
   }
 }
 
+// Fetch user data
+export const fetchUserDetails = async (userId) => {
+  try {
+    const response = await axios.get('/data/client/userDetailsData.json');
+    return response.data; // Return the user data
+  } catch (error) {
+    console.error('Error fetching user data:', error);
+    throw error;
+  }
+}
+
+// fetch visa card status
+export const fetchVisaCardStatus = async () => {
+  try {
+    const response = await axios.get('/data/client/visaCardStatus.json');
+    return response.data; // Return the visa card status
+  } catch (error) {
+    console.error('Error fetching visa card status:', error);
+    throw error;
+  }
+}
 
 ///////////// POST ///////////////////// PURCHASE PAGE ///////////// POST /////////////////////
 

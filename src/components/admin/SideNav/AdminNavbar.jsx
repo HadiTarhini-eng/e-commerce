@@ -25,21 +25,6 @@ const AdminNavbar = ({ logo, navItems, onToggleSidebar }) => {
                 </span>
               </a>
             </div>
-            <div className="flex items-center">
-              <button
-                type="button"
-                className="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
-                aria-expanded="false"
-                data-dropdown-toggle="dropdown-user"
-              >
-                <img
-                  className="w-8 h-8 rounded-full"
-                  src={logo.userImage}
-                  alt="user photo"
-                />
-              </button>
-              {/* Add dropdown user menu here */}
-            </div>
           </div>
         </div>
       </nav>

@@ -1,39 +1,40 @@
 [
-    {
-      "id": 1,
-      "status": "Confirming",
-      "color": "#FFB300",
-      "comment": "The order is being confirmed."
-    },
-    {
-      "id": 2,
-      "status": "In Progress",
-      "color": "#FF6600",
-      "comment": "The order is being processed."
-    },
-    {
-      "id": 3,
-      "status": "In Preparation",
-      "color": "#FFCC00",
-      "comment": "The order is being prepared."
-    },
-    {
-      "id": 4,
-      "status": "Shipped",
-      "color": "#00CC66",
-      "comment": "The order has been shipped."
-    },
-    {
-      "id": 5,
-      "status": "Delivered",
-      "color": "#19bcff",
-      "comment": "The order has been delivered."
-    },
-    {
-      "id": 6,
-      "status": "Canceled",
-      "color": "#FF0000",
-      "comment": "The order has been cancelled."
-    }
-  ]
+  {
+    "id": 1,
+    "status": "Confirming",
+    "color": "#FFD700", 
+    "comment": "The order is being confirmed." 
+  },
+  {
+    "id": 2,
+    "status": "In Progress",
+    "color": "#FFA500", 
+    "comment": "The order is being processed."
+  },
+  {
+    "id": 3,
+    "status": "In Preparation",
+    "color": "#19bcff", 
+    "comment": "The order is being prepared."
+  },
+  {
+    "id": 4,
+    "status": "Shipped",
+    "color": "#17A2B8", 
+    "comment": "The order has been shipped."
+  },
+  {
+    "id": 5,
+    "status": "Delivered",
+    "color": "#28A745", 
+    "comment": "The order has been delivered."
+  },
+  {
+    "id": 6,
+    "status": "Canceled",
+    "color": "#DC3545", 
+    "comment": "The order has been cancelled."
+  }
+]
+
   
