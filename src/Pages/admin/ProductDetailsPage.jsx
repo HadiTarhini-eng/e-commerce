@@ -391,31 +391,34 @@ const ProductDetailsPage = () => {
                                         ))}
                                     </select>
                                 </div>
-
                                 {/* Displaying scent images with border on select */}
                                 <div className="flex flex-wrap gap-4 mt-2">
-                                    {scent.ScentImages.map((image) => (
-                                        <div
-                                            key={image.id}
-                                            className={`relative cursor-pointer p-1 border-2 rounded-lg ${scent.scentFirstImage?.id === image.id ? 'border-blue-500' : 'border-gray-300'}`}
-                                            onClick={() => handleScentFirstImageChange(scent.scentID, image)}
-                                        >
-                                            <img
-                                                src={image.imageURL}
-                                                alt="Scent"
-                                                className="w-24 h-24 object-cover rounded-md"
-                                            />
-                                            <button
-                                                type="button"
-                                                onClick={() => handleRemoveImage(scent.scentID, image.id)}
-                                                className="absolute top-0 right-0 bg-red-500 text-white rounded-full w-4 h-4 text-xs"
-                                            >
-                                                X
-                                            </button>
-                                        </div>
-                                    ))}
+                                {scent.ScentImages.map((image) => (
+                                    <div
+                                    key={image.id}
+                                    className={`relative cursor-pointer p-1 border-2 rounded-lg ${
+                                        (scent.scentFirstImage?.id === image.id || 
+                                        (Array.isArray(scent.scentFirstImage) && scent.scentFirstImage[0]?.id === image.id))
+                                        ? 'border-blue-500'
+                                        : 'border-gray-300'
+                                    }`}
+                                    onClick={() => handleScentFirstImageChange(scent.scentID, image)}
+                                    >
+                                   <img
+                                        src={image.path ? `/images/products/${image.path}` : image.imageURL}
+                                        alt="Scent"
+                                        className="w-24 h-24 object-cover rounded-md"
+                                    />
+                                    <button
+                                        type="button"
+                                        onClick={() => handleRemoveImage(scent.scentID, image.id)}
+                                        className="absolute top-0 right-0 bg-red-500 text-white rounded-full w-4 h-4 text-xs"
+                                    >
+                                        X
+                                    </button>
+                                    </div>
+                                ))}
                                 </div>
-
                                 {/* Add First Image for Scent */}
                                 <InputField
                                     type="file"
