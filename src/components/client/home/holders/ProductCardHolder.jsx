@@ -10,7 +10,7 @@ const ProductCardHolder = ({ selectedCategories, searchTerm, fromFavorites, onSh
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const { userId } = useAuth();
-
+  
   // Fetch the products data when the component mounts
   useEffect(() => {
     const fetchData = async () => {
