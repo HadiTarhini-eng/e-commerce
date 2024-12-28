@@ -496,9 +496,10 @@ export const fetchProductData = async (productId) => {
 };
 
 // Function to update product data
-export const updateProductData = async (product, productId) => {
+export const updateProductData = async (product, productId,currentScentId,removedImages) => {
   try {
       const formData = new FormData();
+      formData.append('removedImages', removedImages);
        formData.append('productID',productId);
       // Append main image if it exists
       if (product.image) {
@@ -515,15 +516,15 @@ export const updateProductData = async (product, productId) => {
       // Append scents and their images
       if (product.scents) {
         product.scents.forEach((scent, index) => {
+          formData.append(`scents[${index}][currentScentId]`, currentScentId[index]);
           formData.append(`scents[${index}][scentID]`, scent.scentID);
           formData.append(`scents[${index}][scentStock]`, scent.scentStock);
-      
           // Check if scentFirstImage contains 'file' or 'path'
           const scentFirstImageValue = scent.scentFirstImage.file 
             ? scent.scentFirstImage.file 
-            : scent.scentFirstImage[0].path;
+            : scent.scentFirstImage.path;
           formData.append(`scents[${index}][scentFirstImage]`, scentFirstImageValue);
-      
+
           scent.ScentImages.forEach((img, imgIndex) => {
             // Check if img contains 'file' or 'path'
             const imgValue = img.file ? img.file : img.path;

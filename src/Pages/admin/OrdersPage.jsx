@@ -92,6 +92,7 @@ console.log(data)
       // Optionally, close the modal after the update
       closeModal();
       toast.success('Updated status successfully');
+      window.location.reload();
     } catch (error) {
       console.error('Error updating status:', error);
       toast.error('Error updating status');
