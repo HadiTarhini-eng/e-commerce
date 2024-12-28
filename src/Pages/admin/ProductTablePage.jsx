@@ -15,7 +15,18 @@ const ProductTablePage = () => {
   const [isDiscountModalOpen, setIsDiscountModalOpen] = useState(false);
   const [discountValue, setDiscountValue] = useState(''); // Track discount value
   const navigate = useNavigate();
-console.log(data)
+  console.log(data)
+
+  const updateData = (updatedData) => {
+    const modifiedData = updatedData.map((product) => ({
+      ...product,
+      price: `$${product.price}`, // Add $ symbol to price
+      discountAmount: `${product.discountAmount}%`, // Add % symbol to discountAmount
+      discountedPrice: `$${product.discountedPrice}`,
+    }));
+    setData(modifiedData);
+  };
+
   // Fetch columns and data on page load
   useEffect(() => {
     const fetchColumnsAndData = async () => {
@@ -24,7 +35,7 @@ console.log(data)
         setColumns(columnsResponse);
         
         const dataResponse = await fetchProductTableData();
-        setData(dataResponse);
+        updateData(dataResponse)
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -87,7 +98,7 @@ console.log(data)
       console.error('API Error:', error);
     }
   
-    setIsModalOpen(false); // Close the modal after saving the discount
+    setIsDiscountModalOpen(false); // Close the modal after saving the discount
   };
 
   // Handle Product Deletion
@@ -129,7 +140,7 @@ console.log(data)
   ];
 
   return (
-    <div className="min-h-screen bg-gray-100 p-6">
+    <div className="min-h-screen bg-white p-6">
       <h1 className="flex items-center flex-row gap-2 text-3xl font-bold text-gray-700 mb-8">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-10">
         <path fillRule="evenodd" d="M7.5 6v.75H5.513c-.96 0-1.764.724-1.865 1.679l-1.263 12A1.875 1.875 0 0 0 4.25 22.5h15.5a1.875 1.875 0 0 0 1.865-2.071l-1.263-12a1.875 1.875 0 0 0-1.865-1.679H16.5V6a4.5 4.5 0 1 0-9 0ZM12 3a3 3 0 0 0-3 3v.75h6V6a3 3 0 0 0-3-3Zm-3 8.25a3 3 0 1 0 6 0v-.75a.75.75 0 0 1 1.5 0v.75a4.5 4.5 0 1 1-9 0v-.75a.75.75 0 0 1 1.5 0v.75Z" clipRule="evenodd" />
@@ -137,7 +148,7 @@ console.log(data)
         Product List
       </h1>
       
-      <div className="bg-white p-6 rounded-lg shadow-lg">
+      <div className="bg-white p-6 rounded-lg shadow-top-lg">
 
         <GenericTable 
           showSearch={true}

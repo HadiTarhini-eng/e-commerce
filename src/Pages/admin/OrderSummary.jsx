@@ -40,8 +40,8 @@ const OrderDetails = () => {
     name: product.productName || "N/A", // Default to "N/A" if null
     scent: product.scentName || "N/A",
     quantity: product.quantity,
-    price: parseFloat(product.price).toFixed(2),
-    total: (parseFloat(product.price) * parseInt(product.quantity)).toFixed(2),
+    price: `$${parseFloat(product.price).toFixed(2)}`,
+    total: `$${(parseFloat(product.price) * parseInt(product.quantity)).toFixed(2)}`,
   }));
 
   // Client Info Table Data
@@ -69,7 +69,7 @@ const OrderDetails = () => {
     { field: 'Shipping Method', value: order.deliveryName },
     { field: 'Shipping Price', value: `$${order.deliveryCost}` },
     { field: 'Note', value: order.note || "N/A" },
-    { field: 'Gift', value: order.git? 'Yes' : 'No' },
+    { field: 'Gift', value: order.gift? 'Yes' : 'No' },
   ];
 
   // Order Summary Data
