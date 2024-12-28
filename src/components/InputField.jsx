@@ -151,7 +151,7 @@ const InputField = ({
             rows={rows}
             required={required}
             disabled={disabled} // Disable textarea when disabled is true
-            className="w-full px-3 py-2 border rounded"
+            className="w-full px-3 py-2 border rounded whitespace-pre-wrap"
           />
         </div>
       );
