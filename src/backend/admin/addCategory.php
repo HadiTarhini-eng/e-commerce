@@ -4,7 +4,7 @@ include 'connection.php';
 header('Content-Type: application/json');
 
 
-$categoryName = $_POST['name'];
+$categoryName = $_POST['title'];
 $image = isset($_FILES['image']) ? $_FILES['image'] : null;
 
 $imageDir = realpath('../../../public/images/categories'); 
