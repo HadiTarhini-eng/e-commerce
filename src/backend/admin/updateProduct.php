@@ -9,7 +9,7 @@ $productName = $_POST['name'];
 $price = $_POST['price'];
 $discount = $_POST['discount'];
 $categoryID = $_POST['category'];
-$image = $_FILES['image'];
+$image = isset($_FILES['image']) ? $_FILES['image'] : null;
 $scents = $_POST['scents'];
 $date = date("d-m-Y");
 $description = $_POST['specifications']; 
@@ -22,7 +22,7 @@ $stmt->execute();
 $stmt->store_result();
 if ($stmt->num_rows > 0) {
     // Product exists, update it
-    if ($image && $image['error'] === UPLOAD_ERR_OK) {
+    if (isset($image) && $image['error'] === UPLOAD_ERR_OK) {
         $tmpName = $image['tmp_name'];
         $imageType = exif_imagetype($tmpName);
         if ($imageType !== IMAGETYPE_PNG) {
@@ -30,13 +30,13 @@ if ($stmt->num_rows > 0) {
             echo json_encode(["error" => "Only PNG images are allowed for the product image."]);
             exit();
         }
-
+    
         if (!is_writable($imageDir)) {
             http_response_code(500);
             echo json_encode(["error" => "Directory is not writable."]);
             exit();
         }
-
+    
         $imageName = preg_replace("/[^a-zA-Z0-9\-_\.]/", "_", basename($image['name']));
         $targetPath = $imageDir . DIRECTORY_SEPARATOR . $imageName;
         if (!move_uploaded_file($tmpName, $targetPath)) {
@@ -44,13 +44,16 @@ if ($stmt->num_rows > 0) {
             echo json_encode(["error" => "Failed to move the uploaded product image."]);
             exit();
         }
-
-        // Update product image
+    
+        // Update product image in the database
         $stmt = $conn->prepare("UPDATE products SET image = ? WHERE id = ?");
         $stmt->bind_param("si", $imageName, $productID);
         if (!$stmt->execute()) {
             die("Error updating product image: " . $stmt->error);
         }
+    } else {
+        // Skip image update if no valid image is uploaded
+        echo "No valid image uploaded. Skipping image update.<br>";
     }
 
     // Update product details
@@ -73,8 +76,8 @@ if ($stmt->num_rows > 0) {
 
         if ($stmt->num_rows > 0) {
             // Update existing productData
-            $stmt = $conn->prepare("UPDATE productData SET stock = ? WHERE productID = ? AND scentID = ?");
-            $stmt->bind_param("iii", $stock, $productID, $scentID);
+            $stmt = $conn->prepare("UPDATE productData SET stock = ? , productID=?,scentID=?WHERE productID = ? AND scentID = ?");
+            $stmt->bind_param("iiiii", $stock,$productID, $scentID, $productID, $scentID);
             if (!$stmt->execute()) {
                 die("Error updating productData: " . $stmt->error);
             }

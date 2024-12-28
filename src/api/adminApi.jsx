@@ -521,7 +521,7 @@ export const updateProductData = async (product, productId) => {
           // Check if scentFirstImage contains 'file' or 'path'
           const scentFirstImageValue = scent.scentFirstImage.file 
             ? scent.scentFirstImage.file 
-            : scent.scentFirstImage.path;
+            : scent.scentFirstImage[0].path;
           formData.append(`scents[${index}][scentFirstImage]`, scentFirstImageValue);
       
           scent.ScentImages.forEach((img, imgIndex) => {
