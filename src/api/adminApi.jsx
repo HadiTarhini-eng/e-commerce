@@ -327,7 +327,7 @@ export const addCategory = async (newdata) => {
     
     // Append the regular data to the FormData object
     formData.append('id', newdata.id);
-    formData.append('name', newdata.name);
+    formData.append('title', newdata.title);
 
     // Append the image file to the FormData object, if it exists
     if (newdata.image) {
