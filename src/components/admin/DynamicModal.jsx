@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import InputField from '../InputField';
 
-const DynamicModal = ({ isOpen, closeModal, handleFucntion, inputFields, modalTitle, buttonText, disabled = false }) => {
+const DynamicModal = ({ isOpen, closeModal, handleFucntion, inputFields, modalTitle, buttonText, disabled = false, fromOrders }) => {
   const [formData, setFormData] = useState({});
   const [imagePreview, setImagePreview] = useState(null); // State for image preview
   
@@ -88,6 +88,7 @@ const DynamicModal = ({ isOpen, closeModal, handleFucntion, inputFields, modalTi
               options={field.options}
               required={field.required}
               disabled={field.disabled}
+              fromOrders={fromOrders}
             />
           ))}
 

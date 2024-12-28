@@ -13,6 +13,8 @@ const InputField = ({
   options = [],
   rows,
   disabled = false, // Added disabled prop
+  fromCarousel,
+  fromOrders,
 }) => {
   // State to toggle password visibility and for search functionality
   const [showPassword, setShowPassword] = useState(false);
@@ -113,10 +115,10 @@ const InputField = ({
               onChange={onChange}
               required={required}
               disabled={disabled} // Disable select input when disabled is true
-              className="w-fit px-3 py-2 border rounded"
+              className={`${fromOrders ? 'w-full' : 'w-fit'} px-3 py-2 border rounded`}
             >
               {/* Placeholder option */}
-              <option value="" disabled>
+              <option value={placeholder} disabled selected>
                 {placeholder}
               </option>
               {/* Map options */}
@@ -155,7 +157,7 @@ const InputField = ({
 
     case 'file':
       return (
-        <div className="w-full py-9 bg-gray-50 rounded-2xl border border-gray-300 gap-3 grid border-dashed">
+        <div className={`w-full py-9 bg-gray-50 rounded-2xl border border-gray-300 gap-3 grid border-dashed ${fromCarousel ? 'max-w-[250px] p-5 mt-8' : ''}`}>
           <div className="grid gap-1">
             <svg className="mx-auto" width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
               <g id="File">

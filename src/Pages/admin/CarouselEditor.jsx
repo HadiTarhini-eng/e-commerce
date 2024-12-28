@@ -104,135 +104,143 @@ console.log(carousels)
         {carousels.map((carousel, index) => (
           <div key={index} className="border p-4 rounded-lg">
             <h3 className="text-xl font-semibold mb-2">Slide {carousel.id}</h3>
-            {/* Display Image Preview */}
-            {imagePreview[carousel.id] && (
-              <div className="mt-2">
-                <img
-                  src={imagePreview[carousel.id]}
-                  alt="Image Preview"
-                  className="w-full h-auto rounded-md max-w-[200px]"
-                />
-              </div>
-            )}
 
-            {/* Display fetched image */}
-            {carousel.image && (
-              <div className="mt-2">
-                <img
-                  src={`/images/carousel/${carousel.image}`}
-                  alt=""
-                  className="w-full h-auto rounded-md max-w-[200px]"
-                />
-              </div>
-            )}
+            <div className='grid grid-cols-[2fr_4fr] gap-4'>
+              <div className='justify-self-center items-center'>
+                {/* Display Image Preview */}
+                {imagePreview[carousel.id] && (
+                  <div className="mt-2">
+                    <img
+                      src={imagePreview[carousel.id]}
+                      alt="Image Preview"
+                      className="w-full h-auto rounded-md max-w-[200px]"
+                    />
+                  </div>
+                )}
 
-            {/* Image Upload for Background */}
-            <div className="mb-4">
-              <InputField
-                type="file"
-                title="Upload Background Image"
-                id={`image-upload-${carousel.id}`}
-                placeholder={'PNG, JPG, JPEG'}
-                onChange={(e) => handleImageChange(carousel.id, e.target.files[0])}
-              />
-            </div>
+                {/* Display fetched image */}
+                {carousel.image && (
+                  <div className="mt-2">
+                    <img
+                      src={`/images/carousel/${carousel.image}`}
+                      alt=""
+                      className="w-full h-auto rounded-md max-w-[250px]"
+                    />
+                  </div>
+                )}
 
-            {/* Visibility Toggles */}
-            <div className="mt-4 flex flex-col gap-2">
-              <div className="flex items-center gap-2">
-                <input
-                  type="checkbox"
-                  checked={carousel.showHeader}
-                  onChange={() => handleCarouselChange(carousel.id, 'showHeader', !carousel.showHeader)}
-                  className="mr-2"
-                />
-                <label className="block text-sm">Show Header</label>
-              </div>
-
-              <div className="flex items-center gap-2">
-                <input
-                  type="checkbox"
-                  checked={carousel.showParagraph}
-                  onChange={() => handleCarouselChange(carousel.id, 'showParagraph', !carousel.showParagraph)}
-                  className="mr-2"
-                />
-                <label className="block text-sm">Show Paragraph</label>
-              </div>
-
-              <div className="flex items-center gap-2">
-                <input
-                  type="checkbox"
-                  checked={carousel.showButton}
-                  onChange={() => handleCarouselChange(carousel.id, 'showButton', !carousel.showButton)}
-                  className="mr-2"
-                />
-                <label className="block text-sm">Show Button</label>
-              </div>
-            </div>
-
-            {/* Header Input - Conditional */}
-            {carousel.showHeader && (
-              <div className="mt-4">
-                <label className="block text-sm">Slide Header</label>
-                <input
-                  type="text"
-                  value={carousel.header}
-                  onChange={(e) => handleCarouselChange(carousel.id, 'header', e.target.value)}
-                  className="p-2 w-full border border-gray-300 rounded"
-                />
-              </div>
-            )}
-
-            {/* Paragraph Input - Conditional */}
-            {carousel.showParagraph && (
-              <div className="mt-4">
-                <label className="block text-sm">Slide Paragraph</label>
-                <textarea
-                  value={carousel.paragraph}
-                  onChange={(e) => handleCarouselChange(carousel.id, 'paragraph', e.target.value)}
-                  className="p-2 w-full border border-gray-300 rounded"
-                />
-              </div>
-            )}
-
-            {/* Button Text and Path - Conditional */}
-            {carousel.showButton && (
-              <>
-                <div className="mt-4">
-                  <label className="block text-sm">Button Background Color</label>
-                  <input
-                    type="color"
-                    value={carousel.buttonColor}
-                    onChange={(e) => handleCarouselChange(carousel.id, 'buttonColor', e.target.value)}
-                    className="w-full p-2 border border-gray-300 rounded"
+                {/* Image Upload for Background */}
+                <div className="mb-4">
+                  <InputField
+                    type="file"
+                    title="Upload Background Image"
+                    id={`image-upload-${carousel.id}`}
+                    placeholder={'PNG, JPG, JPEG'}
+                    onChange={(e) => handleImageChange(carousel.id, e.target.files[0])}
+                    fromCarousel={true}
                   />
                 </div>
+              </div>
 
-                <div className="mt-4">
-                  <label className="block text-sm">Button Text</label>
-                  <input
-                    type="text"
-                    value={carousel.buttonText}
-                    onChange={(e) => handleCarouselChange(carousel.id, 'buttonText', e.target.value)}
-                    className="p-2 w-full border border-gray-300 rounded"
-                  />
-                </div>
+              {/* Visibility Toggles */}
+              <div className='mr-14'>
+                <div className="mt-4 flex flex-col gap-2">
+                  <div className="flex items-center gap-2">
+                    <input
+                      type="checkbox"
+                      checked={carousel.showHeader}
+                      onChange={() => handleCarouselChange(carousel.id, 'showHeader', !carousel.showHeader)}
+                      className="mr-2"
+                    />
+                    <label className="block text-sm">Show Header</label>
+                  </div>
 
-                <div className="mt-4">
-                  <label className="block text-sm">Button Path (URL)</label>
-                  <select
-                    value={carousel.buttonPath.replace('/products/', '')} // Show the product name
-                    onChange={(e) => handleProductSelect(carousel.id, e.target.value)}
-                    className="p-2 w-full border border-gray-300 rounded"
-                  >
-                    <option value="">Select Product</option>
-                    {products.map((product) => (
-                      <option key={product.id} value={product.id}>{product.name}</option>
-                    ))}
-                  </select>
+                  <div className="flex items-center gap-2">
+                    <input
+                      type="checkbox"
+                      checked={carousel.showParagraph}
+                      onChange={() => handleCarouselChange(carousel.id, 'showParagraph', !carousel.showParagraph)}
+                      className="mr-2"
+                    />
+                    <label className="block text-sm">Show Paragraph</label>
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <input
+                      type="checkbox"
+                      checked={carousel.showButton}
+                      onChange={() => handleCarouselChange(carousel.id, 'showButton', !carousel.showButton)}
+                      className="mr-2"
+                    />
+                    <label className="block text-sm">Show Button</label>
+                  </div>
                 </div>
-              </>
-            )}
+              
+                {/* Header Input - Conditional */}
+                {carousel.showHeader && (
+                  <div className="mt-4">
+                    <label className="block text-sm">Slide Header</label>
+                    <input
+                      type="text"
+                      value={carousel.header}
+                      onChange={(e) => handleCarouselChange(carousel.id, 'header', e.target.value)}
+                      className="p-2 w-full border border-gray-300 rounded"
+                    />
+                  </div>
+                )}
+
+                {/* Paragraph Input - Conditional */}
+                {carousel.showParagraph && (
+                  <div className="mt-4">
+                    <label className="block text-sm">Slide Paragraph</label>
+                    <textarea
+                      value={carousel.paragraph}
+                      onChange={(e) => handleCarouselChange(carousel.id, 'paragraph', e.target.value)}
+                      className="p-2 w-full border border-gray-300 rounded"
+                    />
+                  </div>
+                )}
+
+                {/* Button Text and Path - Conditional */}
+                {carousel.showButton && (
+                  <>
+                    <div className="mt-4">
+                      <label className="block text-sm">Button Background Color</label>
+                      <input
+                        type="color"
+                        value={carousel.buttonColor}
+                        onChange={(e) => handleCarouselChange(carousel.id, 'buttonColor', e.target.value)}
+                        className="w-full p-2 border border-gray-300 rounded"
+                      />
+                    </div>
+
+                    <div className="mt-4">
+                      <label className="block text-sm">Button Text</label>
+                      <input
+                        type="text"
+                        value={carousel.buttonText}
+                        onChange={(e) => handleCarouselChange(carousel.id, 'buttonText', e.target.value)}
+                        className="p-2 w-full border border-gray-300 rounded"
+                      />
+                    </div>
+
+                    <div className="mt-4">
+                      <label className="block text-sm">Button Path (URL)</label>
+                      <select
+                        value={carousel.buttonPath.replace('/products/', '')} // Show the product name
+                        onChange={(e) => handleProductSelect(carousel.id, e.target.value)}
+                        className="p-2 w-full border border-gray-300 rounded"
+                      >
+                        <option value="">Select Product</option>
+                        {products.map((product) => (
+                          <option key={product.id} value={product.id}>{product.name}</option>
+                        ))}
+                      </select>
+                    </div>
+                  </>
+                )}
+              </div>
+            </div>
 
             {/* Remove Carousel Button */}
             <div className="mt-4 flex justify-end space-x-4">

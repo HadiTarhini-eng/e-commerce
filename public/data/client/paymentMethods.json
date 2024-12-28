@@ -2,21 +2,21 @@
     "paymentMethods": [
       {
         "formId": "4",
-        "id": "1",
+        "id": "7",
         "label": "Visa Card",
         "value": "visa-card",
         "display": false
       },
       {
         "formId": "5",
-        "id": "2",
+        "id": "8",
         "label": "Cash on delivery",
         "value": "pay-on-delivery",
         "display": true
       },
       {
         "formId": "6",
-        "id": "3",
+        "id": "9",
         "label": "Cash on pickup",
         "value": "cashOnPickup",
         "display": true

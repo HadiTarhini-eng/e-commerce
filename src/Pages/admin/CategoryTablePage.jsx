@@ -59,8 +59,9 @@ const CategoryTablePage = () => {
         console.log(data)
       } else {
         const newCategoryData = await addCategory(updatedCategory);
-        setData((prevData) => [...prevData, newCategoryData]);
+        setData((prevData) => [...prevData, updatedCategory]);
         toast.success('Added new category successfully!');
+        window.location.reload();
       }
 
       closeModal();

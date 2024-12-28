@@ -2,7 +2,7 @@
     "deliveryMethods": [
       {
         "formId": "1",
-        "id": "1",
+        "id": "12",
         "label": "Pick up",
         "value": "pickUp",
         "description": "No charge - Only available in Saida",
@@ -10,7 +10,7 @@
       },
       {
         "formId": "2",
-        "id": "2",
+        "id": "11",
         "label": "Delivery All Over Lebanon",
         "value": "delivery-lebanon",
         "description": "Delivery charge: 4$",
@@ -18,7 +18,7 @@
       },
       {
         "formId": "3",
-        "id": "3",
+        "id": "10",
         "label": "Delivery in Saida",
         "value": "delivery-saida",
         "description": "Delivery charge: 2$",

@@ -450,9 +450,9 @@ export const saveCarouselData = async (carousels) => {
 ///////////// FETCH ///////////////////// Order Summary ///////////// FETCH /////////////////////
 
 // Fetch Order Summary Data
-export const fetchOrderSummaryData = async () => {
+export const fetchOrderSummaryData = async (orderId) => {
   try {
-    const response = await axios.get('http://localhost/e-commerce/src/backend/admin/orderSummary.php');
+    const response = await axios.post('http://localhost/e-commerce/src/backend/admin/orderSummary.php', orderId);
     return response.data;
   } catch (error) {
     throw new Error('Error fetching order summary data');

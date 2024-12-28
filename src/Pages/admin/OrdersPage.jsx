@@ -10,7 +10,7 @@ const OrdersPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [statusOptions, setStatusOptions] = useState([]);
   const [selectedOrder, setSelectedOrder] = useState(null);
-
+console.log(data)
   // Fetch columns, status options, and table data on page load
   useEffect(() => {
     const fetchColumnsAndData = async () => {
@@ -32,11 +32,15 @@ const OrdersPage = () => {
     fetchColumnsAndData();
   }, []);
 
-  // Update the disableButton flag for each row based on the status
+  // Update the disableButton flag for each row based on the status and format fields
   const updateDisableButtonFlag = (updatedData) => {
     const modifiedData = updatedData.map((order) => ({
       ...order,
-      disableButton: order.status === 'Canceled' || order.status === 'Delivered'
+      disableButton: order.status === 'Canceled' || order.status === 'Delivered',
+      price: `$${order.price}`, // Add $ symbol to price
+      total: `$${order.total}`, // Add $ symbol to total
+      deliveryCost: `$${order.deliveryCost}`, // Add $ symbol to deliveryCost
+      discount: `${order.discount}%`, // Add % symbol to discount
     }));
     setData(modifiedData);
   };
@@ -129,7 +133,7 @@ const OrdersPage = () => {
     {
       type: 'select',
       title: 'New Status',
-      placeholder: 'Select Status',
+      placeholder: selectedOrder ? selectedOrder.status : '',
       id: 'status',
       value: selectedOrder ? selectedOrder.status : '',
       onChange: (e) => {
@@ -171,6 +175,7 @@ const OrdersPage = () => {
           inputFields={inputFields}
           modalTitle="Update Status"
           buttonText="Save"
+          fromOrders={true}
         />
       </div>
     </div>
