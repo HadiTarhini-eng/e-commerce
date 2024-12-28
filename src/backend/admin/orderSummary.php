@@ -2,6 +2,7 @@
 include 'connection.php';
 
 header('Content-Type: application/json');
+$orderID = json_decode(file_get_contents('php://input'), true);
 
 $sql = "
     SELECT 
@@ -63,10 +64,13 @@ $sql = "
     LEFT JOIN 
         products 
     ON 
-        orderData.productID = products.id;
+        orderData.productID = products.id
+    where orders.id = ?;
 ";
-
-$result = $conn->query($sql);
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("i", $orderID);
+$stmt->execute();
+$result = $stmt->get_result();
 
 if ($result->num_rows > 0) {
     $data = [];
