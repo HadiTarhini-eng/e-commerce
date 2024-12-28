@@ -514,15 +514,23 @@ export const updateProductData = async (product, productId) => {
 
       // Append scents and their images
       if (product.scents) {
-          product.scents.forEach((scent, index) => {
-            formData.append(`scents[${index}][scentID]`, scent.scentID);
-            formData.append(`scents[${index}][scentStock]`, scent.scentStock);
-            formData.append(`scents[${index}][scentFirstImage]`, scent.scentFirstImage.file)
-              scent.ScentImages.forEach((img, imgIndex) => {
-                  formData.append(`scents[${index}][ScentImages][${imgIndex}]`, img.file);
-              });
+        product.scents.forEach((scent, index) => {
+          formData.append(`scents[${index}][scentID]`, scent.scentID);
+          formData.append(`scents[${index}][scentStock]`, scent.scentStock);
+      
+          // Check if scentFirstImage contains 'file' or 'path'
+          const scentFirstImageValue = scent.scentFirstImage.file 
+            ? scent.scentFirstImage.file 
+            : scent.scentFirstImage.path;
+          formData.append(`scents[${index}][scentFirstImage]`, scentFirstImageValue);
+      
+          scent.ScentImages.forEach((img, imgIndex) => {
+            // Check if img contains 'file' or 'path'
+            const imgValue = img.file ? img.file : img.path;
+            formData.append(`scents[${index}][ScentImages][${imgIndex}]`, imgValue);
           });
-      }
+        });
+      }      
 
       const response = await axios.post('http://localhost/e-commerce/src/backend/admin/updateProduct.php', formData, {
           headers: {
