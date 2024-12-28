@@ -10,7 +10,7 @@ const OrderDetails = () => {
   useEffect(() => {
     const getOrderData = async () => {
       try {
-        const id = orderId.id
+        const id = orderId.id;
         const data = await fetchOrderSummaryData(id); // Fetch data based on orderId
         setOrderData(data);
       } catch (error) {
@@ -24,6 +24,9 @@ const OrderDetails = () => {
     return <div>Loading...</div>;
   }
 
+  // Assuming orderData is an array of orders and we're displaying the first order.
+  const order = orderData[0];
+
   // Product Data (Mapped from order.orderData)
   const productColumns = [
     { Header: 'Product Name', accessor: 'name' },
@@ -33,7 +36,7 @@ const OrderDetails = () => {
     { Header: 'Total', accessor: 'total' },
   ];
 
-  const products = orderData.map((product) => ({
+  const products = order.orderData.map((product) => ({
     name: product.productName || "N/A", // Default to "N/A" if null
     scent: product.scentName || "N/A",
     quantity: product.quantity,
@@ -48,11 +51,11 @@ const OrderDetails = () => {
   ];
 
   const clientInfo = [
-    { field: 'Name', value: orderData.name },
-    { field: 'Phone', value: orderData.phone },
-    { field: 'Email', value: orderData.email },
-    { field: 'Address', value: orderData.address },
-    { field: 'City', value: orderData.city },
+    { field: 'Name', value: order.name },
+    { field: 'Phone', value: order.phone },
+    { field: 'Email', value: order.email },
+    { field: 'Address', value: order.address },
+    { field: 'City', value: order.city },
   ];
 
   // Checkout Info Table Data
@@ -62,11 +65,11 @@ const OrderDetails = () => {
   ];
 
   const checkoutInfo = [
-    { field: 'Payment Method', value: orderData.paymentName },
-    { field: 'Shipping Method', value: orderData.deliveryName },
-    { field: 'Shipping Price', value: `$${orderData.deliveryCost}` },
-    { field: 'Note', value: orderData.note || "N/A" },
-    { field: 'Gift', value: orderData.git? 'Yes' : 'No' },
+    { field: 'Payment Method', value: order.paymentName },
+    { field: 'Shipping Method', value: order.deliveryName },
+    { field: 'Shipping Price', value: `$${order.deliveryCost}` },
+    { field: 'Note', value: order.note || "N/A" },
+    { field: 'Gift', value: order.git? 'Yes' : 'No' },
   ];
 
   // Order Summary Data
@@ -76,11 +79,11 @@ const OrderDetails = () => {
   ];
 
   const orderSummary = [
-    { field: 'Order ID', value: orderData.orderId },
-    { field: 'Date Ordered', value: orderData.Date },
-    { field: 'First Order Discount', value: `${orderData.orderDiscount}%` },
-    { field: 'Price Without Delivery', value: `$${orderData.totalPrice}` },
-    { field: 'Total Price', value: `$${orderData.totalPriceWithDel}` },
+    { field: 'Order ID', value: order.orderId },
+    { field: 'Date Ordered', value: order.Date },
+    { field: 'First Order Discount', value: `${order.orderDiscount}%` },
+    { field: 'Price Without Delivery', value: `$${order.totalPrice}` },
+    { field: 'Total Price', value: `$${order.totalPriceWithDel}` },
   ];
 
   return (
