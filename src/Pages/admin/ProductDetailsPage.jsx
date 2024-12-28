@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { fetchCategoryOptions, fetchProductData, postProductData, updateProductData, fetchScentOptions } from '../../api/adminApi';
+import { postRemoveScent, fetchCategoryOptions, fetchProductData, postProductData, updateProductData, fetchScentOptions } from '../../api/adminApi';
 import InputField from '../../components/InputField';
 import { useNavigate, useParams } from 'react-router-dom';
 import toast from 'react-hot-toast';
@@ -185,11 +185,19 @@ const ProductDetailsPage = () => {
     };
 
     // Remove scent
-    const handleRemoveScent = (scentID) => {
+    const handleRemoveScent = async (scentID) => {
         setProduct(prev => ({
             ...prev,
             scents: prev.scents.filter(scent => scent.scentID !== scentID)
         }));
+
+        try {
+            const result = await postRemoveScent(scentID, id);
+            toast.success("Product created successfully!");            
+        } catch (error) {
+            console.error("Error removing scent data", error);
+            toast.error("There was an error removing the scent.");
+        }
     };
 
     // Handle scent first image selection

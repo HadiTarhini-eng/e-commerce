@@ -587,6 +587,16 @@ export const postProductData = async (product) => {
   }
 };
 
+// post remove scent
+export const postRemoveScent = async (scentId, productId) => {
+  try {
+    const response = await axios.post('', scentId, productId); 
+    return response.data;
+  } catch (error) {
+    throw new Error('Error deleting scent');
+  }
+};
+
 
 ///////////// POST ///////////////////// DISCOUNT ///////////// POST /////////////////////
 
