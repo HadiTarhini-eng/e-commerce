@@ -7,15 +7,15 @@ const CarouselEditor = () => {
   const [carousels, setCarousels] = useState([]);
   const [products, setProducts] = useState([]); // State to hold product data
   const [loading, setLoading] = useState(true);
-  const [imagePreview, setImagePreview] = useState({}); 
-console.log(carousels)
+  const [imagePreview, setImagePreview] = useState({});
+  console.log(carousels)
   // Fetch carousel data and products
   useEffect(() => {
     const fetchData = async () => {
       try {
         const carouselData = await fetchCarouselData();
         const productData = await fetchProducts();
-        
+
         setCarousels(carouselData);
         setProducts(productData);
         setLoading(false);
@@ -175,7 +175,7 @@ console.log(carousels)
                     <label className="block text-sm">Show Button</label>
                   </div>
                 </div>
-              
+
                 {/* Header Input - Conditional */}
                 {carousel.showHeader && (
                   <div className="mt-4">
@@ -257,20 +257,22 @@ console.log(carousels)
       </div>
 
       {/* Add New Carousel Button */}
-      <div className="mt-6 flex justify-end">
+      <div className="mt-4 grid">
         <button
           onClick={handleAddCarousel}
-          className="bg-green-500 text-white py-2 px-4 rounded-md"
+          className="px-2 mr-4 py-2 bg-green-500 text-white rounded-full max-w-fit justify-self-end"
         >
-          Add Carousel
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-8">
+            <path fillRule="evenodd" d="M12 3.75a.75.75 0 0 1 .75.75v6.75h6.75a.75.75 0 0 1 0 1.5h-6.75v6.75a.75.75 0 0 1-1.5 0v-6.75H4.5a.75.75 0 0 1 0-1.5h6.75V4.5a.75.75 0 0 1 .75-.75Z" clipRule="evenodd" />
+          </svg>
         </button>
       </div>
 
       {/* Save Changes Button */}
-      <div className="mt-6 flex justify-end">
+      <div className="mt-4 grid">
         <button
           onClick={handleSaveChanges}
-          className="bg-blue-500 text-white py-2 px-4 rounded-md"
+          className="mt-4 bg-blue-500 bg-palette-button text-white font-bold text-xl px-4 py-2 rounded-lg max-w-[200px] justify-self-center"
         >
           Save Changes
         </button>

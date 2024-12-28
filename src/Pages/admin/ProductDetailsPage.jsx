@@ -85,7 +85,8 @@ const ProductDetailsPage = () => {
     };
 
     // Handle scent name changes
-    const handleScentNameChange = (scentID, selectedScentID) => {
+    const handleScentNameChange = (scentID, selectedScentID, newId) => {
+        console.log(scentID, newId);
         setProduct(prev => ({
             ...prev,
             scents: prev.scents.map(scent =>
@@ -406,7 +407,9 @@ const ProductDetailsPage = () => {
                                         <select
                                             id={`scent-select-${scent.scentID}`}
                                             value={scent.scentID}
-                                            onChange={(e) => handleScentNameChange(scent.scentID, e.target.value)}
+                                            onChange={(e) =>
+                                                handleScentNameChange(scent.scentID, e.target.value, scent.scentID)
+                                            }
                                             className="w-full px-3 py-2 border rounded"
                                         >
                                             {/* Placeholder option */}

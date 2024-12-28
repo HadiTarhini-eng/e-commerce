@@ -39,7 +39,9 @@ const SignIn = () => {
 
   const handlePhoneNumberChange = (e) => {
     const value = e.target || e;
-    setPhoneNumber(value);
+    if(value.target !== undefined) {
+      setPhoneNumber(value);
+    }
   };
 
   // Handle Submit for Sign In and Sign Up
