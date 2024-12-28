@@ -13,7 +13,7 @@ $image = $_FILES['image'];
 $scents = $_POST['scents'];
 $date = date("d-m-Y");
 $description = $_POST['specifications']; 
-$productID = $_POST['productID']; // Assuming productID is provided for updates
+$productID = $_POST['productID'];
 
 // Check if product exists
 $stmt = $conn->prepare("SELECT id FROM products WHERE id = ?");

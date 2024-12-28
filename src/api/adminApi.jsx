@@ -499,7 +499,7 @@ export const fetchProductData = async (productId) => {
 export const updateProductData = async (product, productId) => {
   try {
       const formData = new FormData();
-
+       formData.append('productID',productId);
       // Append main image if it exists
       if (product.image) {
           formData.append('image', product.image);
