@@ -123,7 +123,7 @@ const ProductCard = ({
         </div>
 
         {/* Image */}
-        <img src={`/images/products/${image}`} alt={title} className="w-full h-fit min-h-[150px] sm:min-h-[200px] py-2 object-cover rounded-md mt-3" />
+        <img src={`/images/products/${image}`} alt={title} className="w-full h-fit max-h-[150px] min-h-[150px] sm:min-h-[180px] sm:max-h-[180px] py-2 object-cover rounded-md mt-3" />
 
         {/* Title */}
         <h3 className="font-bold text-black text-left sm:text-xl truncate">

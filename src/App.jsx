@@ -24,6 +24,7 @@ import ProductDetailsPage from './Pages/admin/ProductDetailsPage';
 import DiscountSettings from './Pages/admin/DiscountSettings';
 import CarouselEditor from './Pages/admin/CarouselEditor';
 import ProductReviewsPage from './Pages/admin/ProductReviewsPage';
+import ProtectedRoute from './components/client/ProtectedRoute';
 
 const App = () => {
   return (
@@ -44,7 +45,13 @@ const App = () => {
         </Route>
 
         {/* Admin */}
-        <Route element={<AdminLayout />}>
+        <Route
+          element={
+            <ProtectedRoute>
+              <AdminLayout />
+            </ProtectedRoute>
+          }
+        >
           <Route path="/dashboard" element={<AdminDashboard />} />
           <Route path="/productTable" element={<ProductTablePage />} />
           <Route path="/ordersTable" element={<OrdersPage />} />

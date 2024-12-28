@@ -18,6 +18,7 @@ export const useAuth = () => {
 export const AuthProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userId, setUserId] = useState(null); // Store the decrypted userId
+  const [userType, setUserType] = useState(null);
   const navigate = useNavigate(); // Initialize the navigate hook
 
   // Check if the user is logged in when the app is mounted
@@ -42,6 +43,7 @@ export const AuthProvider = ({ children }) => {
     const encryptedData = encryptData(user, secretKey); // Encrypt and store user data
     localStorage.setItem('userData', encryptedData);
     setUserId(user.userId); // Store only the userId (you may choose to store full data later)
+    setUserType(user.userType);
   };
 
   // Function to handle logout and redirect to home page
@@ -66,7 +68,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn, login, logout, userId }}>
+    <AuthContext.Provider value={{ isLoggedIn, login, logout, userId, userType }}>
       {children}
     </AuthContext.Provider>
   );

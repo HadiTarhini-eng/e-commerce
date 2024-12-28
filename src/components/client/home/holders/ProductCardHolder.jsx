@@ -108,7 +108,7 @@ const ProductCardHolder = ({ selectedCategories, searchTerm, fromFavorites, onSh
         </div>
       </div>
 
-      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4 pt-0">
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 p-4 pt-0">
         {displayedProducts.length > 0 ? (
           displayedProducts.map((product) => {
             const { newPrice, oldPrice, chipText, chipColor, discountValue, createdAt } = calculateDiscount(product);
