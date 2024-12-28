@@ -27,7 +27,7 @@ const CategoryCard = ({ image, title, onClick }) => {
 
       {/* Title with responsive font size and text truncation */}
       <h3
-        className="text-center font-semibold transition-colors duration-300 truncate"
+        className="text-center text-black font-semibold transition-colors duration-300 truncate"
         style={{
           fontSize: 'clamp(0.875rem, 2.5vw, 1.25rem)', // Adjusted responsive font size
         }}

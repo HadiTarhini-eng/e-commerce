@@ -300,7 +300,7 @@ export const postCategoryUpdates = async (newdata) => {
     
     // Append the regular data to the FormData object
     formData.append('id', newdata.id);
-    formData.append('name', newdata.name);
+    formData.append('title', newdata.title);
 
     // Append the file to FormData, ensure you're appending the file object correctly
     if (newdata.image) {

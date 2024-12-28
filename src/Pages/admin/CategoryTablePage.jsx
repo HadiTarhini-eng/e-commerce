@@ -13,7 +13,7 @@ const CategoryTablePage = () => {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedCategoryIdToDelete, setSelectedCategoryIdToDelete] = useState(null); // Track the category to be deleted
   const [isEditing, setIsEditing] = useState(false);
-
+  console.log(data)
   useEffect(() => {
     const fetchColumnsAndData = async () => {
       try {
@@ -110,12 +110,12 @@ const CategoryTablePage = () => {
       type: 'text',
       title: 'Category Name',
       placeholder: 'Enter Category Name',
-      id: 'name',
+      id: 'title',
       value: selectedCategory ? selectedCategory.title : '',
       onChange: (e) => {
         setSelectedCategory((prevCategory) => ({
           ...prevCategory,
-          name: e.target.value,
+          title: e.target.value,
         }));
       },
       required: false,
