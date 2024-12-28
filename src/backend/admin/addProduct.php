@@ -1,9 +1,6 @@
 <?php
 include 'connection.php';
-$input = file_get_contents("php://input");
-$data = json_decode($input, true);
-var_dump($data);
-die;
+
 $imageDir = realpath('../../../public/images/products');
 $uploadDir = realpath('../../../public/images/products');
 $dominantColumn = "dominant";
