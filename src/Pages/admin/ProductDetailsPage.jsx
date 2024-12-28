@@ -193,7 +193,7 @@ const ProductDetailsPage = () => {
 
         try {
             const result = await postRemoveScent(scentID, id);
-            toast.success("Product created successfully!");            
+            toast.success("Scent removed successfully!");            
         } catch (error) {
             console.error("Error removing scent data", error);
             toast.error("There was an error removing the scent.");
@@ -300,7 +300,7 @@ const ProductDetailsPage = () => {
                     <h2 className="text-lg font-bold text-gray-800 pb-2 mb-4">Image:</h2>
                     <div className="w-full md:w-1/2 px-4 mb-8">
                         <img
-                            src={product.imageURL}
+                            src={product.image ? `/images/products/${product.image}` : product.imageURL}
                             alt="Product"
                             className="w-full h-auto rounded-lg shadow-md mb-4"
                         />
