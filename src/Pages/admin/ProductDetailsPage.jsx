@@ -21,8 +21,9 @@ const ProductDetailsPage = () => {
     });
     const [productSubmit, setProductSubmit] = useState({});
     const [scentFirstImage, setscentFirstImage] = useState({});
+    const [currentScentId, setCurrentScentId] = useState(null);
     const navigate = useNavigate();
-    console.log(product)
+    console.log(currentScentId)
 
     // Fetch the product data
     useEffect(() => {
@@ -33,6 +34,9 @@ const ProductDetailsPage = () => {
                     setProduct({
                         ...productData,
                     });
+
+                    const scentIds = product.scents.map((scent) => scent.scentID);
+                    setCurrentScentId(scentIds);
 
                     const scentFirstImageMap = {};
                     if (productData.scents && Array.isArray(productData.scents)) {
