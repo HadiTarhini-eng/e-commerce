@@ -22,9 +22,8 @@ const ProductDetailsPage = () => {
     const [productSubmit, setProductSubmit] = useState({});
     const [scentFirstImage, setscentFirstImage] = useState({});
     const [currentScentId, setCurrentScentId] = useState(null);
+    const [removedImages, setRemovedImages] = useState([]);
     const navigate = useNavigate();
-    console.log(currentScentId)
-
     // Fetch the product data
     useEffect(() => {
         const fetchProduct = async () => {
@@ -35,7 +34,7 @@ const ProductDetailsPage = () => {
                         ...productData,
                     });
 
-                    const scentIds = product.scents.map((scent) => scent.scentID);
+                    const scentIds = productData.scents.map((scent) => scent.scentID);
                     setCurrentScentId(scentIds);
 
                     const scentFirstImageMap = {};
@@ -169,6 +168,7 @@ const ProductDetailsPage = () => {
                     : scent
             )
         }));
+        setRemovedImages((prev) => (Array.isArray(prev) ? [...prev, imageID] : [imageID]));
     };
 
     // Add new scent
@@ -195,7 +195,8 @@ const ProductDetailsPage = () => {
             ...prev,
             scents: prev.scents.filter(scent => scent.scentID !== scentID)
         }));
-
+            
+      
         try {
             const result = await postRemoveScent(scentID, id);
             toast.success("Scent removed successfully!");
@@ -207,6 +208,7 @@ const ProductDetailsPage = () => {
 
     // Handle scent first image selection
     const handleScentFirstImageChange = (scentID, image) => {
+      
         setProduct(prev => ({
             ...prev,
             scents: prev.scents.map(scent =>
@@ -282,7 +284,7 @@ const ProductDetailsPage = () => {
                 navigate('/productTable'); // Redirect to products list after successful addition
                 window.location.reload();
             } else {
-                result = await updateProductData(product, id); // Update an existing product
+                result = await updateProductData(product, id,currentScentId,removedImages); // Update an existing product
                 toast.success("Product updated successfully!");
                 navigate('/productTable');
             }
@@ -307,7 +309,7 @@ const ProductDetailsPage = () => {
                             <h2 className="text-lg font-bold text-gray-800 pb-2 mb-4">Image:</h2>
                             <div className="w-full px-4 mb-8">
                                 <img
-                                    src={product.image && id !== 'add' ? `/images/products/${product.image}` : product.imageURL}
+                                    src={product.imageURL  ?  product.imageURL:`/images/products/${product.image}` }
                                     alt="Product"
                                     className="w-full h-auto object-contain bg-white rounded-lg shadow-md mb-4 min-w-[250px] max-w-[250px] max-h-[250px]"
                                 />
