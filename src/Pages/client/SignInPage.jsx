@@ -87,6 +87,8 @@ const SignIn = () => {
       const credentials = { email, password };
       try {
         const userDetails = await postSignInData(credentials); // Get user details from backend
+        const userType = userDetails.userType;
+        console.log(userType);
         if (userDetails) {
           login({
             email,
@@ -96,7 +98,12 @@ const SignIn = () => {
             userType: userDetails.userType
           }); // Store user data in AuthContext
           toast.success('Successfully signed in!');
-          navigate('/'); // Redirect to home page after successful sign-in
+          
+          if(userType === 'client') {
+            navigate('/'); // Redirect to home page after successful sign-in
+          } else if(userType === 'admin'){
+            navigate('/dashboard');
+          }
         } else {
           setError('Invalid email or password');
           toast.error('Invalid credentials');
@@ -119,7 +126,7 @@ const SignIn = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center px-6 pb-4 mx-auto md:h-screen lg:py-0 mt-16">
+    <div className="flex flex-col items-center px-6 pb-4 mx-auto md:h-screen lg:py-0 md:min-w-[710px] mt-8">
       <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
         <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
           <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">

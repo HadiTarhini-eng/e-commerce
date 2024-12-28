@@ -1,5 +1,5 @@
 import React from "react";
-import { FaWhatsapp, FaInstagram, FaFacebook } from "react-icons/fa";
+import { FaWhatsapp, FaInstagram, FaTiktok } from "react-icons/fa";
 
 export default function SocialsPage() {
   return (
@@ -24,7 +24,7 @@ export default function SocialsPage() {
           <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-t from-black opacity-0 group-hover:opacity-40 transition-all duration-300 rounded-xl"></div>
           <div className="absolute top-0 left-0 w-full h-full flex justify-center items-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
             <a
-              href="https://wa.me/1234567890"
+              href="https://wa.me/70616535"
               target="_blank"
               rel="noopener noreferrer"
               className="text-white font-semibold text-xl"
@@ -42,7 +42,7 @@ export default function SocialsPage() {
           <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-t from-black opacity-0 group-hover:opacity-40 transition-all duration-300 rounded-xl"></div>
           <div className="absolute top-0 left-0 w-full h-full flex justify-center items-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
             <a
-              href="https://instagram.com/yourusername"
+              href="https://www.instagram.com/blushe.lb?igsh=MWQ2YjU2NDhrZXU2bA=="
               target="_blank"
               rel="noopener noreferrer"
               className="text-white font-semibold text-xl"
@@ -54,20 +54,26 @@ export default function SocialsPage() {
 
         {/* Facebook Icon */}
         <div className="relative group">
-          <div className="w-full h-40 flex justify-center items-center bg-blue-600 rounded-xl transition-all duration-300 transform group-hover:scale-110 group-hover:shadow-lg">
-            <FaFacebook className="text-white text-6xl" />
+          <div className="w-full h-40 flex justify-center items-center bg-black rounded-xl transition-all duration-300 transform group-hover:scale-110 group-hover:shadow-lg">
+            <FaTiktok className="text-white text-6xl" />
           </div>
           <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-t from-black opacity-0 group-hover:opacity-40 transition-all duration-300 rounded-xl"></div>
           <div className="absolute top-0 left-0 w-full h-full flex justify-center items-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
             <a
-              href="https://facebook.com/yourusername"
+              href="https://www.tiktok.com/@blushe.lb?_t=8sbYxf5INDk&_r=1"
               target="_blank"
               rel="noopener noreferrer"
               className="text-white font-semibold text-xl"
             >
-              Like us on Facebook
+              Follow us on TikTok
             </a>
           </div>
+        </div>
+
+        <div className="fixed bottom-10 w-full bg-gray-800 text-white text-center py-2 fixed w-full bottom-0 left-1/2 transform -translate-x-1/2 max-w-[710px] z-10">
+          <p className="text-sm">
+            © {new Date().getFullYear()} Hadis. All rights reserved.
+          </p>
         </div>
       </div>
     </div>

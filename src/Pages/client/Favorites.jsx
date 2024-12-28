@@ -18,7 +18,7 @@ const Favorites = () => {
   };
 
   return (
-    <div className="min-h-screen bg-palette-body-3 flex flex-col items-center w-full">
+    <div className="min-h-screen md:min-w-[710px] bg-palette-body-3 flex flex-col items-center w-full">
       {/* Search Bar */}
       <div className="w-full max-w-screen-lg px-4 mt-4">
         <SearchBar placeholder="Search in Favorites" onSearchChange={setSearchTerm} />

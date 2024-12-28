@@ -517,13 +517,6 @@ const ProductDetailsPage = () => {
                         >
                             Save Changes
                         </button>
-                        
-                        <button
-                            onClick={() => navigate('../ordersTable')}
-                            className="mt-4 bg-blue-500 bg-palette-button text-white font-bold text-xl px-4 py-2 rounded-lg max-w-[200px] justify-self-start"
-                        >
-                            Back
-                        </button>
                     </div>
                 </div>
             </div>

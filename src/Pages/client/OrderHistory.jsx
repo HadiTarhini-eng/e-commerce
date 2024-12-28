@@ -73,7 +73,7 @@ const OrderHistory = () => {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center my-6">
+      <div className="flex justify-center md:min-w-[710px] items-center my-6">
         <span>Loading...</span>
       </div>
     );
@@ -81,14 +81,14 @@ const OrderHistory = () => {
 
   if (error) {
     return (
-      <div className="flex justify-center items-center my-6">
+      <div className="flex justify-center items-center md:min-w-[710px] my-6">
         <span className="text-grey-500 font-bold text-3xl mt-10">{error}</span>
       </div>
     );
   }
 
   return (
-    <div className="relative flex flex-col my-6 bg-white shadow-sm border border-slate-200 rounded-lg sm:w-[710px]">
+    <div className="relative flex flex-col my-6 bg-white shadow-sm border border-slate-200 rounded-lg md:min-w-[710px] sm:w-[710px]">
       <div className="p-4">
         <div className="divide-y divide-slate-200">
           {orders.length === 0 ? (

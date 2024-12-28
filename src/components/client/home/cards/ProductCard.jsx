@@ -126,8 +126,10 @@ const ProductCard = ({
         <img src={`/images/products/${image}`} alt={title} className="w-full h-fit min-h-[150px] sm:min-h-[200px] py-2 object-cover rounded-md mt-3" />
 
         {/* Title */}
-        <h3 className="font-bold text-black text-left sm:text-xl">{title}</h3>
-
+        <h3 className="font-bold text-black text-left sm:text-xl truncate">
+          {title}
+        </h3>
+        
         {/* Prices */}
         <div className="flex justify-left items-center flex-row space-x-1">
           <div className='flex flex-col xs:flex-row xs:gap-1 xs:items-center'>

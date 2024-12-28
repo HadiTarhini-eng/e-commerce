@@ -42,7 +42,7 @@ const Navbar = ({ title }) => {
 
   return (
     <div className='w-full'>
-      <div className="w-full relative top-0 left-0 right-0  shadow-md z-50">
+      <div className="w-full relative top-0 left-0 right-0 shadow-md z-50">
         <nav className="flex items-center justify-between py-2 bg-palette-mimi-pink-1">
           <div className="flex w-full items-center justify-between px-3">
             <Link to="/" className="flex items-center text-neutral-900 dark:text-neutral-200">

@@ -1,12 +1,12 @@
 [
-    { "id": 1, "label": "Dashboard", "icon": "../../../src/assets/image/sidebar/dashboard.png", "destination": "/dashboard" },
-    { "id": 2, "label": "Users", "icon": "../../../src/assets/image/sidebar/users.png", "destination": "/clientsTable" },
+    { "id": 1, "label": "Dashboard", "icon": "../../../src/assets/image/icons/dashboard.png", "destination": "/dashboard" },
+    { "id": 2, "label": "Users", "icon": "../../../src/assets/image/icons/group.png", "destination": "/clientsTable" },
     { "id": 3, "label": "Catgeory", "icon": "../../../src/assets/image/icons/category.png", "destination": "/categoryTable" },
     { "id": 4, "label": "Products", "icon": "../../../src/assets/image/icons/shopping-bag.png", "destination": "/productTable" },
     { "id": 5, "label": "Scents", "icon": "../../../src/assets/image/icons/shines.png", "destination": "/scentsTable" },
     { "id": 6, "label": "Orders", "icon": "../../../src/assets/image/icons/orders.png", "destination": "/ordersTable" },
     { "id": 7, "label": "Discount Settings", "icon": "../../../src/assets/image/icons/setting.png", "destination": "/discountSettings" },
     { "id": 8, "label": "Carousel Editor", "icon": "../../../src/assets/image/icons/carousel.png", "destination": "/carouselEditor" },
-    { "id": 9, "label": "Log Out", "icon": "../../../src/assets/image/sidebar/signin.png", "destination": "/signin" }
+    { "id": 9, "label": "Log Out", "icon": "../../../src/assets/image/icons/logout.png", "destination": "/signin" }
   ]
   

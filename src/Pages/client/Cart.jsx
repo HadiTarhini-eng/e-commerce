@@ -127,10 +127,10 @@ const Cart = () => {
             <div className="text-center text-3xl font-bold text-gray-600 mt-10">Your cart is empty!</div>
           ) : (
             cartItems.map((product, index) => (
-              <div key={index} className="bg-white w-[90%] grid grid-cols-1 lg:grid-cols-2 shadow-md border-2 border-gray-200 rounded-lg m-2 py-3">
-                <div className="flex justify-between w-full max-xl:max-w-xl max-xl:mx-auto">
+              <div key={index} className="bg-white w-[90%] grid grid-cols-1 shadow-md border-2 border-gray-200 rounded-lg m-2 py-3 mb-4">
+                <div className="flex justify-between w-full">
                   {/* Left side - Image and Product Name */}
-                  <div className="flex items-center gap-2 w-full">
+                  <div className="flex items-center gap-2 w-full ml-5">
                     <div className="img-box min-w-[100px] max-w-[100px] sm:w-[250px]">
                       <img
                         src={`/images/products/${product.image}`}

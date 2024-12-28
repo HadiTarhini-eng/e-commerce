@@ -34,6 +34,7 @@ const ProductPage = () => {
       ...prevProduct,
       reviews: [...prevProduct.reviews, newReview],
     }));
+    window.location.reload();
   };
 
   if (!product) {
@@ -74,7 +75,7 @@ const ProductPage = () => {
     : [{ id: 0, image: updatedProduct.image }];
 
   return (
-    <div className="min-h-screen bg-palette-body-3 flex flex-col items-center w-full">
+    <div className="min-h-screen md:min-w-[710px] bg-palette-body-3 flex flex-col items-center w-full">
       {/* Product Info */}
       <div className="w-full max-w-lg">
         <ProductInfo
