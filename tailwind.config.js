@@ -112,7 +112,7 @@ module.exports = {
         'top-lg': '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 -10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05), 0 -4px 6px -2px rgba(0, 0, 0, 0.05)',
       },
       screens: {
-        'xs': '375px',  // Target small mobile devices (e.g., iPhone 6, 7, 8)
+        'xs': '400px',  // Target small mobile devices (e.g., iPhone 6, 7, 8)
         'sm': '640px',  // Standard mobile devices (e.g., iPhone X)
         'md': '768px',  // Tablet screen
         'lg': '1024px', // Laptop screen

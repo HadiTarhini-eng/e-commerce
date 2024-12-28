@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { fetchOrderSummaryData } from '../../api/adminApi';
 import GenericTable from '../../components/admin/table/GenericTable';
 
 const OrderDetails = () => {
   const orderId = useParams(); // Get orderId from URL
   const [orderData, setOrderData] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const getOrderData = async () => {
@@ -69,7 +70,7 @@ const OrderDetails = () => {
     { field: 'Shipping Method', value: order.deliveryName },
     { field: 'Shipping Price', value: `$${order.deliveryCost}` },
     { field: 'Note', value: order.note || "N/A" },
-    { field: 'Gift', value: order.gift? 'Yes' : 'No' },
+    { field: 'Gift', value: order.gift ? 'Yes' : 'No' },
   ];
 
   // Order Summary Data
@@ -111,7 +112,7 @@ const OrderDetails = () => {
               rowClickable={false}  // No row click for checkout info
             />
           </div>
-        
+
           <div>
             {/* Order Summary Table */}
             <h2 className="text-2xl font-bold text-gray-800 border-b-2 border-gray-300 pb-2 mb-4">Order Summary</h2>
@@ -120,7 +121,7 @@ const OrderDetails = () => {
               columns={orderSummaryColumns}
               data={orderSummary}
               rowClickable={false}  // No row click for order summary
-            />  
+            />
           </div>
         </div>
         <div>
@@ -131,8 +132,18 @@ const OrderDetails = () => {
             columns={productColumns}
             data={products}
             rowClickable={false}  // No row click for products
-          /> 
-        </div>     
+          />
+        </div>
+      </div>
+
+      {/* Back Button */}
+      <div className="mt-4 grid">
+        <button
+          onClick={() => navigate('../ordersTable')}
+          className="mt-4 bg-blue-500 bg-palette-button text-white font-bold text-xl px-4 py-2 rounded-lg max-w-[200px] justify-self-start"
+        >
+          Back
+        </button>
       </div>
     </div>
   );

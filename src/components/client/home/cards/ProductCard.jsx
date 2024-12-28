@@ -71,7 +71,7 @@ const ProductCard = ({
 
   return (
     <div
-      className={`relative bg-white shadow-lg rounded-lg p-4 w-full cursor-pointer ${outOfStock ? 'cursor-not-allowed' : ''
+      className={`relative max-h-[260px] min-h-[260px] sm:max-h-[300px] sm:min-h-[300px] bg-white shadow-lg rounded-lg p-4 w-full cursor-pointer ${outOfStock ? 'cursor-not-allowed' : ''
         }`}
       onClick={handleClick} // This is responsible for the redirection
     >
@@ -123,20 +123,21 @@ const ProductCard = ({
         </div>
 
         {/* Image */}
-        <img src={`/images/products/${image}`} alt={title} className="w-full h-fit object-cover rounded-md mt-3" />
+        <img src={`/images/products/${image}`} alt={title} className="w-full h-fit min-h-[150px] sm:min-h-[200px] py-2 object-cover rounded-md mt-3" />
 
         {/* Title */}
-        <h3 className="font-bold text-black text-left text-xl">{title}</h3>
+        <h3 className="font-bold text-black text-left sm:text-xl">{title}</h3>
 
         {/* Prices */}
         <div className="flex justify-left items-center flex-row space-x-1">
-          <span className="font-bold text-black font-['Roboto']">${formatPrice(newPrice)}</span>
-          {oldPrice !== null && (
-            <span className="line-through text-gray-500 text-sm font-['Roboto']">
-              ${formatPrice(oldPrice)}
-            </span>
-          )}
-
+          <div className='flex flex-col xs:flex-row xs:gap-1 xs:items-center'>
+            <span className="font-bold text-black font-['Roboto']">${formatPrice(newPrice)}</span>
+            {oldPrice !== null && (
+              <span className="line-through text-gray-500 text-sm font-['Roboto']">
+                ${formatPrice(oldPrice)}
+              </span>
+            )}
+          </div>
           {/* Add Button */}
           <div className="w-full flex justify-end">
             <button
