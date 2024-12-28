@@ -24,7 +24,7 @@ if ($result->num_rows > 0) {
 
     echo json_encode(array_values($categories));
 } else {
-    echo json_encode(array("categories" => []));
+    echo json_encode([]);
 }
 
 $conn->close();

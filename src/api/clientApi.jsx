@@ -15,9 +15,7 @@ export const fetchCategoriesData = async (page) => {
 
     if (page === 'Home') {
         url = 'http://localhost/e-commerce/src/backend/client/categoryData.php';
-    } else if (page === 'Payment') {
-        url = 'http://localhost/e-commerce/src/backend/client/paymentTypeData.php';
-    }
+    } 
 
     try {
         const response = await axios.get(url);
