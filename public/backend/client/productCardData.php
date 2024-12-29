@@ -30,7 +30,7 @@ $query = $conn->prepare("
            si.image AS scentImage" : "") . "
     FROM products p
     LEFT JOIN productdata pd ON pd.productID = p.id
-    LEFT JOIN Scents s ON s.id = pd.scentID
+    LEFT JOIN scents s ON s.id = pd.scentID
     LEFT JOIN categories c ON p.categoryID = c.id
     " . $favCondition . "
     " . (isset($id) ? "
