@@ -11,7 +11,7 @@ $stmt = $conn->prepare("
     FROM products p
     JOIN productdata pd ON p.id = pd.productID
     JOIN scents s ON pd.scentID = s.id
-    LEFT JOIN scentImages si ON pd.id = si.productDataID
+    LEFT JOIN scentimages si ON pd.id = si.productDataID
     WHERE p.id = ?
     ORDER BY s.id, si.dominant DESC
 ");
