@@ -32,7 +32,7 @@ $sql = "
         orderData.scentID,
         scents.ScentName,
         products.productName,
-        COALESCE(scentImages.image, products.image) AS scentImage, 
+        COALESCE(scentimages.image, products.image) AS scentImage, 
         orderData.price,
         orderData.quantity
     FROM 
@@ -54,9 +54,9 @@ $sql = "
     ON 
         orderData.productID = pd.productID AND orderData.scentID = pd.scentID 
     LEFT JOIN 
-        scentImages AS scentImages
+        scentimages AS scentimages
     ON 
-        pd.id = scentImages.productDataID AND scentImages.dominant = 1
+        pd.id = scentimages.productDataID AND scentimages.dominant = 1
     LEFT JOIN 
         scents 
     ON 

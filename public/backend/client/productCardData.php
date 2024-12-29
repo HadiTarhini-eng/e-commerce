@@ -36,7 +36,7 @@ $query = $conn->prepare("
     " . (isset($id) ? "
     LEFT JOIN reviews r ON p.id = r.productID
     LEFT JOIN users u ON u.id = r.userID
-    LEFT JOIN scentImages si ON si.productDataID = pd.id" : "") . "
+    LEFT JOIN scentimages si ON si.productDataID = pd.id" : "") . "
     $whereCondition
 ");
 if (!empty($params)) {

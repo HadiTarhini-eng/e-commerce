@@ -70,7 +70,7 @@ if ($stmt->num_rows > 0) {
 
         $placeholders = implode(',', array_fill(0, count($removedImagesIDs), '?'));
 
-        $sql = "DELETE FROM scentImages WHERE id IN ($placeholders)";
+        $sql = "DELETE FROM scentimages WHERE id IN ($placeholders)";
         $query = $conn->prepare($sql);
 
         if (!$query) {
@@ -139,7 +139,7 @@ if ($stmt->num_rows > 0) {
                     $dominant = ($scentImageName == preg_replace("/[^a-zA-Z0-9\-_\.]/", "_", basename($scentFirstImage))) ? 1 : 0;
 
                     if($dominant==1){
-                        $stmt = $conn->prepare("update scentImages set dominant=0 where productDataID=?");
+                        $stmt = $conn->prepare("update scentimages set dominant=0 where productDataID=?");
                         $stmt->bind_param("i", $productDataID);
                         if (!$stmt->execute()) {
                             die("Error inserting scent image: " . $stmt->error);
@@ -148,7 +148,7 @@ if ($stmt->num_rows > 0) {
 
                    
 
-                        $stmt = $conn->prepare("INSERT INTO scentImages (productDataID, image, $dominantColumn) VALUES (?, ?, ?)");
+                        $stmt = $conn->prepare("INSERT INTO scentimages (productDataID, image, $dominantColumn) VALUES (?, ?, ?)");
                         $stmt->bind_param("isi", $productDataID, $scentImageName, $dominant);
                         if (!$stmt->execute()) {
                             die("Error inserting scent image: " . $stmt->error);

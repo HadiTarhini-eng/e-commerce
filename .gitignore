@@ -11,7 +11,9 @@ node_modules
 dist
 dist-ssr
 *.local
-
+/backend
+.clientApi.jsx
+.adminApi.jsx
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
