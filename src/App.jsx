@@ -45,13 +45,7 @@ const App = () => {
         </Route>
 
         Admin
-        <Route
-          element={
-            <ProtectedRoute requiredUserType="admin">
-              <AdminLayout />
-            </ProtectedRoute>
-          }
-        >
+        <Route element={<AdminLayout />}>
           <Route path="/dashboard" element={<AdminDashboard />} />
           <Route path="/productTable" element={<ProductTablePage />} />
           <Route path="/ordersTable" element={<OrdersPage />} />
