@@ -48,7 +48,7 @@ const Navbar = ({ title }) => {
             <Link to="/" className="flex items-center text-neutral-900 dark:text-neutral-200">
               <div className="text-center">
                 <img
-                  src="../../src/assets/image/icons/blushe.png"
+                  src="/assets/image/icons/blushe.png"
                   style={{ height: '30px' }}
                   alt="App Logo"
                   loading="lazy"
@@ -58,7 +58,7 @@ const Navbar = ({ title }) => {
             <div className="relative">
               <button onClick={toggleMenu} className="flex items-center">
                 <img
-                  src="../../src/assets/image/icons/user.png"
+                  src="/assets/image/icons/user.png"
                   alt="User Avatar"
                   className="w-8 h-8 rounded-full object-cover"
                 />

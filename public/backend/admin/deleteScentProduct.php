@@ -9,7 +9,7 @@ $data = json_decode(file_get_contents('php://input'), true);
 $scentID= (int)$data['scentId'];
 $productID= (int)$data['productId'];
 
-$query = $conn->prepare("DELETE FROM productData WHERE scentID = ? and productID=?");
+$query = $conn->prepare("DELETE FROM productdata WHERE scentID = ? and productID=?");
 $query->bind_param("ii", $scentID,$productID);
 
 if ($query->execute()) {

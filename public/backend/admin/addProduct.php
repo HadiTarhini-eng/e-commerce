@@ -49,7 +49,7 @@ foreach ($scents as $scentIndex => $scent) {
     $scentID = $scent['scentID'];
     $stock = $scent['scentStock'];
 
-    $stmt = $conn->prepare("INSERT INTO productData (productID, scentID, stock) VALUES (?, ?, ?)");
+    $stmt = $conn->prepare("INSERT INTO productdata (productID, scentID, stock) VALUES (?, ?, ?)");
     $stmt->bind_param("iii", $productID, $scentID, $stock);
     if (!$stmt->execute()) {
         die("Error inserting product data: " . $stmt->error);

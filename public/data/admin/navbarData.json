@@ -1,7 +1,7 @@
 {
     "logo": {
-      "image": "../../../src/assets/image/icons/blushe.png",
-      "link": "../../../src/assets/image/icons/blushe.png",
+      "image": "/assets/image/icons/blushe.png",
+      "link": "/assets/image/icons/blushe.png",
       "text": "",
       "userImage": "https://flowbite.com/docs/images/people/profile-picture-5.jpg"
     },

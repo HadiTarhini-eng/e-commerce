@@ -50,7 +50,7 @@ $sql = "
     ON 
         orders.paymentID = paymentLookup.id
     LEFT JOIN 
-        productData AS pd
+        productdata AS pd
     ON 
         orderData.productID = pd.productID AND orderData.scentID = pd.scentID 
     LEFT JOIN 

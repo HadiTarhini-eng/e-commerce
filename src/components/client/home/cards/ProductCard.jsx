@@ -78,7 +78,7 @@ const ProductCard = ({
       {/* Out of Stock Badge */}
       {outOfStock && (
         <div className="absolute w-full text-center top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 -rotate-6 font-bold text-lg px-2 py-2 rounded-md">
-          <img src="../../../../../src/assets/image/icons/out_of_stock.png" alt="OUT OF STOCK" />
+          <img src="/assets/image/icons/out_of_stock.png" alt="OUT OF STOCK" />
         </div>
       )}
       <div className={` ${outOfStock ? 'opacity-50 cursor-not-allowed' : ''}`}>

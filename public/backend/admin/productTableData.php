@@ -18,7 +18,7 @@ SELECT
 FROM 
     products p
 LEFT JOIN 
-    productData pd ON p.id = pd.productID
+    productdata pd ON p.id = pd.productID
 LEFT JOIN 
     categories c ON c.id = p.categoryID
 GROUP BY 

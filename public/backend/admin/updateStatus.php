@@ -37,7 +37,7 @@ try {
             $productId = (int)$row['productID'];
             $quantity = (int)$row['quantity'];
 
-            $updateStockQuery = $conn->prepare("UPDATE productData SET stock = stock - ? WHERE scentID = ? AND productID = ?");
+            $updateStockQuery = $conn->prepare("UPDATE productdata SET stock = stock - ? WHERE scentID = ? AND productID = ?");
             $updateStockQuery->bind_param("iii", $quantity, $scentId, $productId);
 
             if (!$updateStockQuery->execute()) {

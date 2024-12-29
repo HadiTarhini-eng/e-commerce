@@ -91,7 +91,7 @@ if ($stmt->num_rows > 0) {
         $scentID = $scent['scentID'];
         $stock = $scent['scentStock'];
 
-        $stmt = $conn->prepare("SELECT id FROM productData WHERE productID = ? AND scentID = ?");
+        $stmt = $conn->prepare("SELECT id FROM productdata WHERE productID = ? AND scentID = ?");
         $stmt->bind_param("ii", $productID, $currentScentID);
         $stmt->execute();
         $stmt->store_result();
@@ -100,14 +100,14 @@ if ($stmt->num_rows > 0) {
   
             $productDataID=$id;
 
-            $stmt = $conn->prepare("UPDATE productData SET stock = ?, scentID = ? WHERE productID = ? AND scentID = ?");
+            $stmt = $conn->prepare("UPDATE productdata SET stock = ?, scentID = ? WHERE productID = ? AND scentID = ?");
             $stmt->bind_param("iiii", $stock, $scentID, $productID, $currentScentID);
             if (!$stmt->execute()) {
                 die("Error updating productData: " . $stmt->error);
             }
         } else {
  
-            $stmt = $conn->prepare("INSERT INTO productData (productID, scentID, stock) VALUES (?, ?, ?)");
+            $stmt = $conn->prepare("INSERT INTO productdata (productID, scentID, stock) VALUES (?, ?, ?)");
             $stmt->bind_param("iii", $productID, $scentID, $stock);
             if (!$stmt->execute()) {
                 die("Error inserting product data: " . $stmt->error);

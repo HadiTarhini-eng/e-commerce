@@ -30,7 +30,7 @@ const SignIn = () => {
     if (!password) errors.password = 'Password is required';
     if (isSignUp && !fullName) errors.fullName = 'Full Name is required';
     if (isSignUp && password !== confirmPassword) errors.confirmPassword = 'Passwords do not match';
-    if (isSignUp && !phoneNumber) errors.phoneNumber = 'Phone number is required'; // Validate phone number during sign-up
+    // if (isSignUp && !phoneNumber) errors.phoneNumber = 'Phone number is required'; // Validate phone number during sign-up
     if (isSignUp && phoneNumber && !isPossiblePhoneNumber(phoneNumber)) {
       errors.phoneNumber = 'Please enter a valid phone number'; // Additional validation for phone number format
     }

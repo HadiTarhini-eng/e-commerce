@@ -9,7 +9,7 @@ $stmt = $conn->prepare("
     SELECT p.id AS productID, p.productName, p.price, p.discount, p.categoryID, p.image AS productImage, p.createdAt, p.description, 
            s.id as scentID, s.scentName, pd.stock AS scentStock, si.image AS scentImage, si.dominant,si.id as scentImageID
     FROM products p
-    JOIN productData pd ON p.id = pd.productID
+    JOIN productdata pd ON p.id = pd.productID
     JOIN scents s ON pd.scentID = s.id
     LEFT JOIN scentImages si ON pd.id = si.productDataID
     WHERE p.id = ?

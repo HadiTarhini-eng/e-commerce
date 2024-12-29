@@ -29,7 +29,7 @@ $query = $conn->prepare("
            " . (isset($id) ? ", r.id AS reviewID, u.fullName AS username, r.description AS reviewComment, r.date AS reviewDate,si.dominant,
            si.image AS scentImage" : "") . "
     FROM products p
-    LEFT JOIN ProductData pd ON pd.productID = p.id
+    LEFT JOIN productdata pd ON pd.productID = p.id
     LEFT JOIN Scents s ON s.id = pd.scentID
     LEFT JOIN categories c ON p.categoryID = c.id
     " . $favCondition . "

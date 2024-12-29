@@ -2,13 +2,13 @@
     {
       "id": 1,
       "title": "Cash on Delivery",
-      "image": "../../src/assets/image/catgeory/electronics.png",
+      "image": "/assets/image/catgeory/electronics.png",
       "onClick": "electronicsClicked"
     },
     {
       "id": 2,
       "title": "VISA",
-      "image": "../../src/assets/image/catgeory/furniture.png",
+      "image": "/assets/image/catgeory/furniture.png",
       "onClick": "furnitureClicked"
     }
   ]
