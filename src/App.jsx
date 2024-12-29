@@ -44,10 +44,10 @@ const App = () => {
           <Route path="/favorites" element={<Favorites />}/>
         </Route>
 
-        {/* Admin */}
+        Admin
         <Route
           element={
-            <ProtectedRoute>
+            <ProtectedRoute requiredUserType="admin">
               <AdminLayout />
             </ProtectedRoute>
           }
