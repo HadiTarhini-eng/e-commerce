@@ -38,20 +38,17 @@ const SignIn = () => {
   };
 
   const handlePhoneNumberChange = (e) => {
-    const value = e.target || e;
-    if(value.target !== undefined) {
-      setPhoneNumber(value);
-    }
+    setPhoneNumber(e);
   };
 
   // Handle Submit for Sign In and Sign Up
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     // Validate form
     const validationErrors = validateForm();
     setValidationErrors(validationErrors);
-  
+
     if (Object.keys(validationErrors).length > 0) {
       // Display toast for each error
       Object.values(validationErrors).forEach((errorMsg) => {
@@ -61,7 +58,7 @@ const SignIn = () => {
       });
       return;
     }
-  
+
     if (isSignUp) {
       const userData = { fullName, email, password, phoneNumber };
       try {
@@ -98,10 +95,10 @@ const SignIn = () => {
             userType: userDetails.userType
           }); // Store user data in AuthContext
           toast.success('Successfully signed in!');
-          
-          if(userType === 'client') {
+
+          if (userType === 'client') {
             navigate('/'); // Redirect to home page after successful sign-in
-          } else if(userType === 'admin'){
+          } else if (userType === 'admin') {
             navigate('/dashboard');
           }
         } else {
@@ -112,7 +109,7 @@ const SignIn = () => {
         toast.error('Error signing in. Please try again later.');
       }
     }
-  };  
+  };
 
   // Handle the toggling of Sign-Up and Sign-In
   const toggleForm = () => {
@@ -163,7 +160,7 @@ const SignIn = () => {
                 id="phoneNumber"
                 title="Phone Number"
                 value={phoneNumber}
-                onChange={(value) => handlePhoneNumberChange({ target: value })}
+                onChange={(value) => handlePhoneNumberChange(value)}
                 placeholder="Enter phone number"
                 required
                 error={validationErrors.phoneNumber}

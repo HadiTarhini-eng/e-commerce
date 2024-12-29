@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 
 const Description = ({ description }) => {
   const [isLoading, setIsLoading] = useState(true);
@@ -9,6 +9,16 @@ const Description = ({ description }) => {
       setIsLoading(false); // Stop loading when the description is available
     }
   }, [description]);
+
+  // Function to render the description with new lines (only on \n)
+  const renderDescription = (text) => {
+    return text.split("\n").map((line, index) => (
+      <span key={index}>
+        {line}
+        <br />
+      </span>
+    ));
+  };
 
   return (
     <div className="w-full max-w-2xl mx-auto bg-palette-white rounded-lg overflow-hidden p-4 mt-4">
@@ -26,9 +36,7 @@ const Description = ({ description }) => {
           </div>
         ) : (
           // Actual Description Text
-          <p className="text-gray-600 text-sm">
-            {description}
-          </p>
+          <p className="text-gray-600 text-sm">{renderDescription(description)}</p>
         )}
       </div>
     </div>

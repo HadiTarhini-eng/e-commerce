@@ -64,6 +64,7 @@ const ScentsTablePage = () => {
         const addedScentData = await addScent(newScentData);  // Call the API to add a new scent
         setData((prevData) => [...prevData, addedScentData]);
         toast.success('Added new scent successfully!');
+        window.location.reload();
       }
 
       closeModal(); // Close the modal after action

@@ -363,6 +363,7 @@ const ProductDetailsPage = () => {
                                 placeholder="Write..."
                                 id="price"
                                 value={product.specifications}
+                                rows={5}
                                 onChange={(e) => handleInputChange(e, 'specifications')}
                             />
 

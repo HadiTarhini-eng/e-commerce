@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import InputField from '../../components/InputField';
 import Carousel from '../../components/client/home/Carousel';
 import { fetchCarouselData, fetchProducts, saveCarouselData } from '../../api/adminApi';
+import toast from 'react-hot-toast';
 
 const CarouselEditor = () => {
   const [carousels, setCarousels] = useState([]);
@@ -66,7 +67,7 @@ const CarouselEditor = () => {
   // Handle removing a carousel
   const handleRemoveCarousel = (id) => {
     if (carousels.length <= 2) {
-      alert("You must have at least 2 slides.");
+      toast.error("You must have at least 2 slides.");
       return;
     }
     setCarousels(carousels.filter((carousel) => carousel.id !== id));
@@ -76,10 +77,10 @@ const CarouselEditor = () => {
   const handleSaveChanges = async () => {
     try {
       await saveCarouselData(carousels);
-      alert('Changes saved successfully');
+      toast.success('Changes saved successfully');
     } catch (error) {
       console.error('Error saving carousel data:', error);
-      alert('Error saving changes');
+      toast.error('Error saving changes');
     }
   };
 
