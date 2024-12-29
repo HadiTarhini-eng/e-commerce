@@ -1,30 +1,30 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Home from './Pages/client/Home';
-import ProductPage from './Pages/client/ProductPage'; 
-import Cart from './Pages/client/Cart';
-import NotFoundPage from './components/client/NotFoundPage';
-import Layout from './components/client/Layout';
-import CheckoutForm from './Pages/client/CheckoutForm';
-import PaymentPage from './Pages/client/PaymentPage';
-import SocialsPage from './Pages/client/SocialsPage';
-import AdminLayout from './components/admin/AdminLayout';
-import ProductTablePage from './Pages/admin/ProductTablePage';
-import AdminDashboard from './Pages/admin/AdminDashboard';
-import SignInPage from './Pages/client/SignInPage';
-import OrderTrack from './Pages/client/OrderTrack';
-import OrderHistory from './Pages/client/OrderHistory';
-import OrderDetails from './Pages/client/OrderDetails';
-import Favorites from './Pages/client/Favorites';
-import OrdersPage from './Pages/admin/OrdersPage';
-import OrderSummaryPage from './Pages/admin/OrderSummary';
-import ClientsTablePage from './Pages/admin/ClientsTablePage';
-import ScentsTablePage from './Pages/admin/ScentsTablePage';
-import CategoryTablePage from './Pages/admin/CategoryTablePage';
-import ProductDetailsPage from './Pages/admin/ProductDetailsPage';
-import DiscountSettings from './Pages/admin/DiscountSettings';
-import CarouselEditor from './Pages/admin/CarouselEditor';
-import ProductReviewsPage from './Pages/admin/ProductReviewsPage';
-import ProtectedRoute from './components/client/ProtectedRoute';
+import Home from './client/Home';
+import ProductPage from './client/ProductPage'; 
+import Cart from './client/Cart';
+import NotFoundPage from '../components/client/NotFoundPage';
+import Layout from '../components/client/Layout';
+import CheckoutForm from './client/CheckoutForm';
+import PaymentPage from './client/PaymentPage';
+import SocialsPage from './client/SocialsPage';
+import AdminLayout from '../components/admin/AdminLayout';
+import ProductTablePage from './admin/ProductTablePage';
+import AdminDashboard from './admin/AdminDashboard';
+import SignInPage from './client/SignInPage';
+import OrderTrack from './client/OrderTrack';
+import OrderHistory from './client/OrderHistory';
+import OrderDetails from './client/OrderDetails';
+import Favorites from './client/Favorites';
+import OrdersPage from './admin/OrdersPage';
+import OrderSummaryPage from './admin/OrderSummary';
+import ClientsTablePage from './admin/ClientsTablePage';
+import ScentsTablePage from './admin/ScentsTablePage';
+import CategoryTablePage from './admin/CategoryTablePage';
+import ProductDetailsPage from './admin/ProductDetailsPage';
+import DiscountSettings from './admin/DiscountSettings';
+import CarouselEditor from './admin/CarouselEditor';
+import ProductReviewsPage from './admin/ProductReviewsPage';
+import ProtectedRoute from '../components/client/ProtectedRoute';
 
 const App = () => {
   return (
@@ -58,9 +58,6 @@ const App = () => {
           <Route path="/discountSettings" element={<DiscountSettings />} />
           <Route path="/carouselEditor" element={<CarouselEditor />} />
         </Route>
-
-        {/* 404 Page */}
-        <Route path="*" element={<NotFoundPage />} />
       </Routes>
   );
 };

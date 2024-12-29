@@ -1,8 +1,8 @@
 <?php
 include 'connection.php';
 
-$imageDir = realpath('../../../public/images/products');
-$uploadDir = realpath('../../../public/images/products');
+$imageDir = realpath('/home/vol16_1/infinityfree.com/if0_38001296/htdocs/images/products');
+$uploadDir = realpath('/home/vol16_1/infinityfree.com/if0_38001296/htdocs/images/products');
 $dominantColumn = "dominant";
 
 $productName = $_POST['name'];

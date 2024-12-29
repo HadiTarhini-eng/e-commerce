@@ -15,7 +15,7 @@ $sql = "
         buttonText,
         buttonColor,
         buttonPath
-    FROM Carousel;
+    FROM carousel;
 ";
 
 $result = $conn->query($sql);
