@@ -14,7 +14,13 @@ $sql = "
         showButton,
         buttonText,
         buttonColor,
-        buttonPath
+        buttonPath,
+        paragraphBgPadding,
+        paragraphBgBorderRadius,
+        paragraphBgOpacity,
+        headerBgPadding,
+        headerBgOpacity,
+        headerBgBorderRadius
     FROM carousel;
 ";
 

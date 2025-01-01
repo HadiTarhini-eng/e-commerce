@@ -8,7 +8,7 @@ $categoryId = (int)$_POST['id'];
 $categoryName = $_POST['title'];
 $image = isset($_FILES['image']) ? $_FILES['image'] : null;
 
-$imageDir = realpath('../../../public/images/categories'); 
+$imageDir = realpath('/home/vol16_1/infinityfree.com/if0_38001296/htdocs/images/categories'); 
 
 if (!$imageDir) {
     echo json_encode(["error" => "Failed to locate the images directory."]);

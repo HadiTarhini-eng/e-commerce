@@ -31,7 +31,6 @@ const ClientsTablePage = () => {
   const handleClientDelete = async (clientId) => {
     try {
       const response = await postClientDelete({ id: clientId });
-      console.log('Client deleted:', response);
 
       // Update the table data after successful delete
       setData((prevData) => prevData.filter(client => client.id !== clientId));

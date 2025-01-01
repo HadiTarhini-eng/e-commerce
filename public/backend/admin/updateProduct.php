@@ -1,28 +1,29 @@
 <?php
 include 'connection.php';
 
-$imageDir = realpath('../../../public/images/products');
-$uploadDir = realpath('../../../public/images/products');
+$imageDir = realpath('/home/vol16_1/infinityfree.com/if0_38001296/htdocs/images/products');
+$uploadDir = realpath('/home/vol16_1/infinityfree.com/if0_38001296/htdocs/images/products');
 
 $productName = $_POST['name'];
 $price = $_POST['price'];
 $discount = $_POST['discount'];
 $categoryID = $_POST['category'];
 $image = isset($_FILES['image']) ? $_FILES['image'] : null;
-$scents = $_POST['scents'];
+$scents = isset($_POST['scents']) ? $_POST['scents'] : [];
 $date = date("d-m-Y");
 $description = $_POST['specifications']; 
 $productID = $_POST['productID'];
-$currentScentID=$_POST['productID'];
-$removedImagesID=$_POST['removedImages'];
+$removedImagesID = $_POST['removedImages'];
+$productStock = isset($_POST['stock']) ? (int)$_POST['stock'] : 0;
 
+// Check if the product exists
 $stmt = $conn->prepare("SELECT id FROM products WHERE id = ?");
 $stmt->bind_param("i", $productID);
 $stmt->execute();
 $stmt->store_result();
 
 if ($stmt->num_rows > 0) {
-
+    // Update product image if provided
     if (isset($image) && $image['error'] === UPLOAD_ERR_OK) {
         $tmpName = $image['tmp_name'];
         $imageType = exif_imagetype($tmpName);
@@ -51,135 +52,100 @@ if ($stmt->num_rows > 0) {
         if (!$stmt->execute()) {
             die("Error updating product image: " . $stmt->error);
         }
-    } else {
-
-        echo "No valid image uploaded. Skipping image update.<br>";
     }
 
-  
-    $stmt = $conn->prepare("UPDATE products SET productName = ?, price = ?, discount = ?, categoryID = ?, description = ? WHERE id = ?");
-    $stmt->bind_param("sdiiss", $productName, $price, $discount, $categoryID, $description, $productID);
+    // Update product details
+    $stmt = $conn->prepare("UPDATE products SET productName = ?, price = ?, discount = ?, categoryID = ?, description = ?, stock=? WHERE id = ?");
+    $stmt->bind_param("sdiissi", $productName, $price, $discount, $categoryID, $description,$productStock, $productID);
     if (!$stmt->execute()) {
         die("Error updating product: " . $stmt->error);
     }
 
+    // Remove deleted scent images
+    if (!empty($removedImagesID)) {
         $removedImagesIDs = explode(',', $removedImagesID);
         $removedImagesIDs = array_map('intval', $removedImagesIDs); 
-
-
         $placeholders = implode(',', array_fill(0, count($removedImagesIDs), '?'));
 
         $sql = "DELETE FROM scentimages WHERE id IN ($placeholders)";
         $query = $conn->prepare($sql);
-
         if (!$query) {
             die("Prepare failed: " . $conn->error);
         }
-
         $query->bind_param(str_repeat('i', count($removedImagesIDs)), ...$removedImagesIDs);
-
-        if ($query->execute()) {
-            echo "Deleted successfully!";
-        } else {
+        if (!$query->execute()) {
             die("Execute failed: " . $query->error);
         }
+    }
 
+    // Handle scents if provided
+    if (!empty($scents)) {
+        foreach ($scents as $scentIndex => $scent) {
+            $currentScentID = isset($scent['currentScentId']) ? $scent['currentScentId'] : null;
+            $scentID = $scent['scentID'];
+            $stock = $scent['scentStock'];
 
-    foreach ($scents as $scentIndex => $scent) {
-        $currentScentID=$_POST['scents'][$scentIndex]['currentScentId'];
-        $scentID = $scent['scentID'];
-        $stock = $scent['scentStock'];
+            // Check if productdata entry exists for the current scent
+            $stmt = $conn->prepare("SELECT id FROM productdata WHERE productID = ? AND scentID = ?");
+            $stmt->bind_param("ii", $productID, $currentScentID);
+            $stmt->execute();
+            $stmt->store_result();
+            $stmt->bind_result($id);
 
-        $stmt = $conn->prepare("SELECT id FROM productdata WHERE productID = ? AND scentID = ?");
-        $stmt->bind_param("ii", $productID, $currentScentID);
-        $stmt->execute();
-        $stmt->store_result();
-        $stmt->bind_result($id);
-        if ($stmt->fetch()) {
-  
-            $productDataID=$id;
+            if ($stmt->fetch()) {
+                $productDataID = $id;
 
-            $stmt = $conn->prepare("UPDATE productdata SET stock = ?, scentID = ? WHERE productID = ? AND scentID = ?");
-            $stmt->bind_param("iiii", $stock, $scentID, $productID, $currentScentID);
-            if (!$stmt->execute()) {
-                die("Error updating productData: " . $stmt->error);
+                // Update existing entry
+                $stmt = $conn->prepare("UPDATE productdata SET stock = ?, scentID = ? WHERE productID = ? AND scentID = ?");
+                $stmt->bind_param("iiii", $stock, $scentID, $productID, $currentScentID);
+                if (!$stmt->execute()) {
+                    die("Error updating productData: " . $stmt->error);
+                }
+            } else {
+                // Insert new entry
+                $stmt = $conn->prepare("INSERT INTO productdata (productID, scentID, stock) VALUES (?, ?, ?)");
+                $stmt->bind_param("iii", $productID, $scentID, $stock);
+                if (!$stmt->execute()) {
+                    die("Error inserting product data: " . $stmt->error);
+                }
+                $productDataID = $stmt->insert_id;
             }
-        } else {
- 
-            $stmt = $conn->prepare("INSERT INTO productdata (productID, scentID, stock) VALUES (?, ?, ?)");
-            $stmt->bind_param("iii", $productID, $scentID, $stock);
-            if (!$stmt->execute()) {
-                die("Error inserting product data: " . $stmt->error);
-            }
-            $productDataID = $stmt->insert_id;
-        }
 
-        if (isset($_FILES['scents']['name'][$scentIndex]['ScentImages'])) {
-            foreach ($_FILES['scents']['name'][$scentIndex]['ScentImages'] as $index => $imageName) {
-                if ($_FILES['scents']['error'][$scentIndex]['ScentImages'][$index] === UPLOAD_ERR_OK) {
-
-                    $tmpName = $_FILES['scents']['tmp_name'][$scentIndex]['ScentImages'][$index];
-                    $imageType = exif_imagetype($tmpName);
-                    if ($imageType !== IMAGETYPE_PNG) {
-                        die("Only PNG images are allowed for scent images.");
-                    }
-
-                    if (!is_writable($uploadDir)) {
-                        die("Directory is not writable for scent images.");
-                    }
-
-                    $scentFirstImage = isset($_FILES['scents']['name'][$scentIndex]['scentFirstImage']) ? $_FILES['scents']['name'][$scentIndex]['scentFirstImage']:$_POST['scents'][$scentIndex]['scentFirstImage'];
-                    $scentImageName = preg_replace("/[^a-zA-Z0-9\-_\.]/", "_", basename($imageName));
-                    $scentTargetPath = $uploadDir . DIRECTORY_SEPARATOR . $scentImageName;
-                    if (!move_uploaded_file($tmpName, $scentTargetPath)) {
-                        die("Failed to move scent image to the target path.");
-                    }
-
-                    $dominant = ($scentImageName == preg_replace("/[^a-zA-Z0-9\-_\.]/", "_", basename($scentFirstImage))) ? 1 : 0;
-
-                    if($dominant==1){
-                        $stmt = $conn->prepare("update scentimages set dominant=0 where productDataID=?");
-                        $stmt->bind_param("i", $productDataID);
-                        if (!$stmt->execute()) {
-                            die("Error inserting scent image: " . $stmt->error);
+            // Handle scent images
+            if (isset($_FILES['scents']['name'][$scentIndex]['ScentImages'])) {
+                foreach ($_FILES['scents']['name'][$scentIndex]['ScentImages'] as $index => $imageName) {
+                    if ($_FILES['scents']['error'][$scentIndex]['ScentImages'][$index] === UPLOAD_ERR_OK) {
+        
+                        $tmpName = $_FILES['scents']['tmp_name'][$scentIndex]['ScentImages'][$index];
+                        $imageType = exif_imagetype($tmpName);
+                        if ($imageType !== IMAGETYPE_PNG) {
+                            die("Only PNG images are allowed for scent images.");
                         }
-                    }
-
-                   
-
+        
+                        if (!is_writable($uploadDir)) {
+                            die("Directory is not writable for scent images.");
+                        }
+                        $scentFirstImage=  $_FILES['scents']['name'][$scentIndex]['scentFirstImage'];
+                        $scentImageNamenew = preg_replace("/[^a-zA-Z0-9\-_\.]/", "_", basename($scentFirstImage));
+                        $scentImageName = preg_replace("/[^a-zA-Z0-9\-_\.]/", "_", basename($imageName));
+                        $scentTargetPath = $uploadDir . DIRECTORY_SEPARATOR . $scentImageName;
+                        if (!move_uploaded_file($tmpName, $scentTargetPath)) {
+                            die("Failed to move scent image to the target path.");
+                        }
+        
+                        $dominant = ($scentImageName  == $scentImageNamenew) ? 1 : 0;
+        
                         $stmt = $conn->prepare("INSERT INTO scentimages (productDataID, image, dominant) VALUES (?, ?, ?)");
                         $stmt->bind_param("isi", $productDataID, $scentImageName, $dominant);
                         if (!$stmt->execute()) {
                             die("Error inserting scent image: " . $stmt->error);
                         }
-                    
-                }
-            }
-        }else {
-            echo "No scent images found for scent ID: $scentID. Skipping image update.<br>";
-            if (isset($_POST['scents'][$scentIndex]['ScentImages'])) {
-                foreach ($_POST['scents'][$scentIndex]['ScentImages'] as $index => $imageName) {
-                    $scentImageName = $_POST['scents'][$scentIndex]['ScentImages'][$index];
-        
-                    if (isset($_POST['scents'][$scentIndex]['scentFirstImage']) &&$_POST['scents'][$scentIndex]['scentFirstImage']!= 'undefined') {
-                        $scentFirstImage = $_POST['scents'][$scentIndex]['scentFirstImage'];
-        
-                        var_dump($scentImageName);
-                        var_dump($scentFirstImage);
-        
-                        // Sanitize and compare to determine dominance
-                        $dominant = ($scentImageName == preg_replace("/[^a-zA-Z0-9\-_\.]/", "_", basename($scentFirstImage))) ? 1 : 0;
-        
-                        $stmt = $conn->prepare("UPDATE scentimages SET dominant = ? WHERE productDataID = ? AND image = ?");
-                        $stmt->bind_param("iis", $dominant, $productDataID, $scentImageName);
-        
-                        $stmt->execute();
-                    } else {
-                        echo "scentFirstImage is undefined. Skipping dominance update for this image.<br>";
                     }
                 }
+            } else {
+                echo "No scent images found for scent ID: $scentID. Skipping image insertion.<br>";
             }
-        }        
+        }
     }
 
     echo "Product and scent data updated successfully!";

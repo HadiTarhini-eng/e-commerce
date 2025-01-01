@@ -11,7 +11,7 @@ export const calculateDiscount = (product) => {
   };
 
   // Check if the product is new and discount is null
-  if (discount === null && isNewProduct(createdAt)) {
+  if ((discount === null || discount === 0) && isNewProduct(createdAt)) {
     return {
       newPrice: oldPrice,  // No discount, so the new price is the old price
       oldPrice: null,      // No old price when there's no discount

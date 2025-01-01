@@ -8,6 +8,7 @@ const OrderDetails = () => {
     const [orderData, setOrderData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [hasScents, setHasScents] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -15,6 +16,8 @@ const OrderDetails = () => {
         const fetchData = async () => {
           try {
             const order = await fetchOrderDetailsById(orderID);
+            const hasNoScent = order.products.some(product => product.scent === null);
+            setHasScents(hasNoScent);
             if (order) {
               setOrderData(order);
             } else {
@@ -97,7 +100,9 @@ const OrderDetails = () => {
                                     </div>
                                     <div className="col-span-2">
                                         <h2 className="font-medium text-xl leading-8 text-black">{product.name}</h2>
-                                        <p className="font-normal text-lg leading-8 text-gray-500">Scent: {product.scent}</p>
+                                        {!hasScents && (
+                                            <p className="font-normal text-lg leading-8 text-gray-500">Scent: {product.scent}</p>
+                                        )}
                                     </div>
                                 </div>
                                 <div className="grid grid-cols-1 md:grid-cols-2 w-full gap-3 md:gap-8">

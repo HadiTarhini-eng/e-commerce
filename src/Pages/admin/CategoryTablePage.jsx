@@ -13,7 +13,7 @@ const CategoryTablePage = () => {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedCategoryIdToDelete, setSelectedCategoryIdToDelete] = useState(null); // Track the category to be deleted
   const [isEditing, setIsEditing] = useState(false);
-  console.log(data)
+  
   useEffect(() => {
     const fetchColumnsAndData = async () => {
       try {
@@ -22,7 +22,6 @@ const CategoryTablePage = () => {
         
         const dataResponse = await fetchCategoryTableData();
         setData(dataResponse);
-        console.log(data)
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -38,7 +37,6 @@ const CategoryTablePage = () => {
     if (category) {
       setSelectedCategory(category);
       setIsEditing(true);
-      console.log(category)
     } else {
       setSelectedCategory(null);
       setIsEditing(false);
@@ -56,7 +54,6 @@ const CategoryTablePage = () => {
         );
         
         toast.success('Updated category successfully!');
-        console.log(data)
       } else {
         const newCategoryData = await addCategory(updatedCategory);
         setData((prevData) => [...prevData, updatedCategory]);

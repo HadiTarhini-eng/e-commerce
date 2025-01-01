@@ -33,7 +33,6 @@ const ProductReviewsPage = () => {
   const handleReviewDelete = async (reviewId) => {
     try {
       const response = await postReviewDelete({ id: reviewId });
-      console.log('Review deleted:', response);
 
       // Update the table data after successful delete
       setData((prevData) => prevData.filter(review => review.id !== reviewId));

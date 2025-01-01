@@ -14,7 +14,7 @@ const CheckoutForm = () => {
   const navigate = useNavigate(); // Initialize navigate
   const [activeVisaCard, setActiveVisaCard] = useState(false);
   const totalWithoutDelivery = parseFloat(useSelector(state => state.cart.checkoutData.totalWithoutDelivery), 10);
-  const { userId } = useAuth();
+  const userId  = useAuth();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -59,7 +59,7 @@ const CheckoutForm = () => {
           fetchPaymentMethods(),
           fetchDeliveryMethods(),
           fetchDeliveryThreshold(),
-          fetchUserDetails(userId),
+          fetchUserDetails(userId.userId),
           fetchVisaCardStatus(),
         ]);
 
@@ -141,6 +141,7 @@ const CheckoutForm = () => {
         const totalWithDelivery = totalWithoutDelivery + adjustedDeliveryPrice;
 
         // Dispatch the total with delivery
+        dispatch(updateCheckoutData({ field: 'freeDelivery', value: freeDelivery }));
         dispatch(updateCheckoutData({ field: 'totalWithDelivery', value: totalWithDelivery }));
       } else {
         // Dispatch the delivery method with the adjusted delivery price

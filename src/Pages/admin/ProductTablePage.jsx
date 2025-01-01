@@ -15,7 +15,6 @@ const ProductTablePage = () => {
   const [isDiscountModalOpen, setIsDiscountModalOpen] = useState(false);
   const [discountValue, setDiscountValue] = useState(''); // Track discount value
   const navigate = useNavigate();
-  console.log(data)
 
   const updateData = (updatedData) => {
     const modifiedData = updatedData.map((product) => ({
@@ -93,6 +92,7 @@ const ProductTablePage = () => {
 
       await applyDiscountToProducts(returnedDiscount, productIds); // Call the POST API to apply the discount
       toast.success('Discount applied successfully!');
+      window.location.reload();
     } catch (error) {
       toast.error('Error applying discount.');
       console.error('API Error:', error);
@@ -133,7 +133,6 @@ const ProductTablePage = () => {
           ...prevDiscount,
           discountValue: e.target.value,
         }));
-        console.log(e.target.value)
       },
       required: true,
     },

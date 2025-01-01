@@ -18,12 +18,17 @@ const ProductDetailsPage = () => {
         specifications: '',
         reviews: [],
         scents: [],
+        stock: 0,
     });
+    
     const [productSubmit, setProductSubmit] = useState({});
     const [scentFirstImage, setscentFirstImage] = useState({});
     const [currentScentId, setCurrentScentId] = useState(null);
     const [removedImages, setRemovedImages] = useState([]);
+    const [hasScents, setHasScents] = useState(false);
+    
     const navigate = useNavigate();
+  
     // Fetch the product data
     useEffect(() => {
         const fetchProduct = async () => {
@@ -80,7 +85,6 @@ const ProductDetailsPage = () => {
 
     // Handle category change
     const handleCategoryChange = (categoryId) => {
-        console.log(categoryId)
         setProduct(prev => ({
             ...prev,
             category: categoryId, // Update the category field
@@ -89,7 +93,7 @@ const ProductDetailsPage = () => {
 
     // Handle scent name changes
     const handleScentNameChange = (scentID, selectedScentID, newId) => {
-        console.log(scentID, newId);
+
         setProduct(prev => ({
             ...prev,
             scents: prev.scents.map(scent =>
@@ -114,34 +118,34 @@ const ProductDetailsPage = () => {
 
     // Handle file input changes separately
     const handleFileChange = (e, id) => {
-        console.log(id);
+
         const file = e.target.files ? e.target.files[0] : null;
-    
+
         if (file) {
             const fileName = file.name; // Get the file name
             const reader = new FileReader();
-    
+
             reader.onloadend = () => {
                 const imagePreviewURL = reader.result; // Data URL for preview purposes
-    
+
                 // Create an Image object for resizing
                 const img = new Image();
                 img.src = imagePreviewURL;
-    
+
                 img.onload = () => {
                     // Create a canvas to resize the image
                     const canvas = document.createElement('canvas');
                     const ctx = canvas.getContext('2d');
-    
+
                     // Set the desired width and maintain aspect ratio
                     const maxWidth = 800; // Set a maximum width
                     const scaleFactor = maxWidth / img.width;
                     canvas.width = maxWidth;
                     canvas.height = img.height * scaleFactor;
-    
+
                     // Draw the image onto the canvas
                     ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-    
+
                     // Convert the canvas to a compressed image
                     canvas.toBlob(
                         (blob) => {
@@ -149,9 +153,9 @@ const ProductDetailsPage = () => {
                                 type: file.type, // Keep the original file type (PNG)
                                 lastModified: Date.now(),
                             });
-    
+
                             const compressedImageURL = URL.createObjectURL(blob);
-    
+
                             if (id === 'mainImage') {
                                 setProduct((prev) => ({
                                     ...prev,
@@ -184,12 +188,12 @@ const ProductDetailsPage = () => {
                     );
                 };
             };
-    
+
             // Read the file as a Data URL
             reader.readAsDataURL(file);
         }
     };
-  
+
     // Remove scent image
     const handleRemoveImage = (scentID, imageID) => {
         setProduct(prev => ({
@@ -203,6 +207,11 @@ const ProductDetailsPage = () => {
         setRemovedImages((prev) => (Array.isArray(prev) ? [...prev, imageID] : [imageID]));
     };
 
+    const updateHasScents = (scents) => {
+        // Update hasScents based on the presence of scents
+        setHasScents(scents.length > 0);
+    };
+
     // Add new scent
     const handleAddScent = () => {
         // Check if the last scent in the array has an empty scentID
@@ -212,23 +221,39 @@ const ProductDetailsPage = () => {
             return; // Stop if the previous scent has an empty scentID
         }
 
-        setProduct(prev => ({
-            ...prev,
-            scents: [
+        // Add a new scent and update the state
+        setProduct((prev) => {
+            const updatedScents = [
                 ...prev.scents,
-                { scentID: '', scentName: '', ScentImages: [], scentStock: 0 }
-            ]
-        }));
+                { scentID: "", scentName: "", ScentImages: [], scentStock: 0 },
+            ];
+            
+            // Call updateHasScents with the new scents array
+            updateHasScents(updatedScents);
+    
+            return {
+                ...prev,
+                scents: updatedScents,
+            };
+        });
     };
 
     // Remove scent
     const handleRemoveScent = async (scentID) => {
-        setProduct(prev => ({
-            ...prev,
-            scents: prev.scents.filter(scent => scent.scentID !== scentID)
-        }));
+        // Remove the scent from the product's scents array
+        setProduct((prev) => {
+            const updatedScents = prev.scents.filter((scent) => scent.scentID !== scentID);
             
-      
+            // Call updateHasScents with the updated scents array
+            updateHasScents(updatedScents);
+    
+            return {
+                ...prev,
+                scents: updatedScents,
+            };
+        });
+
+
         try {
             const result = await postRemoveScent(scentID, id);
             toast.success("Scent removed successfully!");
@@ -240,7 +265,7 @@ const ProductDetailsPage = () => {
 
     // Handle scent first image selection
     const handleScentFirstImageChange = (scentID, image) => {
-      
+
         setProduct(prev => ({
             ...prev,
             scents: prev.scents.map(scent =>
@@ -297,7 +322,7 @@ const ProductDetailsPage = () => {
 
         // Validate scent selection
         for (const scent of product.scents) {
-            console.log(scent.scentFirstImage)
+
             if (scent.scentFirstImage.length === 0) {
                 toast.error("Each scent must have a main image selected!");
                 return false;
@@ -325,7 +350,7 @@ const ProductDetailsPage = () => {
                 navigate('/productTable'); // Redirect to products list after successful addition
                 // window.location.reload();
             } else {
-                result = await updateProductData(product, id,currentScentId,removedImages); // Update an existing product
+                result = await updateProductData(product, id, currentScentId, removedImages); // Update an existing product
                 toast.success("Product updated successfully!");
                 navigate('/productTable');
             }
@@ -350,7 +375,7 @@ const ProductDetailsPage = () => {
                             <h2 className="text-lg font-bold text-gray-800 pb-2 mb-4">Image:</h2>
                             <div className="w-full px-4 mb-8">
                                 <img
-                                    src={product.imageURL  ?  product.imageURL:`/images/products/${product.image}` }
+                                    src={product.imageURL ? product.imageURL : `/images/products/${product.image}`}
                                     alt="Product"
                                     className="w-full h-auto object-contain bg-white rounded-lg shadow-md mb-4 min-w-[250px] max-w-[250px] max-h-[250px]"
                                 />
@@ -440,6 +465,24 @@ const ProductDetailsPage = () => {
                                     )}
                                 </div>
                             </div>
+
+                            {/* Stock Input for Scent */}
+                            {!hasScents && (
+                                <>
+                                    <h2 className="text-lg font-bold text-gray-800 pb-2 mt-4">Stock:</h2>
+                                    <div className="">
+                                        <InputField
+                                            type="number"
+                                            title="Stock"
+                                            placeholder="Stock"
+                                            id="stock"
+                                            value={product.stock || 0}
+                                            className="w-fit"
+                                            onChange={(e) => handleInputChange(e, 'stock')}
+                                        />
+                                    </div>
+                                </>
+                            )}
                         </div>
                     </div>
 

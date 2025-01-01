@@ -84,9 +84,8 @@ const SignIn = () => {
     } else {
       const credentials = { email, password };
       try {
-        const userDetails = await postSignInData(credentials); // Get user details from backend
+        const userDetails = await postSignInData(credentials);// Get user details from backend
         const userType = userDetails.userType;
-        console.log(userType);
         if (userDetails) {
           login({
             email,
@@ -107,7 +106,7 @@ const SignIn = () => {
           toast.error('Invalid credentials');
         }
       } catch (error) {
-        toast.error('Error signing in. Please try again later.');
+        
       }
     }
   };
