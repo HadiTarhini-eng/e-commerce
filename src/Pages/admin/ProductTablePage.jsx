@@ -93,6 +93,7 @@ const ProductTablePage = () => {
 
       await applyDiscountToProducts(returnedDiscount, productIds); // Call the POST API to apply the discount
       toast.success('Discount applied successfully!');
+      window.location.reload();
     } catch (error) {
       toast.error('Error applying discount.');
       console.error('API Error:', error);
