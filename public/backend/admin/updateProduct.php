@@ -144,6 +144,26 @@ if ($stmt->num_rows > 0) {
                 }
             } else {
                 echo "No scent images found for scent ID: $scentID. Skipping image insertion.<br>";
+                echo "No scent images found for scent ID: $scentID. Skipping image update.<br>";
+                if (isset($_POST['scents'][$scentIndex]['ScentImages'])) {
+                    foreach ($_POST['scents'][$scentIndex]['ScentImages'] as $index => $imageName) {
+                        $scentImageName = $_POST['scents'][$scentIndex]['ScentImages'][$index];
+            
+                        if (isset($_POST['scents'][$scentIndex]['scentFirstImage']) &&$_POST['scents'][$scentIndex]['scentFirstImage']!= 'undefined') {
+                            $scentFirstImage = $_POST['scents'][$scentIndex]['scentFirstImage'];
+            
+                            // Sanitize and compare to determine dominance
+                            $dominant = ($scentImageName == preg_replace("/[^a-zA-Z0-9\-_\.]/", "_", basename($scentFirstImage))) ? 1 : 0;
+            
+                            $stmt = $conn->prepare("UPDATE scentimages SET dominant = ? WHERE productDataID = ? AND image = ?");
+                            $stmt->bind_param("iis", $dominant, $productDataID, $scentImageName);
+            
+                            $stmt->execute();
+                        } else {
+                            echo "scentFirstImage is undefined. Skipping dominance update for this image.<br>";
+                        }
+                    }
+                }
             }
         }
     }
