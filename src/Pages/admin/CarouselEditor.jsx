@@ -9,7 +9,6 @@ const CarouselEditor = () => {
   const [products, setProducts] = useState([]); // State to hold product data
   const [loading, setLoading] = useState(true);
   const [imagePreview, setImagePreview] = useState({});
-  console.log(carousels)
   // Fetch carousel data and products
   useEffect(() => {
     const fetchData = async () => {
@@ -45,12 +44,25 @@ const CarouselEditor = () => {
     handleCarouselChange(id, 'image', file);
   };
 
+  const getCarouselsId = () => {
+    if (carousels.length === 0) {
+      return 1; // If no items exist, start from 1
+    }
+  
+    // Get the last item's ID and parse it as a number
+    const lastId = parseInt(carousels[carousels.length - 1].id, 10) || 0;
+  
+    // Increment the ID by 1
+    return lastId + 1;
+  }
+
   // Handle adding a new carousel
   const handleAddCarousel = () => {
+    const carouselId = getCarouselsId();
     setCarousels([  // Adding a new carousel to the list
       ...carousels,
       {
-        id: carousels.length + 1,
+        id: carouselId,
         image: "",
         header: "",
         paragraph: "",
@@ -61,8 +73,10 @@ const CarouselEditor = () => {
         buttonColor: "#000000", // Default button color
         buttonPath: "/new/page",
         headerBgOpacity: 1,
-        paragraphBgOpacity: 1,
         headerBgPadding: 4,
+        headerBgBorderRadius: 8,
+        paragraphBgOpacity: 1,
+        paragraphBgPadding: 4,
         paragraphBgBorderRadius: 8,
       }
     ]);
@@ -82,7 +96,7 @@ const CarouselEditor = () => {
     try {
       await saveCarouselData(carousels);
       toast.success('Changes saved successfully');
-      // window.location.reload();
+      window.location.reload();
     } catch (error) {
       console.error('Error saving carousel data:', error);
       toast.error('Error saving changes');
@@ -217,7 +231,7 @@ const CarouselEditor = () => {
                         min="0"
                         max="16"
                         step="1"
-                        value={carousel.padding}
+                        value={carousel.headerBgPadding}
                         onChange={(e) => handleCarouselChange(carousel.id, 'headerBgPadding', parseInt(e.target.value, 10))}
                         className="w-full"
                       />
@@ -231,7 +245,7 @@ const CarouselEditor = () => {
                         min="0"
                         max="50"
                         step="1"
-                        value={carousel.borderRadius}
+                        value={carousel.headerBgBorderRadius}
                         onChange={(e) => handleCarouselChange(carousel.id, 'headerBgBorderRadius', parseInt(e.target.value, 10))}
                         className="w-full"
                       />
@@ -273,7 +287,7 @@ const CarouselEditor = () => {
                         min="0"
                         max="16"
                         step="1"
-                        value={carousel.padding}
+                        value={carousel.paragraphBgPadding}
                         onChange={(e) => handleCarouselChange(carousel.id, 'paragraphBgPadding', parseInt(e.target.value, 10))}
                         className="w-full"
                       />
@@ -287,7 +301,7 @@ const CarouselEditor = () => {
                         min="0"
                         max="50"
                         step="1"
-                        value={carousel.borderRadius}
+                        value={carousel.paragraphBgBorderRadius}
                         onChange={(e) => handleCarouselChange(carousel.id, 'paragraphBgBorderRadius', parseInt(e.target.value, 10))}
                         className="w-full"
                       />

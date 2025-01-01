@@ -52,11 +52,9 @@ const ScentsTablePage = () => {
       if (isEditing) {
         // Update the scent if in edit mode
         const updatedData = await postScentUpdates(updatedScent);  // Call the API to update scent
-        console.log(updatedData)
         setData((prevData) =>
           prevData.map((item) => item.id === updatedScent.id ? updatedScent : item)
         );
-        console.log(data)
         toast.success('Updated scent successfully!');
       } else {
         // Add new scent logic here
@@ -89,7 +87,6 @@ const ScentsTablePage = () => {
 
   // Open confirmation modal for delete
   const openConfirmationModalForDelete = (scent) => {
-    console.log(scent)
     setSelectedScentIdToDelete(scent);
     setIsConfirmationModalOpen(true);
   };

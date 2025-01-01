@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { clearCart, clearCheckoutData } from '../../redux/cartSlice';
 import toast from 'react-hot-toast';
-import { submitOrder } from '../../api/clientApi';
+import { submitOrder } from '../../api/ClientApi';
 import { useAuth } from '../../components/client/AuthContext';
 
 const PaymentPage = () => {
@@ -43,7 +43,6 @@ const PaymentPage = () => {
 
       // Call the submitOrder function from the API file
       const response = await submitOrder(payload); // Use the function from the API file
-      console.log('Order confirmed:', response);
 
       // Clear the cart and checkout data, and navigate to home
       toast.success('You have successfully purchased your order!');
@@ -95,7 +94,7 @@ const PaymentPage = () => {
                   <p className="font-normal text-lg leading-8 text-gray-400">Total</p>
                   <div className="flex items-center gap-2">
                     {/* Display totalWithoutDiscount if it's different */}
-                    {checkoutData.totalWithoutDiscount !== checkoutData.totalWithDelivery && (
+                    {(checkoutData.isFirstOffer) && (checkoutData.totalWithoutDiscount !== checkoutData.totalWithDelivery) && (
                       <p className="font-medium text-lg leading-8 text-gray-400 line-through">
                         ${formatPrice(checkoutData.totalWithoutDiscount)}
                       </p>
@@ -103,17 +102,34 @@ const PaymentPage = () => {
 
                     {/* Display totalWithDelivery */}
                     <p className="font-medium text-xl leading-8 text-palette-button">
-                      ${formatPrice(checkoutData.totalWithDelivery)}
+                      ${formatPrice(checkoutData.totalWithoutDelivery)}
                     </p>
                   </div>
                 </div>
-
-                {/* Display the discount message */}
-                {checkoutData.totalWithoutDiscount !== checkoutData.totalWithDelivery && (
+                 
+               {/* Display the discount message */}
+                {(checkoutData.isFirstOffer && checkoutData.totalWithoutDiscount !== checkoutData.totalWithDelivery) && (
                   <p className="text-sm text-center text-red-500 mt-2">
                     You got {checkoutData.discount}% off on your first order!
                   </p>
                 )}
+
+                {/* Display the free delivery message */}
+                {((checkoutData.freeDelivery) && (parseFloat(checkoutData.totalWithoutDelivery) === checkoutData.totalWithDelivery)) && (
+                  <p className="text-sm text-center text-red-500 mt-2">
+                    You got free delivery on your order!
+                  </p>
+                )}
+              </div>
+
+              {/* Sub Total */}
+              <div className="flex flex-col gap-2 mb-5">
+                <div className="flex items-center justify-between gap-4">
+                  <p className="font-normal text-lg leading-8 text-gray-400">Sub Total</p>
+                  <p className="font-medium text-xl leading-8 text-palette-button">
+                    ${formatPrice(checkoutData.totalWithDelivery)}
+                  </p>
+                </div>
               </div>
 
               <button
@@ -142,7 +158,7 @@ const PaymentPage = () => {
                       className="w-[80px] sm:w-[120px] rounded-xl object-cover"
                     />
                   </div>
-                  <div className="flex flex-col items-end">
+                  <div className={`flex flex-col items-end`}>
                     <h2 className="font-medium text-xl leading-8 text-black text-right">{product.title}</h2>
                     <p className="font-normal text-lg leading-8 text-gray-500 text-right">{product.scentName}</p>
                   </div>

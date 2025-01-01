@@ -1,4 +1,3 @@
-
 <?php
 include 'connection.php';
 
@@ -10,9 +9,10 @@ $price = $_POST['price'];
 $discount = $_POST['discount'];
 $categoryID = $_POST['category'];
 $image = $_FILES['image'];
-$scents = $_POST['scents'];
 $date = date("d-m-Y");
 $description = $_POST['specifications']; 
+
+$productStock = isset($_POST['stock']) ? (int)$_POST['stock'] : 0;
 
 if ($image && $image['error'] === UPLOAD_ERR_OK) {
     $tmpName = $image['tmp_name'];
@@ -38,56 +38,60 @@ if ($image && $image['error'] === UPLOAD_ERR_OK) {
     }
 }
 
-$stmt = $conn->prepare("INSERT INTO products (productName, price, discount, categoryID, image, createdAt, description) VALUES (?, ?, ?, ?, ?, ?, ?)");
-$stmt->bind_param("sdiisss", $productName, $price, $discount, $categoryID, $imageName, $date, $description);
+// Insert product data
+$stmt = $conn->prepare("INSERT INTO products (productName, price, discount, categoryID, image, createdAt, description,stock) VALUES (?, ?, ?, ?, ?, ?, ?,?)");
+$stmt->bind_param("sdiisssi", $productName, $price, $discount, $categoryID, $imageName, $date, $description,$productStock);
 if (!$stmt->execute()) {
     die("Error inserting product: " . $stmt->error);
 }
 $productID = $stmt->insert_id;
 
-foreach ($scents as $scentIndex => $scent) {
-    $scentID = $scent['scentID'];
-    $stock = $scent['scentStock'];
+// Handle scents
+if (isset($_POST['scents']) && !empty($_POST['scents'])) {
+    $scents = $_POST['scents'];
 
-    $stmt = $conn->prepare("INSERT INTO productdata (productID, scentID, stock) VALUES (?, ?, ?)");
-    $stmt->bind_param("iii", $productID, $scentID, $stock);
-    if (!$stmt->execute()) {
-        die("Error inserting product data: " . $stmt->error);
-    }
-    $productDataID = $stmt->insert_id;
-         
-    if (isset($_FILES['scents']['name'][$scentIndex]['ScentImages'])) {
-        foreach ($_FILES['scents']['name'][$scentIndex]['ScentImages'] as $index => $imageName) {
-            if ($_FILES['scents']['error'][$scentIndex]['ScentImages'][$index] === UPLOAD_ERR_OK) {
+    foreach ($scents as $scentIndex => $scent) {
+        $scentID = $scent['scentID'];
+        $stock = $scent['scentStock'];
 
-                $tmpName = $_FILES['scents']['tmp_name'][$scentIndex]['ScentImages'][$index];
-                $imageType = exif_imagetype($tmpName);
-                if ($imageType !== IMAGETYPE_PNG) {
-                    die("Only PNG images are allowed for scent images.");
-                }
+        $stmt = $conn->prepare("INSERT INTO productdata (productID, scentID, stock) VALUES (?, ?, ?)");
+        $stmt->bind_param("iii", $productID, $scentID, $stock);
+        if (!$stmt->execute()) {
+            die("Error inserting product data: " . $stmt->error);
+        }
+        $productDataID = $stmt->insert_id;
 
-                if (!is_writable($uploadDir)) {
-                    die("Directory is not writable for scent images.");
-                }
-                $scentFirstImage=  $_FILES['scents']['name'][$scentIndex]['scentFirstImage'];
-                $scentImageNamenew = preg_replace("/[^a-zA-Z0-9\-_\.]/", "_", basename($scentFirstImage));
-                $scentImageName = preg_replace("/[^a-zA-Z0-9\-_\.]/", "_", basename($imageName));
-                $scentTargetPath = $uploadDir . DIRECTORY_SEPARATOR . $scentImageName;
-                if (!move_uploaded_file($tmpName, $scentTargetPath)) {
-                    die("Failed to move scent image to the target path.");
-                }
+        if (isset($_FILES['scents']['name'][$scentIndex]['ScentImages'])) {
+            foreach ($_FILES['scents']['name'][$scentIndex]['ScentImages'] as $index => $imageName) {
+                if ($_FILES['scents']['error'][$scentIndex]['ScentImages'][$index] === UPLOAD_ERR_OK) {
+                    $tmpName = $_FILES['scents']['tmp_name'][$scentIndex]['ScentImages'][$index];
+                    $imageType = exif_imagetype($tmpName);
+                    if ($imageType !== IMAGETYPE_PNG) {
+                        die("Only PNG images are allowed for scent images.");
+                    }
 
-                $dominant = ($scentImageName  == $scentImageNamenew) ? 1 : 0;
+                    if (!is_writable($uploadDir)) {
+                        die("Directory is not writable for scent images.");
+                    }
 
-                $stmt = $conn->prepare("INSERT INTO scentimages (productDataID, image, dominant) VALUES (?, ?, ?)");
-                $stmt->bind_param("isi", $productDataID, $scentImageName, $dominant);
-                if (!$stmt->execute()) {
-                    die("Error inserting scent image: " . $stmt->error);
+                    $scentFirstImage = $_FILES['scents']['name'][$scentIndex]['scentFirstImage'];
+                    $scentImageNamenew = preg_replace("/[^a-zA-Z0-9\-_\.]/", "_", basename($scentFirstImage));
+                    $scentImageName = preg_replace("/[^a-zA-Z0-9\-_\.]/", "_", basename($imageName));
+                    $scentTargetPath = $uploadDir . DIRECTORY_SEPARATOR . $scentImageName;
+                    if (!move_uploaded_file($tmpName, $scentTargetPath)) {
+                        die("Failed to move scent image to the target path.");
+                    }
+
+                    $dominant = ($scentImageName == $scentImageNamenew) ? 1 : 0;
+
+                    $stmt = $conn->prepare("INSERT INTO scentimages (productDataID, image, dominant) VALUES (?, ?, ?)");
+                    $stmt->bind_param("isi", $productDataID, $scentImageName, $dominant);
+                    if (!$stmt->execute()) {
+                        die("Error inserting scent image: " . $stmt->error);
+                    }
                 }
             }
         }
-    } else {
-        echo "No scent images found for scent ID: $scentID. Skipping image insertion.<br>";
     }
 }
 

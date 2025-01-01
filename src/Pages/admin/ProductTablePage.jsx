@@ -15,7 +15,6 @@ const ProductTablePage = () => {
   const [isDiscountModalOpen, setIsDiscountModalOpen] = useState(false);
   const [discountValue, setDiscountValue] = useState(''); // Track discount value
   const navigate = useNavigate();
-  console.log(data)
 
   const updateData = (updatedData) => {
     const modifiedData = updatedData.map((product) => ({
@@ -134,7 +133,6 @@ const ProductTablePage = () => {
           ...prevDiscount,
           discountValue: e.target.value,
         }));
-        console.log(e.target.value)
       },
       required: true,
     },

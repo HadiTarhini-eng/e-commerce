@@ -54,7 +54,7 @@ foreach ($carousels as $index => $carousel) {
     $paragraphBgPadding = $carousel['paragraphBgPadding'] ?? 0;
     $paragraphBgOpacity = $carousel['paragraphBgOpacity'] ?? 0;
     $paragraphBgBorderRadius = $carousel['paragraphBgBorderRadius'] ?? 0;
-    
+
 
     $imageName = null;
     if (isset($_FILES['carousels']['name'][$index]['image'])) {
@@ -85,7 +85,7 @@ foreach ($carousels as $index => $carousel) {
     }
 
     $query->bind_param(
-        "issiiissssiiiiii",
+        "issiiissssdiidii",
         $id,
         $header,
         $paragraph,

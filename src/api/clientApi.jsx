@@ -1,6 +1,6 @@
 
 import axios from "axios";
-
+import { toast } from 'react-hot-toast'; 
 ///////////// FETCH ///////////////////// HOME PAGE ///////////// FETCH /////////////////////
 
 // Fetch Carousel Data
@@ -201,8 +201,7 @@ export const fetchVisaCardStatus = async () => {
 ///////////// POST ///////////////////// PURCHASE PAGE ///////////// POST /////////////////////
 
 // submitOrder function in the API file
-export const submitOrder = async (payload) => {
-  console.log(payload);  // Debugging: check the payload
+export const submitOrder = async (payload) => {// Debugging: check the payload
   try {
     const response = await axios.post('http://localhost/e-commerce/public/backend/client/submitOrder.php', payload);
     if (response.status !== 200) {
@@ -222,13 +221,17 @@ export const submitOrder = async (payload) => {
 export const postSignInData = async (credentials) => {
   try {
     const response = await axios.post('http://localhost/e-commerce/public/backend/client/signIn.php', credentials);
+
     if (response.status !== 200) {
       throw new Error('Failed to sign in');
     }
     // Check if the response status is 'success' and return user data
-    if (response.status ===200) {
+    if (response.status ===200 && response.data.success==true) {
       return response.data.user; // Return the user details (id, full_name, phone, user_type)
-    } else {
+    } else if(response.data.success==false){
+      toast.error(response.data.message);
+    }
+    else {
       throw new Error('Invalid credentials');
     }
   } catch (error) {

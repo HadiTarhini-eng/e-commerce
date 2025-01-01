@@ -10,7 +10,6 @@ const OrdersPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [statusOptions, setStatusOptions] = useState([]);
   const [selectedOrder, setSelectedOrder] = useState(null);
-console.log(data)
   // Fetch columns, status options, and table data on page load
   useEffect(() => {
     const fetchColumnsAndData = async () => {
@@ -79,7 +78,6 @@ console.log(data)
         statusId: statusId     // Pass the status ID
       });
   
-      console.log('Status updated:', updatedStatus);
   
       // Update the row's status and recalculate the disableButton flag
       const updatedData = data.map((item) =>

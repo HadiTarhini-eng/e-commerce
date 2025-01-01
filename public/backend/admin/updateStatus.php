@@ -26,22 +26,29 @@ try {
         throw new Exception("Failed to insert into orderHistory.");
     }
 
-    if ($statusId === 2) {
+    if ($statusId === 2) { // Status ID 2 triggers stock update
         $orderDataQuery = $conn->prepare("SELECT scentID, productID, quantity FROM orderdata WHERE orderID = ?");
         $orderDataQuery->bind_param("i", $orderId);
         $orderDataQuery->execute();
         $orderDataResult = $orderDataQuery->get_result();
 
         while ($row = $orderDataResult->fetch_assoc()) {
-            $scentId = (int)$row['scentID'];
+            $scentId = $row['scentID'] ? (int)$row['scentID'] : null;
             $productId = (int)$row['productID'];
             $quantity = (int)$row['quantity'];
 
-            $updateStockQuery = $conn->prepare("UPDATE productdata SET stock = stock - ? WHERE scentID = ? AND productID = ?");
-            $updateStockQuery->bind_param("iii", $quantity, $scentId, $productId);
+            if ($scentId) {
+                // Update stock in the `productdata` table for specific scent
+                $updateStockQuery = $conn->prepare("UPDATE productdata SET stock = stock - ? WHERE scentID = ? AND productID = ?");
+                $updateStockQuery->bind_param("iii", $quantity, $scentId, $productId);
+            } else {
+                // Update stock in the `products` table if no `scentID` exists
+                $updateStockQuery = $conn->prepare("UPDATE products SET stock = stock - ? WHERE id = ?");
+                $updateStockQuery->bind_param("ii", $quantity, $productId);
+            }
 
             if (!$updateStockQuery->execute()) {
-                throw new Exception("Failed to update product stock.");
+                throw new Exception("Failed to update stock.");
             }
 
             $updateStockQuery->close();

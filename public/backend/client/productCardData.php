@@ -24,7 +24,7 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
 }
 
 $query = $conn->prepare("
-    SELECT p.id, p.productName, p.discount, p.price, p.description, p.categoryID, p.image,p.createdAt, c.categoryName,
+    SELECT p.id, p.productName, p.discount, p.price, p.description, p.categoryID, p.image,p.createdAt,p.stock as productStock, c.categoryName,
            pd.scentID AS scentID, pd.stock AS stock, s.scentName AS scentName, f.id AS isFavorited
            " . (isset($id) ? ", r.id AS reviewID, u.fullName AS username, r.description AS reviewComment, r.date AS reviewDate,si.dominant,
            si.image AS scentImage" : "") . "
@@ -91,6 +91,9 @@ if ($result->num_rows > 0) {
                     }
                 }
             }
+        }else{
+                $products[$productID]['totalStock'] = (int)$row['productStock'];
+
         }
         
         

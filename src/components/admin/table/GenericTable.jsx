@@ -232,7 +232,7 @@ const GenericTable = ({
         </thead>
         
         <tbody>
-          {filteredData.map((row, index) => (
+          {filteredData.slice().reverse().map((row, index) => (
             <tr
               key={index}
               onClick={() => handleRowClick(row)}

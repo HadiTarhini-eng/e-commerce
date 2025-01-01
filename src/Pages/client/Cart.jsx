@@ -16,7 +16,6 @@ const Cart = () => {
   const [isFirstOffer, setIsFirstOffer] = useState([]);
   const [firstOfferAmount, setFirstOfferAmount] = useState([]);
   const [error, setError] = useState(null);
-  console.log(cartItems)
   // Scroll to top when the component is mounted
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -94,6 +93,7 @@ const Cart = () => {
         if (orderNumber === 0 && isFirstOffer) {
           dispatch(updateCheckoutData({ field: 'totalWithoutDelivery', value: totalWithoutDelivery.newPrice }));
           dispatch(updateCheckoutData({ field: 'discount', value: firstOfferAmount }));
+          dispatch(updateCheckoutData({ field: 'isFirstOffer', value: isFirstOffer }));
           dispatch(updateCheckoutData({ field: 'totalWithoutDiscount', value: totalWithoutDiscount }));
         } else {
           dispatch(updateCheckoutData({ field: 'totalWithoutDelivery', value: totalWithoutDelivery }));

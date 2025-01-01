@@ -12,7 +12,10 @@ SELECT
     p.productName as name, 
     c.categoryName, 
     p.price, 
-    COALESCE(SUM(pd.stock), 0) AS stock, 
+       CASE 
+        WHEN COALESCE(SUM(pd.stock), 0) = 0 THEN COALESCE(p.stock, 0)
+        ELSE COALESCE(SUM(pd.stock), 0)
+    END AS stock,
     p.discount, 
     p.description
 FROM 
