@@ -37,7 +37,7 @@ $stmt->bind_param(
 $stmt->execute();
 $orderID = $conn->insert_id; 
 
-    $sql_his = "INSERT INTO orderHistory(orderID, statusID, Date)
+    $sql_his = "INSERT INTO orderhistory(orderID, statusID, Date)
     VALUES (?, ?, ?)";
     $stmt_history = $conn->prepare($sql_his);
     $stmt_history->bind_param(
@@ -50,7 +50,7 @@ $orderID = $conn->insert_id;
 
 foreach ($cartData as $item) {
     
-    $sql_item = "INSERT INTO orderData (orderID, productId, scentID,discount, price, quantity)
+    $sql_item = "INSERT INTO orderdata (orderID, productId, scentID,discount, price, quantity)
                  VALUES (?, ?, ?, ?, ?,?)";
     $stmt_item = $conn->prepare($sql_item);
     $stmt_item->bind_param(

@@ -27,7 +27,7 @@ try {
     }
 
     if ($statusId === 2) {
-        $orderDataQuery = $conn->prepare("SELECT scentID, productID, quantity FROM orderData WHERE orderID = ?");
+        $orderDataQuery = $conn->prepare("SELECT scentID, productID, quantity FROM orderdata WHERE orderID = ?");
         $orderDataQuery->bind_param("i", $orderId);
         $orderDataQuery->execute();
         $orderDataResult = $orderDataQuery->get_result();

@@ -1,12 +1,11 @@
 [
-    { "id": 1, "label": "Dashboard", "icon": "/assets/image/icons/dashboard.png", "destination": "/dashboard" },
-    { "id": 2, "label": "Users", "icon": "/assets/image/icons/group.png", "destination": "/clientsTable" },
-    { "id": 3, "label": "Catgeory", "icon": "/assets/image/icons/category.png", "destination": "/categoryTable" },
-    { "id": 4, "label": "Products", "icon": "/assets/image/icons/shopping-bag.png", "destination": "/productTable" },
-    { "id": 5, "label": "Scents", "icon": "/assets/image/icons/shines.png", "destination": "/scentsTable" },
-    { "id": 6, "label": "Orders", "icon": "/assets/image/icons/orders.png", "destination": "/ordersTable" },
-    { "id": 7, "label": "Discount Settings", "icon": "/assets/image/icons/setting.png", "destination": "/discountSettings" },
-    { "id": 8, "label": "Carousel Editor", "icon": "/assets/image/icons/carousel.png", "destination": "/carouselEditor" },
-    { "id": 9, "label": "Log Out", "icon": "/assets/image/icons/logout.png", "destination": "/signin" }
-  ]
-  
+  { "id": 1, "label": "Dashboard", "icon": "/assets/image/icons/dashboard.png", "destination": "/dashboard" },
+  { "id": 2, "label": "Users", "icon": "/assets/image/icons/group.png", "destination": "/clientsTable" },
+  { "id": 3, "label": "Category", "icon": "/assets/image/icons/category.png", "destination": "/categoryTable" },
+  { "id": 4, "label": "Products", "icon": "/assets/image/icons/shopping-bag.png", "destination": "/productTable" },
+  { "id": 5, "label": "Scents", "icon": "/assets/image/icons/shines.png", "destination": "/scentsTable" },
+  { "id": 6, "label": "Orders", "icon": "/assets/image/icons/orders.png", "destination": "/ordersTable" },
+  { "id": 7, "label": "Discount Settings", "icon": "/assets/image/icons/setting.png", "destination": "/discountSettings" },
+  { "id": 8, "label": "Carousel Editor", "icon": "/assets/image/icons/carousel.png", "destination": "/carouselEditor" },
+  { "id": 9, "label": "Log Out", "icon": "/assets/image/icons/logout.png", "destination": "/signin" }
+]

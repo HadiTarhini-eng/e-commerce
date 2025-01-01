@@ -168,6 +168,7 @@ const ProductTablePage = () => {
           onSelectionChange={handleSelectionChange} 
           editAction={true}
           actionDelete={openConfirmationModalForDelete}
+          imageType={'products'}
         />
 
         {/* Discount Modal */}

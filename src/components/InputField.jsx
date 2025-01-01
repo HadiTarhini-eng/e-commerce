@@ -16,6 +16,7 @@ const InputField = ({
   fromCarousel,
   fromOrders,
   fromProduct,
+  min,
 }) => {
   // State to toggle password visibility and for search functionality
   const [showPassword, setShowPassword] = useState(false);
@@ -38,6 +39,7 @@ const InputField = ({
             required={required}
             disabled={disabled} // Disable input when disabled is true
             className="w-full px-3 py-2 border rounded"
+            min={min}
           />
         </div>
       );

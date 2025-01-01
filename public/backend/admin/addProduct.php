@@ -1,10 +1,9 @@
-@ -1,97 +1,104 @@
+
 <?php
 include 'connection.php';
 
-$imageDir = realpath('/home/vol16_1/infinityfree.com/if0_38001296/htdocs/images/products');
-$uploadDir = realpath('/home/vol16_1/infinityfree.com/if0_38001296/htdocs/images/products');
-$dominantColumn = "dominant";
+$imageDir = realpath('../../../public/images/products');
+$uploadDir = realpath('../../../public/images/products');
 
 $productName = $_POST['name'];
 $price = $_POST['price'];
@@ -61,7 +60,6 @@ foreach ($scents as $scentIndex => $scent) {
         foreach ($_FILES['scents']['name'][$scentIndex]['ScentImages'] as $index => $imageName) {
             if ($_FILES['scents']['error'][$scentIndex]['ScentImages'][$index] === UPLOAD_ERR_OK) {
 
-                var_dump( $scentFirstImage);
                 $tmpName = $_FILES['scents']['tmp_name'][$scentIndex]['ScentImages'][$index];
                 $imageType = exif_imagetype($tmpName);
                 if ($imageType !== IMAGETYPE_PNG) {
@@ -81,7 +79,7 @@ foreach ($scents as $scentIndex => $scent) {
 
                 $dominant = ($scentImageName  == $scentImageNamenew) ? 1 : 0;
 
-                $stmt = $conn->prepare("INSERT INTO scentImages (productDataID, image, $dominantColumn) VALUES (?, ?, ?)");
+                $stmt = $conn->prepare("INSERT INTO scentimages (productDataID, image, dominant) VALUES (?, ?, ?)");
                 $stmt->bind_param("isi", $productDataID, $scentImageName, $dominant);
                 if (!$stmt->execute()) {
                     die("Error inserting scent image: " . $stmt->error);

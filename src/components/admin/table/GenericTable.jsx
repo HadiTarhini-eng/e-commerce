@@ -22,7 +22,8 @@ const GenericTable = ({
   addName,
   showReview,
   reviewAction,
-  onSelectionChange // Add the new onSelectionChange prop
+  onSelectionChange, // Add the new onSelectionChange prop
+  imageType,
 }) => {
   const navigate = useNavigate();
 
@@ -45,10 +46,10 @@ const GenericTable = ({
   });
 
   // Dynamically render cells based on the column configuration
-  const renderCell = (cell, column, row) => {
+  const renderCell = (cell, column, row, imageType) => {
     
     if (column.Cell === "ImageCell") {
-      return <ImageCell value={cell.value} />;
+      return <ImageCell value={cell.value} type={imageType} />;
     } else if (column.Cell === "BadgeCell") {
       return <BadgeCell value={cell.value} />;
     } else if (column.Cell === "ActionButtonCell") {
@@ -249,7 +250,7 @@ const GenericTable = ({
               )}
               {columns.map((column, index) => (
                 <td key={index} className="text-center justify-items-center border px-4 py-2">
-                  {renderCell({ value: row[column.accessor] }, column, row)}
+                  {renderCell({ value: row[column.accessor] }, column, row, imageType)}
                 </td>
               ))}
             </tr>

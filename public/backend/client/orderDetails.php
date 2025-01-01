@@ -18,7 +18,7 @@ $query = $conn->prepare("
                  COALESCE(si.image, p.image) AS image 
           FROM orders o
           LEFT JOIN lookup l ON l.id=o.statusID
-          LEFT JOIN orderData od on od.orderID=o.id
+          LEFT JOIN orderdata od on od.orderID=o.id
           LEFT JOIN products p on p.id=od.productID
           LEFT JOIN scents s on s.id=od.scentID
           LEFT JOIN productdata pd ON pd.productID = od.productID AND pd.scentID = od.scentID  

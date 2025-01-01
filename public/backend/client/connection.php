@@ -3,10 +3,10 @@ header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: POST");
 header("Access-Control-Allow-Headers: Content-Type");
 
-$servername = "sql308.infinityfree.com"; 
-$username = "if0_38001296";     
-$password = "TwYARZyFs3";         
-$dbname = "if0_38001296_blushe"; 
+$servername = "localhost"; 
+$username = "root";     
+$password = "";         
+$dbname = "blushe"; 
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 

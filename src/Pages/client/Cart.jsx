@@ -11,7 +11,7 @@ const Cart = () => {
   const navigate = useNavigate(); // Initialize navigate function
   const dispatch = useDispatch(); // Initialize dispatch function
   const cartItems = useSelector(state => state.cart.cart); // Get cart items from Redux store
-  const { userId } = useAuth();
+  const { userId, isLoggedIn } = useAuth();
   const [orderNumber, setOrderNumber] = useState(null);
   const [isFirstOffer, setIsFirstOffer] = useState([]);
   const [firstOfferAmount, setFirstOfferAmount] = useState([]);
@@ -63,12 +63,12 @@ const Cart = () => {
         originalPrice: subtotal,
         newPrice: (subtotal - (subtotal * (firstOfferAmount/100))).toFixed(2)
       }
-      return result;
+      return [subtotal, result];
     }
-    return subtotal;
+    return [subtotal, subtotal];
   };
 
-  const totalWithoutDelivery = calculateTotals();  // Calculate total without delivery
+  const [totalWithoutDiscount, totalWithoutDelivery] = calculateTotals();  // Calculate total without delivery
 
   // Handle updating product quantity
   const handleQuantityChange = (id, newQuantity) => {
@@ -83,19 +83,26 @@ const Cart = () => {
 
   // Handle Continue to Payment button click
   const handleContinueToPayment = () => {
-    if (cartItems.length === 0) {
-      toast.error('Your cart is still empty!');
+    if(!isLoggedIn) {
+      toast.error('You need to Login to access this page!')
+      navigate('/signin');
     } else {
-      // Dispatch total without delivery and total with delivery to Redux
-      if (orderNumber === 0 && isFirstOffer) {
-        dispatch(updateCheckoutData({ field: 'totalWithoutDelivery', value: totalWithoutDelivery.newPrice }));
-        dispatch(updateCheckoutData({ field: 'discount', value: 10 }));
+      if (cartItems.length === 0) {
+        toast.error('Your cart is still empty!');
       } else {
-        dispatch(updateCheckoutData({ field: 'totalWithoutDelivery', value: totalWithoutDelivery }));
-        dispatch(updateCheckoutData({ field: 'discount', value: 0 }));
+        // Dispatch total without delivery and total with delivery to Redux
+        if (orderNumber === 0 && isFirstOffer) {
+          dispatch(updateCheckoutData({ field: 'totalWithoutDelivery', value: totalWithoutDelivery.newPrice }));
+          dispatch(updateCheckoutData({ field: 'discount', value: firstOfferAmount }));
+          dispatch(updateCheckoutData({ field: 'totalWithoutDiscount', value: totalWithoutDiscount }));
+        } else {
+          dispatch(updateCheckoutData({ field: 'totalWithoutDelivery', value: totalWithoutDelivery }));
+          dispatch(updateCheckoutData({ field: 'discount', value: 0 }));
+          dispatch(updateCheckoutData({ field: 'totalWithoutDiscount', value: totalWithoutDiscount }));
+        }
+  
+        navigate('/checkout'); // Redirect to the payment page
       }
-
-      navigate('/checkout'); // Redirect to the payment page
     }
   };
 
@@ -198,23 +205,20 @@ const Cart = () => {
           <div className="flex flex-col items-center justify-between w-full py-4 sm:py-6">
             <p className="font-manrope font-medium text-lg sm:text-2xl leading-9 text-gray-900">Total (Without Delivery)</p>
             <h6 className="font-manrope font-medium text-xl sm:text-2xl leading-9 text-palette-button mx-2">
-              {(orderNumber === 0 && isFirstOffer) ? (
+              {/* {(orderNumber === 0 && isFirstOffer) ? (
                 <>
                   ${formatPrice(totalWithoutDelivery.newPrice)}
                   <span className="line-through text-gray-500 text-lg font-['Roboto'] mx-1">
                     ${formatPrice(totalWithoutDelivery.originalPrice)}
                   </span>
                 </>
-              ) : (
+              ) : ( */}
                 <>
-                  ${formatPrice(totalWithoutDelivery)}
+                  ${formatPrice(totalWithoutDiscount)}
                 </>
-              )}
+              {/* )} */}
             </h6>
           </div>
-          {orderNumber === 0 && isFirstOffer && (
-            <p className="font-manrope font-medium text-md text-center sm:text-2xl text-red-600">{firstOfferAmount}% Discount on your first order!</p>
-          )}
 
           {/* Continue to Payment Button */}
           <div className="flex items-center flex-col sm:flex-row justify-center gap-3 mt-2 mb-20">

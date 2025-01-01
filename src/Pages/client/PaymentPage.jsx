@@ -62,7 +62,7 @@ const PaymentPage = () => {
   };
 
   return (
-    <div className="w-full max-w-7xl px-4 md:px-5 lg-6 mx-auto no-scrollbar mb-20 mt-4">
+    <div className="w-full max-w-[710px] sm:min-w-[710px] px-4 md:px-5 lg-6 mx-auto no-scrollbar mb-20 mt-4">
       <div className="flex items-start flex-col gap-6 xl:flex-row">
         {/* Order Details Section */}
         <div className="w-full max-w-sm md:max-w-3xl xl:max-w-sm flex items-start flex-col gap-8 max-xl:mx-auto">
@@ -90,10 +90,32 @@ const PaymentPage = () => {
                 <p className="font-normal text-lg leading-8 text-gray-400">Address</p>
                 <p className="font-medium text-lg leading-8 text-gray-900">{checkoutData.address}</p>
               </div>
-              <div className="flex items-center justify-between gap-4 mb-5">
-                <p className="font-normal text-lg leading-8 text-gray-400">Total</p>
-                <p className="font-medium text-lg leading-8 text-gray-900">${formatPrice(checkoutData.totalWithDelivery)}</p>
+              <div className="flex flex-col gap-2 mb-5">
+                <div className="flex items-center justify-between gap-4">
+                  <p className="font-normal text-lg leading-8 text-gray-400">Total</p>
+                  <div className="flex items-center gap-2">
+                    {/* Display totalWithoutDiscount if it's different */}
+                    {checkoutData.totalWithoutDiscount !== checkoutData.totalWithDelivery && (
+                      <p className="font-medium text-lg leading-8 text-gray-400 line-through">
+                        ${formatPrice(checkoutData.totalWithoutDiscount)}
+                      </p>
+                    )}
+
+                    {/* Display totalWithDelivery */}
+                    <p className="font-medium text-xl leading-8 text-palette-button">
+                      ${formatPrice(checkoutData.totalWithDelivery)}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Display the discount message */}
+                {checkoutData.totalWithoutDiscount !== checkoutData.totalWithDelivery && (
+                  <p className="text-sm text-center text-red-500 mt-2">
+                    You got {checkoutData.discount}% off on your first order!
+                  </p>
+                )}
               </div>
+
               <button
                 className="px-4 py-2 rounded-lg font-semibold text-white bg-palette-button hover:bg-green-700 cursor-pointer"
                 onClick={handleConfirmPurchase}
@@ -112,20 +134,21 @@ const PaymentPage = () => {
                 key={index}
                 className="rounded-3xl p-6 bg-white border border-gray-200 shadow-lg hover:shadow-2xl transition-shadow duration-300 ease-in-out transform hover:scale-105"
               >
-                <div className="grid grid-cols-3 md:grid-cols-3 w-full gap-3 md:gap-8">
+                <div className="flex justify-between items-center w-full">
                   <div className="img-box">
                     <img
-                      src={product.image || 'https://via.placeholder.com/122'}
+                      src={`/images/products/${product.image}` || 'https://via.placeholder.com/122'}
                       alt={`${product.title} image`}
                       className="w-[80px] sm:w-[120px] rounded-xl object-cover"
                     />
                   </div>
-                  <div className="col-span-2">
-                    <h2 className="font-medium text-xl leading-8 text-black">{product.title}</h2>
-                    <p className="font-normal text-lg leading-8 text-gray-500">{product.scentName}</p>
+                  <div className="flex flex-col items-end">
+                    <h2 className="font-medium text-xl leading-8 text-black text-right">{product.title}</h2>
+                    <p className="font-normal text-lg leading-8 text-gray-500 text-right">{product.scentName}</p>
                   </div>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 w-full gap-3 md:gap-8">
+
+                <div className="w-full">
                   <div className="flex items-center justify-between gap-8">
                     <div className="flex items-center gap-3">
                       <p className="font-medium text-lg leading-8 text-gray-700">Quantity: {product.quantity}</p>

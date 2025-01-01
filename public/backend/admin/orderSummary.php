@@ -25,22 +25,22 @@ $sql = "
         orders.note,
         orders.email,
         orders.discount AS orderDiscount,
-        orderData.id AS orderDataId,
-        orderData.orderID,
-        orderData.productID,
-        orderData.discount AS productDiscount,
-        orderData.scentID,
+        orderdata.id AS orderDataId,
+        orderdata.orderID,
+        orderdata.productID,
+        orderdata.discount AS productDiscount,
+        orderdata.scentID,
         scents.ScentName,
         products.productName,
         COALESCE(scentimages.image, products.image) AS scentImage, 
-        orderData.price,
-        orderData.quantity
+        orderdata.price,
+        orderdata.quantity
     FROM 
         orders
     LEFT JOIN 
-        orderData 
+        orderdata 
     ON 
-        orders.id = orderData.orderID
+        orders.id = orderdata.orderID
     LEFT JOIN 
         lookup AS deliveryLookup 
     ON 
@@ -52,7 +52,7 @@ $sql = "
     LEFT JOIN 
         productdata AS pd
     ON 
-        orderData.productID = pd.productID AND orderData.scentID = pd.scentID 
+        orderdata.productID = pd.productID AND orderdata.scentID = pd.scentID 
     LEFT JOIN 
         scentimages AS scentimages
     ON 
@@ -60,11 +60,11 @@ $sql = "
     LEFT JOIN 
         scents 
     ON 
-        orderData.scentID = scents.id
+        orderdata.scentID = scents.id
     LEFT JOIN 
         products 
     ON 
-        orderData.productID = products.id
+        orderdata.productID = products.id
     where orders.id = ?;
 ";
 $stmt = $conn->prepare($sql);

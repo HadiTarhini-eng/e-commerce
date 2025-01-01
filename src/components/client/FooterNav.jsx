@@ -25,7 +25,7 @@ const FooterNav = () => {
 
   // Function to handle icon click and update the active icon state
   const handleIconClick = (path) => {
-    if ((path === '/cart' || path === '/orderHistory' || path === '/favorites') && !isLoggedIn) {
+    if ((path === '/orderHistory' || path === '/favorites') && !isLoggedIn) {
       toast.error('You need to Login to access this page!')
       navigate('/signin');
     } else {

@@ -3,7 +3,7 @@ include 'connection.php';
 
 header('Content-Type: application/json');
 
-$imageDir = realpath('/home/vol16_1/infinityfree.com/if0_38001296/htdocs/images/carousel');
+$imageDir = realpath('../../../public/images/carousel');
 if (!$imageDir || !is_writable($imageDir)) {
     echo json_encode(["error" => "Carousel image directory is not writable or does not exist."]);
     exit();
@@ -22,8 +22,9 @@ if (!is_array($carousels)) {
     exit();
 }
 
-$queryStr = "INSERT INTO carousel (id, header, paragraph, showHeader, showParagraph, showButton, buttonText, buttonColor, buttonPath, image) 
-VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+$queryStr = "INSERT INTO carousel (id, header, paragraph, showHeader, showParagraph, showButton,
+ buttonText, buttonColor, buttonPath, image,headerBgOpacity,headerBgPadding,headerBgBorderRadius,paragraphBgOpacity,paragraphBgPadding,paragraphBgBorderRadius) 
+VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?,?,?,?,?)";
 $query = $conn->prepare($queryStr);
 
 if (!$query) {
@@ -32,9 +33,11 @@ if (!$query) {
     exit();
 }
 
-foreach ($carousels as $index => $carousel) {
+$currentId = 1;
 
-    $id = (int)$carousel['id'];
+foreach ($carousels as $index => $carousel) {
+    $id = $currentId++;
+    
     $header = $carousel['header'] ?? null;
     $paragraph = $carousel['paragraph'] ?? null;
     $showHeader = isset($carousel['showHeader']) && $carousel['showHeader'] == 'true' ? 1 : 0;
@@ -43,6 +46,15 @@ foreach ($carousels as $index => $carousel) {
     $buttonText = $carousel['buttonText'] ?? null;
     $buttonColor = $carousel['buttonColor'] ?? null;
     $buttonPath = $carousel['buttonPath'] ?? null;
+
+    $headerBgOpacity = $carousel['headerBgOpacity'] ?? 0;
+    $headerBgPadding = $carousel['headerBgPadding'] ?? 0;
+    $headerBgBorderRadius = $carousel['headerBgBorderRadius'] ?? 0;
+
+    $paragraphBgPadding = $carousel['paragraphBgPadding'] ?? 0;
+    $paragraphBgOpacity = $carousel['paragraphBgOpacity'] ?? 0;
+    $paragraphBgBorderRadius = $carousel['paragraphBgBorderRadius'] ?? 0;
+    
 
     $imageName = null;
     if (isset($_FILES['carousels']['name'][$index]['image'])) {
@@ -59,7 +71,6 @@ foreach ($carousels as $index => $carousel) {
 
         echo json_encode(["info" => "Uploading image: " . $imageName]);
 
-
         if (!file_exists($targetPath)) {
             if (!move_uploaded_file($tmpName, $targetPath)) {
                 http_response_code(500);
@@ -73,9 +84,8 @@ foreach ($carousels as $index => $carousel) {
         $imageName = $carousel['image'] ?? null;
     }
 
-
     $query->bind_param(
-        "issiiissss",
+        "issiiissssiiiiii",
         $id,
         $header,
         $paragraph,
@@ -85,7 +95,13 @@ foreach ($carousels as $index => $carousel) {
         $buttonText,
         $buttonColor,
         $buttonPath,
-        $imageName
+        $imageName,
+        $headerBgOpacity,
+        $headerBgPadding,
+        $headerBgBorderRadius,
+        $paragraphBgOpacity,
+        $paragraphBgPadding,
+        $paragraphBgBorderRadius
     );
 
     if (!$query->execute()) {
@@ -94,6 +110,7 @@ foreach ($carousels as $index => $carousel) {
         exit();
     }
 }
+
 
 $query->close();
 $conn->close();

@@ -56,8 +56,6 @@ const ProductCard = ({
     e.stopPropagation(); // Prevent the click event from propagating
     if (outOfStock) {
       toast.error(`${title} is out of stock!`);
-    } else if (!isLoggedIn) {
-      navigate('/signin');
     } else {
       updatedProductId(id);
       onShowDrawer();
@@ -123,7 +121,7 @@ const ProductCard = ({
         </div>
 
         {/* Image */}
-        <img src={`/images/products/${image}`} alt={title} className="w-full h-fit max-h-[150px] min-h-[150px] sm:min-h-[180px] sm:max-h-[180px] py-2 object-cover rounded-md mt-3" />
+        <img src={`/images/products/${image}`} alt={title} className="w-full h-fit max-h-[150px] min-h-[150px] sm:min-h-[180px] sm:max-h-[180px] py-2 object-contain rounded-md mt-3" />
 
         {/* Title */}
         <h3 className="font-bold text-black text-left sm:text-xl truncate">

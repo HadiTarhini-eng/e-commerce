@@ -114,50 +114,82 @@ const ProductDetailsPage = () => {
 
     // Handle file input changes separately
     const handleFileChange = (e, id) => {
-        console.log(id)
+        console.log(id);
         const file = e.target.files ? e.target.files[0] : null;
+    
         if (file) {
             const fileName = file.name; // Get the file name
-
-            // Read the file as a Data URL (for preview purposes) and as binary (for database storage)
             const reader = new FileReader();
-
+    
             reader.onloadend = () => {
                 const imagePreviewURL = reader.result; // Data URL for preview purposes
-
-                if (id === 'mainImage') {
-                    setProduct((prev) => ({
-                        ...prev,
-                        image: file, // Save the actual file object
-                        imageURL: imagePreviewURL // Save Data URL for preview
-                    }));
-                } else {
-                    setProduct((prev) => ({
-                        ...prev,
-                        scents: prev.scents.map((scent) =>
-                            scent.scentID === id
-                                ? {
-                                    ...scent,
-                                    ScentImages: [
-                                        ...scent.ScentImages,
-                                        {
-                                            id: Date.now(),
-                                            file: file, // Save the actual file object
-                                            imageURL: imagePreviewURL // Save Data URL for preview
-                                        }
-                                    ]
-                                }
-                                : scent
-                        )
-                    }));
-                }
+    
+                // Create an Image object for resizing
+                const img = new Image();
+                img.src = imagePreviewURL;
+    
+                img.onload = () => {
+                    // Create a canvas to resize the image
+                    const canvas = document.createElement('canvas');
+                    const ctx = canvas.getContext('2d');
+    
+                    // Set the desired width and maintain aspect ratio
+                    const maxWidth = 800; // Set a maximum width
+                    const scaleFactor = maxWidth / img.width;
+                    canvas.width = maxWidth;
+                    canvas.height = img.height * scaleFactor;
+    
+                    // Draw the image onto the canvas
+                    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+    
+                    // Convert the canvas to a compressed image
+                    canvas.toBlob(
+                        (blob) => {
+                            const compressedFile = new File([blob], fileName, {
+                                type: file.type, // Keep the original file type (PNG)
+                                lastModified: Date.now(),
+                            });
+    
+                            const compressedImageURL = URL.createObjectURL(blob);
+    
+                            if (id === 'mainImage') {
+                                setProduct((prev) => ({
+                                    ...prev,
+                                    image: compressedFile, // Save the compressed file object
+                                    imageURL: compressedImageURL, // Save the compressed preview URL
+                                }));
+                            } else {
+                                setProduct((prev) => ({
+                                    ...prev,
+                                    scents: prev.scents.map((scent) =>
+                                        scent.scentID === id
+                                            ? {
+                                                ...scent,
+                                                ScentImages: [
+                                                    ...scent.ScentImages,
+                                                    {
+                                                        id: Date.now(),
+                                                        file: compressedFile, // Save the compressed file object
+                                                        imageURL: compressedImageURL, // Save the compressed preview URL
+                                                    },
+                                                ],
+                                            }
+                                            : scent
+                                    ),
+                                }));
+                            }
+                        },
+                        'image/png', // Specify PNG format
+                        0.8 // Compression quality (ignored for lossless PNG, but reduces size if slightly lossy)
+                    );
+                };
             };
-
-            // Read the file as a Data URL for preview
+    
+            // Read the file as a Data URL
             reader.readAsDataURL(file);
         }
     };
-
+  
     // Remove scent image
     const handleRemoveImage = (scentID, imageID) => {
         setProduct(prev => ({
@@ -263,6 +295,15 @@ const ProductDetailsPage = () => {
             }
         }
 
+        // Validate scent selection
+        for (const scent of product.scents) {
+            console.log(scent.scentFirstImage)
+            if (scent.scentFirstImage.length === 0) {
+                toast.error("Each scent must have a main image selected!");
+                return false;
+            }
+        }
+
         return true;
     };
 
@@ -282,7 +323,7 @@ const ProductDetailsPage = () => {
                 result = await postProductData(product); // Create a new product
                 toast.success("Product created successfully!");
                 navigate('/productTable'); // Redirect to products list after successful addition
-                window.location.reload();
+                // window.location.reload();
             } else {
                 result = await updateProductData(product, id,currentScentId,removedImages); // Update an existing product
                 toast.success("Product updated successfully!");
@@ -377,6 +418,7 @@ const ProductDetailsPage = () => {
                                     id="price"
                                     value={product.price}
                                     onChange={(e) => handleInputChange(e, 'price')}
+                                    min={0}
                                 />
                                 <InputField
                                     type="number"
@@ -385,6 +427,7 @@ const ProductDetailsPage = () => {
                                     id="discount"
                                     value={product.discount}
                                     onChange={(e) => handleInputChange(e, 'discount')}
+                                    min={0}
                                 />
                                 <div className='ml-10'>
                                     <span className="text-3xl text-palette-button font-bold mr-2">

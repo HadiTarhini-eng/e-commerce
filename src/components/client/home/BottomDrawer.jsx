@@ -5,7 +5,7 @@ import ProductInfo from "../product/ProductInfo";
 import AddToCart from "../product/AddToCart";
 import { calculateDiscount } from "../../../utils/discountUtils";
 import { useAuth } from "../AuthContext";
-import { fetchProductById } from "../../../api/ClientApi";
+import { fetchProductById } from "../../../api/clientApi";
 
 const BottomDrawer = ({ isDrawerOpen, toggleDrawer, productId }) => {
   const { userId } = useAuth();
@@ -17,9 +17,6 @@ const BottomDrawer = ({ isDrawerOpen, toggleDrawer, productId }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        if (!userId) {
-          throw new Error('User not logged in');
-        }
         const product = await fetchProductById(productId, userId);
         setSelectedProduct(product);
       } catch (err) {
@@ -27,7 +24,7 @@ const BottomDrawer = ({ isDrawerOpen, toggleDrawer, productId }) => {
       }
     };
 
-    if (productId && userId) {
+    if (productId) {
       fetchData();
     }
   }, [productId, userId]);

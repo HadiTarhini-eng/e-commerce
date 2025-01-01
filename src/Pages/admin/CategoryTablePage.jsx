@@ -161,6 +161,7 @@ const CategoryTablePage = () => {
           deleteAction={true}
           editAction={true}
           actionDelete={openConfirmationModal} // Pass the delete handler
+          imageType={'categories'}
         />
 
         <DynamicModal

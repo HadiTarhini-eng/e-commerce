@@ -20,6 +20,7 @@
     "@material-tailwind/react": "^2.1.10",
     "@reduxjs/toolkit": "^2.3.0",
     "axios": "^1.7.7",
+    "compressorjs": "^1.2.1",
     "crypto-js": "^4.2.0",
     "devextreme": "^24.2.3",
     "devextreme-react": "^24.2.3",

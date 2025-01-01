@@ -15,7 +15,7 @@ export default function SocialsPage() {
       </div>
 
       {/* Social Icons Section */}
-      <div className="grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 lg:gap-8 md:gap-6 gap-4 mt-10">
+      <div className="grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 lg:gap-8 md:gap-6 gap-4 mt-2">
         {/* WhatsApp Icon */}
         <div className="relative group">
           <div className="w-full h-40 flex justify-center items-center bg-green-500 rounded-xl transition-all duration-300 transform group-hover:scale-110 group-hover:shadow-lg">

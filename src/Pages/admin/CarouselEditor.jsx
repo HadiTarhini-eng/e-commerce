@@ -59,7 +59,11 @@ const CarouselEditor = () => {
         showButton: true,
         buttonText: "Click Me",  // Default button text
         buttonColor: "#000000", // Default button color
-        buttonPath: "/new/page"
+        buttonPath: "/new/page",
+        headerBgOpacity: 1,
+        paragraphBgOpacity: 1,
+        headerBgPadding: 4,
+        paragraphBgBorderRadius: 8,
       }
     ]);
   };
@@ -78,6 +82,7 @@ const CarouselEditor = () => {
     try {
       await saveCarouselData(carousels);
       toast.success('Changes saved successfully');
+      // window.location.reload();
     } catch (error) {
       console.error('Error saving carousel data:', error);
       toast.error('Error saving changes');
@@ -86,7 +91,7 @@ const CarouselEditor = () => {
 
   // Handle select product and update the button path
   const handleProductSelect = (carouselId, productId) => {
-    const newPath = `/products/${productId}`;
+    const newPath = `/product/${productId}`;
     handleCarouselChange(carouselId, 'buttonPath', newPath);
   };
 
@@ -179,27 +184,115 @@ const CarouselEditor = () => {
 
                 {/* Header Input - Conditional */}
                 {carousel.showHeader && (
-                  <div className="mt-4">
-                    <label className="block text-sm">Slide Header</label>
-                    <input
-                      type="text"
-                      value={carousel.header}
-                      onChange={(e) => handleCarouselChange(carousel.id, 'header', e.target.value)}
-                      className="p-2 w-full border border-gray-300 rounded"
-                    />
-                  </div>
+                  <>
+                    <div className="mt-4">
+                      <label className="block text-sm">Slide Header</label>
+                      <input
+                        type="text"
+                        value={carousel.header}
+                        onChange={(e) => handleCarouselChange(carousel.id, 'header', e.target.value)}
+                        className="p-2 w-full border border-gray-300 rounded"
+                      />
+                    </div>
+            
+                    {/* Header Background Opacity */}
+                    <div className="mt-4">
+                      <label className="block text-sm">Header Background Opacity</label>
+                      <input
+                        type="range"
+                        min="0"
+                        max="1"
+                        step="0.1"
+                        value={carousel.headerBgOpacity}
+                        onChange={(e) => handleCarouselChange(carousel.id, 'headerBgOpacity', parseFloat(e.target.value))}
+                        className="w-full"
+                      />
+                    </div>
+
+                    {/* Padding */}
+                    <div className="mt-4">
+                      <label className="block text-sm">Header Padding</label>
+                      <input
+                        type="range"
+                        min="0"
+                        max="16"
+                        step="1"
+                        value={carousel.padding}
+                        onChange={(e) => handleCarouselChange(carousel.id, 'headerBgPadding', parseInt(e.target.value, 10))}
+                        className="w-full"
+                      />
+                    </div>
+
+                    {/* Border Radius */}
+                    <div className="mt-4">
+                      <label className="block text-sm">Header Border Radius</label>
+                      <input
+                        type="range"
+                        min="0"
+                        max="50"
+                        step="1"
+                        value={carousel.borderRadius}
+                        onChange={(e) => handleCarouselChange(carousel.id, 'headerBgBorderRadius', parseInt(e.target.value, 10))}
+                        className="w-full"
+                      />
+                    </div>
+                  </>
                 )}
 
                 {/* Paragraph Input - Conditional */}
                 {carousel.showParagraph && (
-                  <div className="mt-4">
-                    <label className="block text-sm">Slide Paragraph</label>
-                    <textarea
-                      value={carousel.paragraph}
-                      onChange={(e) => handleCarouselChange(carousel.id, 'paragraph', e.target.value)}
-                      className="p-2 w-full border border-gray-300 rounded"
-                    />
-                  </div>
+                  <>
+                    <div className="mt-4">
+                      <label className="block text-sm">Slide Paragraph</label>
+                      <textarea
+                        value={carousel.paragraph}
+                        onChange={(e) => handleCarouselChange(carousel.id, 'paragraph', e.target.value)}
+                        className="p-2 w-full border border-gray-300 rounded"
+                      />
+                    </div>
+
+                    {/* Paragraph Background Opacity */}
+                    <div className="mt-4">
+                      <label className="block text-sm">Paragraph Background Opacity</label>
+                      <input
+                        type="range"
+                        min="0"
+                        max="1"
+                        step="0.1"
+                        value={carousel.paragraphBgOpacity}
+                        onChange={(e) => handleCarouselChange(carousel.id, 'paragraphBgOpacity', parseFloat(e.target.value))}
+                        className="w-full"
+                      />
+                    </div>
+
+                    {/* Padding */}
+                    <div className="mt-4">
+                      <label className="block text-sm">Paragraph Padding</label>
+                      <input
+                        type="range"
+                        min="0"
+                        max="16"
+                        step="1"
+                        value={carousel.padding}
+                        onChange={(e) => handleCarouselChange(carousel.id, 'paragraphBgPadding', parseInt(e.target.value, 10))}
+                        className="w-full"
+                      />
+                    </div>
+
+                    {/* Border Radius */}
+                    <div className="mt-4">
+                      <label className="block text-sm">Paragraph Border Radius</label>
+                      <input
+                        type="range"
+                        min="0"
+                        max="50"
+                        step="1"
+                        value={carousel.borderRadius}
+                        onChange={(e) => handleCarouselChange(carousel.id, 'paragraphBgBorderRadius', parseInt(e.target.value, 10))}
+                        className="w-full"
+                      />
+                    </div>
+                  </>
                 )}
 
                 {/* Button Text and Path - Conditional */}
@@ -228,7 +321,7 @@ const CarouselEditor = () => {
                     <div className="mt-4">
                       <label className="block text-sm">Button Path (URL)</label>
                       <select
-                        value={carousel.buttonPath.replace('/products/', '')} // Show the product name
+                        value={carousel.buttonPath.replace('/product/', '')} // Show the product name
                         onChange={(e) => handleProductSelect(carousel.id, e.target.value)}
                         className="p-2 w-full border border-gray-300 rounded"
                       >

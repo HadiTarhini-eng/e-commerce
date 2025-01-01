@@ -28,6 +28,7 @@ const SignIn = () => {
     let errors = {};
     if (!email) errors.email = 'Email is required';
     if (!password) errors.password = 'Password is required';
+    if (password.length < 8) errors.password = 'Password must be at least 8 characters';
     if (isSignUp && !fullName) errors.fullName = 'Full Name is required';
     if (isSignUp && password !== confirmPassword) errors.confirmPassword = 'Passwords do not match';
     // if (isSignUp && !phoneNumber) errors.phoneNumber = 'Phone number is required'; // Validate phone number during sign-up
