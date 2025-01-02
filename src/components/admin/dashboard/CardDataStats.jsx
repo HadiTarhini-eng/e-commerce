@@ -12,7 +12,7 @@ const CardDataStats = ({
     <div className="flex flex-row justify-between rounded-lg border border-stroke bg-white px-6 py-4 px-7.5 shadow-top-lg dark:border-strokedark dark:bg-boxdark">
       <div className="flex items-end justify-between">
         <div>
-          <span className="text-sm font-medium">{title}</span>
+          <span className="text-lg font-bold">{title}</span>
           <h4 className="text-title-md font-bold text-black dark:text-white">
             {total}
           </h4>

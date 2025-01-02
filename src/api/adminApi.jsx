@@ -28,7 +28,7 @@ export const fetchSidebarData = async () => {
 // Fetch Data for Title and Total
 export const fetchCardData = async () => {
   try {
-    const response = await axios.get('/data/admin/cardData.json'); // Fetch the file with title and total
+    const response = await axios.get('http://localhost/e-commerce/public/backend/admin/cardData.php'); // Fetch the file with title and total
     return response.data;
   } catch (error) {
     throw new Error('Error fetching card total data');
@@ -49,7 +49,7 @@ export const fetchCardSettings = async () => {
 // Fetch Line chart Data
 export const fetchLineChartData = async () => {
   try {
-    const response = await axios.get('/data/admin/lineChartData.json'); 
+    const response = await axios.get('http://localhost/e-commerce/public/backend/admin/lineChartData.php'); 
     return response.data;
   } catch (error) {
     throw new Error('Error fetching line chart data');
@@ -59,7 +59,7 @@ export const fetchLineChartData = async () => {
 // Fetch bar chart Data
 export const fetchBarChartData = async () => {
   try {
-    const response = await axios.get('/data/admin/barChartData.json'); 
+    const response = await axios.get('http://localhost/e-commerce/public/backend/admin/barChartData.php'); 
     return response.data;
   } catch (error) {
     throw new Error('Error fetching bar chart data');
@@ -79,7 +79,7 @@ export const fetchPieChartPendingSettings = async () => {
 // Fetch pie chart pending Data
 export const fetchPieChartPendingData = async () => {
   try {
-    const response = await axios.get('/data/admin/pieChartPendingData.json'); 
+    const response = await axios.get('http://localhost/e-commerce/public/backend/admin/pieChartPendingData.php'); 
     return response.data;
   } catch (error) {
     throw new Error('Error fetching pie pending chart data');
@@ -99,7 +99,7 @@ export const fetchPieChartPastSettings = async () => {
 // Fetch pie chart past Data
 export const fetchPieChartPastData = async () => {
   try {
-    const response = await axios.get('/data/admin/pieChartPastData.json'); 
+    const response = await axios.get('http://localhost/e-commerce/public/backend/admin/pieChartPastData.php'); 
     return response.data;
   } catch (error) {
     throw new Error('Error fetching pie chart past data');
