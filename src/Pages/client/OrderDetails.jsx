@@ -90,7 +90,7 @@ const OrderDetails = () => {
                                 key={index}
                                 className="rounded-3xl p-6 bg-white border border-gray-200 shadow-lg hover:shadow-2xl transition-shadow duration-300 ease-in-out transform hover:scale-105"
                             >
-                                <div className="grid grid-cols-3 md:grid-cols-3 w-full gap-3 md:gap-8">
+                                <div className="grid grid-cols-2 w-full gap-3 md:gap-8">
                                     <div className="img-box">
                                         <img
                                             src={`/images/products/${product.image}` || 'https://via.placeholder.com/122'}
@@ -98,17 +98,17 @@ const OrderDetails = () => {
                                             className="w-[80px] sm:w-[120px] rounded-xl object-cover"
                                         />
                                     </div>
-                                    <div className="col-span-2">
-                                        <h2 className="font-medium text-xl leading-8 text-black">{product.name}</h2>
-                                        {!hasScents && (
-                                            <p className="font-normal text-lg leading-8 text-gray-500">Scent: {product.scent}</p>
-                                        )}
+                                    <div className="flex items-end justify-end gap-3">
+                                        <p className="font-medium text-lg leading-8 text-gray-700">Quantity: {product.quantity}</p>
                                     </div>
                                 </div>
                                 <div className="grid grid-cols-1 md:grid-cols-2 w-full gap-3 md:gap-8">
                                     <div className="flex items-center justify-between gap-8">
-                                        <div className="flex items-center gap-3">
-                                            <p className="font-medium text-lg leading-8 text-gray-700">Quantity: {product.quantity}</p>
+                                        <div className="col-span-2">
+                                            <h2 className="font-medium text-xl leading-8 text-black">{product.name}</h2>
+                                            {!hasScents && (
+                                                <p className="font-normal text-lg leading-8 text-gray-500">Scent: {product.scent}</p>
+                                            )}
                                         </div>
                                         <h6 className="font-medium text-xl leading-8 text-palette-button">Price: ${formatPrice(product.price)}</h6>
                                     </div>

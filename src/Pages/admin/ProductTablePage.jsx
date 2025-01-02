@@ -168,6 +168,7 @@ const ProductTablePage = () => {
           editAction={true}
           actionDelete={openConfirmationModalForDelete}
           imageType={'products'}
+          isReverse={true}
         />
 
         {/* Discount Modal */}

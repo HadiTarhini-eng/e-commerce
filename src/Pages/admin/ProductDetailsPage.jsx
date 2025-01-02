@@ -39,6 +39,9 @@ const ProductDetailsPage = () => {
                         ...productData,
                     });
 
+                    // Call updateHasScents with the new scents array
+                    updateHasScents(productData.scents);
+
                     const scentIds = productData.scents.map((scent) => scent.scentID);
                     setCurrentScentId(scentIds);
 

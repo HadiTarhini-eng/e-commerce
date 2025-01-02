@@ -146,6 +146,7 @@ const ScentsTablePage = () => {
           deleteAction={true}
           editAction={true}
           actionDelete={openConfirmationModalForDelete} // Pass delete action to table
+          isReverse={true}
         />
 
         <DynamicModal

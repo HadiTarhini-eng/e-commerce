@@ -1,0 +1,31 @@
+[
+    {
+      "title": "Total Views",
+      "rate": "0.43%",
+      "levelUp": true,
+      "levelDown": false,
+      "icon": "icon1"
+    },
+    {
+      "title": "Total Profit",
+      "rate": "4.35%",
+      "levelUp": true,
+      "levelDown": false,
+      "icon": "icon2"
+    },
+    {
+      "title": "Total Product",
+      "rate": "2.59%",
+      "levelUp": true,
+      "levelDown": false,
+      "icon": "icon3"
+    },
+    {
+      "title": "Total Users",
+      "rate": "0.95%",
+      "levelUp": false,
+      "levelDown": true,
+      "icon": "icon4"
+    }
+  ]
+  

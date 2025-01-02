@@ -158,6 +158,7 @@ const CategoryTablePage = () => {
           editAction={true}
           actionDelete={openConfirmationModal} // Pass the delete handler
           imageType={'categories'}
+          isReverse={true}
         />
 
         <DynamicModal

@@ -1,71 +1,170 @@
-{
-    "chartOptions": {
-      "height": "100%",
-      "maxWidth": "100%",
-      "type": "line",
-      "fontFamily": "Inter, sans-serif",
-      "dropShadow": {
-        "enabled": false
+[
+  {
+    "id": 1,
+    "month": "Jan",
+    "data": [
+      {
+        "name": "Product One",
+        "data": 60
       },
-      "toolbar": {
-        "show": false
-      },
-      "tooltip": {
-        "enabled": true,
-        "x": {
-          "show": false
-        }
-      },
-      "dataLabels": {
-        "enabled": false
-      },
-      "stroke": {
-        "width": 6,
-        "curve": "smooth"
-      },
-      "grid": {
-        "show": true,
-        "strokeDashArray": 4,
-        "padding": {
-          "left": 2,
-          "right": 2,
-          "top": -26
-        }
-      },
-      "legend": {
-        "show": false
-      },
-      "xaxis": {
-        "categories": ["01 Feb", "02 Feb", "03 Feb", "04 Feb", "05 Feb", "06 Feb", "07 Feb"],
-        "labels": {
-          "show": true,
-          "style": {
-            "fontFamily": "Inter, sans-serif",
-            "cssClass": "text-xs font-normal fill-gray-500 dark:fill-gray-400"
-          }
-        },
-        "axisBorder": {
-          "show": false
-        },
-        "axisTicks": {
-          "show": false
-        }
-      },
-      "yaxis": {
-        "show": false
+      {
+        "name": "Product Two",
+        "data": 30
       }
-    },
-    "seriesData": [
+    ]
+  },
+  {
+    "id": 2,
+    "month": "Feb",
+    "data": [
       {
-        "name": "Clicks",
-        "data": [6500, 6418, 6456, 6526, 6356, 6456],
-        "color": "#1A56DB"
+        "name": "Product One",
+        "data": 25
       },
       {
-        "name": "CPC",
-        "data": [6456, 6356, 6526, 6332, 6418, 6500],
-        "color": "#7E3AF2"
+        "name": "Product Two",
+        "data": 32
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "month": "Mar",
+    "data": [
+      {
+        "name": "Product One",
+        "data": 22
+      },
+      {
+        "name": "Product Two",
+        "data": 55
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "month": "Apr",
+    "data": [
+      {
+        "name": "Product One",
+        "data": 27
+      },
+      {
+        "name": "Product Two",
+        "data": 33
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "month": "May",
+    "data": [
+      {
+        "name": "Product One",
+        "data": 24
+      },
+      {
+        "name": "Product Two",
+        "data": 32
+      }
+    ]
+  },
+  {
+    "id": 6,
+    "month": "Jun",
+    "data": [
+      {
+        "name": "Product One",
+        "data": 28
+      },
+      {
+        "name": "Product Two",
+        "data": 34
+      }
+    ]
+  },
+  {
+    "id": 7,
+    "month": "Jul",
+    "data": [
+      {
+        "name": "Product One",
+        "data": 26
+      },
+      {
+        "name": "Product Two",
+        "data": 32
+      }
+    ]
+  },
+  {
+    "id": 8,
+    "month": "Aug",
+    "data": [
+      {
+        "name": "Product One",
+        "data": 70
+      },
+      {
+        "name": "Product Two",
+        "data": 30
+      }
+    ]
+  },
+  {
+    "id": 9,
+    "month": "Sep",
+    "data": [
+      {
+        "name": "Product One",
+        "data": 23
+      },
+      {
+        "name": "Product Two",
+        "data": 30
+      }
+    ]
+  },
+  {
+    "id": 10,
+    "month": "Oct",
+    "data": [
+      {
+        "name": "Product One",
+        "data": 25
+      },
+      {
+        "name": "Product Two",
+        "data": 32
+      }
+    ]
+  },
+  {
+    "id": 11,
+    "month": "Nov",
+    "data": [
+      {
+        "name": "Product One",
+        "data": 24
+      },
+      {
+        "name": "Product Two",
+        "data": 60
+      }
+    ]
+  },
+  {
+    "id": 12,
+    "month": "Dec",
+    "data": [
+      {
+        "name": "Product One",
+        "data": 28
+      },
+      {
+        "name": "Product Two",
+        "data": 36
       }
     ]
   }
-  
+]

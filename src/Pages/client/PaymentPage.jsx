@@ -150,7 +150,7 @@ const PaymentPage = () => {
                 key={index}
                 className="rounded-3xl p-6 bg-white border border-gray-200 shadow-lg hover:shadow-2xl transition-shadow duration-300 ease-in-out transform hover:scale-105"
               >
-                <div className="flex justify-between items-center w-full">
+                <div className="grid grid-cols-2 w-full gap-3 md:gap-8">
                   <div className="img-box">
                     <img
                       src={`/images/products/${product.image}` || 'https://via.placeholder.com/122'}
@@ -158,16 +158,16 @@ const PaymentPage = () => {
                       className="w-[80px] sm:w-[120px] rounded-xl object-cover"
                     />
                   </div>
-                  <div className={`flex flex-col items-end`}>
-                    <h2 className="font-medium text-xl leading-8 text-black text-right">{product.title}</h2>
-                    <p className="font-normal text-lg leading-8 text-gray-500 text-right">{product.scentName}</p>
+                  <div className="flex items-end justify-end gap-3">
+                    <p className="font-medium text-lg leading-8 text-gray-700">Quantity: {product.quantity}</p>
                   </div>
                 </div>
 
                 <div className="w-full">
                   <div className="flex items-center justify-between gap-8">
-                    <div className="flex items-center gap-3">
-                      <p className="font-medium text-lg leading-8 text-gray-700">Quantity: {product.quantity}</p>
+                    <div>
+                      <h2 className="font-medium text-xl leading-8 text-black">{product.title}</h2>
+                      <p className="font-normal text-lg leading-8 text-gray-500">{product.scentName}</p>
                     </div>
                     <h6 className="font-medium text-xl leading-8 text-palette-button">Price: ${formatPrice(product.newPrice * product.quantity)}</h6>
                   </div>

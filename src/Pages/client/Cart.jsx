@@ -60,7 +60,7 @@ const Cart = () => {
     if (orderNumber === 0 && isFirstOffer) {
       result = {
         originalPrice: subtotal,
-        newPrice: (subtotal - (subtotal * (firstOfferAmount/100))).toFixed(2)
+        newPrice: (subtotal - (subtotal * (firstOfferAmount / 100))).toFixed(2)
       }
       return [subtotal, result];
     }
@@ -82,7 +82,7 @@ const Cart = () => {
 
   // Handle Continue to Payment button click
   const handleContinueToPayment = () => {
-    if(!isLoggedIn) {
+    if (!isLoggedIn) {
       toast.error('You need to Login to access this page!')
       navigate('/signin');
     } else {
@@ -100,7 +100,7 @@ const Cart = () => {
           dispatch(updateCheckoutData({ field: 'discount', value: 0 }));
           dispatch(updateCheckoutData({ field: 'totalWithoutDiscount', value: totalWithoutDiscount }));
         }
-  
+
         navigate('/checkout'); // Redirect to the payment page
       }
     }
@@ -137,18 +137,20 @@ const Cart = () => {
               <div key={index} className="bg-white w-[90%] grid grid-cols-1 shadow-md border-2 border-gray-200 rounded-lg m-2 py-3 mb-4">
                 <div className="flex justify-between w-full">
                   {/* Left side - Image and Product Name */}
-                  <div className="flex items-center gap-2 w-full ml-5">
-                    <div className="img-box min-w-[100px] max-w-[100px] sm:w-[250px]">
-                      <img
-                        src={`/images/products/${product.image}`}
-                        alt={product.title}
-                        className="w-[100px] rounded-xl object-cover"
-                      />
-                    </div>
-                    <div className="pro-data w-full">
-                      <h5 className="font-semibold text-xl sm:text-xl leading-8 text-black">{product.title}</h5>
-                      <p className="font-medium text-sm sm:text-lg text-black">{product.scentName}</p>
-                      <h6 className="font-medium text-sm sm:text-lg leading-8 text-black">${formatPrice(product.newPrice)}</h6>
+                  <div className='flex flex-col items-center min-w-[50%] max-w-[50%]'>
+                    <h5 className="font-semibold text-xl sm:text-xl leading-8 text-black">{product.title}</h5>
+                    <div className="flex flex-row items-center gap-2 w-full ml-5">
+                      <div className="img-box h-full min-w-[70px] max-w-[70px] sm:w-[250px]">
+                        <img
+                          src={`/images/products/${product.image}`}
+                          alt={product.title}
+                          className="min-w-[70px] max-w-[70px] rounded-xl object-cover"
+                        />
+                      </div>
+                      <div className="pro-data h-full flex flex-col justify-center w-full">
+                        <p className="font-medium text-sm sm:text-lg text-black">{product.scentName}</p>
+                        <h6 className="font-medium text-sm sm:text-lg leading-8 text-black">${formatPrice(product.newPrice)}</h6>
+                      </div>
                     </div>
                   </div>
 
@@ -213,9 +215,9 @@ const Cart = () => {
                   </span>
                 </>
               ) : ( */}
-                <>
-                  ${formatPrice(totalWithoutDiscount)}
-                </>
+              <>
+                ${formatPrice(totalWithoutDiscount)}
+              </>
               {/* )} */}
             </h6>
           </div>
