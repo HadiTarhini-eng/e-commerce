@@ -18,9 +18,10 @@ export const useAuth = () => {
 export const AuthProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userId, setUserId] = useState(null); // Store the decrypted userId
-  const [userType, setUserType] = useState(null);
+  const [userType, setUserType] = useState('');
+  const [loading, setLoading] = useState(true); 
   const navigate = useNavigate(); // Initialize the navigate hook
-
+  
   // Check if the user is logged in when the app is mounted
   useEffect(() => {
     const encryptedUserData = localStorage.getItem('userData');
@@ -30,11 +31,13 @@ export const AuthProvider = ({ children }) => {
         if (decryptedUserData && decryptedUserData.userId) {
           setIsLoggedIn(true);
           setUserId(decryptedUserData.userId); // Set the decrypted userId (you may also want to store full user data in the future)
+          setUserType(decryptedUserData.userType);
         }
       } catch (error) {
         console.error('Failed to decrypt user data:', error);
       }
     }
+    setLoading(false);
   }, []);
 
   // Function to handle login
@@ -68,7 +71,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn, login, logout, userId, userType }}>
+    <AuthContext.Provider value={{ isLoggedIn, login, logout, userId, userType, loading }}>
       {children}
     </AuthContext.Provider>
   );

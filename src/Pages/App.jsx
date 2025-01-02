@@ -44,20 +44,100 @@ const App = () => {
           <Route path="/favorites" element={<Favorites />}/>
         </Route>
 
-        Admin
+        {/* Admin Routes - Protected */}
         <Route element={<AdminLayout />}>
-          <Route path="/dashboard" element={<AdminDashboard />} />
-          <Route path="/productTable" element={<ProductTablePage />} />
-          <Route path="/ordersTable" element={<OrdersPage />} />
-          <Route path="/orderSummary/:id" element={<OrderSummaryPage />} />
-          <Route path="/clientsTable" element={<ClientsTablePage />} />
-          <Route path="/scentsTable" element={<ScentsTablePage />} />
-          <Route path="/categoryTable" element={<CategoryTablePage />} />
-          <Route path="/productDetailsPage/:id" element={<ProductDetailsPage />} />
-          <Route path="/productReviews/:id" element={<ProductReviewsPage />} />
-          <Route path="/discountSettings" element={<DiscountSettings />} />
-          <Route path="/carouselEditor" element={<CarouselEditor />} />
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute requiredRole="admin">
+                <AdminDashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/productTable"
+            element={
+              <ProtectedRoute requiredRole="admin">
+                <ProductTablePage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/ordersTable"
+            element={
+              <ProtectedRoute requiredRole="admin">
+                <OrdersPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/orderSummary/:id"
+            element={
+              <ProtectedRoute requiredRole="admin">
+                <OrderSummaryPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/clientsTable"
+            element={
+              <ProtectedRoute requiredRole="admin">
+                <ClientsTablePage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/scentsTable"
+            element={
+              <ProtectedRoute requiredRole="admin">
+                <ScentsTablePage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/categoryTable"
+            element={
+              <ProtectedRoute requiredRole="admin">
+                <CategoryTablePage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/productDetailsPage/:id"
+            element={
+              <ProtectedRoute requiredRole="admin">
+                <ProductDetailsPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/productReviews/:id"
+            element={
+              <ProtectedRoute requiredRole="admin">
+                <ProductReviewsPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/discountSettings"
+            element={
+              <ProtectedRoute requiredRole="admin">
+                <DiscountSettings />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/carouselEditor"
+            element={
+              <ProtectedRoute requiredRole="admin">
+                <CarouselEditor />
+              </ProtectedRoute>
+            }
+          />
         </Route>
+
+        {/* 404 Route */}
+        <Route path="/404" element={<NotFoundPage />} />
       </Routes>
   );
 };
