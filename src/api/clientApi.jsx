@@ -44,7 +44,7 @@ export const fetchProductsData = async (userId) => {
 
 // Fetch Ads Data
 export const fetchAdsData = async () => {
-    const response = await axios.get('/data/client/adsData.json'); // Fetch the ads data
+    const response = await axios.get('https://blushe.lovestoblog.com/client/adsData.json'); // Fetch the ads data
     if (response.status !== 200) {
       throw new Error('Failed to fetch ads data'); // Throw an error if the response status is not 200
     }
@@ -105,7 +105,7 @@ export const fetchOrderHistory = async (userId) => {
 // Fetch Order Track Step
 export const fetchOrderTrackSteps = async () => {
   try {
-    const response = await axios.get('/data/client/trackingSteps.json');
+    const response = await axios.get('https://blushe.lovestoblog.com/client/trackingSteps.json');
     return response.data; // Return the order history data
   } catch (error) {
     console.error('Error fetching track steps:', error);
@@ -133,7 +133,7 @@ export const fetchOrderTrackById = async (orderID) => {
 // Fetch Form Fields Data
 export const fetchFormFields = async () => {
   try {
-    const response = await axios.get('/data/client/formFields.json');
+    const response = await axios.get('https://blushe.lovestoblog.com/client/formFields.json');
     return response.data; // Return the form fields data
   } catch (error) {
     console.error('Error fetching form fields:', error);
@@ -144,7 +144,7 @@ export const fetchFormFields = async () => {
 // Fetch Payment Methods Data
 export const fetchPaymentMethods = async () => {
   try {
-    const response = await axios.get('/data/client/paymentMethods.json');
+    const response = await axios.get('https://blushe.lovestoblog.com/client/paymentMethods.json');
     return response.data; // Return the payment methods data
   } catch (error) {
     console.error('Error fetching payment methods:', error);
@@ -155,7 +155,7 @@ export const fetchPaymentMethods = async () => {
 // Fetch Delivery Methods Data
 export const fetchDeliveryMethods = async () => {
   try {
-    const response = await axios.get('/data/client/deliveryMethods.json');
+    const response = await axios.get('https://blushe.lovestoblog.com/client/deliveryMethods.json');
     return response.data; // Return the delivery methods data
   } catch (error) {
     console.error('Error fetching delivery methods:', error);
@@ -190,7 +190,7 @@ export const fetchUserDetails = async (userId) => {
 // fetch visa card status
 export const fetchVisaCardStatus = async () => {
   try {
-    const response = await axios.get('/data/client/visaCardStatus.json');
+    const response = await axios.get('https://blushe.lovestoblog.com/client/visaCardStatus.json');
     return response.data; // Return the visa card status
   } catch (error) {
     console.error('Error fetching visa card status:', error);
