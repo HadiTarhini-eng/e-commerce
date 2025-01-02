@@ -1,0 +1,23 @@
+[
+    {
+      "id": 1,
+      "label": "Confirming",
+      "color": "#FFD700"
+    },
+    {
+      "id": 2,
+      "label": "In Progress",
+      "color": "#FFA500"
+    },
+    {
+      "id": 3,
+      "label": "In Preparation",
+      "color": "#19bcff"
+    },
+    {
+      "id": 4,
+      "label": "Shipped",
+      "color": "#17A2B8"
+    }
+  ]
+  

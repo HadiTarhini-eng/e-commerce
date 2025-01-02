@@ -39,6 +39,9 @@ const ProductDetailsPage = () => {
                         ...productData,
                     });
 
+                    // Call updateHasScents with the new scents array
+                    updateHasScents(productData.scents);
+
                     const scentIds = productData.scents.map((scent) => scent.scentID);
                     setCurrentScentId(scentIds);
 
@@ -93,7 +96,6 @@ const ProductDetailsPage = () => {
 
     // Handle scent name changes
     const handleScentNameChange = (scentID, selectedScentID, newId) => {
-
         setProduct(prev => ({
             ...prev,
             scents: prev.scents.map(scent =>
@@ -118,7 +120,6 @@ const ProductDetailsPage = () => {
 
     // Handle file input changes separately
     const handleFileChange = (e, id) => {
-
         const file = e.target.files ? e.target.files[0] : null;
 
         if (file) {
@@ -322,7 +323,6 @@ const ProductDetailsPage = () => {
 
         // Validate scent selection
         for (const scent of product.scents) {
-
             if (scent.scentFirstImage.length === 0) {
                 toast.error("Each scent must have a main image selected!");
                 return false;

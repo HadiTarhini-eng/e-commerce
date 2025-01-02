@@ -165,6 +165,7 @@ const OrdersPage = () => {
           rowClickable={true} 
           actionClickEdit={handleOpenModal} 
           editAction={true}
+          isReverse={true}
         />
 
         <DynamicModal

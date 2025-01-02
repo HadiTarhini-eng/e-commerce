@@ -1,6 +1,6 @@
 
 import axios from "axios";
-
+import { toast } from 'react-hot-toast'; 
 ///////////// FETCH ///////////////////// HOME PAGE ///////////// FETCH /////////////////////
 
 // Fetch Carousel Data
@@ -201,7 +201,7 @@ export const fetchVisaCardStatus = async () => {
 ///////////// POST ///////////////////// PURCHASE PAGE ///////////// POST /////////////////////
 
 // submitOrder function in the API file
-export const submitOrder = async (payload) => {
+export const submitOrder = async (payload) => {// Debugging: check the payload
   try {
     const response = await axios.post('https://blushe.lovestoblog.com/backend/client/submitOrder.php', payload);
     if (response.status !== 200) {
@@ -221,6 +221,7 @@ export const submitOrder = async (payload) => {
 export const postSignInData = async (credentials) => {
   try {
     const response = await axios.post('https://blushe.lovestoblog.com/backend/client/signIn.php', credentials);
+
     if (response.status !== 200) {
       throw new Error('Failed to sign in');
     }

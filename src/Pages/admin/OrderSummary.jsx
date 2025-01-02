@@ -99,6 +99,7 @@ const OrderDetails = () => {
               columns={clientInfoColumns}
               data={clientInfo}
               rowClickable={false}  // No row click for client info
+              isReverse={false}
             />
           </div>
 
@@ -110,6 +111,7 @@ const OrderDetails = () => {
               columns={checkoutInfoColumns}
               data={checkoutInfo}
               rowClickable={false}  // No row click for checkout info
+              isReverse={false}
             />
           </div>
 
@@ -121,6 +123,7 @@ const OrderDetails = () => {
               columns={orderSummaryColumns}
               data={orderSummary}
               rowClickable={false}  // No row click for order summary
+              isReverse={false}
             />
           </div>
         </div>
@@ -132,6 +135,7 @@ const OrderDetails = () => {
             columns={productColumns}
             data={products}
             rowClickable={false}  // No row click for products
+            isReverse={false}
           />
         </div>
       </div>

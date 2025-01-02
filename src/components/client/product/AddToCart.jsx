@@ -27,7 +27,7 @@ const AddToCart = ({ product, selectedScent, hasScents, isScentSelected }) => {
 
   const defaultScent = {
     id: 'default',
-    scentName: 'default',
+    scentName: '',
     scentImage: 'default',
   };
 

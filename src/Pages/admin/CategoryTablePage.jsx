@@ -13,7 +13,6 @@ const CategoryTablePage = () => {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedCategoryIdToDelete, setSelectedCategoryIdToDelete] = useState(null); // Track the category to be deleted
   const [isEditing, setIsEditing] = useState(false);
-  
   useEffect(() => {
     const fetchColumnsAndData = async () => {
       try {
@@ -159,6 +158,7 @@ const CategoryTablePage = () => {
           editAction={true}
           actionDelete={openConfirmationModal} // Pass the delete handler
           imageType={'categories'}
+          isReverse={true}
         />
 
         <DynamicModal

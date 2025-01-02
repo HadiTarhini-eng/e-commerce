@@ -1,0 +1,13 @@
+[
+    {
+      "id": 5,
+      "label": "Delivered",
+      "color": "#28A745"
+    },
+    {
+      "id": 6,
+      "label": "Canceled",
+      "color": "#DC3545"
+    }
+  ]
+  

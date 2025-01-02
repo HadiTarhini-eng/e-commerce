@@ -1,31 +1,31 @@
 [
     {
-      "title": "Total Views",
-      "total": "$3.456K",
+      "title": "Most Favorited Product",
       "rate": "0.43%",
       "levelUp": true,
-      "icon": "eye"
+      "levelDown": false,
+      "icon": "icon1"
     },
     {
       "title": "Total Profit",
-      "total": "$45.2K",
       "rate": "4.35%",
       "levelUp": true,
-      "icon": "dollar-sign"
+      "levelDown": false,
+      "icon": "icon2"
     },
     {
       "title": "Total Product",
-      "total": "2.450",
       "rate": "2.59%",
       "levelUp": true,
-      "icon": "box"
+      "levelDown": false,
+      "icon": "icon3"
     },
     {
       "title": "Total Users",
-      "total": "3.456",
       "rate": "0.95%",
+      "levelUp": false,
       "levelDown": true,
-      "icon": "user"
+      "icon": "icon4"
     }
   ]
   

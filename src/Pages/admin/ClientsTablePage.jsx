@@ -74,6 +74,7 @@ const ClientsTablePage = () => {
           rowClickable={false} 
           actionDelete={openConfirmationModal} // Open the confirmation modal on delete action
           deleteAction={true} 
+          isReverse={true}
         />
       </div>
 

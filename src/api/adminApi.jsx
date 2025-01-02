@@ -25,20 +25,31 @@ export const fetchSidebarData = async () => {
 
 ///////////// FETCH ///////////////////// DASHBOARD ///////////// FETCH /////////////////////
 
-// Fetch Card Data
+// Fetch Data for Title and Total
 export const fetchCardData = async () => {
   try {
-    const response = await axios.get('/data/admin/cardData.json'); 
+    const response = await axios.get('https://blushe.lovestoblog.com/backend/admin/cardData.php'); // Fetch the file with title and total
     return response.data;
   } catch (error) {
-    throw new Error('Error fetching card data');
+    throw new Error('Error fetching card total data');
   }
 };
+
+// Fetch Data for Title and Other Information
+export const fetchCardSettings = async () => {
+  try {
+    const response = await axios.get('/data/admin/cardSettings.json'); // Fetch the file with title, rate, levelUp, levelDown, and icon
+    return response.data;
+  } catch (error) {
+    throw new Error('Error fetching card other data');
+  }
+};
+
 
 // Fetch Line chart Data
 export const fetchLineChartData = async () => {
   try {
-    const response = await axios.get('/data/admin/lineChartData.json'); 
+    const response = await axios.get('https://blushe.lovestoblog.com/backend/admin/lineChartData.php'); 
     return response.data;
   } catch (error) {
     throw new Error('Error fetching line chart data');
@@ -48,10 +59,50 @@ export const fetchLineChartData = async () => {
 // Fetch bar chart Data
 export const fetchBarChartData = async () => {
   try {
-    const response = await axios.get('/data/admin/barChartData.json'); 
+    const response = await axios.get('https://blushe.lovestoblog.com/backend/admin/barChartData.php'); 
     return response.data;
   } catch (error) {
     throw new Error('Error fetching bar chart data');
+  }
+};
+
+// Fetch pie chart pending settings
+export const fetchPieChartPendingSettings = async () => {
+  try {
+    const response = await axios.get('/data/admin/pieChartPendingSettings.json'); 
+    return response.data;
+  } catch (error) {
+    throw new Error('Error fetching pie pending settings chart');
+  }
+};
+
+// Fetch pie chart pending Data
+export const fetchPieChartPendingData = async () => {
+  try {
+    const response = await axios.get('https://blushe.lovestoblog.com/backend/admin/pieChartPendingData.php'); 
+    return response.data;
+  } catch (error) {
+    throw new Error('Error fetching pie pending chart data');
+  }
+};
+
+// Fetch pie chart past settings
+export const fetchPieChartPastSettings = async () => {
+  try {
+    const response = await axios.get('/data/admin/pieChartPastSettings.json'); 
+    return response.data;
+  } catch (error) {
+    throw new Error('Error fetching pie chart past settings');
+  }
+};
+
+// Fetch pie chart past Data
+export const fetchPieChartPastData = async () => {
+  try {
+    const response = await axios.get('https://blushe.lovestoblog.com/backend/admin/pieChartPastData.php'); 
+    return response.data;
+  } catch (error) {
+    throw new Error('Error fetching pie chart past data');
   }
 };
 
