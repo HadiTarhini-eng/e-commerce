@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom'; // useNavigate for programmatic navigation
+import { useNavigate, useLocation } from 'react-router-dom'; // useLocation to track the current path
 import { useAuth } from './AuthContext';
 
 // Import Heroicons (Solid icons in this case)
@@ -8,7 +8,8 @@ import toast from 'react-hot-toast';
 
 const FooterNav = () => {
   const navigate = useNavigate();
-  const { isLoggedIn } = useAuth(); // Assuming your context provides `isLoggedIn`
+  const location = useLocation(); // Use useLocation to get the current URL path
+  const { isLoggedIn } = useAuth(); // Assuming your context provides isLoggedIn
 
   // Retrieve the selected icon path from localStorage or fallback to the current path
   const storedSelectedIcon = localStorage.getItem('selectedIcon') || '/';
@@ -26,10 +27,9 @@ const FooterNav = () => {
   // Function to handle icon click and update the active icon state
   const handleIconClick = (path) => {
     if ((path === '/orderHistory' || path === '/favorites') && !isLoggedIn) {
-      toast.error('You need to Login to access this page!')
+      toast.error('You need to Login to access this page!');
       navigate('/signin');
     } else {
-      // Update the selected icon and store it in localStorage
       setSelectedIcon(path);
       localStorage.setItem('selectedIcon', path); // Save selected icon to localStorage
       navigate(path); // Navigate to the selected path
@@ -45,13 +45,10 @@ const FooterNav = () => {
     };
   };
 
+  // Effect to update selected icon when the URL path changes
   useEffect(() => {
-    // Set the initial icon style based on the path stored in localStorage
-    const storedPath = localStorage.getItem('selectedIcon');
-    if (storedPath) {
-      setSelectedIcon(storedPath);
-    }
-  }, []); // Run only once on mount
+    setSelectedIcon(location.pathname); // Update selected icon based on the current path
+  }, [location]); // Re-run when the location changes
 
   return (
     <div className="fixed w-full bottom-0 left-1/2 transform -translate-x-1/2 max-w-[710px] z-10">
@@ -64,11 +61,9 @@ const FooterNav = () => {
             onClick={() => handleIconClick(item.path)} // Handle icon click for navigation
           >
             <div
-              className={`
-                transition-all duration-300 ease-in-out text-palette-complement hover:text-palette-white
+              className={`transition-all duration-300 ease-in-out text-palette-complement hover:text-palette-white
                 ${selectedIcon === item.path ? 'shadow-lg text-white' : ''} 
-                rounded-full p-2
-              `}
+                rounded-full p-2`}
               style={getIconStyles(item.path)} // Apply background color, scale, border, and box-shadow dynamically
             >
               {item.icon}
