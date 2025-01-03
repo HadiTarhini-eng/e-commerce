@@ -4,7 +4,6 @@ import { useAuth } from './AuthContext'; // Update the path as needed
 
 const ProtectedRoute = ({ children, requiredRole }) => {
   const { isLoggedIn, userType, loading } = useAuth();
-console.log(isLoggedIn, userType);
 
   if (loading) {
     return <div>Loading...</div>; // You can replace this with a spinner or something better
