@@ -153,7 +153,7 @@ const PaymentPage = () => {
                 <div className="grid grid-cols-2 w-full gap-3 md:gap-8">
                   <div className="img-box">
                     <img
-                      src={`/images/products/${product.image}` || 'https://via.placeholder.com/122'}
+                      src={`/images/products/${product.hasScents ? product.scentImage : product.image}`}
                       alt={`${product.title} image`}
                       className="w-[80px] sm:w-[120px] rounded-xl object-cover"
                     />

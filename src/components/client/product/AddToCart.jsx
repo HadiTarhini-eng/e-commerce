@@ -52,7 +52,8 @@ const AddToCart = ({ product, selectedScent, hasScents, isScentSelected }) => {
         ...(hasScents && selectedScent ? {
           scentId: selectedScent.scentID,
           scentName: selectedScent.scentName,
-          scentImage: selectedScent.scentImage, // Ensure you're using scentImage, not image
+          scentImage: selectedScent.ScentImages[0], 
+          hasScents: hasScents, 
         } : {
           scentId: defaultScent.id,
           scentName: defaultScent.scentName,
