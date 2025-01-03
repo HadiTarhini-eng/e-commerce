@@ -475,12 +475,12 @@ export const saveCarouselData = async (carousels) => {
       formData.append(`carousels[${index}][buttonText]`, carousel.buttonText || '');
       formData.append(`carousels[${index}][buttonColor]`, carousel.buttonColor || '');
       formData.append(`carousels[${index}][buttonPath]`, carousel.buttonPath || '');
-      formData.append(`carousels[${index}][headerBgOpacity]`, carousel.headerBgOpacity || 1.5);
-      formData.append(`carousels[${index}][headerBgPadding]`, carousel.headerBgPadding || 4);
-      formData.append(`carousels[${index}][headerBgBorderRadius]`, carousel.headerBgBorderRadius || 8);
-      formData.append(`carousels[${index}][paragraphBgOpacity]`, carousel.paragraphBgOpacity || 1.5);
-      formData.append(`carousels[${index}][paragraphBgPadding]`, carousel.paragraphBgPadding || 4);
-      formData.append(`carousels[${index}][paragraphBgBorderRadius]`, carousel.paragraphBgBorderRadius || 8);
+      formData.append(`carousels[${index}][headerBgOpacity]`, carousel.headerBgOpacity || 0.0);
+      formData.append(`carousels[${index}][headerBgPadding]`, carousel.headerBgPadding || 0);
+      formData.append(`carousels[${index}][headerBgBorderRadius]`, carousel.headerBgBorderRadius || 0);
+      formData.append(`carousels[${index}][paragraphBgOpacity]`, carousel.paragraphBgOpacity || 0.0);
+      formData.append(`carousels[${index}][paragraphBgPadding]`, carousel.paragraphBgPadding || 0);
+      formData.append(`carousels[${index}][paragraphBgBorderRadius]`, carousel.paragraphBgBorderRadius || 0);
 
       // Check if the image is a File object before appending
       if (carousel.image instanceof File) {
