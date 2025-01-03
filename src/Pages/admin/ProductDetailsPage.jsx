@@ -308,7 +308,7 @@ const ProductDetailsPage = () => {
         }
 
         // Validate that at least one scent image is selected
-        if (product.scents.map(scent => scent.ScentImages.length === 0)) {
+        if (product.scents.some(scent => scent.ScentImages.length === 0)) {
             toast.error("Each scent must have at least one image!");
             return false;
         }

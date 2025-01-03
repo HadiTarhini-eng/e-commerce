@@ -5,7 +5,7 @@ import axios from "axios";
 // Fetch Navbar Data
 export const fetchNavbarData = async () => {
   try {
-    const response = await axios.get('https://blushe.lovestoblog.com/admin/navbarData.json'); 
+    const response = await axios.get('/data/admin/navbarData.json'); 
     return response.data;
   } catch (error) {
     throw new Error('Error fetching navbar data');
@@ -15,7 +15,7 @@ export const fetchNavbarData = async () => {
 // Fetch Sidebar Data
 export const fetchSidebarData = async () => {
   try {
-      const response = await axios.get('https://blushe.lovestoblog.com/admin/sidebarData.json'); 
+      const response = await axios.get('/data/admin/sidebarData.json'); 
       return response.data;
   } catch (error) {
       throw new Error('Error fetching sidebar data');
@@ -38,7 +38,7 @@ export const fetchCardData = async () => {
 // Fetch Data for Title and Other Information
 export const fetchCardSettings = async () => {
   try {
-    const response = await axios.get('https://blushe.lovestoblog.com/admin/cardSettings.json'); // Fetch the file with title, rate, levelUp, levelDown, and icon
+    const response = await axios.get('/data/admin/cardSettings.json'); // Fetch the file with title, rate, levelUp, levelDown, and icon
     return response.data;
   } catch (error) {
     throw new Error('Error fetching card other data');
@@ -69,7 +69,7 @@ export const fetchBarChartData = async () => {
 // Fetch pie chart pending settings
 export const fetchPieChartPendingSettings = async () => {
   try {
-    const response = await axios.get('https://blushe.lovestoblog.com/admin/pieChartPendingSettings.json'); 
+    const response = await axios.get('/data/admin/pieChartPendingSettings.json'); 
     return response.data;
   } catch (error) {
     throw new Error('Error fetching pie pending settings chart');
@@ -89,7 +89,7 @@ export const fetchPieChartPendingData = async () => {
 // Fetch pie chart past settings
 export const fetchPieChartPastSettings = async () => {
   try {
-    const response = await axios.get('https://blushe.lovestoblog.com/admin/pieChartPastSettings.json'); 
+    const response = await axios.get('/data/admin/pieChartPastSettings.json'); 
     return response.data;
   } catch (error) {
     throw new Error('Error fetching pie chart past settings');
@@ -112,7 +112,7 @@ export const fetchPieChartPastData = async () => {
 // Fetch Product Table Data
 export const fetchProductColumnData = async () => {
   try {
-    const response = await axios.get('https://blushe.lovestoblog.com/admin/productColumns.json'); 
+    const response = await axios.get('/data/admin/productColumns.json'); 
     return response.data;
   } catch (error) {
     throw new Error('Error fetching product columns');
@@ -178,7 +178,7 @@ export const deleteProduct = async (productId) => {
 // Fetch Orders Table Data
 export const fetchOrdersColumnData = async () => {
   try {
-    const response = await axios.get('https://blushe.lovestoblog.com/admin/ordersColumns.json'); 
+    const response = await axios.get('/data/admin/ordersColumns.json'); 
     return response.data;
   } catch (error) {
     throw new Error('Error fetching order columns');
@@ -198,7 +198,7 @@ export const fetchOrdersTableData = async () => {
 // Fetch Orders Table Data
 export const fetchStatusOptions = async () => {
   try {
-    const response = await axios.get('https://blushe.lovestoblog.com/orderStatus.json'); 
+    const response = await axios.get('/data/orderStatus.json'); 
     return response.data;
   } catch (error) {
     throw new Error('Error fetching order table data');
@@ -224,7 +224,7 @@ export const postOrderStatus = async (newOrderStatus) => {
 // Fetch Clients Table Data
 export const fetchClientsColumnData = async () => {
   try {
-    const response = await axios.get('https://blushe.lovestoblog.com/admin/clientsColumns.json'); 
+    const response = await axios.get('/data/admin/clientsColumns.json'); 
     return response.data;
   } catch (error) {
     throw new Error('Error fetching client columns');
@@ -260,7 +260,7 @@ export const postClientDelete = async (clientId) => {
 // Fetch Scents Table Data
 export const fetchScentsColumnData = async () => {
   try {
-    const response = await axios.get('https://blushe.lovestoblog.com/admin/scentsColumns.json'); 
+    const response = await axios.get('/data/admin/scentsColumns.json'); 
     return response.data;
   } catch (error) {
     throw new Error('Error fetching scent columns');
@@ -324,7 +324,7 @@ export const deleteScent = async (scentId) => {
 // Fetch Category Table Data
 export const fetchCategoryColumnData = async () => {
   try {
-    const response = await axios.get('https://blushe.lovestoblog.com/admin/categoryColumns.json'); 
+    const response = await axios.get('/data/admin/categoryColumns.json'); 
     return response.data;
   } catch (error) {
     throw new Error('Error fetching category columns');
@@ -522,7 +522,7 @@ export const fetchOrderSummaryData = async (orderId) => {
 // Fetch Order Status Data
 export const fetchStatusData = async () => {
   try {
-    const response = await axios.get('https://blushe.lovestoblog.com/orderStatus.json'); // Use axios to fetch the status data
+    const response = await axios.get('/data/orderStatus.json'); // Use axios to fetch the status data
     return response.data; // Return the fetched data
   } catch (error) {
     throw new Error('Error fetching status data'); // Handle error
@@ -682,7 +682,7 @@ export const applyDiscountToProducts = async (discountValue, productIds) => {
 // Fetch REVIEWS Table Data
 export const fetchReviewsColumnData = async () => {
   try {
-    const response = await axios.get('https://blushe.lovestoblog.com/admin/reviewsColumns.json'); 
+    const response = await axios.get('/data/admin/reviewsColumns.json'); 
     return response.data;
   } catch (error) {
     throw new Error('Error fetching REVIEWS columns');
