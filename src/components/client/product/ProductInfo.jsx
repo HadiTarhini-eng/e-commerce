@@ -23,7 +23,7 @@ const ProductInfo = ({ images, dominant, title, newPrice, oldPrice, chipText, ch
         setSelectedScent(selectedScent); // Update the parent state with the selected scent
         setIsScentSelected(true); // Update the parent state to indicate a scent is selected
         if (sliderRef.current) {
-          sliderRef.current.slickGoTo(index); // Scroll to the selected scent image
+          sliderRef.current.slickGoTo(0); // Scroll to the selected scent image
         }
       }
     }

@@ -142,7 +142,7 @@ const Cart = () => {
                     <div className="flex flex-row items-center gap-2 w-full ml-5">
                       <div className="img-box h-full min-w-[70px] max-w-[70px] sm:w-[250px]">
                         <img
-                          src={`/images/products/${product.image}`}
+                          src={`/images/products/${product.hasScents ? product.scentImage : product.image}`}
                           alt={product.title}
                           className="min-w-[70px] max-w-[70px] rounded-xl object-cover"
                         />

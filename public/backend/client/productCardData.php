@@ -38,6 +38,7 @@ $query = $conn->prepare("
     LEFT JOIN users u ON u.id = r.userID
     LEFT JOIN scentimages si ON si.productDataID = pd.id" : "") . "
     $whereCondition
+    order by p.id DESC
 ");
 if (!empty($params)) {
     $query->bind_param($types, ...$params);
