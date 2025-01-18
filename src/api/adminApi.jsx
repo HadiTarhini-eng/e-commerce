@@ -347,7 +347,7 @@ export const fetchCouponsTableData = async () => {
 // Post coupon updates
 export const postCouponUpdates = async (updatedCoupon) => {
   try {
-    const response = await axios.post('http://localhost/e-commerce/public/backend/admin/updatedCoupon.php', updatedCoupon);
+    const response = await axios.post('http://localhost/e-commerce/public/backend/admin/updateCoupon.php', updatedCoupon);
     return response.data;
   } catch (error) {
     throw new Error('Error updating coupon');

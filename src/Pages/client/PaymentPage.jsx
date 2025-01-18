@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { clearCart, clearCheckoutData, updateCheckoutData } from '../../redux/cartSlice';
 import toast from 'react-hot-toast';
 import { submitOrder } from '../../api/ClientApi';
+import { fetchCouponValue } from '../../api/ClientApi';
 import { useAuth } from '../../components/client/AuthContext';
 
 const PaymentPage = () => {

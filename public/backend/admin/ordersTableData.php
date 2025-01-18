@@ -12,6 +12,7 @@ SELECT
     o.totalPrice, 
     o.discount, 
     o.deliveryCost,
+    c.couponName,
     l.name as deliveryName,
     o.totalPriceWithDel, 
     l2.name as status
@@ -19,6 +20,7 @@ FROM
     orders o
 LEFT JOIN lookup l on l.id=o.deliveryID
 LEFT JOIN lookup l2 on l2.id=o.statusID
+LEFT JOIN coupons c on c.id=o.couponID 
 ";
 
 $result = $conn->query($query);
@@ -37,7 +39,8 @@ if ($result->num_rows > 0) {
             "delivery" => $row['deliveryName'],
             "deliveryCost"=>$row['deliveryCost'],
             "total" => $row['totalPriceWithDel'],
-            "status" => $row['status']
+            "status" => $row['status'],
+            "coupon" => $row['couponName'],
         );
     }
 
