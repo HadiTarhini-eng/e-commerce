@@ -83,6 +83,8 @@ const OrderDetails = () => {
     { field: 'Order ID', value: order.orderId },
     { field: 'Date Ordered', value: order.Date },
     { field: 'First Order Discount', value: `${order.orderDiscount}%` },
+    { field: 'Coupon Name', value: `${order.couponName}` },
+    { field: 'Coupon Value', value: `${order.couponValue}%` },
     { field: 'Price Without Delivery', value: `$${order.totalPrice}` },
     { field: 'Total Price', value: `$${order.totalPriceWithDel}` },
   ];

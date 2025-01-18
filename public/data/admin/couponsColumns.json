@@ -1,0 +1,39 @@
+[
+    {
+      "id": 1,
+      "Header": "ID",
+      "accessor": "id",
+      "width": "10%",
+      "canFilter": true
+    },
+    {
+      "id": 2,
+      "Header": "Name",
+      "accessor": "name",
+      "canFilter": true,
+      "width": "20%"
+    },
+    {
+      "id": 3,
+      "Header": "Value",
+      "accessor": "value",
+      "canFilter": true,
+      "width": "20%"
+    },
+    {
+      "id": 2,
+      "Header": "Used",
+      "accessor": "used",
+      "canFilter": true,
+      "width": "20%"
+    },
+    {
+      "id": 3,
+      "Header": "Action",
+      "accessor": "action",
+      "Cell": "ActionButtonCell",
+      "width": "10%",
+      "value": "Edit"
+    }
+  ]
+  
