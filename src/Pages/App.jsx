@@ -25,6 +25,7 @@ import DiscountSettings from './admin/DiscountSettings';
 import CarouselEditor from './admin/CarouselEditor';
 import ProductReviewsPage from './admin/ProductReviewsPage';
 import ProtectedRoute from '../components/client/ProtectedRoute';
+import CouponTablePage from './admin/CouponTablePage';
 
 const App = () => {
   return (
@@ -91,6 +92,14 @@ const App = () => {
             element={
               <ProtectedRoute requiredRole="admin">
                 <ScentsTablePage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/couponTable"
+            element={
+              <ProtectedRoute requiredRole="admin">
+                <CouponTablePage />
               </ProtectedRoute>
             }
           />

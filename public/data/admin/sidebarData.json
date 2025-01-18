@@ -5,7 +5,8 @@
   { "id": 4, "label": "Products", "icon": "/assets/image/icons/shopping-bag.png", "destination": "/productTable" },
   { "id": 5, "label": "Scents", "icon": "/assets/image/icons/shines.png", "destination": "/scentsTable" },
   { "id": 6, "label": "Orders", "icon": "/assets/image/icons/orders.png", "destination": "/ordersTable" },
-  { "id": 7, "label": "Discount Settings", "icon": "/assets/image/icons/setting.png", "destination": "/discountSettings" },
-  { "id": 8, "label": "Carousel Editor", "icon": "/assets/image/icons/carousel.png", "destination": "/carouselEditor" },
-  { "id": 9, "label": "Log Out", "icon": "/assets/image/icons/logout.png", "destination": "/signin" }
+  { "id": 7, "label": "Coupons", "icon": "/assets/image/icons/coupon.png", "destination": "/couponTable" },
+  { "id": 8, "label": "Discount Settings", "icon": "/assets/image/icons/setting.png", "destination": "/discountSettings" },
+  { "id": 9, "label": "Carousel Editor", "icon": "/assets/image/icons/carousel.png", "destination": "/carouselEditor" },
+  { "id": 10, "label": "Log Out", "icon": "/assets/image/icons/logout.png", "destination": "/signin" }
 ]

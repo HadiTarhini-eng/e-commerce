@@ -319,6 +319,69 @@ export const deleteScent = async (scentId) => {
 };
 
 
+///////////// FETCH ///////////////////// Coupon TABLE ///////////// FETCH /////////////////////
+  
+// Fetch Coupons Table Data
+export const fetchCouponsColumnData = async () => {
+  try {
+    const response = await axios.get('/data/admin/couponsColumns.json'); 
+    return response.data;
+  } catch (error) {
+    throw new Error('Error fetching coupon columns');
+  }
+};  
+
+// Fetch Coupons Table Data
+export const fetchCouponsTableData = async () => {
+  try {
+    const response = await axios.get('https://blushe.lovestoblog.com/backend/admin/couponsTableData.php'); 
+    return response.data;
+  } catch (error) {
+    throw new Error('Error fetching coupon table data');
+  }
+};
+
+
+///////////// POST ///////////////////// Coupon TABLE ///////////// POST /////////////////////
+
+// Post coupon updates
+export const postCouponUpdates = async (updatedCoupon) => {
+  try {
+    const response = await axios.post('http://localhost/e-commerce/public/backend/admin/updatedCoupon.php', updatedCoupon);
+    return response.data;
+  } catch (error) {
+    throw new Error('Error updating coupon');
+  }
+};
+
+// Post add new Coupon
+export const addCoupon = async (newCoupon) => {
+  try {
+    const response = await fetch('http://localhost/e-commerce/public/backend/admin/addCoupon.php', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(newCoupon),
+    });
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error adding Coupon:', error);
+    throw error;
+  }
+};
+
+// Post delete Coupon
+export const deleteCoupon = async (couponId) => {
+  try {
+    const response = await axios.post('http://localhost/e-commerce/public/backend/admin/deleteCoupon.php', couponId );
+    return response.data; // Handle success response (optional)
+  } catch (error) {
+    throw new Error('Error deleting coupon');
+  }
+};
+
 ///////////// FETCH ///////////////////// Category TABLE ///////////// FETCH /////////////////////
   
 // Fetch Category Table Data

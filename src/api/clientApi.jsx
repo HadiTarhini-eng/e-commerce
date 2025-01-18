@@ -328,3 +328,19 @@ export const fetchFirstOrderOffer = async () => {
     throw error;
   }
 }
+
+
+///////////// FETCH ///////////////////// Payment PAGE ///////////// FETCH /////////////////////
+
+// Fetch Coupon Value
+export const fetchCouponValue = async (couponInput) => {
+  const response = await axios.get('https://blushe.lovestoblog.com/backend/client/fetchCouponValue.php', {
+    params: { couponInput }
+  });
+
+  if (response.status !== 200) {
+    throw new Error('Failed to fetch coupon value');
+  }
+
+  return response.data; // Return the coupon value
+};
