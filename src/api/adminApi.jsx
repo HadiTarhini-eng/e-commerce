@@ -347,7 +347,7 @@ export const fetchCouponsTableData = async () => {
 // Post coupon updates
 export const postCouponUpdates = async (updatedCoupon) => {
   try {
-    const response = await axios.post('http://localhost/e-commerce/public/backend/admin/updatedCoupon.php', updatedCoupon);
+    const response = await axios.post('https://blushe.lovestoblog.com/backend/admin/updateCoupon.php', updatedCoupon);
     return response.data;
   } catch (error) {
     throw new Error('Error updating coupon');
@@ -357,7 +357,7 @@ export const postCouponUpdates = async (updatedCoupon) => {
 // Post add new Coupon
 export const addCoupon = async (newCoupon) => {
   try {
-    const response = await fetch('http://localhost/e-commerce/public/backend/admin/addCoupon.php', {
+    const response = await fetch('https://blushe.lovestoblog.com/backend/admin/addCoupon.php', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -375,7 +375,7 @@ export const addCoupon = async (newCoupon) => {
 // Post delete Coupon
 export const deleteCoupon = async (couponId) => {
   try {
-    const response = await axios.post('http://localhost/e-commerce/public/backend/admin/deleteCoupon.php', couponId );
+    const response = await axios.post('https://blushe.lovestoblog.com/backend/admin/deleteCoupon.php', couponId );
     return response.data; // Handle success response (optional)
   } catch (error) {
     throw new Error('Error deleting coupon');

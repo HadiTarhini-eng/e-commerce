@@ -15,7 +15,7 @@
     },
     {
       "id": 3,
-      "Header": "Value",
+      "Header": "Value(%)",
       "accessor": "value",
       "canFilter": true,
       "width": "20%"

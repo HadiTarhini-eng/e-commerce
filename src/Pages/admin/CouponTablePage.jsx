@@ -56,6 +56,7 @@ const CouponTablePage = () => {
           prevData.map((item) => item.id === updatedCoupon.id ? updatedCoupon : item)
         );
         toast.success('Updated coupon successfully!');
+        window.location.reload();
       } else {
         // Add new coupon logic here
         const { id, ...newCouponData } = updatedCoupon; // Exclude `id` when adding

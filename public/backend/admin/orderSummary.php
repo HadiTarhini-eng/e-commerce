@@ -34,7 +34,9 @@ $sql = "
         products.productName,
         COALESCE(scentimages.image, products.image) AS scentImage, 
         orderdata.price,
-        orderdata.quantity
+        orderdata.quantity,
+        coupons.couponName,
+        coupons.discount as couponDiscount
     FROM 
         orders
     LEFT JOIN 
@@ -65,6 +67,10 @@ $sql = "
         products 
     ON 
         orderdata.productID = products.id
+    LEFT JOIN
+        coupons
+    ON
+        orders.couponID=coupons.id
     where orders.id = ?;
 ";
 $stmt = $conn->prepare($sql);
@@ -98,6 +104,8 @@ if ($result->num_rows > 0) {
                 "gift" => $row['gift'],
                 "note" => $row['note'],
                 "email" => $row['email'],
+                "couponName" => $row['couponName'],
+                "couponValue" => $row['couponDiscount'],
                 "orderDiscount" => $row['orderDiscount'],
                 "orderData" => []
             ];

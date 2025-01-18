@@ -5,6 +5,7 @@ header('Content-Type: application/json');
 
 $query = "
     SELECT 
+        coupons.id,
         coupons.couponName, 
         coupons.discount,
         COUNT(orders.couponID) AS couponUsageCount
@@ -29,9 +30,10 @@ $coupons = [];
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         $coupons[] = [
-            "couponName" => $row['couponName'],
-            "discount" => $row['discount'],
-            "couponUsageCount" => (int) $row['couponUsageCount']
+            "id" => $row['id'],
+            "name" => $row['couponName'],
+            "value" => $row['discount']."%",
+            "used" => (int) $row['couponUsageCount']
         ];
     }
 }
