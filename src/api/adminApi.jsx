@@ -28,7 +28,7 @@ export const fetchSidebarData = async () => {
 // Fetch Data for Title and Total
 export const fetchCardData = async () => {
   try {
-    const response = await axios.get('https://blushe.lovestoblog.com/backend/admin/cardData.php'); // Fetch the file with title and total
+    const response = await axios.get('http://localhost/e-commerce/public/backend/admin/cardData.php'); // Fetch the file with title and total
     return response.data;
   } catch (error) {
     throw new Error('Error fetching card total data');
@@ -49,7 +49,7 @@ export const fetchCardSettings = async () => {
 // Fetch Line chart Data
 export const fetchLineChartData = async () => {
   try {
-    const response = await axios.get('https://blushe.lovestoblog.com/backend/admin/lineChartData.php'); 
+    const response = await axios.get('http://localhost/e-commerce/public/backend/admin/lineChartData.php'); 
     return response.data;
   } catch (error) {
     throw new Error('Error fetching line chart data');
@@ -59,7 +59,7 @@ export const fetchLineChartData = async () => {
 // Fetch bar chart Data
 export const fetchBarChartData = async () => {
   try {
-    const response = await axios.get('https://blushe.lovestoblog.com/backend/admin/barChartData.php'); 
+    const response = await axios.get('http://localhost/e-commerce/public/backend/admin/barChartData.php'); 
     return response.data;
   } catch (error) {
     throw new Error('Error fetching bar chart data');
@@ -79,7 +79,7 @@ export const fetchPieChartPendingSettings = async () => {
 // Fetch pie chart pending Data
 export const fetchPieChartPendingData = async () => {
   try {
-    const response = await axios.get('https://blushe.lovestoblog.com/backend/admin/pieChartPendingData.php'); 
+    const response = await axios.get('http://localhost/e-commerce/public/backend/admin/pieChartPendingData.php'); 
     return response.data;
   } catch (error) {
     throw new Error('Error fetching pie pending chart data');
@@ -99,7 +99,7 @@ export const fetchPieChartPastSettings = async () => {
 // Fetch pie chart past Data
 export const fetchPieChartPastData = async () => {
   try {
-    const response = await axios.get('https://blushe.lovestoblog.com/backend/admin/pieChartPastData.php'); 
+    const response = await axios.get('http://localhost/e-commerce/public/backend/admin/pieChartPastData.php'); 
     return response.data;
   } catch (error) {
     throw new Error('Error fetching pie chart past data');
@@ -122,7 +122,7 @@ export const fetchProductColumnData = async () => {
 // Fetch Product Table Data
 export const fetchProductTableData = async () => {
   try {
-    const response = await axios.get('https://blushe.lovestoblog.com/backend/admin/productTableData.php'); 
+    const response = await axios.get('http://localhost/e-commerce/public/backend/admin/productTableData.php'); 
     return response.data;
   } catch (error) {
     throw new Error('Error fetching product table data');
@@ -132,7 +132,7 @@ export const fetchProductTableData = async () => {
 // Fetch category options Data
 export const fetchCategoryOptions = async () => {
   try {
-    const response = await axios.get('https://blushe.lovestoblog.com/backend/admin/categoryTableData.php'); 
+    const response = await axios.get('http://localhost/e-commerce/public/backend/admin/categoryTableData.php'); 
     return response.data;
   } catch (error) {
     throw new Error('Error fetching category options data');
@@ -142,7 +142,7 @@ export const fetchCategoryOptions = async () => {
 // Fetch Scent options Data
 export const fetchScentOptions = async () => {
   try {
-    const response = await axios.get('https://blushe.lovestoblog.com/backend/admin/scentsTableData.php'); 
+    const response = await axios.get('http://localhost/e-commerce/public/backend/admin/scentsTableData.php'); 
     return response.data;
   } catch (error) {
     throw new Error('Error fetching scent options data');
@@ -165,7 +165,7 @@ export const fetchScentOptions = async () => {
 // Deleet product
 export const deleteProduct = async (productId) => {
   try {
-    const response = await axios.post('https://blushe.lovestoblog.com/backend/admin/deleteProduct.php', productId );
+    const response = await axios.post('http://localhost/e-commerce/public/backend/admin/deleteProduct.php', productId );
     return response.data; // Handle success response (optional)
   } catch (error) {
     throw new Error('Error deleting productId');
@@ -188,7 +188,7 @@ export const fetchOrdersColumnData = async () => {
 // Fetch Orders Table Data
 export const fetchOrdersTableData = async () => {
   try {
-    const response = await axios.get('https://blushe.lovestoblog.com/backend/admin/ordersTableData.php'); 
+    const response = await axios.get('http://localhost/e-commerce/public/backend/admin/ordersTableData.php'); 
     return response.data;
   } catch (error) {
     throw new Error('Error fetching order table data');
@@ -211,7 +211,7 @@ export const fetchStatusOptions = async () => {
 // Post a new order Status
 export const postOrderStatus = async (newOrderStatus) => {
   try {
-    const response = await axios.post('https://blushe.lovestoblog.com/backend/admin/updateStatus.php', newOrderStatus); 
+    const response = await axios.post('http://localhost/e-commerce/public/backend/admin/updateStatus.php', newOrderStatus); 
     return response.data;
   } catch (error) {
     throw new Error('Error adding new order status');
@@ -234,7 +234,7 @@ export const fetchClientsColumnData = async () => {
 // Fetch Clients Table Data
 export const fetchClientsTableData = async () => {
   try {
-    const response = await axios.get('https://blushe.lovestoblog.com/backend/admin/clientsTableData.php'); 
+    const response = await axios.get('http://localhost/e-commerce/public/backend/admin/clientsTableData.php'); 
     return response.data;
   } catch (error) {
     throw new Error('Error fetching client table data');
@@ -247,7 +247,7 @@ export const fetchClientsTableData = async () => {
 // Post client data updates
 export const postClientDelete = async (clientId) => {
   try {
-    const response = await axios.post('https://blushe.lovestoblog.com/backend/admin/deleteClient.php', clientId); 
+    const response = await axios.post('http://localhost/e-commerce/public/backend/admin/deleteClient.php', clientId); 
     return response.data;
   } catch (error) {
     throw new Error('Error deleting client');
@@ -270,7 +270,7 @@ export const fetchScentsColumnData = async () => {
 // Fetch Scents Table Data
 export const fetchScentsTableData = async () => {
   try {
-    const response = await axios.get('https://blushe.lovestoblog.com/backend/admin/scentsTableData.php'); 
+    const response = await axios.get('http://localhost/e-commerce/public/backend/admin/scentsTableData.php'); 
     return response.data;
   } catch (error) {
     throw new Error('Error fetching scent table data');
@@ -283,7 +283,7 @@ export const fetchScentsTableData = async () => {
 // Post scent updates
 export const postScentUpdates = async (updatedScent) => {
   try {
-    const response = await axios.post('https://blushe.lovestoblog.com/backend/admin/updateScent.php', updatedScent);
+    const response = await axios.post('http://localhost/e-commerce/public/backend/admin/updateScent.php', updatedScent);
     return response.data;
   } catch (error) {
     throw new Error('Error updating scent');
@@ -293,7 +293,7 @@ export const postScentUpdates = async (updatedScent) => {
 // Post add new scent
 export const addScent = async (newScent) => {
   try {
-    const response = await fetch('https://blushe.lovestoblog.com/backend/admin/addScent.php', {
+    const response = await fetch('http://localhost/e-commerce/public/backend/admin/addScent.php', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -311,7 +311,7 @@ export const addScent = async (newScent) => {
 // Post delete scent
 export const deleteScent = async (scentId) => {
   try {
-    const response = await axios.post('https://blushe.lovestoblog.com/backend/admin/deleteScent.php', scentId );
+    const response = await axios.post('http://localhost/e-commerce/public/backend/admin/deleteScent.php', scentId );
     return response.data; // Handle success response (optional)
   } catch (error) {
     throw new Error('Error deleting scent');
@@ -334,7 +334,7 @@ export const fetchCouponsColumnData = async () => {
 // Fetch Coupons Table Data
 export const fetchCouponsTableData = async () => {
   try {
-    const response = await axios.get('https://blushe.lovestoblog.com/backend/admin/couponsTableData.php'); 
+    const response = await axios.get('http://localhost/e-commerce/public/backend/admin/couponsTableData.php'); 
     return response.data;
   } catch (error) {
     throw new Error('Error fetching coupon table data');
@@ -397,7 +397,7 @@ export const fetchCategoryColumnData = async () => {
 // Fetch Category Table Data
 export const fetchCategoryTableData = async () => {
   try {
-    const response = await axios.get('https://blushe.lovestoblog.com/backend/admin/categoryTableData.php'); 
+    const response = await axios.get('http://localhost/e-commerce/public/backend/admin/categoryTableData.php'); 
     return response.data;
   } catch (error) {
     throw new Error('Error fetching category table data');
@@ -422,7 +422,7 @@ export const postCategoryUpdates = async (newdata) => {
     }
 
     // Send the request with the FormData
-    const response = await axios.post('https://blushe.lovestoblog.com/backend/admin/updateCategory.php', formData, {
+    const response = await axios.post('http://localhost/e-commerce/public/backend/admin/updateCategory.php', formData, {
       headers: {
         'Content-Type': 'multipart/form-data', // Ensure the request is treated as a file upload
       },
@@ -449,7 +449,7 @@ export const addCategory = async (newdata) => {
     }
 
     // Send the request with the FormData
-    const response = await axios.post('https://blushe.lovestoblog.com/backend/admin/addCategory.php', formData, {
+    const response = await axios.post('http://localhost/e-commerce/public/backend/admin/addCategory.php', formData, {
       headers: {
         'Content-Type': 'multipart/form-data', // Ensure the request is treated as a file upload
       },
@@ -464,7 +464,7 @@ export const addCategory = async (newdata) => {
 // Post delete category
 export const deleteCategory = async (categoryId) => {
   try {
-    const response = await axios.post('https://blushe.lovestoblog.com/backend/admin/deleteCategory.php', categoryId );
+    const response = await axios.post('http://localhost/e-commerce/public/backend/admin/deleteCategory.php', categoryId );
     return response.data; 
   } catch (error) {
     throw new Error('Error deleting category');
@@ -477,7 +477,7 @@ export const deleteCategory = async (categoryId) => {
 // Fetch Discount Settings
 export const fetchDiscountSettings = async () => {
   try {
-    const response = await axios.get('https://blushe.lovestoblog.com/backend/admin/discountSettings.php'); // Replace with actual API URL
+    const response = await axios.get('http://localhost/e-commerce/public/backend/admin/discountSettings.php'); // Replace with actual API URL
     return response.data; // Assume data structure { firstOrderDiscount, freeDelivery, deliveryThreshold }
   } catch (error) {
     throw new Error('Error fetching discount settings');
@@ -490,7 +490,7 @@ export const fetchDiscountSettings = async () => {
 // Post Discount Settings
 export const postDiscountSettings = async (settings) => {
   try {
-    const response = await axios.post('https://blushe.lovestoblog.com/backend/admin/updateDiscountSettings.php', settings); // Replace with actual API URL
+    const response = await axios.post('http://localhost/e-commerce/public/backend/admin/updateDiscountSettings.php', settings); // Replace with actual API URL
     return response.data;
   } catch (error) {
     throw new Error('Error saving discount settings');
@@ -503,7 +503,7 @@ export const postDiscountSettings = async (settings) => {
 // Fetch Carousel Data
 export const fetchCarouselData = async () => {
   try {
-    const response = await axios.get('https://blushe.lovestoblog.com/backend/admin/carouselData.php');
+    const response = await axios.get('http://localhost/e-commerce/public/backend/admin/carouselData.php');
     return response.data;
   } catch (error) {
     throw new Error('Error fetching carousel data');
@@ -513,7 +513,7 @@ export const fetchCarouselData = async () => {
 // Fetch Product Data
 export const fetchProducts = async () => {
   try {
-    const response = await axios.get('https://blushe.lovestoblog.com/backend/admin/productsData.php'); // Assuming this returns product list with id and name
+    const response = await axios.get('http://localhost/e-commerce/public/backend/admin/productsData.php'); // Assuming this returns product list with id and name
     return response.data;
   } catch (error) {
     throw new Error('Error fetching product data');
@@ -553,7 +553,7 @@ export const saveCarouselData = async (carousels) => {
       }
     });
 
-    const response = await axios.post('https://blushe.lovestoblog.com/backend/admin/addCarousel.php', formData, {
+    const response = await axios.post('http://localhost/e-commerce/public/backend/admin/addCarousel.php', formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
@@ -572,7 +572,7 @@ export const saveCarouselData = async (carousels) => {
 // Fetch Order Summary Data
 export const fetchOrderSummaryData = async (orderId) => {
   try {
-    const response = await axios.post('https://blushe.lovestoblog.com/backend/admin/orderSummary.php', orderId);
+    const response = await axios.post('http://localhost/e-commerce/public/backend/admin/orderSummary.php', orderId);
     return response.data;
   } catch (error) {
     throw new Error('Error fetching order summary data');
@@ -598,7 +598,7 @@ export const fetchStatusData = async () => {
 // fetch product data
 export const fetchProductData = async (productId) => {
   try {
-    const response = await axios.post('https://blushe.lovestoblog.com/backend/admin/productDetails.php',productId);  // Adjust the path based on your project setup
+    const response = await axios.post('http://localhost/e-commerce/public/backend/admin/productDetails.php',productId);  // Adjust the path based on your project setup
     const products = response.data; // The products from the JSON file
 
     // Ensure the productId is a number (since your product ids are numbers)
@@ -653,7 +653,7 @@ export const updateProductData = async (product, productId,currentScentId,remove
         });
       }      
     
-      const response = await axios.post('https://blushe.lovestoblog.com/backend/admin/updateProduct.php', formData, {
+      const response = await axios.post('http://localhost/e-commerce/public/backend/admin/updateProduct.php', formData, {
        
           headers: {
               'Content-Type': 'multipart/form-data',
@@ -696,7 +696,7 @@ export const postProductData = async (product) => {
           });
       }
 
-      const response = await axios.post('https://blushe.lovestoblog.com/backend/admin/addProduct.php', formData, {
+      const response = await axios.post('http://localhost/e-commerce/public/backend/admin/addProduct.php', formData, {
           headers: {
               'Content-Type': 'multipart/form-data',
           },
@@ -712,7 +712,7 @@ export const postProductData = async (product) => {
 // post remove scent
 export const postRemoveScent = async (scentId, productId) => {
   try {
-    const response = await axios.post('https://blushe.lovestoblog.com/backend/admin/deleteScentProduct.php', {
+    const response = await axios.post('http://localhost/e-commerce/public/backend/admin/deleteScentProduct.php', {
       scentId: scentId,
       productId: productId,
     });
@@ -728,7 +728,7 @@ export const postRemoveScent = async (scentId, productId) => {
 // post disocunt to selected rows
 export const applyDiscountToProducts = async (discountValue, productIds) => {
   try {
-    const response = await axios.post('https://blushe.lovestoblog.com/backend/admin/bulkDiscount.php', {
+    const response = await axios.post('http://localhost/e-commerce/public/backend/admin/bulkDiscount.php', {
       discount: discountValue,
       productIds: productIds,
     });
@@ -755,7 +755,7 @@ export const fetchReviewsColumnData = async () => {
 // Fetch REVIEWS Table Data
 export const fetchReviewsTableData = async (productId) => {
   try {
-    const response = await axios.post('https://blushe.lovestoblog.com/backend/admin/Reviews.php',productId); 
+    const response = await axios.post('http://localhost/e-commerce/public/backend/admin/Reviews.php',productId); 
     return response.data;
   } catch (error) {
     throw new Error('Error fetching REVIEWS table data');
@@ -768,7 +768,7 @@ export const fetchReviewsTableData = async (productId) => {
 // Post review delete
 export const postReviewDelete = async (reviewId) => {
   try {
-    const response = await axios.post('https://blushe.lovestoblog.com/backend/admin/deleteReview.php', reviewId); 
+    const response = await axios.post('http://localhost/e-commerce/public/backend/admin/deleteReview.php', reviewId); 
     return response.data;
   } catch (error) {
     throw new Error('Error deleting review');

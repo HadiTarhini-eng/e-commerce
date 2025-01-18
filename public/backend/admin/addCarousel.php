@@ -3,7 +3,7 @@ include 'connection.php';
 
 header('Content-Type: application/json');
 
-$imageDir = realpath('/home/vol16_1/infinityfree.com/if0_38001296/htdocs/images/carousel');
+$imageDir = realpath('../../../public/images/carousel');
 if (!$imageDir || !is_writable($imageDir)) {
     echo json_encode(["error" => "Carousel image directory is not writable or does not exist."]);
     exit();

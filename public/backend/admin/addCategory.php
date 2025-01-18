@@ -7,7 +7,7 @@ header('Content-Type: application/json');
 $categoryName = $_POST['title'];
 $image = isset($_FILES['image']) ? $_FILES['image'] : null;
 
-$imageDir = realpath('/home/vol16_1/infinityfree.com/if0_38001296/htdocs/images/categories'); 
+$imageDir = realpath('../../../public/images/categories'); 
 
 
 if (!$imageDir || !is_writable($imageDir)) {
