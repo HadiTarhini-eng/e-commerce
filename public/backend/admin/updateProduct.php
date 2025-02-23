@@ -1,8 +1,8 @@
 <?php
 include 'connection.php';
 
-$imageDir = realpath('/home/vol16_1/infinityfree.com/if0_38001296/htdocs/images/products');
-$uploadDir = realpath('/home/vol16_1/infinityfree.com/if0_38001296/htdocs/images/products');
+$imageDir = realpath('/opt/bitnami/apache/htdocs/images/products');
+$uploadDir = realpath('/opt/bitnami/apache/htdocs/images/products');
 
 $productName = $_POST['name'];
 $price = $_POST['price'];

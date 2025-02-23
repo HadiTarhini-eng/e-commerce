@@ -12,6 +12,7 @@ $discountedTotal=floatval($data['discountedTotal']);
 $discountedTotalWithDelivery=floatval($data['discountedTotalWithDelivery']);
 $userID=$data['userId'];
 $date = date("d-m-Y");
+$sendAsGift = (int)$checkoutData['sendAsGift'];
 $status=1;
 $sql = "INSERT INTO orders (userID,name, email, phone, address,city,
         paymentID ,deliveryID, gift, note,Date,statusID,totalPrice,DeliveryCost,totalPriceWithDel,discount,couponID)
@@ -27,7 +28,7 @@ $stmt->bind_param(
     $checkoutData['city'], 
     $checkoutData['paymentMethod']['id'], 
     $checkoutData['deliveryMethod']['id'], 
-    $checkoutData['sendAsGift'], 
+    $sendAsGift, 
     $checkoutData['noteForDriver'],
     $date,
     $status,
