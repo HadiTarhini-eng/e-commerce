@@ -7,15 +7,18 @@ $data = json_decode($input, true);
 
 $checkoutData = $data['checkoutData'];
 $cartData = $data['cart'];
+$coupon = isset($data['couponValueFetched']['id']) ? $data['couponValueFetched']['id'] : 0;
+$discountedTotal=floatval($data['discountedTotal']);
+$discountedTotalWithDelivery=floatval($data['discountedTotalWithDelivery']);
 $userID=$data['userId'];
 $date = date("d-m-Y");
 $status=1;
 $sql = "INSERT INTO orders (userID,name, email, phone, address,city,
-        paymentID ,deliveryID, gift, note,Date,statusID,totalPrice,DeliveryCost,totalPriceWithDel,discount)
-        VALUES (?,?, ?, ?, ?, ?,?, ?, ?, ?,?,?,?,?,?,?)";
+        paymentID ,deliveryID, gift, note,Date,statusID,totalPrice,DeliveryCost,totalPriceWithDel,discount,couponID)
+        VALUES (?,?, ?, ?, ?, ?,?, ?, ?, ?,?,?,?,?,?,?,?)";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param(
-    "isssssiisssididi", 
+    "isssssiisssididii", 
     $userID,
     $checkoutData['name'], 
     $checkoutData['email'], 
@@ -28,10 +31,11 @@ $stmt->bind_param(
     $checkoutData['noteForDriver'],
     $date,
     $status,
-    $checkoutData['totalWithoutDelivery'],
+    $discountedTotal,
     $checkoutData['deliveryMethod']['deliveryPrice'],
-    $checkoutData['totalWithDelivery'],
+    $discountedTotalWithDelivery,
     $checkoutData['discount'],
+    $coupon,
 
 );
 $stmt->execute();

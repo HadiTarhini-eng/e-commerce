@@ -31,6 +31,8 @@ const initialState = {
     totalWithoutDelivery: 0,
     totalWithDelivery: 0, // Added to store the total with delivery
     discount: 0,
+    couponName: '',
+    couponId: 0,
   }
 };
 

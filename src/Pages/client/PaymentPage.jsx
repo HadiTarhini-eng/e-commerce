@@ -3,8 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { clearCart, clearCheckoutData, updateCheckoutData } from '../../redux/cartSlice';
 import toast from 'react-hot-toast';
-import { submitOrder } from '../../api/ClientApi';
-import { fetchCouponValue } from '../../api/ClientApi';
+import { submitOrder } from '../../api/clientApi';
+import { fetchCouponValue } from '../../api/clientApi';
 import { useAuth } from '../../components/client/AuthContext';
 
 const PaymentPage = () => {
@@ -14,6 +14,7 @@ const PaymentPage = () => {
   // Access cart and checkout data from Redux store
   const { cart, checkoutData } = useSelector((state) => state.cart);
   const totalWithoutDelivery = parseFloat(useSelector(state => state.cart.checkoutData.totalWithoutDelivery), 10);
+  const totalWithDelivery = parseFloat(useSelector(state => state.cart.checkoutData.totalWithDelivery), 10);
   const deliveryPrice = parseFloat(useSelector(state => state.cart.checkoutData.deliveryMethod.deliveryPrice), 10);
   
   // Access the logged-in user ID from AuthContext
@@ -24,19 +25,7 @@ const PaymentPage = () => {
   const [couponValueFetched, setCouponValueFetched] = useState(null);
   const [isApplying, setIsApplying] = useState(false); // Flag to track if the coupon is applied
   const [discountedTotal, setDiscountedTotal] = useState(totalWithoutDelivery); // State for the discounted total
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const couponResponse = await fetchCouponValue(couponInput);
-        setCouponValueFetched(couponResponse);
-      } catch (error) {
-        console.error('Error fetching coupon data:', error);
-      }
-    };
-
-    fetchData();
-  }, []);
+  const [discountedTotalWithDelivery, setDiscountedTotalWithDelivery] = useState(totalWithDelivery);
   
   // Scroll to top when the component is mounted
   React.useEffect(() => {
@@ -56,17 +45,14 @@ const PaymentPage = () => {
         return;
       }
 
-      // dispatch new values
-      dispatch(updateCheckoutData({ field: 'totalWithoutDelivery', value: discountedTotal }));
-      if(coupon) {
-        dispatch(updateCheckoutData({ field: 'couponName', value: coupon.couponName }));
-      }
-
       // Prepare the payload to send in the POST request
       const payload = {
         cart,
         checkoutData,
         userId, // Include the user ID in the payload
+        couponValueFetched,
+        discountedTotal,
+        discountedTotalWithDelivery,
       };
 
       // Call the submitOrder function from the API file
@@ -88,31 +74,42 @@ const PaymentPage = () => {
     return formattedPrice.endsWith('.00') ? parseFloat(formattedPrice).toFixed(0) : formattedPrice;
   };
 
-  const handleApplyCoupon = () => {
+  const handleApplyCoupon = async () => {
     const couponName = document.getElementById('voucher').value;
     setCouponInput(couponName);
-    const couponValue = couponValueFetched; // Example fixed coupon value, you may replace this with actual logic to fetch the coupon value
-
+  
+    // Ensure there's a coupon name provided
     if (!couponName) {
       toast.error('Please enter a coupon code');
       return;
     }
-
-    // Check if the coupon has a valid value and apply the discount to totalWithoutDelivery
-    if (couponValue && totalWithoutDelivery > 0) {
-      const discountAmount = (totalWithoutDelivery * couponValue) / 100;
+  
+    setIsApplying(false); // Start applying the coupon
+  
+    try {
+      // Fetch the coupon value from the server
+      const couponResponse = await fetchCouponValue(couponName);
+      setCouponValueFetched(couponResponse);
+  
+      if (!couponResponse || couponResponse <= 0) {
+        toast.error('Invalid coupon value.');
+        setIsApplying(false); // Reset applying state
+        return;
+      }
+  
+      // If the coupon is valid, calculate the discount and update the total
+      const discountAmount = (totalWithoutDelivery * couponResponse.discount) / 100;
       const discountedTotal = totalWithoutDelivery - discountAmount;
-
-      // Update state with the new discounted total
+  
+      // Set the discounted total and coupon state
       setDiscountedTotal(discountedTotal);
-
-      // Set the coupon state
-      setCoupon({ couponName, couponValue });
-      setIsApplying(true);
-
+      setDiscountedTotalWithDelivery(formatPrice(discountedTotal + deliveryPrice));
+      setCoupon({ couponName, couponValue: couponResponse.discount });
+      setIsApplying(true); 
       toast.success('Coupon applied successfully!');
-    } else {
-      toast.error('Invalid coupon value or total.');
+    } catch (error) {
+      console.error('Error fetching coupon data:', error);
+      toast.error('Failed to apply coupon');
     }
   };
 
@@ -121,7 +118,7 @@ const PaymentPage = () => {
     setCoupon(null);
     setIsApplying(false);
     setDiscountedTotal(totalWithoutDelivery); // Reset the discounted total to the original value
-
+    setDiscountedTotalWithDelivery(totalWithDelivery);
     toast.success('Coupon has been removed!');
   };
 
@@ -161,7 +158,7 @@ const PaymentPage = () => {
                     {/* Show the discounted total if it is different from totalWithoutDelivery */}
                     {discountedTotal !== checkoutData.totalWithoutDelivery && (
                       <p className="font-medium text-lg leading-8 text-gray-400 line-through">
-                        ${formatPrice(checkoutData.totalWithoutDelivery)} {/* Original total */}
+                        ${formatPrice(checkoutData.totalWithoutDiscount)} {/* Original total */}
                       </p>
                     )}
 
@@ -210,21 +207,21 @@ const PaymentPage = () => {
 
               {/* Coupon */}
               <div className="flex flex-col gap-2 mb-5">
-                <label htmlFor="voucher" className="mb-2 block text-lg font-normal text-gray-400 dark:text-white">
-                  Enter a gift card, voucher or promotional code
+                <label htmlFor="voucher" className="mb-2 block text-lg font-normal text-sm text-gray-700 dark:text-white">
+                  Enter promotional code here
                 </label>
                 <div className="flex max-w-md items-center gap-4">
                   <input
                     type="text"
                     id="voucher"
-                    className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
-                    placeholder=""
+                    className="block w-full rounded-lg border border-palette-mimi-pink-2 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-palette-mimi-pink-2 focus:ring-palette-mimi-pink-2"
+                    placeholder="promo code"
                     required
                     disabled={isApplying}
                   />
                   <button
                     type="button"
-                    className={`flex items-center justify-center rounded-lg px-5 py-2.5 text-sm font-medium text-white ${isApplying ? 'bg-red-500 hover:bg-red-600' : 'bg-palette-button hover:bg-primary-800'}`}
+                    className={`flex items-center justify-center rounded-lg px-5 py-2.5 text-sm font-medium text-white ${isApplying ? 'bg-red-500 hover:bg-red-600' : 'bg-palette-button hover:bg-palette-mimi-pink-2'}`}
                     onClick={isApplying ? handleCancelCoupon : handleApplyCoupon}
                   >
                     {isApplying ? 'Cancel' : 'Apply'}
